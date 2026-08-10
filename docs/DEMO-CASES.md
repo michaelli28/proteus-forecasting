@@ -113,15 +113,15 @@ npx tsx src/cli.ts forecast \
 BLUF: taskedCleared between 0.000 and 0.015 — unlikely (20%–45%), moderate confidence.
 
 HYPOTHESES
-  h1  unlikely (20%–45%)      taskedCleared between 0.000 and 0.015
-  h2  unlikely (20%–45%)      taskedCleared between 0.015 and 0.030
-  h3  very unlikely (5%–20%)  taskedCleared between 0.030 and 0.045
-  h4  very unlikely (5%–20%)  taskedCleared between 0.045 and 0.060
+  h1  unlikely (20%–45%), moderate confidence  taskedCleared between 0.000 and 0.015
+  h2  unlikely (20%–45%), moderate confidence  taskedCleared between 0.015 and 0.030
+  h3  very unlikely (5%–20%), moderate confidence  taskedCleared between 0.030 and 0.045
+  h4  very unlikely (5%–20%), moderate confidence  taskedCleared between 0.045 and 0.060
 
 INDICATORS & WARNINGS
-  employerConcentration above 0.2698 → favours h1 (LR 8.75)
-  acceptanceRate above 0.2267        → favours h1 (LR 0.18)
-  accountYouth above 0.0863          → favours h1 (LR 0.18)
+  employerConcentration above 0.2698 → favours h1 (LR 8.75, channel employerConcentration)
+  acceptanceRate above 0.2267 → favours h1 (LR 0.18, channel acceptanceRate)
+  accountYouth above 0.0863 → favours h1 (LR 0.18, channel accountYouth)
 ```
 
 **Read the indicators, not the BLUF.** Every channel named is one a platform

@@ -20,7 +20,7 @@ line of every run.
 
 | Path         | What it is                                                    |
 | ------------ | ------------------------------------------------------------- |
-| `engine/`    | The forecasting pipeline, its CLI, and 601 tests              |
+| `engine/`    | The forecasting pipeline, its CLI, and 663 tests              |
 | `dashboard/` | Next.js app rendering the calibration benchmark at `/metrics` |
 | `docs/`      | `ARCHITECTURE-PROTEUS.md` — the full design record            |
 
@@ -43,7 +43,7 @@ Inside `engine/src/`:
 
 ```bash
 cd engine && npm install
-npm test                 # 597 pass, 4 skipped (2 need a key, 2 need PROTEUS_BENCH)
+npm test                 # 659 pass, 4 skipped (2 need a key, 2 need PROTEUS_BENCH)
 npm run preflight        # which credentials actually work right now
 ```
 
@@ -115,9 +115,12 @@ goes for a detection signature.
 
 ## Known edges
 
-- **`src/llm/claude.ts` is not wired in.** It's a complete Agent SDK backend, but
-  nothing imports it; `src/llm/anthropic.ts` is the live path. It exists for the
-  model-agnosticism comparison and needs a call site to earn its keep.
+- **Model-agnosticism is a seam, not a measurement.** `src/llm/client.ts` is the
+  provider interface, but `src/llm/anthropic.ts` is the only live implementation;
+  model-swap cost is NOT YET MEASURED.
+- **`/runs` renders influence-ops runs only.** The trace projector reads that
+  domain's truth vocabulary and refuses any other by name; a recruitment run is
+  visible through its forecast, not through the run pages.
 - **The adjudication panel refuses in this domain.** The ensemble forecast is the
   primary path and stands uncross-checked; runs report this rather than hiding it.
 - **Only the synthetic oracle is measured.** Historical-backtest and live

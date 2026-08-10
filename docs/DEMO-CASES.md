@@ -164,14 +164,17 @@ alarm rings, not total damage.
 ## Case 5 — See inside a run
 
 ```bash
-npx tsx src/cli.ts trace --all --store ./.case3 --out ../dashboard/data/run-traces.json
+npx tsx src/cli.ts trace --all --store ./.caseA --out ../dashboard/data/run-traces.json
 cd ../dashboard && npm run dev     # then open /runs
 ```
 
 **Expect:** a per-run page with a tick scrubber. Drag it and watch the belief
-distribution reorganise, or for a recruitment run, the funnel census move up the
-ladder. The page is built around a hard divider: ground truth on the left, what
-a defender could observe on the right.
+distribution reorganise. The page is built around a hard divider: ground truth
+on the left, what a defender could observe on the right.
+
+`/runs` reads influence-ops runs only. Pointed at a recruitment store it refuses
+by name rather than rendering a page of zeros; the recruitment domain is visible
+through Cases 3 and 4, not here.
 
 ---
 

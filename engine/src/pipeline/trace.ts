@@ -8,7 +8,7 @@
  *
  * Domain-specific, like `influence-ops-binding.ts` — it reads field names the
  * influence-ops adapter emits. The kernel stays domain-free; this does not
- * pretend to.
+ * pretend to, and refuses any other domain rather than projecting it.
  *
  * The structural point of this file is the `truth` / `telemetry` split on every
  * tick. It mirrors the two event kinds exactly, so a consumer that wants to show
@@ -16,6 +16,7 @@
  * reader looking at the two panes can see how little the defender actually has.
  */
 
+import { ADAPTER_NAME } from "../sim/adapters/influence-ops/index.js";
 import { deriveSignatures } from "../sim/adapters/influence-ops/observable.js";
 import {
   BELIEF_HISTOGRAM_BINS,
@@ -156,6 +157,18 @@ export function buildRunTrace(
   events: readonly unknown[],
 ): RunTrace {
   const { config, kernelVersion, corpusSnapshotId } = narrowIdentity(identity);
+
+  // Checked before the events are read, because without the vocabulary the log
+  // cannot be interpreted at all. Another domain's truth event is not missing
+  // data: every field below would miss, num() would return 0 for each, and the
+  // page would render as confident zeros. An unstamped run fails closed.
+  const domain = kernelVersion.split("@")[0];
+  if (domain !== ADAPTER_NAME) {
+    throw new TraceError(
+      `run ${runId} is ${kernelVersion || "an unstamped run"}; the trace projector reads ${ADAPTER_NAME} truth events only`,
+    );
+  }
+
   const parsed = events.map(narrowEvent);
 
   const truth = new Map<number, RawEvent>();

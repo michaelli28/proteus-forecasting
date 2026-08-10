@@ -313,6 +313,7 @@ than rewritten, since the refusal _rate_ is itself a measured finding.
   nothing imports. Either wire it as the second provider for the
   model-agnosticism metric it was built for, or delete it. It currently costs a
   dependency (`@anthropic-ai/claude-agent-sdk`) that nothing else needs.
+  _Resolved 2026-08-10: deleted, with the dependency. No second provider exists._
 - **Artifact volume** (§2.3) — ~900 MB per full benchmark. Decide retention
   before, not after.
 - **Dashboard advisories** — 3 high-severity npm advisories, all inside Next 15's

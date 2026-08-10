@@ -11,8 +11,8 @@
  *     than one that fails, because a stalled ensemble looks like a slow one.
  *   - No subprocess, so no CLI binary, config directory or IPC pipe to go wrong.
  *
- * The Agent SDK backend stays for agents that genuinely need tools (the research
- * agent uses WebSearch). Both satisfy LlmClient, which is the point of the seam.
+ * The Agent SDK backend was deleted unused; this is the only network client. A
+ * tool-using agent would add a second LlmClient impl — that is what the seam is for.
  *
  * Uses fetch directly rather than adding @anthropic-ai/sdk as a dependency.
  */

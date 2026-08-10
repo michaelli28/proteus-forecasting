@@ -631,6 +631,10 @@ indistinguishable from a slow one, and the run-completion metric would record ne
 Agent SDK backend is kept for agents that genuinely need tools (the research agent uses
 WebSearch); both implement `LlmClient`, which is what the seam is for.
 
+_Superseded 2026-08-10: `llm/claude.ts` and the `@anthropic-ai/claude-agent-sdk` dependency
+were deleted — nothing ever imported it and the tool-using agent was never built. The
+comparison above stands as measured; only the "is kept" commitment is reversed._
+
 Design notes:
 
 - **Hypotheses are outcome bands over a resolvable quantity, not free-text propositions.**

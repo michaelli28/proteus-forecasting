@@ -62,7 +62,7 @@ const checks = [
     name: "Anthropic (OAuth)",
     env: "CLAUDE_CODE_OAUTH_TOKEN",
     required: false,
-    note: "Agent SDK / Claude Code CLI backend",
+    note: "Claude Code subscription token; no engine code path uses it",
     async run(key) {
       const r = await probe("https://api.anthropic.com/v1/messages", {
         method: "POST",

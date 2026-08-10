@@ -84,6 +84,44 @@ export function adoptionCount(
   return agents.filter((a) => (a.belief[narrative] ?? 0) >= threshold).length;
 }
 
+/** Bins in the emitted belief histogram. */
+export const BELIEF_HISTOGRAM_BINS = 20;
+
+/**
+ * Belief distribution as fixed-width bin counts over [0,1].
+ *
+ * The summary measures say a population is bimodal; only the distribution shows
+ * it splitting. Emitted as bins rather than raw beliefs because 20 counts per
+ * tick is a fixed cost while 400 agent values is a population-sized one, and the
+ * shape is what a reader needs — not agent 173's exact position.
+ */
+export function beliefHistogram(
+  agents: readonly Agent[],
+  narrative: number,
+  bins: number = BELIEF_HISTOGRAM_BINS,
+): number[] {
+  if (!Number.isInteger(bins) || bins < 1) {
+    throw new RangeError(`bins must be a positive integer: ${bins}`);
+  }
+  const counts = new Array<number>(bins).fill(0);
+  for (const agent of agents) {
+    const belief = agent.belief[narrative] ?? 0;
+    // Clamped into the last bin: beliefs are closed on [0,1], so floor(1 * bins)
+    // lands one past the end and would silently drop every fully-converted
+    // agent — precisely the group a successful campaign creates.
+    const index = Math.min(bins - 1, Math.max(0, Math.floor(belief * bins)));
+    counts[index]!++;
+  }
+  return counts;
+}
+
+/** Lower edge of each bin, so no consumer re-derives the histogram's geometry. */
+export function histogramBinEdges(
+  bins: number = BELIEF_HISTOGRAM_BINS,
+): number[] {
+  return Array.from({ length: bins }, (_, i) => i / bins);
+}
+
 export interface PopulationMeasures {
   readonly meanBelief: number;
   readonly variance: number;

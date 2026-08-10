@@ -12,7 +12,8 @@
     "cli": "tsx src/cli.ts",
     "preflight": "node scripts/preflight.mjs",
     "bench": "PROTEUS_BENCH=1 vitest run tests/benchmark/calibration",
-    "snapshot": "PROTEUS_BENCH=1 PROTEUS_SNAPSHOT_OUT=../dashboard/data/benchmark-snapshot.json vitest run tests/benchmark/calibration"
+    "snapshot": "PROTEUS_BENCH=1 PROTEUS_SNAPSHOT_OUT=../dashboard/data/benchmark-snapshot.json vitest run tests/benchmark/calibration",
+    "traces": "tsx src/cli.ts trace --all --out ../dashboard/data/run-traces.json"
   },
   "bin": {
     "proteus": "./dist/cli.js"

@@ -14,6 +14,7 @@ import {
   bridgeCount,
   buildPopulation,
   validateConfig,
+  BELIEF_HISTOGRAM_BINS,
 } from "../../../src/sim/adapters/influence-ops/index.js";
 import type {
   InfluenceOpsConfig,
@@ -366,5 +367,72 @@ describe("config validation", () => {
   it("accepts the reference configurations", () => {
     expect(() => validateConfig(control)).not.toThrow();
     expect(() => validateConfig(attacked)).not.toThrow();
+  });
+});
+
+describe("the truth stream carries the population's shape", () => {
+  const attacked: InfluenceOpsConfig = {
+    ...DEFAULT_CONFIG,
+    ticks: 60,
+    campaign: { ...REFERENCE_CAMPAIGN, startTick: 10, endTick: 55 },
+  };
+
+  it("emits a belief histogram whose counts total the population", async () => {
+    const result = await runSimulation(influenceOpsAdapter, attacked, "hist");
+    const truth = result.events.filter((e) => e.kind === "truth");
+
+    for (const event of truth) {
+      const bins = event.data.beliefHistogram as number[];
+      expect(bins).toHaveLength(BELIEF_HISTOGRAM_BINS);
+      expect(bins.reduce((a, b) => a + b, 0)).toBe(DEFAULT_CONFIG.population.agents);
+    }
+  });
+
+  it("shows mass moving toward the campaign's target position", async () => {
+    const result = await runSimulation(influenceOpsAdapter, attacked, "hist");
+    const truth = result.events.filter((e) => e.kind === "truth");
+    const upper = (e: (typeof truth)[number]) =>
+      (e.data.beliefHistogram as number[]).slice(12).reduce((a, b) => a + b, 0);
+
+    // The campaign pushes toward 0.85; the top of the distribution must fill.
+    expect(upper(truth.at(-1)!)).toBeGreaterThan(upper(truth[0]!));
+  });
+
+  it("reports adoptions and abandonments per tick, not just the running rate", async () => {
+    const result = await runSimulation(influenceOpsAdapter, attacked, "hist");
+    const truth = result.events.filter((e) => e.kind === "truth");
+
+    for (const event of truth) {
+      expect(typeof event.data.adoptions).toBe("number");
+      expect(typeof event.data.abandonments).toBe("number");
+    }
+    // A campaign that converts nobody would make the cascade view meaningless.
+    const converted = truth.reduce((sum, e) => sum + (e.data.adoptions as number), 0);
+    expect(converted).toBeGreaterThan(0);
+  });
+
+  it("NEVER leaks belief data into the telemetry stream", async () => {
+    // The detector reads telemetry alone. A belief histogram there would hand it
+    // the answer and turn detection precision into a tautology.
+    const result = await runSimulation(influenceOpsAdapter, attacked, "hist");
+    const telemetry = result.events.filter((e) => e.kind === "telemetry");
+    expect(telemetry.length).toBeGreaterThan(0);
+
+    const forbidden = [
+      "beliefHistogram",
+      "adoptions",
+      "abandonments",
+      "injections",
+      "meanBelief",
+      "adoptionRate",
+      "variance",
+      "bimodality",
+      "clusterSeparation",
+    ];
+    for (const event of telemetry) {
+      for (const key of forbidden) {
+        expect(event.data).not.toHaveProperty(key);
+      }
+    }
   });
 });

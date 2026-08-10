@@ -64,21 +64,52 @@ Useful flags: `--tick` (when the outcome resolves), `--range lo,hi` (the outcome
 range the bands tile), `--seed` (same seed ⇒ same run), `--as-of YYYY-MM-DD`
 (information cutoff), `--json` (machine-readable product).
 
+## Seeing inside a run
+
+Every run writes 120 ticks of ground truth and platform telemetry to its
+artifact directory. To turn those into something you can look at:
+
+```bash
+cd engine
+npx tsx src/cli.ts trace --list                 # what's in the store
+npx tsx src/cli.ts trace 7de16c50               # one run, by id or prefix
+npm run traces                                  # every run → the dashboard
+```
+
+Then open `/runs` in the dashboard. Each run page has a tick scrubber; drag it
+and watch the belief distribution reorganise — the ends empty out and interior
+humps form, which is bounded confidence producing polarization on its own rather
+than being told to.
+
+The page is built around one distinction. **Ground truth** — every belief, the
+distribution, who converted — scores the forecast and no defender can see it.
+**Telemetry** — activity volume, active accounts, degree ratios, cluster shares
+— is the detector's entire input. They travel in separate event kinds, separate
+objects in the trace, and separate panes on the page, so detection precision
+stays a measured number instead of a tautology.
+
 ## The dashboard
 
 ```bash
-cd dashboard && npm install && npm run dev   # http://localhost:3000/metrics
+cd dashboard && npm install && npm run dev
 ```
 
-It renders `dashboard/data/benchmark-snapshot.json`, which the benchmark
-publishes. To regenerate that file from a fresh benchmark run:
+| Route        | What it shows                                                   |
+| ------------ | --------------------------------------------------------------- |
+| `/metrics`   | Calibration benchmark — reliability, the gate's operating curve |
+| `/runs`      | How the model works, and every published run                    |
+| `/runs/<id>` | One run, tick by tick, with the scrubber                        |
+
+It renders `dashboard/data/*.json`, which the engine publishes. To regenerate:
 
 ```bash
-cd engine && npm run snapshot
+cd engine && npm run snapshot   # benchmark → /metrics
+cd engine && npm run traces     # run traces → /runs
 ```
 
-The dashboard never recomputes a score — a reliability curve derived twice is
-two implementations of calibration that will eventually disagree.
+The dashboard never recomputes a measure — a reliability curve derived twice is
+two implementations of calibration that will eventually disagree, and the same
+goes for a detection signature.
 
 ---
 

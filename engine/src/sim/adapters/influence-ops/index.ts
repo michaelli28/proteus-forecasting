@@ -15,7 +15,7 @@ import {
   selectInjectionNodes,
   stepBeliefs,
 } from "./dynamics.js";
-import { measurePopulation } from "./measures.js";
+import { beliefHistogram, measurePopulation } from "./measures.js";
 import { observeTick } from "./observable.js";
 import type { ObservableTick } from "./observable.js";
 
@@ -95,12 +95,23 @@ export const influenceOpsAdapter: SimulationAdapter<
     );
 
     // Ground truth and telemetry travel in separate event kinds so a consumer
-    // cannot accidentally read the answer out of the observable stream.
+    // cannot accidentally read the answer out of the observable stream. The
+    // distribution and the cascade counts are ground truth — a defender sees
+    // activity, never belief — so they belong here and nowhere else.
     return [
       {
         tick,
         kind: "truth",
-        data: { ...measures, injections: outcome.injections },
+        data: {
+          ...measures,
+          injections: outcome.injections,
+          adoptions: outcome.adoptions,
+          abandonments: outcome.abandonments,
+          beliefHistogram: beliefHistogram(
+            state.population.agents,
+            targetNarrative,
+          ),
+        },
       },
       {
         tick,

@@ -13,6 +13,7 @@ import {
   attributableDrift,
   beliefsOn,
   BIMODALITY_THRESHOLD,
+  beliefHistogram,
 } from "../../../src/sim/adapters/influence-ops/measures.js";
 import type { Agent } from "../../../src/sim/adapters/influence-ops/network.js";
 
@@ -212,5 +213,48 @@ describe("interventionEffect", () => {
 
   it("returns zero restoration when there was no campaign drift", () => {
     expect(interventionEffect(0.5, 0.5, 0.5, 0).restoredFraction).toBe(0);
+  });
+});
+
+describe("beliefHistogram", () => {
+  it("counts every agent exactly once", () => {
+    const agents = [0.05, 0.15, 0.5, 0.95, 0.99].map((b, i) =>
+      agent(i, 0, [b]),
+    );
+    const bins = beliefHistogram(agents, 0, 10);
+    expect(bins).toHaveLength(10);
+    expect(bins.reduce((a, b) => a + b, 0)).toBe(agents.length);
+  });
+
+  it("puts a belief of exactly 1 in the last bin, not past the end", () => {
+    // The obvious floor(v * bins) sends 1.0 to index `bins`, silently dropping
+    // every fully-converted agent — exactly the population a campaign produces.
+    const bins = beliefHistogram([agent(0, 0, [1])], 0, 10);
+    expect(bins).toHaveLength(10);
+    expect(bins[9]).toBe(1);
+  });
+
+  it("places beliefs in the bin covering their value", () => {
+    const agents = [0.0, 0.25, 0.5, 0.75].map((b, i) => agent(i, 0, [b]));
+    expect(beliefHistogram(agents, 0, 4)).toEqual([1, 1, 1, 1]);
+  });
+
+  it("shows a split population as two separated humps", () => {
+    const agents = [
+      ...Array.from({ length: 10 }, (_, i) => agent(i, 0, [0.1])),
+      ...Array.from({ length: 10 }, (_, i) => agent(10 + i, 1, [0.9])),
+    ];
+    const bins = beliefHistogram(agents, 0, 10);
+    expect(bins[1]).toBe(10);
+    expect(bins[9]).toBe(10);
+    expect(bins.slice(2, 9).every((c) => c === 0)).toBe(true);
+  });
+
+  it("is all zeros for an empty population rather than throwing", () => {
+    expect(beliefHistogram([], 0, 5)).toEqual([0, 0, 0, 0, 0]);
+  });
+
+  it("refuses a non-positive bin count instead of returning nonsense", () => {
+    expect(() => beliefHistogram([agent(0, 0, [0.5])], 0, 0)).toThrow(/bins/);
   });
 });

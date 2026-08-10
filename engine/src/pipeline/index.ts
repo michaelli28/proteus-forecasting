@@ -13,4 +13,5 @@ export * from "./score.js";
 export * from "./benchmark.js";
 export * from "./threshold-sweep.js";
 export * from "./snapshot.js";
+export * from "./trace.js";
 export * from "./influence-ops-binding.js";

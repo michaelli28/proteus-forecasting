@@ -1,0 +1,554 @@
+{
+  "snapshots": [
+    {
+      "label": "80x32",
+      "generatedAt": "2026-08-10T03:21:42.843Z",
+      "regime": "synthetic_oracle",
+      "quantity": "adoptionRate",
+      "bandCount": 4,
+      "ensembleSize": 32,
+      "questionsPerArm": 80,
+      "simulationRuns": 15832,
+      "thresholds": {
+        "minDiagnosticEvidence": 3,
+        "minSeparation": 0.05,
+        "maxUnresolvedRate": 0.5,
+        "minProvenanceCompleteness": 0.8
+      },
+      "arms": [
+        {
+          "arm": "narrow",
+          "answerability": "answerable",
+          "bands": 4,
+          "questions": 80,
+          "abstained": 0,
+          "abstentionRate": 0,
+          "unresolved": 0,
+          "meanCompletionRatio": 0.99921875,
+          "score": {
+            "n": 320,
+            "questions": 80,
+            "brier": 0.10583898652053428,
+            "brierSkillVsBaseRate": 0.4355254052238172,
+            "ignoranceBits": 0.4667904762038965,
+            "expectedCalibrationError": 0.034394841269841235,
+            "maximumCalibrationError": 0.12777777777777777,
+            "reliability": 0.02249697263164525,
+            "resolution": 0.10415798611111114,
+            "uncertainty": 0.1875,
+            "sharpness": 0.23605158730158743,
+            "isHedging": false,
+            "emptiestOccupiedBin": 7,
+            "occupiedBins": 9
+          },
+          "calibration": [
+            {
+              "forecast": 0.03191260043111887,
+              "observed": 0.012345679012345678,
+              "count": 162
+            },
+            {
+              "forecast": 0.16000000000000003,
+              "observed": 0.12,
+              "count": 25
+            },
+            {
+              "forecast": 0.25294784580498864,
+              "observed": 0.2857142857142857,
+              "count": 21
+            },
+            {
+              "forecast": 0.3415238095238095,
+              "observed": 0.44,
+              "count": 25
+            },
+            {
+              "forecast": 0.4365079365079366,
+              "observed": 0.42857142857142855,
+              "count": 7
+            },
+            {
+              "forecast": 0.5476190476190476,
+              "observed": 0.5789473684210527,
+              "count": 19
+            },
+            {
+              "forecast": 0.646551724137931,
+              "observed": 0.6896551724137931,
+              "count": 29
+            },
+            {
+              "forecast": 0.7496392496392498,
+              "observed": 0.7727272727272727,
+              "count": 22
+            },
+            {
+              "forecast": 0.8277777777777777,
+              "observed": 0.7,
+              "count": 10
+            }
+          ],
+          "ensemble": {
+            "coverageAt1": 0.6875,
+            "coverageAt2": 1,
+            "tailRecall": 1,
+            "surprises": 2
+          }
+        },
+        {
+          "arm": "medium",
+          "answerability": "answerable",
+          "bands": 4,
+          "questions": 80,
+          "abstained": 2,
+          "abstentionRate": 0.025,
+          "unresolved": 0,
+          "meanCompletionRatio": 0.99375,
+          "score": {
+            "n": 312,
+            "questions": 78,
+            "brier": 0.10878997609043062,
+            "brierSkillVsBaseRate": 0.41978679418437004,
+            "ignoranceBits": 0.4830514042956718,
+            "expectedCalibrationError": 0.04759570494864607,
+            "maximumCalibrationError": 0.12398589065255738,
+            "reliability": 0.027006087321247693,
+            "resolution": 0.10571611123081708,
+            "uncertainty": 0.1875,
+            "sharpness": 0.2134893701070169,
+            "isHedging": false,
+            "emptiestOccupiedBin": 9,
+            "occupiedBins": 8
+          },
+          "calibration": [
+            {
+              "forecast": 0.03982290694055392,
+              "observed": 0.006666666666666667,
+              "count": 150
+            },
+            {
+              "forecast": 0.16013071895424838,
+              "observed": 0.11764705882352941,
+              "count": 17
+            },
+            {
+              "forecast": 0.2506105006105006,
+              "observed": 0.2692307692307692,
+              "count": 26
+            },
+            {
+              "forecast": 0.33859745918569445,
+              "observed": 0.30303030303030304,
+              "count": 33
+            },
+            {
+              "forecast": 0.4315696649029982,
+              "observed": 0.5555555555555556,
+              "count": 9
+            },
+            {
+              "forecast": 0.5515451341827055,
+              "observed": 0.6451612903225806,
+              "count": 31
+            },
+            {
+              "forecast": 0.6507343477931713,
+              "observed": 0.7297297297297297,
+              "count": 37
+            },
+            {
+              "forecast": 0.7283950617283951,
+              "observed": 0.6666666666666666,
+              "count": 9
+            }
+          ],
+          "ensemble": {
+            "coverageAt1": 0.6923076923076923,
+            "coverageAt2": 0.9871794871794872,
+            "tailRecall": 1,
+            "surprises": 1
+          }
+        },
+        {
+          "arm": "wide-control",
+          "answerability": "answerable",
+          "bands": 4,
+          "questions": 80,
+          "abstained": 7,
+          "abstentionRate": 0.0875,
+          "unresolved": 0,
+          "meanCompletionRatio": 0.990625,
+          "score": {
+            "n": 292,
+            "questions": 73,
+            "brier": 0.16641363954481425,
+            "brierSkillVsBaseRate": 0.11246058909432399,
+            "ignoranceBits": 0.7202206967015479,
+            "expectedCalibrationError": 0.03883051767822111,
+            "maximumCalibrationError": 0.6111111111111112,
+            "reliability": 0.030831821248954863,
+            "resolution": 0.05191818170414062,
+            "uncertainty": 0.1875,
+            "sharpness": 0.12929103978660783,
+            "isHedging": false,
+            "emptiestOccupiedBin": 1,
+            "occupiedBins": 7
+          },
+          "calibration": [
+            {
+              "forecast": 0.04812273394206166,
+              "observed": 0.03571428571428571,
+              "count": 56
+            },
+            {
+              "forecast": 0.14807779285391226,
+              "observed": 0.1791044776119403,
+              "count": 67
+            },
+            {
+              "forecast": 0.24680162974280626,
+              "observed": 0.23636363636363636,
+              "count": 55
+            },
+            {
+              "forecast": 0.34782885138046077,
+              "observed": 0.3584905660377358,
+              "count": 53
+            },
+            {
+              "forecast": 0.43695771472789247,
+              "observed": 0.3488372093023256,
+              "count": 43
+            },
+            {
+              "forecast": 0.5279178338001868,
+              "observed": 0.7058823529411765,
+              "count": 17
+            },
+            {
+              "forecast": 0.6111111111111112,
+              "observed": 0,
+              "count": 1
+            }
+          ],
+          "ensemble": {
+            "coverageAt1": 0.410958904109589,
+            "coverageAt2": 0.7397260273972602,
+            "tailRecall": 1,
+            "surprises": 2
+          }
+        },
+        {
+          "arm": "tied",
+          "answerability": "answerable",
+          "bands": 8,
+          "questions": 80,
+          "abstained": 14,
+          "abstentionRate": 0.175,
+          "unresolved": 0,
+          "meanCompletionRatio": 0.989453125,
+          "score": {
+            "n": 528,
+            "questions": 66,
+            "brier": 0.09971347577661155,
+            "brierSkillVsBaseRate": 0.08833393575669446,
+            "ignoranceBits": 0.4748795574403921,
+            "expectedCalibrationError": 0.01925671185539607,
+            "maximumCalibrationError": 0.11466346153846152,
+            "reliability": 0.009477704502848757,
+            "resolution": 0.01913922872623706,
+            "uncertainty": 0.109375,
+            "sharpness": 0.0688323007401954,
+            "isHedging": false,
+            "emptiestOccupiedBin": 16,
+            "occupiedBins": 4
+          },
+          "calibration": [
+            {
+              "forecast": 0.04142131318394996,
+              "observed": 0.019801980198019802,
+              "count": 202
+            },
+            {
+              "forecast": 0.13822520891726348,
+              "observed": 0.15384615384615385,
+              "count": 208
+            },
+            {
+              "forecast": 0.23251633986928089,
+              "observed": 0.22549019607843138,
+              "count": 102
+            },
+            {
+              "forecast": 0.3228365384615385,
+              "observed": 0.4375,
+              "count": 16
+            }
+          ],
+          "ensemble": {
+            "coverageAt1": 0.2878787878787879,
+            "coverageAt2": 0.5303030303030303,
+            "tailRecall": 1,
+            "surprises": 4
+          }
+        },
+        {
+          "arm": "indistinguishable",
+          "answerability": "unanswerable",
+          "bands": 16,
+          "questions": 80,
+          "abstained": 80,
+          "abstentionRate": 1,
+          "unresolved": 0,
+          "meanCompletionRatio": 0.999609375,
+          "score": null,
+          "calibration": [],
+          "ensemble": null
+        },
+        {
+          "arm": "misspecified",
+          "answerability": "excluded",
+          "bands": 4,
+          "questions": 80,
+          "abstained": 0,
+          "abstentionRate": 0,
+          "unresolved": 7,
+          "meanCompletionRatio": 0.998828125,
+          "score": {
+            "n": 292,
+            "questions": 73,
+            "brier": 0.27302399676258066,
+            "brierSkillVsBaseRate": -0.4561279827337634,
+            "ignoranceBits": 1.220348811342953,
+            "expectedCalibrationError": 0.28924766253533385,
+            "maximumCalibrationError": 0.8222222222222223,
+            "reliability": 0.12582187430360947,
+            "resolution": 0.04029787754102823,
+            "uncertainty": 0.1875,
+            "sharpness": 0.22981082844096537,
+            "isHedging": false,
+            "emptiestOccupiedBin": 2,
+            "occupiedBins": 9
+          },
+          "calibration": [
+            {
+              "forecast": 0.03312676668841044,
+              "observed": 0.2534246575342466,
+              "count": 146
+            },
+            {
+              "forecast": 0.16944444444444448,
+              "observed": 0.05,
+              "count": 20
+            },
+            {
+              "forecast": 0.24401154401154404,
+              "observed": 0.36363636363636365,
+              "count": 22
+            },
+            {
+              "forecast": 0.3355774493705528,
+              "observed": 0.5517241379310345,
+              "count": 29
+            },
+            {
+              "forecast": 0.4166666666666667,
+              "observed": 1,
+              "count": 2
+            },
+            {
+              "forecast": 0.5611111111111111,
+              "observed": 0,
+              "count": 15
+            },
+            {
+              "forecast": 0.6525974025974026,
+              "observed": 0.15151515151515152,
+              "count": 33
+            },
+            {
+              "forecast": 0.7388888888888887,
+              "observed": 0.2,
+              "count": 20
+            },
+            {
+              "forecast": 0.8222222222222223,
+              "observed": 0,
+              "count": 5
+            }
+          ],
+          "ensemble": {
+            "coverageAt1": 0.1232876712328767,
+            "coverageAt2": 0.4931506849315068,
+            "tailRecall": 1,
+            "surprises": 37
+          }
+        }
+      ],
+      "operatingCurve": [
+        {
+          "minSeparation": 0,
+          "falseAbstentionRate": 0,
+          "trueAbstentionRate": 1,
+          "youdenJ": 1,
+          "undecidable": 0
+        },
+        {
+          "minSeparation": 0.05,
+          "falseAbstentionRate": 0.071875,
+          "trueAbstentionRate": 1,
+          "youdenJ": 0.928125,
+          "undecidable": 0
+        },
+        {
+          "minSeparation": 0.1,
+          "falseAbstentionRate": 0.096875,
+          "trueAbstentionRate": 1,
+          "youdenJ": 0.903125,
+          "undecidable": 0
+        },
+        {
+          "minSeparation": 0.15,
+          "falseAbstentionRate": 0.196875,
+          "trueAbstentionRate": 1,
+          "youdenJ": 0.803125,
+          "undecidable": 0
+        },
+        {
+          "minSeparation": 0.2,
+          "falseAbstentionRate": 0.23125,
+          "trueAbstentionRate": 1,
+          "youdenJ": 0.76875,
+          "undecidable": 0
+        },
+        {
+          "minSeparation": 0.25,
+          "falseAbstentionRate": 0.284375,
+          "trueAbstentionRate": 1,
+          "youdenJ": 0.715625,
+          "undecidable": 0
+        },
+        {
+          "minSeparation": 0.3,
+          "falseAbstentionRate": 0.35,
+          "trueAbstentionRate": 1,
+          "youdenJ": 0.65,
+          "undecidable": 0
+        },
+        {
+          "minSeparation": 0.35,
+          "falseAbstentionRate": 0.434375,
+          "trueAbstentionRate": 1,
+          "youdenJ": 0.565625,
+          "undecidable": 0
+        },
+        {
+          "minSeparation": 0.4,
+          "falseAbstentionRate": 0.50625,
+          "trueAbstentionRate": 1,
+          "youdenJ": 0.49375,
+          "undecidable": 0
+        },
+        {
+          "minSeparation": 0.45,
+          "falseAbstentionRate": 0.5625,
+          "trueAbstentionRate": 1,
+          "youdenJ": 0.4375,
+          "undecidable": 0
+        },
+        {
+          "minSeparation": 0.5,
+          "falseAbstentionRate": 0.625,
+          "trueAbstentionRate": 1,
+          "youdenJ": 0.375,
+          "undecidable": 0
+        },
+        {
+          "minSeparation": 0.55,
+          "falseAbstentionRate": 0.7,
+          "trueAbstentionRate": 1,
+          "youdenJ": 0.30000000000000004,
+          "undecidable": 0
+        },
+        {
+          "minSeparation": 0.6,
+          "falseAbstentionRate": 0.746875,
+          "trueAbstentionRate": 1,
+          "youdenJ": 0.25312500000000004,
+          "undecidable": 0
+        },
+        {
+          "minSeparation": 0.65,
+          "falseAbstentionRate": 0.790625,
+          "trueAbstentionRate": 1,
+          "youdenJ": 0.20937499999999998,
+          "undecidable": 0
+        },
+        {
+          "minSeparation": 0.7,
+          "falseAbstentionRate": 0.84375,
+          "trueAbstentionRate": 1,
+          "youdenJ": 0.15625,
+          "undecidable": 0
+        },
+        {
+          "minSeparation": 0.75,
+          "falseAbstentionRate": 0.88125,
+          "trueAbstentionRate": 1,
+          "youdenJ": 0.11875000000000002,
+          "undecidable": 0
+        },
+        {
+          "minSeparation": 0.8,
+          "falseAbstentionRate": 0.934375,
+          "trueAbstentionRate": 1,
+          "youdenJ": 0.06562500000000004,
+          "undecidable": 0
+        },
+        {
+          "minSeparation": 0.85,
+          "falseAbstentionRate": 0.965625,
+          "trueAbstentionRate": 1,
+          "youdenJ": 0.034375000000000044,
+          "undecidable": 0
+        },
+        {
+          "minSeparation": 0.9,
+          "falseAbstentionRate": 0.990625,
+          "trueAbstentionRate": 1,
+          "youdenJ": 0.009375000000000022,
+          "undecidable": 0
+        },
+        {
+          "minSeparation": 0.95,
+          "falseAbstentionRate": 1,
+          "trueAbstentionRate": 1,
+          "youdenJ": 0,
+          "undecidable": 0
+        },
+        {
+          "minSeparation": 1,
+          "falseAbstentionRate": 1,
+          "trueAbstentionRate": 1,
+          "youdenJ": 0,
+          "undecidable": 0
+        },
+        {
+          "minSeparation": 1.01,
+          "falseAbstentionRate": 1,
+          "trueAbstentionRate": 1,
+          "youdenJ": 0,
+          "undecidable": 0
+        }
+      ],
+      "cost": {
+        "llmCalls": 0,
+        "costUsd": 0,
+        "questionsAnswered": 370,
+        "costPerAnswerUsd": null,
+        "modelInLoop": false
+      },
+      "caveat": "CAVEAT: synthetic oracle. Ensemble and ground truth come from the same simulator,\nso these numbers describe how honestly the pipeline propagates its own uncertainty.\nThey are not evidence of real-world forecasting skill; historical-backtest and live\npost-cutoff accuracy remain NOT YET MEASURED and must never be pooled with these."
+    }
+  ]
+}

@@ -21,16 +21,40 @@ import { createAnthropicClient } from "./llm/anthropic.js";
 import { createFailingClient } from "./llm/stub.js";
 import { runQuestion } from "./pipeline/run-question.js";
 import {
+  INFLUENCE_OPS_MEASURES,
   influenceOpsBinding,
   influenceOpsQuantity,
+  isInfluenceOpsMeasure,
 } from "./pipeline/influence-ops-binding.js";
+import {
+  RECRUITMENT_MEASURES,
+  isRecruitmentMeasure,
+  recruitmentBinding,
+  recruitmentQuantity,
+} from "./pipeline/recruitment-binding.js";
 import type { LlmClient } from "./llm/client.js";
-import type { InfluenceOpsMeasure } from "./pipeline/influence-ops-binding.js";
 import type { QuestionResult } from "./pipeline/run-question.js";
+
+export const FORECAST_DOMAINS = ["influence-ops", "recruitment"] as const;
+export type ForecastDomain = (typeof FORECAST_DOMAINS)[number];
+
+export function isForecastDomain(name: string): name is ForecastDomain {
+  return (FORECAST_DOMAINS as readonly string[]).includes(name);
+}
+
+/** The measures each domain will answer for. */
+export const DOMAIN_MEASURES: Readonly<
+  Record<ForecastDomain, readonly string[]>
+> = {
+  "influence-ops": INFLUENCE_OPS_MEASURES,
+  recruitment: RECRUITMENT_MEASURES,
+};
 
 export interface ForecastOptions {
   readonly question: string;
-  readonly measure: InfluenceOpsMeasure;
+  /** Defaults to influence-ops, the domain that shipped first. */
+  readonly domain?: ForecastDomain;
+  readonly measure: string;
   readonly resolveAtTick: number;
   /** Outcome range the bands tile. Narrower than definitional costs runs. */
   readonly range?: readonly [number, number];
@@ -97,27 +121,31 @@ export async function runForecast(
   const corpus = new AsOfCorpus(snapshot, options.asOf);
   const client = options.client ?? selectClient(options.offline);
 
-  const result = await runQuestion(
-    {
-      client,
-      binding: influenceOpsBinding,
-      store: new ArtifactStore(storeDir),
-      corpus,
-    },
-    {
-      question: options.question,
-      quantity: influenceOpsQuantity(
-        options.measure,
-        options.resolveAtTick,
-        options.range,
-      ),
-      asOf: options.asOf,
-      rootSeed: options.seed,
-      hypothesisCount: options.bands,
-      runCount: options.runs,
-      concurrency: options.concurrency,
-    },
-  );
+  const domain = options.domain ?? "influence-ops";
+  const store = new ArtifactStore(storeDir);
+  const input = {
+    question: options.question,
+    quantity: quantityFor(domain, options),
+    asOf: options.asOf,
+    rootSeed: options.seed,
+    hypothesisCount: options.bands,
+    runCount: options.runs,
+    concurrency: options.concurrency,
+  };
+
+  // Two calls rather than a ternary on the binding: `runQuestion` is generic
+  // over a domain's config and state, and a union of two bindings gives it no
+  // single pair to instantiate with. Each branch resolves concretely.
+  const result =
+    domain === "recruitment"
+      ? await runQuestion(
+          { client, binding: recruitmentBinding, store, corpus },
+          input,
+        )
+      : await runQuestion(
+          { client, binding: influenceOpsBinding, store, corpus },
+          input,
+        );
 
   return {
     result,
@@ -141,6 +169,38 @@ function selectClient(offline: boolean): LlmClient {
   } catch {
     return createFailingClient("ANTHROPIC_API_KEY not set");
   }
+}
+
+/**
+ * Build the target quantity for whichever domain was asked for.
+ *
+ * Validated here rather than at the CLI so a programmatic caller gets the same
+ * refusal: a measure name from the wrong domain is a question this system
+ * cannot answer, not a value to coerce.
+ */
+function quantityFor(domain: ForecastDomain, options: ForecastOptions) {
+  if (domain === "recruitment") {
+    if (!isRecruitmentMeasure(options.measure)) {
+      throw new Error(
+        `Unknown recruitment measure "${options.measure}". Expected one of: ${RECRUITMENT_MEASURES.join(", ")}`,
+      );
+    }
+    return recruitmentQuantity(
+      options.measure,
+      options.resolveAtTick,
+      options.range,
+    );
+  }
+  if (!isInfluenceOpsMeasure(options.measure)) {
+    throw new Error(
+      `Unknown influence-ops measure "${options.measure}". Expected one of: ${INFLUENCE_OPS_MEASURES.join(", ")}`,
+    );
+  }
+  return influenceOpsQuantity(
+    options.measure,
+    options.resolveAtTick,
+    options.range,
+  );
 }
 
 /**

@@ -6,15 +6,16 @@ import { buildRunTrace } from "./pipeline/trace.js";
 import type { RunTrace, TraceFile } from "./pipeline/trace.js";
 import {
   DEFAULT_FORECAST_OPTIONS,
+  DOMAIN_MEASURES,
+  FORECAST_DOMAINS,
   formatRunSummary,
+  isForecastDomain,
   parseRange,
   runForecast,
 } from "./forecast.js";
 import { formatProduct } from "./pipeline/product.js";
-import {
-  INFLUENCE_OPS_MEASURES,
-  isInfluenceOpsMeasure,
-} from "./pipeline/influence-ops-binding.js";
+import { INFLUENCE_OPS_MEASURES } from "./pipeline/influence-ops-binding.js";
+import { RECRUITMENT_MEASURES } from "./pipeline/recruitment-binding.js";
 import "dotenv/config";
 
 const forecast = new Command("forecast")
@@ -23,8 +24,13 @@ const forecast = new Command("forecast")
   )
   .argument("<question>", "The intelligence question to answer")
   .option(
+    "-d, --domain <name>",
+    `World to forecast against: ${FORECAST_DOMAINS.join(" | ")}`,
+    "influence-ops",
+  )
+  .option(
     "-m, --measure <name>",
-    `Target quantity: ${INFLUENCE_OPS_MEASURES.join(" | ")}`,
+    `Target quantity. influence-ops: ${INFLUENCE_OPS_MEASURES.join(" | ")}. recruitment: ${RECRUITMENT_MEASURES.join(" | ")}`,
     DEFAULT_FORECAST_OPTIONS.measure,
   )
   .option("-t, --tick <n>", "Tick the outcome resolves at", "119")
@@ -54,15 +60,22 @@ const forecast = new Command("forecast")
 
 forecast.action(async (question: string, opts) => {
   try {
-    if (!isInfluenceOpsMeasure(opts.measure)) {
+    if (!isForecastDomain(opts.domain)) {
       console.error(
-        `Unknown measure "${opts.measure}". Expected one of: ${INFLUENCE_OPS_MEASURES.join(", ")}`,
+        `Unknown domain "${opts.domain}". Expected one of: ${FORECAST_DOMAINS.join(", ")}`,
+      );
+      process.exit(1);
+    }
+    if (!DOMAIN_MEASURES[opts.domain].includes(opts.measure)) {
+      console.error(
+        `"${opts.measure}" is not a ${opts.domain} measure. Expected one of: ${DOMAIN_MEASURES[opts.domain].join(", ")}`,
       );
       process.exit(1);
     }
 
     const outcome = await runForecast({
       question,
+      domain: opts.domain,
       measure: opts.measure,
       resolveAtTick: Number(opts.tick),
       range: parseRange(opts.range),

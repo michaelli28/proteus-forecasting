@@ -15,3 +15,4 @@ export * from "./threshold-sweep.js";
 export * from "./snapshot.js";
 export * from "./trace.js";
 export * from "./influence-ops-binding.js";
+export * from "./recruitment-binding.js";

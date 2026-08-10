@@ -293,6 +293,12 @@ live benchmark:
   the dashboard correctly reads "not priced" rather than "$0.00".
 - `panelSize` and `rerunBudget` are the two cost knobs, and neither is reachable.
 
+_Second measurement, 2026-08-10 (DEMO-CASES Case 8): **$0.7544, 17 model calls,
+8m12s** — the same question shape, but the red team forced a rerun. The store
+holds 16 simulation runs, two per ensemble member, which is what a rerun looks
+like from the outside. Budget the rerun path, not this section's: it is the one
+you cannot predict before the run._
+
 ### 4.3 Adjudicator refusals — you pay full latency for nothing
 
 Tonight's run: **2 of 3 adjudicators declined.** Each refusal costs the full

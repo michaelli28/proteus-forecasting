@@ -225,9 +225,12 @@ npx tsx src/cli.ts forecast \
   --measure adoptionRate --bands 4 --runs 8 --tick 60 --store ./.case8
 ```
 
-**Expect:** roughly **6 minutes** and **$0.30**. The forecast itself is ready in
-under a second — all of the wall clock is the analytic layer. See
-`IO-AND-DEMO.md` §4.1.
+**Expect:** **6–8 minutes** and **$0.30–$0.76**, and budget for the top of both.
+The spread is one thing: whether the red team forces a rerun. A rerun re-enters
+the whole analytic pass, so the ensemble runs twice and so does every model
+stage. Measured — 5m54s, $0.2959, 9 calls without one; 8m12s, $0.7544, 17 calls
+with one. The forecast itself is ready in under a second either way; all of the
+wall clock is the analytic layer. See `IO-AND-DEMO.md` §4.1.
 
 **The moment worth waiting for** is the red team attacking its own answer. From
 a real run:

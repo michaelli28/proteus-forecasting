@@ -2,7 +2,6 @@
   "name": "proteus-engine",
   "version": "0.1.0",
   "description": "Calibrated forecasting against a simulated world, with an evidence-gated abstention path",
-  "main": "dist/index.js",
   "type": "module",
   "scripts": {
     "build": "tsc",

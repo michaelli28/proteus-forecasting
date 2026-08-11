@@ -77,12 +77,12 @@ export default function RunViewer({ trace }: { trace: RunTrace }) {
   return (
     <div className="flex flex-col gap-8">
       {/* ── transport ── */}
-      <div className="rounded border border-border-green bg-primary-dark/20 px-4 py-3">
+      <div className="rounded border border-line bg-sunken px-4 py-3">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <button
             type="button"
             onClick={toggle}
-            className="rounded border border-border-green-bright px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-text-primary hover:bg-primary-dark/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[--color-primary]"
+            className="rounded border border-line-strong px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-ink hover:bg-sunken focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[--color-primary]"
           >
             {playing ? "Pause" : tick >= last ? "Replay" : "Play"}
           </button>
@@ -102,7 +102,7 @@ export default function RunViewer({ trace }: { trace: RunTrace }) {
             />
           </label>
 
-          <span className="font-mono text-[12px] tabular-nums text-text-primary">
+          <span className="font-mono text-[12px] tabular-nums text-ink">
             tick {String(tick).padStart(3, " ")} / {last}
           </span>
 
@@ -121,38 +121,38 @@ export default function RunViewer({ trace }: { trace: RunTrace }) {
       {/* ── the hero: the population itself ── */}
       <section className="flex flex-col gap-3">
         <div>
-          <h2 className="font-mono text-[13px] uppercase tracking-wider text-text-primary">
+          <h2 className="font-mono text-[13px] uppercase tracking-wider text-ink">
             The population at tick {tick}
           </h2>
-          <p className="mt-1 max-w-prose text-[13px] leading-relaxed text-text-secondary">
+          <p className="mt-1 max-w-prose text-[13px] leading-relaxed text-slate">
             Each bar is the number of agents holding a belief in that range.
             Watch the ends empty and interior humps form — that is bounded
             confidence doing its work, not an instruction the model was given.
           </p>
         </div>
         <BeliefDistribution trace={trace} tick={current} />
-        <div className="flex flex-wrap gap-x-6 gap-y-1 font-mono text-[11px] text-text-secondary">
+        <div className="flex flex-wrap gap-x-6 gap-y-1 font-mono text-[11px] text-slate">
           <span>
             mean{" "}
-            <span className="tabular-nums text-text-primary">
+            <span className="tabular-nums text-ink">
               {current.truth.meanBelief.toFixed(3)}
             </span>
           </span>
           <span>
             bimodality{" "}
-            <span className="tabular-nums text-text-primary">
+            <span className="tabular-nums text-ink">
               {current.truth.bimodality.toFixed(3)}
             </span>
           </span>
           <span>
             adopted{" "}
-            <span className="tabular-nums text-text-primary">
+            <span className="tabular-nums text-ink">
               {percent(current.truth.adoptionRate)}
             </span>
           </span>
           <span>
             cluster gap{" "}
-            <span className="tabular-nums text-text-primary">
+            <span className="tabular-nums text-ink">
               {current.truth.clusterSeparation.toFixed(3)}
             </span>
           </span>
@@ -162,10 +162,10 @@ export default function RunViewer({ trace }: { trace: RunTrace }) {
       {/* ── the boundary ── */}
       <section className="flex flex-col gap-3">
         <div>
-          <h2 className="font-mono text-[13px] uppercase tracking-wider text-text-primary">
+          <h2 className="font-mono text-[13px] uppercase tracking-wider text-ink">
             Truth versus telemetry
           </h2>
-          <p className="mt-1 max-w-prose text-[13px] leading-relaxed text-text-secondary">
+          <p className="mt-1 max-w-prose text-[13px] leading-relaxed text-slate">
             The same tick, twice. The left column is what the simulator knows;
             the right is everything a platform could observe. Detection
             precision is measurable here precisely because the detector only
@@ -178,10 +178,10 @@ export default function RunViewer({ trace }: { trace: RunTrace }) {
       {/* ── over time ── */}
       <section className="flex flex-col gap-6">
         <div>
-          <h2 className="font-mono text-[13px] uppercase tracking-wider text-text-primary">
+          <h2 className="font-mono text-[13px] uppercase tracking-wider text-ink">
             Over the whole run
           </h2>
-          <p className="mt-1 max-w-prose text-[13px] leading-relaxed text-text-secondary">
+          <p className="mt-1 max-w-prose text-[13px] leading-relaxed text-slate">
             The shaded band is the campaign window. The vertical line is where
             you are scrubbed to.
           </p>

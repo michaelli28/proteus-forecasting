@@ -23,10 +23,10 @@ export async function generateMetadata({
 function Fact({ label, value }: { label: string; value: string }) {
   return (
     <div className="min-w-0">
-      <div className="font-mono text-[10px] uppercase tracking-wider text-text-muted">
+      <div className="font-mono text-[10px] uppercase tracking-wider text-muted">
         {label}
       </div>
-      <div className="mt-0.5 truncate font-mono text-[13px] text-text-primary">
+      <div className="mt-0.5 truncate font-mono text-[13px] text-ink">
         {value}
       </div>
     </div>
@@ -48,26 +48,26 @@ export default async function RunPage({
     <main className="mx-auto max-w-5xl px-6 py-14">
       <Link
         href="/runs"
-        className="font-mono text-[11px] uppercase tracking-wider text-text-secondary underline decoration-border-green-bright underline-offset-2 hover:text-text-primary"
+        className="font-mono text-[11px] uppercase tracking-wider text-slate underline decoration-line-strong underline-offset-2 hover:text-ink"
       >
         ← all runs
       </Link>
 
-      <h1 className="mt-4 font-mono text-2xl font-semibold text-text-primary">
+      <h1 className="mt-4 font-mono text-2xl font-semibold text-ink">
         run {shortId(trace.runId)}
       </h1>
-      <p className="mt-2 max-w-prose text-[13px] leading-relaxed text-text-secondary">
+      <p className="mt-2 max-w-prose text-[13px] leading-relaxed text-slate">
         One member of a forecast ensemble. Same seed, same run — the id is the
         hash of everything that produced it.
       </p>
 
-      <p className="mt-5 max-w-prose border-l-2 border-border-green-bright pl-3 text-[12px] leading-relaxed text-text-muted">
+      <p className="mt-5 max-w-prose border-l-2 border-line-strong pl-3 text-[12px] leading-relaxed text-muted">
         {trace.caveat}
       </p>
 
       {/* ── what this run is ── */}
-      <section className="mt-10 rounded border border-border-green bg-primary-dark/20 px-5 py-4">
-        <h2 className="font-mono text-[10px] uppercase tracking-wider text-text-muted">
+      <section className="mt-10 rounded border border-line bg-sunken px-5 py-4">
+        <h2 className="font-mono text-[10px] uppercase tracking-wider text-muted">
           The world
         </h2>
         <div className="mt-3 grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-3 lg:grid-cols-5">
@@ -81,7 +81,7 @@ export default async function RunPage({
           />
         </div>
 
-        <h2 className="mt-6 font-mono text-[10px] uppercase tracking-wider text-text-muted">
+        <h2 className="mt-6 font-mono text-[10px] uppercase tracking-wider text-muted">
           The adversary
         </h2>
         {campaign ? (
@@ -106,13 +106,13 @@ export default async function RunPage({
               />
             </div>
             {spec && (
-              <p className="mt-4 max-w-prose text-[12px] leading-relaxed text-text-secondary">
+              <p className="mt-4 max-w-prose text-[12px] leading-relaxed text-slate">
                 Drawn from risk tolerance{" "}
-                <span className="font-mono text-text-primary">
+                <span className="font-mono text-ink">
                   {spec.riskTolerance.toFixed(0)}
                 </span>{" "}
                 and escalation propensity{" "}
-                <span className="font-mono text-text-primary">
+                <span className="font-mono text-ink">
                   {spec.escalationPropensity.toFixed(0)}
                 </span>
                 . Risk sets reach and how extreme a position it pushes;
@@ -121,7 +121,7 @@ export default async function RunPage({
             )}
           </>
         ) : (
-          <p className="mt-2 text-[13px] text-text-secondary">
+          <p className="mt-2 text-[13px] text-slate">
             None — this is a control run. Any movement below is the population
             drifting on its own.
           </p>
@@ -132,8 +132,8 @@ export default async function RunPage({
         <RunViewer trace={trace} />
       </div>
 
-      <section className="mt-12 border-t border-border-green pt-6">
-        <h2 className="font-mono text-[10px] uppercase tracking-wider text-text-muted">
+      <section className="mt-12 border-t border-line pt-6">
+        <h2 className="font-mono text-[10px] uppercase tracking-wider text-muted">
           Provenance
         </h2>
         <div className="mt-3 grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2">
@@ -142,7 +142,7 @@ export default async function RunPage({
           <Fact label="kernel" value={trace.kernelVersion} />
           <Fact label="corpus snapshot" value={trace.corpusSnapshotId} />
         </div>
-        <p className="mt-4 max-w-prose text-[12px] leading-relaxed text-text-muted">
+        <p className="mt-4 max-w-prose text-[12px] leading-relaxed text-muted">
           Re-running this seed reproduces this run byte for byte. That is what
           the id is for.
         </p>

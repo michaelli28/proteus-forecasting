@@ -129,30 +129,29 @@ export const LATEST: BenchmarkSnapshot = SNAPSHOTS[SNAPSHOTS.length - 1]!;
 /**
  * Fixed hue per arm, assigned by identity and never cycled.
  *
- * Dark-mode steps, validated against this app's surface (#001a0d) for lightness
- * band, chroma, CVD separation and contrast. Changing one means re-running that
- * check, not picking a colour that looks nice next to the others.
+ * Light-mode steps, chosen against this app's surface (near-white) for adequate
+ * contrast and colour-blind separation. Changing one means re-checking that,
+ * not picking a colour that looks nice next to the others.
  *
  * `indistinguishable` has no hue on purpose: it abstains on every question, so
  * it never becomes a plotted series and a colour would only imply otherwise.
  */
 export const ARM_COLOR: Record<string, string> = {
-  narrow: "#3987e5",
-  medium: "#d95926",
-  "wide-control": "#199e70",
-  tied: "#c98500",
-  misspecified: "#d55181",
+  narrow: "#2563a8",
+  medium: "#b4532a",
+  "wide-control": "#2e7d57",
+  tied: "#8a6d1f",
+  misspecified: "#a13d68",
 };
 
-/** What each arm is for, in one line. Shown next to its numbers, not in a tooltip. */
+/** What each arm is for, in one PLAIN line — no gate jargon. */
 export const ARM_PURPOSE: Record<string, string> = {
-  narrow: "Evidence tightly constrains the actor",
-  medium: "Moderately constrained",
-  "wide-control": "Poorly evidenced, but answerable",
-  tied: "Leading bands tie — the separation gate’s own control",
-  indistinguishable:
-    "Partitioned finer than the simulator’s noise. Unanswerable",
-  misspecified: "Truth drawn from a region the ensemble was told to ignore",
+  narrow: "Strong evidence — the answer should be easy",
+  medium: "Moderate evidence",
+  "wide-control": "Weak evidence, but still answerable",
+  tied: "A deliberate near-tie — a control case",
+  indistinguishable: "Too fine to tell apart from noise — unanswerable",
+  misspecified: "The true answer lies outside what the model considered",
 };
 
 export function percent(value: number, digits = 0): string {

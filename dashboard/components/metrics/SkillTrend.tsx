@@ -6,19 +6,13 @@ interface SkillTrendProps {
 }
 
 /**
- * Skill by arm, one bar per recorded batch.
- *
- * One form that degrades: with a single snapshot it is a bar chart, with several
- * it is a comparison across batches. The alternative — drawing a trend line
- * through one point — would be inventing the very thing being measured.
- *
- * Sign is carried by position against the zero line, not by colour: colour is
- * already spoken for by arm identity, and a bar that crosses zero is the whole
- * point of the misspecified control.
+ * Skill by scenario, one bar per recorded batch. Bars right of zero beat a
+ * coin-flip baseline; bars left do worse. Sign is carried by position against
+ * the zero line, not colour — colour is already spoken for by scenario identity,
+ * and a bar crossing zero is the whole point of the misspecified control.
  */
 export default function SkillTrend({ snapshots }: SkillTrendProps) {
   const arms = snapshots[snapshots.length - 1]!.arms.map((a) => a.arm);
-
   const values = snapshots.flatMap((s) =>
     s.arms
       .map((a) => a.score?.brierSkillVsBaseRate)
@@ -26,19 +20,18 @@ export default function SkillTrend({ snapshots }: SkillTrendProps) {
   );
   if (values.length === 0) {
     return (
-      <p className="text-[12px] text-text-muted">
-        No scored arms in any snapshot.
+      <p className="text-[12.5px] text-muted">
+        No scored scenarios in any snapshot.
       </p>
     );
   }
 
   const bound = Math.max(0.1, ...values.map(Math.abs));
-  // Zero sits proportionally, so a bar's length is comparable in both directions.
-  const zero = (bound / (2 * bound)) * 100;
+  const zero = 50;
 
   return (
     <div>
-      <div className="space-y-3">
+      <div className="space-y-3 rounded-xl border border-line bg-surface p-5">
         {arms.map((arm) => {
           const entries = snapshots.map((s) => ({
             label: s.label,
@@ -46,32 +39,30 @@ export default function SkillTrend({ snapshots }: SkillTrendProps) {
               s.arms.find((a) => a.arm === arm)?.score?.brierSkillVsBaseRate ??
               null,
           }));
-
           return (
             <div
               key={arm}
               className="grid grid-cols-[9rem_1fr] items-center gap-3"
             >
-              <div className="flex items-center gap-2 font-mono text-[11px] text-text-secondary">
+              <div className="flex items-center gap-2 text-[12px] text-slate">
                 {ARM_COLOR[arm] && (
                   <span
-                    className="inline-block h-2 w-2 shrink-0 rounded-full"
+                    className="inline-block h-2.5 w-2.5 shrink-0 rounded-full"
                     style={{ backgroundColor: ARM_COLOR[arm] }}
                   />
                 )}
                 <span className="truncate">{arm}</span>
               </div>
-
               <div className="space-y-1">
                 {entries.map((entry) => (
                   <div key={entry.label} className="relative h-4">
                     <div
-                      className="absolute inset-y-0 w-px bg-[rgba(255,252,218,0.25)]"
+                      className="absolute inset-y-0 w-px bg-line-strong"
                       style={{ left: `${zero}%` }}
                     />
                     {entry.score === null ? (
-                      <span className="absolute left-0 top-0 font-mono text-[10px] leading-4 text-text-muted">
-                        abstained on every question
+                      <span className="absolute left-0 top-0 text-[11px] leading-4 text-muted">
+                        declined every question
                       </span>
                     ) : (
                       <>
@@ -79,7 +70,7 @@ export default function SkillTrend({ snapshots }: SkillTrendProps) {
                           className="absolute inset-y-0 rounded-[4px]"
                           style={{
                             backgroundColor:
-                              ARM_COLOR[arm] ?? "rgba(255,252,218,0.35)",
+                              ARM_COLOR[arm] ?? "var(--color-muted)",
                             left:
                               entry.score >= 0
                                 ? `${zero}%`
@@ -88,22 +79,20 @@ export default function SkillTrend({ snapshots }: SkillTrendProps) {
                           }}
                         />
                         <span
-                          className="absolute top-0 font-mono text-[10px] leading-4 text-text-secondary"
+                          className="absolute top-0 text-[11px] leading-4 text-slate tnum"
                           style={
                             entry.score >= 0
                               ? {
                                   left: `calc(${zero + (entry.score / (2 * bound)) * 100}% + 6px)`,
                                 }
                               : {
-                                  // Bar runs left from zero, so the label goes
-                                  // left of its LEFT edge — hence minus.
                                   right: `calc(${100 - zero - (entry.score / (2 * bound)) * 100}% + 6px)`,
                                 }
                           }
                         >
-                          {signed(entry.score, 3)}
+                          {signed(entry.score, 2)}
                           {snapshots.length > 1 && (
-                            <span className="ml-1.5 text-text-muted">
+                            <span className="ml-1.5 text-muted">
                               {entry.label}
                             </span>
                           )}
@@ -117,13 +106,10 @@ export default function SkillTrend({ snapshots }: SkillTrendProps) {
           );
         })}
       </div>
-
-      <p className="mt-4 max-w-prose text-[12px] leading-relaxed text-text-muted">
-        {snapshots.length === 1
-          ? "One batch recorded. A trend needs at least two, so this reads as a comparison across arms rather than over time — run the benchmark at another batch size to add a bar to each row."
-          : `${snapshots.length} batches recorded, oldest first in each row.`}{" "}
-        Zero is the base rate: bars to the right beat it, bars to the left do
-        worse. The misspecified arm is supposed to be on the left.
+      <p className="mt-3 max-w-[68ch] text-[12.5px] leading-relaxed text-muted">
+        Zero is a plain coin-flip. Bars to the right did better than that; to
+        the left, worse. The &ldquo;misspecified&rdquo; scenario is supposed to
+        land on the left — it is the check that the system fails when it should.
       </p>
     </div>
   );

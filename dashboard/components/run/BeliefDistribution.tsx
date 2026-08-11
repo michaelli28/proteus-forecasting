@@ -71,7 +71,7 @@ export default function BeliefDistribution({
             y1={PAD.top}
             y2={PAD.top + plotH}
             stroke="currentColor"
-            className="text-text-muted"
+            className="text-muted"
             opacity={0.15}
           />
         ))}
@@ -106,7 +106,7 @@ export default function BeliefDistribution({
         <text
           x={xOf(threshold) + 4}
           y={PAD.top + 8}
-          className="fill-text-secondary"
+          className="fill-slate"
           fontSize={9}
           fontFamily="var(--font-mono)"
         >
@@ -127,7 +127,7 @@ export default function BeliefDistribution({
             <text
               x={xOf(target) + 4}
               y={PAD.top + 22}
-              className="fill-text-secondary"
+              className="fill-slate"
               fontSize={9}
               fontFamily="var(--font-mono)"
             >
@@ -140,7 +140,7 @@ export default function BeliefDistribution({
         <polygon
           points={`${xOf(tick.truth.meanBelief)},${PAD.top + plotH + 2} ${xOf(tick.truth.meanBelief) - 4},${PAD.top + plotH + 9} ${xOf(tick.truth.meanBelief) + 4},${PAD.top + plotH + 9}`}
           fill="currentColor"
-          className="text-text-primary"
+          className="text-ink"
         />
 
         <line
@@ -149,7 +149,7 @@ export default function BeliefDistribution({
           y1={PAD.top + plotH}
           y2={PAD.top + plotH}
           stroke="currentColor"
-          className="text-text-muted"
+          className="text-muted"
           opacity={0.4}
         />
 
@@ -159,7 +159,7 @@ export default function BeliefDistribution({
             x={xOf(g)}
             y={H - 16}
             textAnchor="middle"
-            className="fill-text-muted"
+            className="fill-muted"
             fontSize={9}
             fontFamily="var(--font-mono)"
           >
@@ -170,7 +170,7 @@ export default function BeliefDistribution({
           x={PAD.left + plotW / 2}
           y={H - 4}
           textAnchor="middle"
-          className="fill-text-muted"
+          className="fill-muted"
           fontSize={9}
           fontFamily="var(--font-mono)"
         >
@@ -181,7 +181,7 @@ export default function BeliefDistribution({
           x={PAD.left - 6}
           y={PAD.top + 8}
           textAnchor="end"
-          className="fill-text-muted"
+          className="fill-muted"
           fontSize={9}
           fontFamily="var(--font-mono)"
         >
@@ -191,14 +191,14 @@ export default function BeliefDistribution({
           x={PAD.left - 6}
           y={PAD.top + plotH}
           textAnchor="end"
-          className="fill-text-muted"
+          className="fill-muted"
           fontSize={9}
           fontFamily="var(--font-mono)"
         >
           0
         </text>
       </svg>
-      <figcaption className="mt-1 font-mono text-[10px] uppercase tracking-wider text-text-muted">
+      <figcaption className="mt-1 font-mono text-[10px] uppercase tracking-wider text-muted">
         agents per belief bin · y-axis fixed across all ticks
       </figcaption>
     </figure>

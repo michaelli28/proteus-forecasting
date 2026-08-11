@@ -60,13 +60,13 @@ export default function TimeSeries({
   return (
     <figure className="m-0">
       <figcaption className="mb-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-        <span className="font-mono text-[10px] uppercase tracking-wider text-text-muted">
+        <span className="font-mono text-[10px] uppercase tracking-wider text-muted">
           {title}
         </span>
         {series.map((s) => (
           <span
             key={s.label}
-            className="inline-flex items-center gap-1 font-mono text-[10px] text-text-secondary"
+            className="inline-flex items-center gap-1 font-mono text-[10px] text-slate"
           >
             <span
               className="inline-block h-[2px] w-3"
@@ -111,7 +111,7 @@ export default function TimeSeries({
           y1={PAD.top + plotH}
           y2={PAD.top + plotH}
           stroke="currentColor"
-          className="text-text-muted"
+          className="text-muted"
           opacity={0.4}
         />
 
@@ -134,7 +134,7 @@ export default function TimeSeries({
           y1={PAD.top - 3}
           y2={PAD.top + plotH + 3}
           stroke="currentColor"
-          className="text-text-primary"
+          className="text-ink"
           strokeWidth={1}
           opacity={0.8}
         />
@@ -143,7 +143,7 @@ export default function TimeSeries({
           x={PAD.left - 6}
           y={PAD.top + 8}
           textAnchor="end"
-          className="fill-text-muted"
+          className="fill-muted"
           fontSize={9}
           fontFamily="var(--font-mono)"
         >
@@ -153,7 +153,7 @@ export default function TimeSeries({
           x={PAD.left - 6}
           y={PAD.top + plotH}
           textAnchor="end"
-          className="fill-text-muted"
+          className="fill-muted"
           fontSize={9}
           fontFamily="var(--font-mono)"
         >
@@ -164,7 +164,7 @@ export default function TimeSeries({
           <text
             x={xOf(campaign.startTick) + 3}
             y={H - 8}
-            className="fill-text-muted"
+            className="fill-muted"
             fontSize={9}
             fontFamily="var(--font-mono)"
           >
@@ -174,7 +174,7 @@ export default function TimeSeries({
         <text
           x={PAD.left}
           y={H - 8}
-          className="fill-text-muted"
+          className="fill-muted"
           fontSize={9}
           fontFamily="var(--font-mono)"
         >
@@ -184,7 +184,7 @@ export default function TimeSeries({
           x={PAD.left + plotW}
           y={H - 8}
           textAnchor="end"
-          className="fill-text-muted"
+          className="fill-muted"
           fontSize={9}
           fontFamily="var(--font-mono)"
         >

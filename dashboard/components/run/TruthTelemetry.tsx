@@ -5,9 +5,9 @@ import type { RunTrace, TraceTick } from "../../lib/traces";
 
 function Row({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-baseline justify-between gap-3 border-b border-border-green/40 py-1.5 last:border-b-0">
-      <span className="font-mono text-[11px] text-text-muted">{label}</span>
-      <span className="font-mono text-[12px] tabular-nums text-text-primary">
+    <div className="flex items-baseline justify-between gap-3 border-b border-line/40 py-1.5 last:border-b-0">
+      <span className="font-mono text-[11px] text-muted">{label}</span>
+      <span className="font-mono text-[12px] tabular-nums text-ink">
         {value}
       </span>
     </div>
@@ -28,10 +28,10 @@ function Pane({
   return (
     <div className="min-w-0 flex-1">
       <div className="mb-2 border-l-2 pl-2" style={{ borderColor: color }}>
-        <div className="font-mono text-[10px] uppercase tracking-wider text-text-primary">
+        <div className="font-mono text-[10px] uppercase tracking-wider text-ink">
           {title}
         </div>
-        <div className="mt-0.5 max-w-[34ch] text-[11px] leading-snug text-text-muted">
+        <div className="mt-0.5 max-w-[34ch] text-[11px] leading-snug text-muted">
           {subtitle}
         </div>
       </div>
@@ -86,7 +86,7 @@ export default function TruthTelemetry({
         className="relative shrink-0 sm:w-px sm:bg-border-green-bright"
         aria-hidden="true"
       >
-        <span className="hidden sm:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rotate-90 whitespace-nowrap bg-bg-dark px-2 font-mono text-[9px] uppercase tracking-[0.18em] text-text-muted">
+        <span className="hidden sm:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rotate-90 whitespace-nowrap bg-surface px-2 font-mono text-[9px] uppercase tracking-[0.18em] text-muted">
           the detector cannot cross this line
         </span>
       </div>

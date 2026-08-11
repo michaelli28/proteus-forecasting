@@ -40,7 +40,7 @@ function Label({
   children,
   size = 11,
   anchor = "start",
-  className = "fill-text-primary",
+  className = "fill-ink",
   mono = true,
 }: {
   x: number;
@@ -125,7 +125,7 @@ export default function ModelDiagram() {
           aria-label="Diagram: peer influence gated by a confidence bound, media diet, and adversary injection into owned assets combine into one belief update, which emits ground truth on one stream and platform telemetry on the other."
         >
           {/* ── inputs ── */}
-          <Label x={inX} y={16} size={10} className="fill-text-muted">
+          <Label x={inX} y={16} size={10} className="fill-muted">
             WHAT MOVES A BELIEF
           </Label>
 
@@ -133,10 +133,10 @@ export default function ModelDiagram() {
           <Label x={inX + 10} y={45}>
             Peers
           </Label>
-          <Label x={inX + 10} y={60} size={9.5} className="fill-text-secondary">
+          <Label x={inX + 10} y={60} size={9.5} className="fill-slate">
             only those within ε of you
           </Label>
-          <Label x={inX + 10} y={72} size={9.5} className="fill-text-muted">
+          <Label x={inX + 10} y={72} size={9.5} className="fill-muted">
             — the confidence bound
           </Label>
 
@@ -148,7 +148,7 @@ export default function ModelDiagram() {
             x={inX + 10}
             y={125}
             size={9.5}
-            className="fill-text-secondary"
+            className="fill-slate"
           >
             weighted by trust in outlet
           </Label>
@@ -161,14 +161,14 @@ export default function ModelDiagram() {
             x={inX + 10}
             y={179}
             size={9.5}
-            className="fill-text-secondary"
+            className="fill-slate"
           >
             reaches its OWN assets only
           </Label>
-          <Label x={inX + 10} y={192} size={9.5} className="fill-text-muted">
+          <Label x={inX + 10} y={192} size={9.5} className="fill-muted">
             amplified, but still filtered
           </Label>
-          <Label x={inX + 10} y={203} size={9.5} className="fill-text-muted">
+          <Label x={inX + 10} y={203} size={9.5} className="fill-muted">
             by every neighbour&apos;s ε
           </Label>
 
@@ -194,7 +194,7 @@ export default function ModelDiagram() {
             y={139}
             anchor="middle"
             size={9.5}
-            className="fill-text-secondary"
+            className="fill-slate"
           >
             all agents update
           </Label>
@@ -203,7 +203,7 @@ export default function ModelDiagram() {
             y={152}
             anchor="middle"
             size={9.5}
-            className="fill-text-secondary"
+            className="fill-slate"
           >
             simultaneously
           </Label>
@@ -220,7 +220,7 @@ export default function ModelDiagram() {
           />
 
           {/* ── outputs ── */}
-          <Label x={outX} y={16} size={10} className="fill-text-muted">
+          <Label x={outX} y={16} size={10} className="fill-muted">
             TWO SEPARATE STREAMS
           </Label>
 
@@ -232,7 +232,7 @@ export default function ModelDiagram() {
             x={outX + 10}
             y={60}
             size={9.5}
-            className="fill-text-secondary"
+            className="fill-slate"
           >
             every belief, the distribution,
           </Label>
@@ -240,14 +240,14 @@ export default function ModelDiagram() {
             x={outX + 10}
             y={72}
             size={9.5}
-            className="fill-text-secondary"
+            className="fill-slate"
           >
             adoption, who converted
           </Label>
-          <Label x={outX + 10} y={90} size={9.5} className="fill-text-muted">
+          <Label x={outX + 10} y={90} size={9.5} className="fill-muted">
             scores the forecast.
           </Label>
-          <Label x={outX + 10} y={102} size={9.5} className="fill-text-muted">
+          <Label x={outX + 10} y={102} size={9.5} className="fill-muted">
             NO defender sees this.
           </Label>
 
@@ -266,7 +266,7 @@ export default function ModelDiagram() {
             x={outX + 10}
             y={202}
             size={9.5}
-            className="fill-text-secondary"
+            className="fill-slate"
           >
             how much activity, how many
           </Label>
@@ -274,7 +274,7 @@ export default function ModelDiagram() {
             x={outX + 10}
             y={214}
             size={9.5}
-            className="fill-text-secondary"
+            className="fill-slate"
           >
             accounts, whose degree, which
           </Label>
@@ -282,11 +282,11 @@ export default function ModelDiagram() {
             x={outX + 10}
             y={226}
             size={9.5}
-            className="fill-text-secondary"
+            className="fill-slate"
           >
             clusters — never a belief
           </Label>
-          <Label x={outX + 10} y={244} size={9.5} className="fill-text-muted">
+          <Label x={outX + 10} y={244} size={9.5} className="fill-muted">
             the detector&apos;s ONLY input.
           </Label>
 
@@ -297,7 +297,7 @@ export default function ModelDiagram() {
             x2={W - 8}
             y2={132}
             stroke="currentColor"
-            className="text-text-muted"
+            className="text-muted"
             strokeDasharray="2 3"
             opacity={0.5}
           />
@@ -306,19 +306,19 @@ export default function ModelDiagram() {
             y={146}
             anchor="end"
             size={9}
-            className="fill-text-muted"
+            className="fill-muted"
           >
             nothing crosses this line
           </Label>
 
           {/* the rule, stated once */}
-          <Label x={inX} y={H - 34} size={9.5} className="fill-text-muted">
+          <Label x={inX} y={H - 34} size={9.5} className="fill-muted">
             If a defender could not compute it from platform telemetry,
           </Label>
-          <Label x={inX} y={H - 21} size={9.5} className="fill-text-muted">
+          <Label x={inX} y={H - 21} size={9.5} className="fill-muted">
             it does not go in the bottom-right box. That is why detection
           </Label>
-          <Label x={inX} y={H - 8} size={9.5} className="fill-text-muted">
+          <Label x={inX} y={H - 8} size={9.5} className="fill-muted">
             precision here is a measured number rather than a claim.
           </Label>
         </svg>

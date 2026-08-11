@@ -16,6 +16,12 @@ import {
 import { formatProduct } from "./pipeline/product.js";
 import { INFLUENCE_OPS_MEASURES } from "./pipeline/influence-ops-binding.js";
 import { RECRUITMENT_MEASURES } from "./pipeline/recruitment-binding.js";
+import {
+  DEFAULT_TABLE_PATH,
+  buildConsequenceTables,
+  writeConsequenceTables,
+} from "./consequence/table.js";
+import { formatSweep, runVulnerabilitySweep } from "./vulnerability.js";
 import "dotenv/config";
 
 const forecast = new Command("forecast")
@@ -206,6 +212,77 @@ function resolveRunId(available: readonly string[], prefix?: string): string {
   return matches[0]!;
 }
 
+const consequence = new Command("consequence")
+  .description(
+    "Solve the water-system consequence table with WNTR/EPANET (minutes, not seconds)",
+  )
+  .option(
+    "--sweep <m,...>",
+    "required_pressure sweep in metres; at least two DISTINCT values",
+    "14.0,21.1,28.0",
+  )
+  .option("--durations <h,...>", "Attack durations in hours", "6,12,24,48")
+  .option("--start-hour <h>", "Hour of day the attack window opens", "6")
+  .option(
+    "--bands <p,...>",
+    "Interior band edges in person-hours",
+    "500,5000,25000",
+  )
+  .option("--out <path>", "Where to write the table", DEFAULT_TABLE_PATH)
+  .action(async (opts) => {
+    try {
+      const sweepM = String(opts.sweep).split(",").map(Number);
+      const bundle = await buildConsequenceTables({
+        sweepM,
+        durationsHours: String(opts.durations).split(",").map(Number),
+        startHour: Number(opts.startHour),
+        bandEdgesPersonHours: String(opts.bands).split(",").map(Number),
+        onProgress: (line) => process.stderr.write(`${line}\n`),
+      });
+      await writeConsequenceTables(bundle, opts.out);
+      console.log(
+        `Solved ${Object.keys(bundle.tables).length} archetypes with ${bundle.solver} → ${opts.out}`,
+      );
+    } catch (error) {
+      console.error((error as Error).message);
+      process.exit(1);
+    }
+  });
+
+const vulnerability = new Command("vulnerability")
+  .description(
+    "Rank chokepoints, attack paths and defense ROI against a synthetic water archetype",
+  )
+  .option("-a, --archetype <id>", "Archetype to sweep", "municipal_pumped")
+  .option("-n, --seeds <n>", "Seeds per arm; runs = seeds × 9 postures", "24")
+  .option("-t, --ticks <n>", "Days simulated", "180")
+  .option(
+    "-s, --seed <seed>",
+    "Root seed; the same seed reproduces the sweep",
+    "proteus",
+  )
+  .option("--table <path>", "Consequence table to read", DEFAULT_TABLE_PATH)
+  .option("--json", "Emit the report as JSON")
+  .action(async (opts) => {
+    try {
+      const result = await runVulnerabilitySweep({
+        archetypeId: opts.archetype,
+        seedCount: Number(opts.seeds),
+        ticks: Number(opts.ticks),
+        rootSeed: opts.seed,
+        tablePath: opts.table,
+      });
+      console.log(
+        opts.json
+          ? JSON.stringify(result.report, null, 2)
+          : formatSweep(result),
+      );
+    } catch (error) {
+      console.error((error as Error).message);
+      process.exit(1);
+    }
+  });
+
 const program = new Command()
   .name("proteus")
   .description(
@@ -214,5 +291,7 @@ const program = new Command()
 
 program.addCommand(forecast);
 program.addCommand(trace);
+program.addCommand(consequence);
+program.addCommand(vulnerability);
 
 program.parse();

@@ -163,7 +163,11 @@
       "date": "1988-07-18",
       "episode": "Acceptance of UN Security Council Resolution 598, ending the Iran-Iraq war after nearly eight years, against a publicly staked commitment to fight until Iraq's defeat.",
       "choice": "Held - abandoned the most publicly staked commitment it had rather than continue absorbing a cost that had begun to threaten the governing structure itself.",
-      "bearsOn": ["ownCostTolerance", "lossFrameRiskAcceptance", "timeHorizon"],
+      "bearsOn": [
+        "ownCostTolerance",
+        "lossFrameRiskAcceptance",
+        "timeHorizon"
+      ],
       "lesson": "The institution's cost tolerance is high but bounded, and the bound is drawn at risk to the governing structure rather than at any level of casualties or economic pain. It will reverse a declared commitment - publicly, and at severe legitimacy cost - rather than run that risk. This is the only one of the profile's four redlines with a demonstrated price test.",
       "basis": "Murray and Woods, 'The Iran-Iraq War: A Military and Strategic History', Cambridge University Press, 2014, as the neutral academic account; Meir Amit Intelligence and Terrorism Information Center, 'Why did Ayatollah Khomeini agree to drink from the poisoned chalice?', as the secondary account (an Israeli intelligence-affiliated centre; the parent profile flags the risk of sole-sourcing this decision to it).",
       "confidence": "high"
@@ -185,7 +189,11 @@
       "date": "2015-07-14",
       "episode": "Conclusion of the Joint Comprehensive Plan of Action: accepted enrichment caps, stockpile ceilings, centrifuge limits and intrusive monitoring for defined durations, in exchange for sanctions relief.",
       "choice": "Traded scope, held principle - conceded almost every measurable attribute of the nuclear programme while preserving enrichment on Iranian soil as a right.",
-      "bearsOn": ["timeHorizon", "legitimacyWeight", "ownCostTolerance"],
+      "bearsOn": [
+        "timeHorizon",
+        "legitimacyWeight",
+        "ownCostTolerance"
+      ],
       "lesson": "The institution negotiates on quantities and refuses on categories. Raising the price buys caps, monitoring and duration; it has never bought the principle. Any model that treats its redlines as steep cost curves rather than as removed options will predict a concession that has never occurred.",
       "basis": "Arms Control Association record of the JCPOA's nuclear limits, which preserved enrichment on Iranian territory while capping it. Absorption of the alternative price is documented by International Crisis Group, 'The Failure of U.S. Maximum Pressure against Iran'.",
       "confidence": "high"
@@ -246,7 +254,11 @@
       "date": "2026-03-09",
       "episode": "Succession filled nine days after the office-holder was killed: an Interim Leadership Council under Article 111 on 1 March, an Assembly of Experts session held online on 3 March after repeated in-person attempts failed on security grounds, its Qom premises bombed during voting, ballots finally hand-carried on 8 March, and the result announced on 9 March.",
       "choice": "Acted to preserve the office - prioritised speed and continuity of the confirmation gate over the deliberative form, curtailing debate and, on contested reports, applying pressure to secure the required two-thirds.",
-      "bearsOn": ["decisionCentralization", "legitimacyWeight", "timeHorizon"],
+      "bearsOn": [
+        "decisionCentralization",
+        "legitimacyWeight",
+        "timeHorizon"
+      ],
       "lesson": "The system's first reflex under existential shock is to reconstitute the single authority gate, not to distribute authority. Procedural legitimacy - in-person deliberation, full debate - was spent to buy nine-day continuity, which is consistent with legitimacyWeight 0.35 and argues that decisionCentralization 0.70 is a floor rather than a ceiling for the post-2026 configuration.",
       "basis": "Constitution, Article 111 (primary text on the provisional Leadership Council). Sequence and contested detail from Wikipedia, '2026 Iranian Supreme Leader election' (encyclopaedic compilation, consulted 12 August 2026), which aggregates Al Jazeera reporting of 8-9 March 2026, New York Times reporting of 59 of 88 votes and Iran International's roughly 50 of about 59 attendees; within that compilation the reports of IRGC pressure on Assembly members and of eight boycotts are single-sourced and disputed, as is the claim that the late office-holder's written will opposed the outcome. The date and the outcome are firm; the deliberative account is not.",
       "confidence": "medium"
@@ -255,10 +267,18 @@
       "date": "2026-06-17",
       "episode": "Signature of the Islamabad Memorandum, a fourteen-point framework mediated by Pakistan with Saudi, Turkish, Qatari and Egyptian involvement: a non-weaponisation pledge, agreement to downblend highly enriched uranium under IAEA supervision, a sixty-day toll-free reopening of the Strait of Hormuz, and a sixty-day ceasefire extension - while refusing to place the ballistic-missile programme or the partner network on the agenda. In parallel, a triple-urgency NPT withdrawal bill submitted on 28 March was never voted.",
       "choice": "Held the categories, conceded the quantities - and declined to spend its legal status, keeping NPT membership and IAEA supervision rather than following the 2003 DPRK precedent.",
-      "bearsOn": ["legitimacyWeight", "timeHorizon", "decisionCentralization"],
+      "bearsOn": [
+        "legitimacyWeight",
+        "timeHorizon",
+        "decisionCentralization"
+      ],
       "lesson": "Even after a decapitating strike and under a total naval blockade, the same negotiating architecture held: measurable attributes are tradeable, categories are not, and the legal status is kept in reserve rather than played. The memorandum required a written endorsement from the office of the Supreme Leader, issued 'despite misgivings' - direct evidence that the confirmation gate is real and that the reconstituted office exercised it against its own stated preference. The memorandum collapsed within three weeks, which is evidence about the durability of the deal and not about the decision procedure that produced it.",
       "basis": "Signature, mediation and terms: Al Jazeera, 'Read the US account of unreleased 14-point Iran ceasefire memorandum', 17 June 2026, and CNN's publication of the official fourteen-point text, 17 June 2026, both as compiled in Wikipedia, 'Islamabad Memorandum' (consulted 12 August 2026), which reproduces point 8 (no procurement or development of nuclear weapons; enriched material to be resolved by on-site downblending under IAEA supervision), the sixty-day toll-free reopening of the Strait of Hormuz and the sixty-day ceasefire extension. The same compilation records that neither the ballistic-missile programme nor the network of non-state allies appears in the framework, and that the reconstituted office of the Supreme Leader issued a written statement endorsing the memorandum 'despite misgivings'. Two citations carried in an earlier draft - an NPR full-text publication of 18 June 2026 and a Euronews text of the fourteen points - could not be verified in this review and have been removed. NPT bill: Libby Flatoff, 'Iran Threatens to Withdraw from the NPT', Arms Control Today, May 2026 - bill introduced 28 March 2026 with triple urgency, parliament not meeting in person since 28 February, Guardian Council veto still pending even if passed, and Iran submitting five working papers to the 2026 NPT Review Conference after the war began. Collapse by 8 July 2026 is separately reported. The 'declined to spend it' reading is contested by an alternative account in which the bill simply could not be voted because parliament could not convene; both readings are consistent with the record and the parent profile's low confidence on lossFrameRiskAcceptance should be preserved here.",
       "confidence": "medium"
     }
-  ]
+  ],
+  "weakestClaim": {
+    "section": "worldview.adversaryModel",
+    "finding": "a belief claim inferred entirely from behaviour with no Iranian primary document behind it; the pre-2026 \"plays to close exchanges\" reading rests on Eisenstadt (Washington Institute, 25 Jun 2025), the source the parent profile already flags for over-concentration, and is directly contradicted by the sustained Feb\u2013Jul 2026 campaign. Rated \"low\" and labelled as the dossier's weakest item inside its own basis field."
+  }
 }

@@ -19,7 +19,7 @@ const HERE = dirname(fileURLToPath(import.meta.url));
 const LIBRARY = resolve(HERE, "../data/doctrine-profiles.json");
 const DOSSIER_DIR = resolve(HERE, "../data/dossiers");
 
-const SECTIONS = ["procedure", "worldview", "history"];
+const SECTIONS = ["procedure", "worldview", "history", "weakestClaim"];
 
 /**
  * `office` is a NAME, not a description.

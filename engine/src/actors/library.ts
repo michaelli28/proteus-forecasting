@@ -124,6 +124,9 @@ const ProfileSchema = z.object({
   procedure: ProcedureSchema.optional(),
   worldview: WorldviewSchema.optional(),
   history: HistorySchema.optional(),
+  weakestClaim: z
+    .object({ section: z.string().min(1), finding: z.string().min(1) })
+    .optional(),
 });
 
 const LibrarySchema = z.object({

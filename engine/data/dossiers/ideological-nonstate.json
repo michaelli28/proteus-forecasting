@@ -192,7 +192,10 @@
       "date": "2000",
       "episode": "Al-Qaeda's leadership cancelled the Southeast Asian half of an already-approved simultaneous-hijacking operation in spring 2000, having earlier cut down the operation planner's larger original proposal.",
       "choice": "declined",
-      "bearsOn": ["escalationControlBelief", "decisionCentralization"],
+      "bearsOn": [
+        "escalationControlBelief",
+        "decisionCentralization"
+      ],
       "lesson": "Refused an approved operation on synchronisation grounds - a top-level veto exercised on feasibility, not on harm and not on legitimacy. Evidence that in the hierarchical mode authority over scope genuinely sits at the top and is used to shrink operations as well as to launch them, and evidence that leadership BELIEVES it controls the shape of what it launches. It is not evidence that the belief is accurate, which is the distinction the profile's escalationControlBelief basis turns on.",
       "basis": "National Commission on Terrorist Attacks Upon the United States, 'The 9/11 Commission Report' (2004), ch. 5; Staff Statement No. 16, 'Outline of the 9/11 Plot' (16 June 2004): the Southeast Asia portion was cancelled in spring 2000 because it would be too difficult to coordinate with the US portion, and the planner's original, larger proposal had already been scaled back. Material qualification: the Commission's reconstruction of the planning sequence rests substantially on detainee reporting whose reliability the Commission itself qualifies in its notes, so 'high' here means well-documented in the public record, not independently corroborated.",
       "confidence": "high"
@@ -262,5 +265,9 @@
       "basis": "Royal Commission of Inquiry into the terrorist attack on Christchurch masjidain on 15 March 2019, 'Ko to tatou kainga tenei', report presented 26 November 2020 and publicly released 8 December 2020 (Government of New Zealand), which found the individual acted alone and reviewed his use of online platforms; RAND, 'A Dangerous Web: Mapping Racially and Ethnically Motivated Violent Extremism', RBA1841-1 (2022), and GNET, 'Ideological Leaderless Resistance in the Digital Age' (2022), on movement structures with no authorising body. Contested detail, disclosed: later archival research by a University of Auckland team identified extensive prior imageboard posting by the attacker that the Commission's account under-weighted - 'Christchurch terrorist discussed attacks online a year before carrying them out, new research reveals', The Conversation, 20 February 2024, and 'Christchurch attacks 5 years on: terrorist's online history gives clues to preventing future atrocities', The Conversation, 13 March 2024; peer-reviewed version, 'The Role of Ideology in Motivating Lone Actor Terrorism: An Analysis of the Online Record of the Christchurch Terrorist' (University of Auckland research deposit, 2025) - so the inquiry's radicalisation findings are the best public record but not the last word. The perpetrator is deliberately not named and no method detail is recorded here.",
       "confidence": "medium"
     }
-  ]
+  ],
+  "weakestClaim": {
+    "section": "procedure.steps[3]",
+    "finding": "the justification-review gate (confidence: low). The open literature reliably observes this gate's OUTPUT (post-hoc justifications) but almost never observes it exercising a veto, so it is coded as a weak, reversible brake rather than a filter. Second weakest: procedure.preconditions[3] (pre-execution attribution posture), which is inferred from claiming patterns rather than documented as a gate."
+  }
 }

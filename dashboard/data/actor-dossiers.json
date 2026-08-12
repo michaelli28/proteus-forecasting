@@ -410,7 +410,11 @@
           "basis": "Letter dated 27 Jun 2025 from the Permanent Representative of the United States to the United Nations addressed to the President of the Security Council ('necessary and proportionate action - directed solely against the Iranian nuclear program'), text hosted by Just Security; CRS Insight IN12571 on the strikes; Department of Defense briefing, 22 Jun 2025, naming the operation; Lawfare, 'U.S. and U.K. Submit Article 51 Letters to the U.N. Security Council on Middle East Operations', 2025; Just Security, 'Assessing the U.S. Article 51 Letter for the Attack on Iran', 2025. The claim that leadership was notified only after aircraft were clear rests on statements by the Secretary of Defense and the White House Press Secretary as reported on 22 Jun 2025, not on a released notification record.",
           "confidence": "high"
         }
-      ]
+      ],
+      "weakestClaim": {
+        "section": "procedure.preconditions",
+        "finding": "two of its four claims are the least checkable in the dossier. The force-protection/telegraphing precondition is inferred from a single episode (the five-day Tower 22 → 2 Feb 2024 interval) with no doctrinal source, and one episode cannot distinguish a procedural requirement from a political choice; it is marked confidence \"low\". The covert-action branch is statutory on paper only: 50 USC 3093 and CRS R45191 establish the written-Finding and Gang-of-Eight notification requirements, but the base rate, content and compliance record of actual findings are unknowable from open sources by construction, so the precondition is verifiable as law and unverifiable as behaviour. Runner-up: the 2019 aborted-strike episode, where the decision is well established but the ~150 casualty figure that drove it is contested between White House and Pentagon sourcing (flagged in-line, confidence \"medium\")."
+      }
     },
     {
       "id": "russia",
@@ -818,7 +822,11 @@
           "basis": "Constitution Art. 102(1)(g) consent requested and granted on 1 Mar 2014 and revoked on request 25 Jun 2014 (Office of the President of Russia and Federation Council records); public acknowledgment of the participation of Russian servicemen in the presidential 'Direct Line' of 17 Apr 2014 and in the state documentary broadcast in Mar 2015; Marten, Post-Soviet Affairs 35(3), 2019, 181-204, on the semi-state structures used in Crimea and eastern Ukraine; Cormac & Aldrich, International Affairs 94(3), 2018, on formally available rather than credible denial; Chatham House, 'Ukraine: Debunking Russia's Legal Justifications', Feb 2022, on the legal instruments.",
           "confidence": "high"
         }
-      ]
+      ],
+      "weakestClaim": {
+        "section": "worldview.adversaryModel",
+        "finding": "confidence \"low\". The claim that this institution believes Western coalitions are casualty-averse, election-bound and separable, and that \"dosed\" damage will deter rather than unite them, rests on doctrinal and military-analytical writing (Thomas 2004 on reflexive control; CNA DRM-2019-U-022455-1Rev, Apr 2020 on calibrated damage) which evidences an institutional CONCEPT, not a leadership BELIEF — and CNA's own text disclaims the inference (\"We do not know Russian confidence levels in such strategies\"). Feb 2022 is direct evidence the model of Western cohesion failed in at least one high-stakes application. Second weakest: procedure.preconditions[3] (also \"low\", same underlying evidence gap), and procedure.steps[0]–[1], where internal tasking and staffing are reconstructed from service structure plus observed duplication rather than from any document. Two named verification gaps a reviewer should close: the Marshall Center Security Insights issue number/date for the Galeotti Security Council piece could not be retrieved (flagged UNVERIFIED in the basis), and the Federation Council vote tallies for 1 Mar 2014 / 22 Feb 2022 were taken from reporting, not the chamber's stenographic record."
+      }
     },
     {
       "id": "china",
@@ -1224,7 +1232,11 @@
           "basis": "M. Taylor Fravel, Strong Borders, Secure Nation: Cooperation and Conflict in China's Territorial Disputes (Princeton University Press, 2008), which reads 1962 as force used to arrest declining bargaining power; Hoover Institution, 'The 1962 Sino-Indian War and the Cuban Missile Crisis,' on the timing of the ceasefire against the end of the Cuban crisis and the prospect of US intervention. CONTESTED: whether the withdrawal reflected planned self-limitation or anticipated US intervention is disputed, and the two readings imply different escalationControlBelief values.",
           "confidence": "medium"
         }
-      ]
+      ],
+      "weakestClaim": {
+        "section": "procedure.steps",
+        "finding": "five of the seven stages are scored \"medium\" because the org charts are documented but the deliberations are not. The CMC-to-theatre-command structure (2016 reform), the CNSC/commission layer (2013, upgraded 2018), the three-warfares political-work review, the pre-laid legal predicate (CCG Law Art. 22; CCG Order No. 3), and the instrument-selection step all rest on institutional documentation plus one primary-document anchor each — but no open source shows a specific proposal being stopped at any of these gates, so the gates are inferred function, not observed function. Step 5 is the exception worth reading first: the i-Soon leak and the March 2025 DOJ indictment show the contracted cyber channel operating as a market (contractors pitching targets, pricing stolen data by victim, breaching organisations on no tasking list), which contradicts the profile's decisionCentralization of 0.85 in that domain specifically. Second weakest: worldview.adversaryModel (low) — the \"war control\" reading is contested three ways in the literature and the two episodes cited teach opposite lessons."
+      }
     },
     {
       "id": "iran",
@@ -1626,7 +1638,11 @@
           "basis": "Signature, mediation and terms: Al Jazeera, 'Read the US account of unreleased 14-point Iran ceasefire memorandum', 17 June 2026, and CNN's publication of the official fourteen-point text, 17 June 2026, both as compiled in Wikipedia, 'Islamabad Memorandum' (consulted 12 August 2026), which reproduces point 8 (no procurement or development of nuclear weapons; enriched material to be resolved by on-site downblending under IAEA supervision), the sixty-day toll-free reopening of the Strait of Hormuz and the sixty-day ceasefire extension. The same compilation records that neither the ballistic-missile programme nor the network of non-state allies appears in the framework, and that the reconstituted office of the Supreme Leader issued a written statement endorsing the memorandum 'despite misgivings'. Two citations carried in an earlier draft - an NPR full-text publication of 18 June 2026 and a Euronews text of the fourteen points - could not be verified in this review and have been removed. NPT bill: Libby Flatoff, 'Iran Threatens to Withdraw from the NPT', Arms Control Today, May 2026 - bill introduced 28 March 2026 with triple urgency, parliament not meeting in person since 28 February, Guardian Council veto still pending even if passed, and Iran submitting five working papers to the 2026 NPT Review Conference after the war began. Collapse by 8 July 2026 is separately reported. The 'declined to spend it' reading is contested by an alternative account in which the bill simply could not be voted because parliament could not convene; both readings are consistent with the record and the parent profile's low confidence on lossFrameRiskAcceptance should be preserved here.",
           "confidence": "medium"
         }
-      ]
+      ],
+      "weakestClaim": {
+        "section": "worldview.adversaryModel",
+        "finding": "a belief claim inferred entirely from behaviour with no Iranian primary document behind it; the pre-2026 \"plays to close exchanges\" reading rests on Eisenstadt (Washington Institute, 25 Jun 2025), the source the parent profile already flags for over-concentration, and is directly contradicted by the sustained Feb–Jul 2026 campaign. Rated \"low\" and labelled as the dossier's weakest item inside its own basis field."
+      }
     },
     {
       "id": "dprk",
@@ -2019,7 +2035,11 @@
           "basis": "Treaty on Comprehensive Strategic Partnership signed at the Pyongyang summit of 18-19 June 2024 (sources differ on the signing date), ratified by both parties in November 2024 and in force from 4 Dec 2024; Article 4 commits each party to immediate military and other assistance by all available means, invoking UN Charter Article 51, if the other is subjected to armed aggression (CRS In Focus IF12760, 'Russia-North Korea Relations'; E. Howell, 'North Korea and Russia's dangerous partnership', Chatham House research paper, Dec 2024; CSIS, 'The New Russia-North Korea Security Alliance'). Acknowledgement: 38 North, 'North Korea's Acknowledgement of War Participation' (Apr 2025), describing the unusual Central Military Commission 'written stand' and the framing that the leadership determined the Kursk situation met the Article 4 criteria. CASUALTY FIGURES ARE CONTESTED AND SHOULD NOT BE STATED AS ONE NUMBER: UK Defence Intelligence assessed roughly 6,000 casualties from about 11,000 deployed by June 2025 (Bloomberg, 16 Jun 2025), while ROK assessments earlier in 2025 put the figure nearer 4,000 with roughly 3,000 reinforcements sent in January-February 2025; 38 North, 'North Korea's Military Intervention in Kursk: A High Casualty Learning Curve' (Feb 2025), documents tactical adaptation under those losses. Only the direction — continued rotation after heavy losses — is reliable.",
           "confidence": "medium"
         }
-      ]
+      ],
+      "weakestClaim": {
+        "section": "worldview.adversaryModel",
+        "finding": "confidence \"low\". It is the only claim in the dossier inferred from a behavioural pattern rather than read off a document the institution issued: the belief that the counterpart absorbs sub-threshold violence and prefers restoring the status quo is an analyst's reading of 1976 Panmunjom, 2010 Yeonpyeong and the Sept 2020 killing-plus-apology sequence, and the strategic-culture literature disputes exactly that inference (Jackson, Rival Reputations, 2016, against the mechanical \"provocation cycle\"; Cha vs. Kang staging it as the point of disagreement). It should be carried as a distribution, not a constant. Runner-up weaknesses: procedure.tempo (low — both clean crisis timelines are cases where the institution HELD, so the 5-7 day figure measures deliberation under scrutiny, not strike tempo) and procedure.steps[2] (low — OGD/General Political Bureau cadre-vetting mechanics rest on defector-derived reporting) and steps[6] (low — the lane split is well evidenced but assigning the attribution decision specifically to the Propaganda and Agitation Department is inferred, not documented)."
+      }
     },
     {
       "id": "criminal-syndicate",
@@ -2403,7 +2423,11 @@
           "basis": "UK National Crime Agency, 'The NCA announces the disruption of LockBit with Operation Cronos', 20 Feb 2024. Trend Micro, 'Unveiling the Fallout: Operation Cronos' Impact on LockBit Following Landmark Disruption', Apr 2024; five-day relaunch reported contemporaneously (BankInfoSecurity; Dark Reading, Feb 2024). May 2024 NCA/OFAC/AFP designation of the brand's lead. Relaunch and Q3 2025 victim count: Check Point Research, 'LockBit 5.0: Ransomware Gang Returns in Force' (2025). Contested causal attribution: Analyst1, 'LockBit Takedown & Operation Cronos: A Long-Awaited PsyOps Against Ransomware' (2024) and 'Ransomware Diaries Volume 5' (2024-25).",
           "confidence": "medium"
         }
-      ]
+      ],
+      "weakestClaim": {
+        "section": "procedure.steps[5] (pricing and negotiation)",
+        "finding": "the only stage set to low confidence. The core-set price floor and delegated discount authority are inferred from the observed discount distribution (Sophos 2025: 53% of payers paid below ask, payers averaged 85%) and from the chat controls visible in the May 2025 LockBit panel dump; no recovered pricing-policy document states a floor, so a modeller should treat that gate as plausible mechanism rather than established fact. Close second: worldview.threatModel[2] (revocation of the shelter jurisdiction, also low) — behaviourally the most consequential claim in the dossier and it rests on a single commercial-vendor assessment (Recorded Future, Dark Covenant 3.0, 2025) inferred from arrest and prosecution patterns, with no primary document from either party. worldview.declaredIdeology is marked low by construction: it cites only self-published affiliate rules-of-engagement postings from an actor class whose declared exclusions the profile's own declaredVsObserved section shows to be contradicted by observed targeting."
+      }
     },
     {
       "id": "ideological-nonstate",
@@ -2783,7 +2807,11 @@
           "basis": "Royal Commission of Inquiry into the terrorist attack on Christchurch masjidain on 15 March 2019, 'Ko to tatou kainga tenei', report presented 26 November 2020 and publicly released 8 December 2020 (Government of New Zealand), which found the individual acted alone and reviewed his use of online platforms; RAND, 'A Dangerous Web: Mapping Racially and Ethnically Motivated Violent Extremism', RBA1841-1 (2022), and GNET, 'Ideological Leaderless Resistance in the Digital Age' (2022), on movement structures with no authorising body. Contested detail, disclosed: later archival research by a University of Auckland team identified extensive prior imageboard posting by the attacker that the Commission's account under-weighted - 'Christchurch terrorist discussed attacks online a year before carrying them out, new research reveals', The Conversation, 20 February 2024, and 'Christchurch attacks 5 years on: terrorist's online history gives clues to preventing future atrocities', The Conversation, 13 March 2024; peer-reviewed version, 'The Role of Ideology in Motivating Lone Actor Terrorism: An Analysis of the Online Record of the Christchurch Terrorist' (University of Auckland research deposit, 2025) - so the inquiry's radicalisation findings are the best public record but not the last word. The perpetrator is deliberately not named and no method detail is recorded here.",
           "confidence": "medium"
         }
-      ]
+      ],
+      "weakestClaim": {
+        "section": "procedure.steps[3]",
+        "finding": "the justification-review gate (confidence: low). The open literature reliably observes this gate's OUTPUT (post-hoc justifications) but almost never observes it exercising a veto, so it is coded as a weak, reversible brake rather than a filter. Second weakest: procedure.preconditions[3] (pre-execution attribution posture), which is inferred from claiming patterns rather than documented as a gate."
+      }
     },
     {
       "id": "state-proxy",
@@ -3150,7 +3178,11 @@
           "basis": "Byman, Daniel; Jones, Seth G.; Palmer, Alexander, 'Escalating to War between Israel, Hezbollah, and Iran,' Center for Strategic and International Studies, Warfare, Irregular Threats, and Terrorism Program, 4 October 2024: between 7 October 2023 and 31 August 2024 the average Israeli strike fell about 4 km into Lebanon and the average Hezbollah strike about 3 km into Israel, while during the week of 22 September 2024 those averages were 27 km and 28 km respectively; the same analysis records that the organisation 'kept its rocket attacks small relative to its total launch capacity' against a claimed inventory of as many as 200,000 standoff weapons, and attributes the earlier limits to a combination of Hezbollah restraint and Israeli deterrence. The Washington Institute for Near East Policy, 'Hezbollah's Escalation Ladder,' for the rung structure. CAVEAT: the strike-depth figures are one analytic dataset rather than an agreed measurement, and the organisation never published rules of engagement — the ceiling is inferred from observed conduct, and the split between self-restraint and deterrence cannot be resolved from the outside.",
           "confidence": "medium"
         }
-      ]
+      ],
+      "weakestClaim": {
+        "section": "worldview.adversaryModel",
+        "finding": "no located source states this archetype's adversary model in its own terms, so the whole claim is behavioural inference from two episodes (the 2006 \"inconceivable response\" admission and the post-Oct-2023 attribution pattern), and the closest-fitting literature (Carson 2018, Secret Wars) is a state-level finding that the profile itself rules out as a level-of-analysis error; marked confidence low. Runner-up: the history section supplies ZERO episodes for counterpartHarmRestraint — the profile's most contested parameter (0.30, low, out-of-sample risk already flagged) — because the two episodes that superficially look like evidence for it (Bowman Avenue Dam 2013, CyberAv3ngers/Unitronics 2023) are explicitly disqualified in their lessons, since restraint and incapacity are observationally identical in both."
+      }
     },
     {
       "id": "hacktivist",
@@ -3519,6 +3551,407 @@
           "basis": "Europol, 'Global operation targets NoName057(16) pro-Russian cybercrime network', 16 Jul 2025 (13 countries; over 100 servers disrupted or taken offline; one preliminary arrest in France and one arrest in Spain; seven European arrest warrants, six issued by Germany; 1,100 participants and 17 administrators notified). Naer, S., 'Operation Eastwood: Measuring the Real Impact on NoName057(16)', Imperva, 12 Sep 2025: no claims 18-22 Jul 2025; resumption and manifesto on 23 Jul 2025; roughly 10 targeted sites per day from 24 Jun to 13 Jul 2025 versus roughly 18 per day from 24 Jul to 13 Aug 2025. The volume figures are one vendor's measurement of one banner over three weeks and have not been independently replicated.",
           "confidence": "medium"
         }
+      ],
+      "weakestClaim": {
+        "section": "worldview.declaredIdeology",
+        "finding": "the only field graded \"low\". The archetype is a composite of ~700 banners (Graphika, 16 Jul 2025) that issues no common charter, so there is no organisation-level programmatic document to cite; the field is scoped to NoName057(16)'s Telegram manifesto of 23 Jul 2025 and explicitly says so. The manifesto text itself was not retrieved in the original this session — both readings (Imperva, 12 Sep 2025; INCYBER NEWS, Jul 2025) are secondary. Runners-up: history coverage is single-episode for attributionAversion (2024-01-18), decisionCentralization (2022) and lossFrameRiskAcceptance (2025-07-14), and procedure.preconditions[3] (no legal or proportionality review at any stage) is a negative finding resting on absence of evidence, graded medium for that reason."
+      }
+    }
+  ],
+  "constraintReach": [
+    {
+      "profileId": "us",
+      "redlineId": "prohibition-on-attacks-directed-at-civilians",
+      "attribute": "civilianHarmShare",
+      "maxAcceptable": 0.9,
+      "reachedIn": []
+    },
+    {
+      "profileId": "russia",
+      "redlineId": "covert-action-non-acknowledgment",
+      "attribute": "attributability",
+      "maxAcceptable": 0.9,
+      "reachedIn": []
+    },
+    {
+      "profileId": "china",
+      "redlineId": "formal-taiwan-independence-statutory-trigger",
+      "attribute": "legitimacyCost",
+      "maxAcceptable": 1,
+      "reachedIn": []
+    }
+  ],
+  "sourceGroups": [
+    {
+      "profileId": "us",
+      "label": "Primary doctrine and government documents",
+      "citations": [
+        "National Security Strategy of the United States of America, The White House, November 2025 (released 4 Dec 2025). https://www.whitehouse.gov/wp-content/uploads/2025/12/2025-National-Security-Strategy.pdf — full text extracted and read; quotations above are verbatim from the extracted content stream.",
+        "National Security Strategy, The White House, October 2022. https://bidenwhitehouse.archives.gov/wp-content/uploads/2022/10/Biden-Harris-Administrations-National-Security-Strategy-10.2022.pdf — used as the prior-doctrine baseline for the declared-doctrine discontinuity finding.",
+        "National Defense Strategy of the United States of America (with the 2022 Nuclear Posture Review and Missile Defense Review), DoD. Fact sheet: https://media.defense.gov/2022/mar/28/2002964702/-1/-1/1/nds-fact-sheet.pdf — integrated deterrence, campaigning, China as \"pacing challenge.\"",
+        "DoD Law of War Manual, Office of General Counsel, Department of Defense (2015, rev. 2016/2023) — proportionality, distinction, precautions.",
+        "CJCSI 3160.01D, *No-Strike and the Collateral Damage Estimation Methodology* — CDE levels, and the rule that higher expected civilian harm requires a more senior approving commander.",
+        "DoD Instruction 3000.17, *Civilian Harm Mitigation and Response* (21 Dec 2023). https://www.esd.whs.mil/Portals/54/Documents/DD/issuances/dodi/300017p.pdf",
+        "Civilian Harm Mitigation and Response Action Plan (CHMR-AP), Secretary of Defense, 25 Aug 2022 — 11 objectives, 100+ actions.",
+        "GAO, *Civilian Harm: DOD Should Take Actions to Enhance Its Plan for Mitigation and Response Efforts*, GAO-24-106257. https://www.gao.gov/products/gao-24-106257",
+        "GAO, *DOD Law of War Policies: Actions Needed to Ensure Proper Reporting*. https://www.gao.gov/assets/d24107217.pdf",
+        "Presidential Policy Memorandum on Direct Action Counterterrorism Operations Outside Areas of Active Hostilities (Oct 2022) — \"near certainty\" of no civilian casualties; presidential approval for new targets. ACLU document page: https://www.aclu.org/documents/biden-administrations-presidential-policy-memorandum-governing-direct-action-counterterrorism-operations-outside-areas-of-active-hostilities",
+        "U.S.C. §127e (support to foreign/irregular forces supporting US SOF counterterrorism operations); 10 U.S.C. §127d.",
+        "US Article 51 letters to the UN Security Council on operations against Iran-aligned militias and on the June 2025 strikes on Iran — see Security Council Report, *In Hindsight: The Increasing Use of Article 51*, Oct 2025. https://www.securitycouncilreport.org/monthly-forecast/2025-10/in-hindsight-the-increasing-use-of-article-51-of-the-un-charter-and-the-security-council.php",
+        "DOJ Office of Legal Counsel, *Presidential Power to Use the Armed Forces Abroad Without Statutory Authorization*. https://www.justice.gov/olc/opinion/presidential-power-use-armed-forces-abroad-without-statutory-authorization"
+      ]
+    },
+    {
+      "profileId": "us",
+      "label": "Peer-reviewed and academic-press scholarship",
+      "citations": [
+        "Gelpi, Feaver & Reifler, \"Success Matters: Casualty Sensitivity and the War in Iraq,\" *International Security* 30(3), 2005/06, 7–46; and *Paying the Human Costs of War* (Princeton UP, 2009).",
+        "Mueller, J., and Gelpi, C., \"Misdiagnosis [with Reply],\" *Foreign Affairs* exchange. https://politicalscience.osu.edu/faculty/jmueller/FAgelpi.pdf — the live scholarly disagreement on casualty sensitivity.",
+        "Carson, Austin. *Secret Wars: Covert Conflict in International Politics* (Princeton UP, 2018) — secrecy as an escalation-control device; Lepgold Prize. https://press.princeton.edu/books/hardcover/9780691181769/secret-wars",
+        "Poznansky, Michael. *In the Shadow of International Law: Secrecy and Regime Change in the Postwar World* (Oxford UP, 2020) — the US goes covert when legal justification is unavailable, to avoid hypocrisy costs. https://global.oup.com/academic/product/in-the-shadow-of-international-law-9780197637555",
+        "Poznansky, M., \"Revisiting Plausible Deniability,\" *Journal of Strategic Studies*, 2020. https://www.tandfonline.com/eprint/4BIP3NAV8K7ZQ8WUIGSY/full?target=10.1080/01402390.2020.1734570",
+        "Egloff, F. J., \"Public Attribution of Cyber Intrusions,\" *Journal of Cybersecurity* 6(1), 2020, tyaa012. https://academic.oup.com/cybersecurity/article/6/1/tyaa012/5905454",
+        "Egloff & Smeets, \"Publicly Attributing Cyber Attacks: A Framework,\" *Journal of Strategic Studies*, 2021. https://www.tandfonline.com/doi/full/10.1080/01402390.2021.1895117",
+        "Smeets & Others, \"US Cyber Strategy of Persistent Engagement & Defend Forward,\" *Intelligence and National Security* 35(3), 2020. https://www.tandfonline.com/doi/abs/10.1080/02684527.2020.1729316",
+        "McDermott, Rose. *Risk-Taking in International Politics: Prospect Theory in American Foreign Policy* (Univ. of Michigan Press, 1998).",
+        "Wang, T. Y., \"Strategic Ambiguity or Strategic Clarity: China's Rise and US Policy Towards the Taiwan Issue,\" 2025. https://journals.sagepub.com/doi/10.1177/23477970251335139",
+        "\"A US Perspective on Special Operations and the Law of Armed Conflict,\" *International Review of the Red Cross*. https://international-review.icrc.org/articles/a-us-perspective-on-special-operations-and-the-law-of-armed-conflict-928",
+        "Meier, M., \"The Principle of Proportionality in the DoD Law of War Manual,\" Reiss Center on Law and Security / Just Security. https://www.justsecurity.org/91319/the-principle-of-proportionality-in-the-dod-law-of-war-manual/",
+        "Selection, Precaution, and Proportionality in the DoD Manual, *International Law Studies* (US Naval War College). https://digital-commons.usnwc.edu/cgi/viewcontent.cgi?article=1438&context=ils"
+      ]
+    },
+    {
+      "profileId": "us",
+      "label": "Think-tank and research-institution work",
+      "citations": [
+        "Morgan, Mueller, Medeiros, Pollpeter & Cliff, *Dangerous Thresholds: Managing Escalation in the 21st Century*, RAND MG-614, 2008. https://www.rand.org/pubs/monographs/MG614.html",
+        "RAND, *A Framework for Evaluating the Escalatory Risks of Policy Options*, RR-A2215-1. https://www.rand.org/content/dam/rand/pubs/research_reports/RRA2200/RRA2215-1/RAND_RRA2215-1.pdf",
+        "Lawfare, \"Trump Administration Releases 2025 National Security Strategy,\" Dec 2025. https://www.lawfaremedia.org/article/trump-administration-releases-2025-national-security-strategy",
+        "German Marshall Fund, \"The Trump Administration's National Security Strategy.\" https://www.gmfus.org/news/trump-administrations-national-security-strategy",
+        "CNA, *Preparing for Civilian Harm Mitigation and Response in Large-Scale Combat Operations*, Aug 2024. https://www.cna.org/analyses/2024/08/preparing-for-civilian-harm-mitigation-and-response-in-large-scale-combat-operations",
+        "Stimson Center / CIVIC, *Tracking Implementation of the CHMR-AP*, 2024. https://www.stimson.org/2024/tracking-implementation-of-the-civilian-harm-mitigation-and-response-action-plan-chmr-ap/",
+        "Amnesty International & Airwars, *Rhetoric vs. Reality* (Raqqa 2017) — ~1,600 civilian deaths attributed to coalition strikes vs. the coalition's own assessment of ~180. https://airwars.org/civilian-casualties/",
+        "Lieber Institute, West Point, \"The New US DoD Instruction on Civilian Harm Mitigation and Response.\" https://lieber.westpoint.edu/new-us-department-defense-instruction-civilian-harm-mitigation-response/",
+        "Just Security, \"Congress Should Limit, Not Expand, Irregular Warfare Authority\" (§127e scope, 23 programs 2017–20). https://www.justsecurity.org/85752/congress-should-limit-not-expand-irregular-warfare-authority/",
+        "Just Security, \"Assessing the U.S. Article 51 Letter for the Attack on Iran,\" 2025. https://www.justsecurity.org/116153/article-51-united-states-letter-iran-nuclear/",
+        "Brookings, *Presidential War Powers* reference sheet. https://www.brookings.edu/wp-content/uploads/2020/12/ReferenceSheet_PresidentialWarPowers.pdf",
+        "War Powers Resolution Reporting Project, Reiss Center on Law and Security. https://warpowers.lawandsecurity.org/findingsandanalysis/",
+        "FPRI, \"The Return to Strategic Ambiguity: Assessing Trump's Taiwan Stance,\" May 2025. https://www.fpri.org/article/2025/05/the-return-to-strategic-ambiguity-assessing-trumps-taiwan-stance/",
+        "War on the Rocks, \"Welcome to Cyber Realism: Parsing the 2023 DoD Cyber Strategy.\" https://warontherocks.com/welcome-to-cyber-realism-parsing-the-2023-department-of-defense-cyber-strategy/"
+      ]
+    },
+    {
+      "profileId": "russia",
+      "label": "Primary doctrine and government documents",
+      "citations": [
+        "Fundamentals of State Policy of the Russian Federation in the Field of Nuclear Deterrence, Presidential Decree No. 991, 19 Nov 2024 (superseding Decree No. 355 of 2 Jun 2020). Kremlin. Translation and analysis: https://www.armscontrol.org/act/2024-12/news/russia-revises-nuclear-use-doctrine ; US Naval War College Russia Maritime Studies Institute translation, https://digital-commons.usnwc.edu/rmsi_research/",
+        "Russian Federation, letter to the UN Secretary-General invoking Article 51, UN Doc. S/2022/154, 24 Feb 2022.",
+        "Russian MFA draft treaties with the US and NATO, 17 Dec 2021.",
+        "National Security Strategy of the Russian Federation, Presidential Decree No. 400, 2 Jul 2021."
+      ]
+    },
+    {
+      "profileId": "russia",
+      "label": "Government / IC public assessments",
+      "citations": [
+        "UN Independent International Commission of Inquiry on Ukraine — statements of Nov 2024, Feb 2025, Sep 2025; and OHCHR HRMMU, *Attacks against Ukraine's energy infrastructure*, 2024–2026. https://www.ohchr.org",
+        "CISA/DOJ/international joint advisory on GRU Unit 29155 cyber operations, Sep 2024; DOJ indictments of Unit 29155 personnel.",
+        "US Department of the Treasury designations of the Wagner Group as a Russian MoD proxy force.",
+        "CISA advisory AA25-343A, pro-Russia \"hacktivist\" activity against critical infrastructure."
+      ]
+    },
+    {
+      "profileId": "russia",
+      "label": "Peer-reviewed literature",
+      "citations": [
+        "Kristin Ven Bruusgaard, \"Russian nuclear strategy and conventional inferiority,\" *Journal of Strategic Studies* 44(1), 2021 (Amos Perlmutter Prize). https://www.tandfonline.com/doi/full/10.1080/01402390.2020.1818070",
+        "Ven Bruusgaard, \"Deterrence asymmetry and strategic stability in Europe,\" *Journal of Strategic Studies*, 2024.",
+        "Timothy L. Thomas, \"Russia's Reflexive Control Theory and the Military,\" *Journal of Slavic Military Studies* 17(2), 2004, 237–256 — primary text read; defines RC as a process by which one side transmits to the other the bases for making decisions (after Lefebvre).",
+        "Dörfler et al., \"Prospect Theory, Groupthink, and Amplified Frames of Loss: Making Sense of Russia's Decision to Invade Ukraine,\" *Foreign Policy Analysis* 21(3), 2025. https://academic.oup.com/fpa/article-abstract/21/3/oraf018/8136450",
+        "Rory Cormac & Richard J. Aldrich, \"Grey is the new black: covert action and implausible deniability,\" *International Affairs* 94(3), 2018, 477–494.",
+        "Cormac et al., \"Ignorance, indifference, or incompetence: why are Russian covert actions so easily unmasked?\", *Intelligence and National Security*, 2024.",
+        "Tim Maurer, *Cyber Mercenaries: The State, Hackers, and Power*, Cambridge University Press, 2018 — delegation/orchestration/sanctioning framework for state–proxy relations.",
+        "Timothy Frye, *Weak Strongman: The Limits of Power in Putin's Russia*, Princeton UP, 2021."
+      ]
+    },
+    {
+      "profileId": "russia",
+      "label": "Think-tank and war-college research",
+      "citations": [
+        "Michael Kofman, Anya Fink, Jeffrey Edmonds, *Russian Strategy for Escalation Management: Evolution of Key Concepts*, CNA DRM-2019-U-022455-1Rev, Apr 2020 — **full text read**; source of the calibrated/\"dosed damage,\" deterrent vs. unacceptable damage, and *ustrashenie* (fear inducement) findings. https://www.cna.org/reports/2020/04/DRM-2019-U-022455-1Rev.pdf",
+        "Kofman & Fink, \"Escalation Management and Nuclear Employment in Russian Military Strategy,\" War on the Rocks, Sep 2022.",
+        "Eugene Rumer & Richard Sokolsky, *Etched in Stone: Russian Strategic Culture and the Future of Transatlantic Security*, Carnegie Endowment, Sep 2020.",
+        "Chatham House, *Myths and Misconceptions Around Russian Military Intent*, Myth 9 (\"escalate to de-escalate\"), Jul 2022; and *Ukraine: Debunking Russia's Legal Justifications*, Feb 2022.",
+        "Seth G. Jones, *Russia's Shadow War Against the West*, CSIS Brief, 18 Mar 2025 — attack counts 3 (2022) → 12 (2023) → 34 (2024); target mix; criminal cutouts and \"disposable agents.\"",
+        "CSIS, *Russian Blood and Treasure* / *Russia's Grinding War in Ukraine*, 2025–2026 — casualty and attrition estimates.",
+        "IISS, *The Scale of Russian Sabotage Operations Against Europe*, Aug 2025.",
+        "Chatham House, *The \"Fortress Russia\" economy has adapted well to pressure*, Sep 2025; Bruegel, *How resilient is Russia's economy after four years of war?*, 2025.",
+        "SWP Berlin (Horovitz, Smetana et al.), *Russia's Nuclear Signalling in the War Against Ukraine* — chronology dataset.",
+        "Mandiant/Google Threat Intelligence on APT44 (Sandworm) and its \"hacktivist\" front personas.",
+        "RUSI (Kaushal & Dolzikova), *The Evolution of Russian Nuclear Doctrine*."
+      ]
+    },
+    {
+      "profileId": "china",
+      "label": "Primary doctrine and law (PRC)",
+      "citations": [
+        "Anti-Secession Law of the People's Republic of China, National People's Congress, 14 March 2005 — full English text, Embassy of the PRC in the USA. https://us.china-embassy.gov.cn/eng/zt/twwt/200503/t20050315_4912997.htm (read directly; Arts. 1, 5, 8, 9 quoted)",
+        "China's National Defense in the New Era, State Council Information Office, 24 July 2019 — \"never seek hegemony, expansion or spheres of influence\"; unconditional nuclear no-first-use; Party absolute leadership. http://english.scio.gov.cn/whitepapers/2019-07/24/content_75026111.htm (CASI English translation: https://www.airuniversity.af.edu/Portals/10/CASI/documents/Translations/2019-07%20PRC%20White%20Paper%20on%20National%20Defense%20in%20the%20New%20Era.pdf)",
+        "China's Military Strategy, State Council Information Office, 26 May 2015 — the \"active defense\" strategic guideline; \"we will not attack unless we are attacked, but we will surely counterattack if attacked\"; strategic defense united with operational/tactical offense. https://news.usni.org/2015/05/26/document-chinas-military-strategy",
+        "Science of Military Strategy (战略学), PLA Academy of Military Science, 2013 and 2020 editions — source of \"war control\" (战争控制) and \"effective control\" (有效控制); accessed through the analytic literature below rather than in the original.",
+        "PLA Political Work Regulations (2003, CMC/Central Committee), Ch. 2 §18 — codifies the \"three warfares\" (public opinion, psychological, legal)."
+      ]
+    },
+    {
+      "profileId": "china",
+      "label": "US government / IC public assessments",
+      "citations": [
+        "ODNI, *Annual Threat Assessment of the US Intelligence Community*, March 2025 — PRC \"campaigns featuring coercive military, economic, and influence operations short of war… reserving more destructive tools for full-scale conflict\"; Volt Typhoon and Salt Typhoon. https://www.dni.gov/files/ODNI/documents/assessments/ATA-2025-Unclassified-Report.pdf",
+        "CISA/NSA/FBI and international partners, *PRC State-Sponsored Actors Compromise and Maintain Persistent Access to U.S. Critical Infrastructure*, AA24-038A, 7 Feb 2024 — prepositioning in communications, energy, transportation, water/wastewater; living-off-the-land to evade logging; access held ≥5 years. https://www.cisa.gov/news-events/cybersecurity-advisories/aa24-038a",
+        "DoD, *Military and Security Developments Involving the PRC*, Annual Reports to Congress, 2024 and 2025 — PLA/CCG/militia coordination in gray-zone operations. https://media.defense.gov/2025/Dec/23/2003849070/-1/-1/1/ANNUAL-REPORT-TO-CONGRESS-MILITARY-AND-SECURITY-DEVELOPMENTS-INVOLVING-THE-PEOPLES-REPUBLIC-OF-CHINA-2025.PDF",
+        "USCC, *2022 Annual Report to Congress*, Ch. 1, \"CCP Decision-Making and Xi Jinping's Centralization of Authority.\" https://www.uscc.gov/sites/default/files/2022-11/Chapter_1--CCP_Decision-Making_and_Xi_Jinpings_Centralization_of_Authority.pdf"
+      ]
+    },
+    {
+      "profileId": "china",
+      "label": "Peer-reviewed scholarship",
+      "citations": [
+        "M. Taylor Fravel, *Strong Borders, Secure Nation: Cooperation and Conflict in China's Territorial Disputes* (Princeton UP, 2008) — compromise in most disputes; force used to halt or reverse declining bargaining power; regime insecurity producing frontier concessions.",
+        "Fiona S. Cunningham & M. Taylor Fravel, \"Dangerous Confidence? Chinese Views on Nuclear Escalation,\" *International Security* 44:2 (2019) — Chinese strategists' belief that the nuclear threshold is firm and that nuclear escalation is not controllable. Related policy brief: https://www.wilsoncenter.org/sites/default/files/media/documents/event/china_policy_brief_cunningham-fravel.pdf",
+        "Alastair Iain Johnston, *Cultural Realism: Strategic Culture and Grand Strategy in Chinese History* (Princeton UP, 1995) — the \"parabellum\"/realpolitik paradigm; the methodological standard for strategic-culture claims. https://scholar.harvard.edu/iainjohnston/publications/cultural-realism-strategic-culture-and-grand-strategy-chinese-history",
+        "Stefan Halper et al. / Dean Cheng and others on the three warfares; and \"China's 'Three Warfares': Origins, Applications, and Organizations,\" *Journal of Strategic Studies* 37:2 (2014). https://www.tandfonline.com/doi/abs/10.1080/01402390.2013.870071",
+        "ANU research portal, \"Informal Economic Sanctions: The Political Economy of Chinese Coercion\" — government-directed commercial disruption never publicly acknowledged as coercive. https://researchportalplus.anu.edu.au/en/publications/informal-economic-sanctions-the-political-economy-of-chinese-coer/"
+      ]
+    },
+    {
+      "profileId": "china",
+      "label": "Think-tank and war-college research",
+      "citations": [
+        "RAND, *Understanding and Countering China's Maritime Gray Zone Operations*, RR-A2954-1 (2024) — CCG and PAFMM as the spearheads of below-threshold action. https://www.rand.org/pubs/research_reports/RRA2954-1.html",
+        "RAND, *Dangerous Thresholds: Managing Escalation in the 21st Century*, MG-614 (2008) — PLA escalation writing \"undertheorized and still under development.\" https://www.rand.org/content/dam/rand/pubs/monographs/2008/RAND_MG614.pdf",
+        "Burgess Laird, *War Control: Chinese Writings on the Control of Escalation in Crisis and Conflict*, CNAS (March 2017). https://www.cnas.org/publications/reports/war-control (read directly)",
+        "CNA, *Examining Recent PLA Writings on Escalation Control* (2016). https://www.cna.org/reports/2016/drm-2015-u-009963-final3.pdf",
+        "China Aerospace Studies Institute, *Chinese Views of Effective Control: Theory and Practice* (Oct 2022). https://www.airuniversity.af.edu/Portals/10/CASI/documents/Research/Other-Topics/2022-10-03%20Effective%20Control.pdf",
+        "ASPI, *The Chinese Communist Party's Coercive Diplomacy* (2020) and *Countering China's Coercive Diplomacy* (2023). https://www.aspi.org.au/report/chinese-communist-partys-coercive-diplomacy/",
+        "Rhodium Group / Atlantic Council, *Retaliation and Resilience: China's Economic Statecraft in a Taiwan Crisis* (2024). https://rhg.com/research/retaliation-and-resilience-chinas-economic-statecraft-in-a-taiwan-crisis/",
+        "CSIS, *Responding to a More Coercive Chinese Coast Guard and a Potential PRC Quarantine of Taiwan* (2024) and *How China Could Quarantine Taiwan*. https://www.csis.org/analysis/responding-more-coercive-chinese-coast-guard-and-potential-prc-quarantine-taiwan",
+        "CSIS ChinaPower, *The Purges Within China's Military Are Even Deeper Than You Think* (2025); Jamestown Foundation, *Purges in the PLA and Military-Industrial Complex* (2025). https://chinapower.csis.org/china-pla-military-purges/",
+        "Unit 42 (Palo Alto Networks), *Data From Chinese Security Services Company i-Soon Linked to Previous Chinese APT Campaigns* (2024); Recorded Future / The Record reporting on the i-Soon contractor marketplace. https://unit42.paloaltonetworks.com/i-soon-data-leaks/",
+        "Rush Doshi, *The Long Game: China's Grand Strategy to Displace American Order* (Oxford UP, 2021). https://global.oup.com/academic/product/the-long-game-9780197645482",
+        "MERICS, *The CCP's nerve center* and *Xi's Control Room* — on central commissions as institutionalized leading small groups. https://merics.org/en/comment/ccps-nerve-center"
+      ]
+    },
+    {
+      "profileId": "iran",
+      "label": "Primary doctrine, government and IC assessments",
+      "citations": [
+        "U.S. Defense Intelligence Agency, *Iran Military Power: Ensuring Regime Survival and Securing Regional Dominance*, 2019 — https://www.dia.mil/Portals/110/Images/News/Military_Powers_Publications/Iran_Military_Power_LR.pdf",
+        "Michael Eisenstadt, *The Strategic Culture of the Islamic Republic of Iran: Operational and Policy Implications*, Marine Corps University Press (MES Monographs) — https://www.govinfo.gov/content/pkg/GOVPUB-D214-PURL-gpo81047/pdf/GOVPUB-D214-PURL-gpo81047.pdf",
+        "Permanent Mission of Iran to the UN, Article 51 letters to the Security Council, 13 April 2024 and 1 October 2024 — https://digitallibrary.un.org/record/4063177 (declaratory legal framing; claims \"proportionate defensive actions that have targeted only Israeli military targets\")",
+        "U.S. Department of State, *Iran's Assassinations and Terrorist Activity Abroad*, 2020 — https://2017-2021.state.gov/irans-assassinations-and-terrorist-activity-abroad/"
+      ]
+    },
+    {
+      "profileId": "iran",
+      "label": "Peer-reviewed and academic",
+      "citations": [
+        "Ariane M. Tabatabai, *No Conquest, No Defeat: Iran's National Security Strategy*, Hurst/Oxford UP, 2020 — continuity-and-pragmatism thesis; \"neither completely rational nor purely ideological.\"",
+        "Williamson Murray & Kevin M. Woods, *The Iran-Iraq War: A Military and Strategic History*, Cambridge UP, 2014.",
+        "Iran's proxy war paradox: strategic gains, control issues, and operational constraints, Small Wars & Insurgencies, 2025 — https://www.tandfonline.com/doi/full/10.1080/09592318.2025.2512807",
+        "The Risk and Reward of Preventive Strikes Against Iran, Survival (IISS), 2025 — https://www.tandfonline.com/doi/full/10.1080/00396338.2025.2561480",
+        "Byman & Kreps, \"Agents of Destruction? Applying Principal-Agent Analysis to State-Sponsored Terrorism,\" *International Studies Perspectives*, 2010; Byman, *Iran, Terrorism, and Weapons of Mass Destruction* (Brookings) — https://www.brookings.edu/wp-content/uploads/2016/06/03_iran_byman.pdf",
+        "POMEPS, *Reassessing Principal–Agent Theory: The Houthis' evolving relationship with Iran* — https://pomeps.org/reassessing-patron-agent-theory-the-case-of-the-houthis-evolving-relationship-to-iran",
+        "Ali Bilgic / LSE EUROPP, *The rise and fall of Iran's forward defence strategy*, March 2026 — https://blogs.lse.ac.uk/europpblog/2026/03/23/iran-forward-defence-strategy-hezbollah-hamas-israel/"
+      ]
+    },
+    {
+      "profileId": "iran",
+      "label": "Think tank and war college research",
+      "citations": [
+        "Karim Sadjadpour, *Reading Khamenei: The World View of Iran's Most Powerful Leader*, Carnegie Endowment, 2008 — https://carnegie-production-assets.s3.amazonaws.com/static/files/sadjadpour_iran_final2.pdf (\"risk-averse leader… saturated with mistrust\"; \"retains the last word… but builds consensus\")",
+        "Wehrey, Thaler, Bensahel et al., *Dangerous But Not Omnipotent: Exploring the Reach and Limitations of Iranian Power in the Middle East*, RAND MG-781-AF, 2009 — https://www.rand.org/pubs/monographs/MG781.html (open access via https://www.jstor.org/content/oa_book_monograph/10.7249/mg781af)",
+        "Michael Eisenstadt, *Iran's Retaliation: Choreography, Escalation Management, and the Mirage of \"All-Out\" War*, Washington Institute — https://www.washingtoninstitute.org/policy-analysis/irans-retaliation-choreography-escalation-management-and-mirage-all-out-war",
+        "Ali Alfoneh, *Iranian Casualties in Syria and the Strategic Logic of Intervention*, Washington Institute — https://www.washingtoninstitute.org/policy-analysis/iranian-casualties-syria-and-strategic-logic-intervention (\"Whenever possible, the Islamic Republic will limit its own exposure and losses by fighting to its last non-Iranian proxy, even when its own personnel would be more effective.\")",
+        "Ian Williams, *Uncomfortable Lessons: Reassessing Iran's Missile Attack*, CSIS — https://www.csis.org/analysis/uncomfortable-lessons-reassessing-irans-missile-attack (the dissenting read on Al-Asad)",
+        "Matthew Levitt et al., *Trends in Iranian External Assassination, Surveillance, and Abduction Plots*, CTC Sentinel, West Point — https://ctc.westpoint.edu/trends-in-iranian-external-assassination-surveillance-and-abduction-plots/ (98-case dataset)",
+        "International Crisis Group, *The Failure of U.S. \"Maximum Pressure\" against Iran* — https://www.crisisgroup.org/cmt/middle-east-north-africa/iran/failure-us-maximum-pressure-against-iran",
+        "Arms Control Association, *Restoring the JCPOA's Nuclear Limits* / *Assessing the Risk Posed by Iran's Violations* — https://www.armscontrol.org/factsheets/restoring-jcpoas-nuclear-limits",
+        "FPRI, *Humiliation and Transformation: The Islamic Republic After the 12-Day War*, Oct 2025 — https://www.fpri.org/article/2025/10/humiliation-and-transformation-the-islamic-republic-after-the-12-day-war/",
+        "GIGA Hamburg, *Iran in the Aftermath of the Twelve-Day War* — https://www.giga-hamburg.de/en/publications/giga-focus/iran-in-the-aftermath-of-the-twelve-day-war",
+        "GCSP, *The Concept of \"Forward Defence\"* — https://dam.gcsp.ch/files/doc/iran-forward-defence-strategy-en",
+        "USIP Iran Primer, *Supreme National Security Council of Iran* — http://iranprimer.usip.org/blog/2019/apr/01/supreme-national-security-council-iran; INSS, *Changes in Iran's Supreme National Security Council* — https://www.inss.org.il/publication/snsc-changes/",
+        "Meir Amit ITIC, *Why did Ayatollah Khomeini agree to drink from the poisoned chalice?* — https://www.terrorism-info.org.il/Data/articles/Art_20392/E_176_12_1247328026.pdf"
+      ]
+    },
+    {
+      "profileId": "dprk",
+      "label": "Primary government / IC assessments",
+      "citations": [
+        "Defense Intelligence Agency, *North Korea Military Power: A Growing Regional and Global Threat*, DIA-02-1801-056, 2021 (information cutoff Sept 2021). https://www.dia.mil/Portals/110/Documents/News/North_Korea_Military_Power.pdf — read in full for: National Security Strategy (p. 9), Political Stability (p. 11), Military Doctrine and Strategy / Perceptions of Modern Conflict (p. 14), Military and Security Leadership (p. 14), National Military Command and Control (p. 17), Nuclear Command and Control (p. 18), Cyberspace / Computer Network Attack / Currency Generation (pp. 33-34), Logistics and Sustainment (p. 35).",
+        "CISA / State / Treasury / FBI, *Guidance on the North Korean Cyber Threat*, Alert AA20-106A, rev. 23 Jun 2020. https://www.cisa.gov/news-events/cybersecurity-advisories/aa20-106a",
+        "Multilateral Sanctions Monitoring Team (11 nations), *The DPRK's Violation and Evasion of UN Sanctions through Cyber and Information Technology Worker Activities*, 22 Oct 2025 (successor body to the UN 1718 Panel of Experts, whose mandate lapsed Apr 2024 on a Russian veto). https://msmt.info — key figures: ≥$1.19B crypto stolen in 2024, ≥$1.65B in Jan-Sep 2025.",
+        "UN Security Council Resolutions 1718 (2006) and 1874 (2009); DPRK Government Statement on NPT Withdrawal, 10 Jan 2003 (KCNA text). https://www.atomicarchive.com/resources/documents/deterrence/dprk-npt-statement.html"
+      ]
+    },
+    {
+      "profileId": "dprk",
+      "label": "DPRK primary declaratory texts (via translation/analysis)",
+      "citations": [
+        "Law on Consolidating the Position of Nuclear Weapons State (1 Apr 2013) and Law on the State Policy on the Nuclear Forces (8 Sep 2022), KCNA texts, analysed in A. Barannikova, \"Nuclear Strategy of the DPRK: Doctrine Evolution and Future Prospects,\" NAPSNet Special Report, Nautilus Institute, 15 Mar 2024. https://nautilus.org/napsnet/napsnet-special-reports/nuclear-strategy-of-the-dprk-doctrine-evolution-and-future-prospects/",
+        "Constitutional amendments of Sept 2023 (nuclear force) and Oct 2024 (\"two hostile states\"), reported by Korea Herald and analysed by Columbia Korean Legal Studies, \"The Order to 'Erase' Unification and the 'Hostile State' Revision.\" https://kls.law.columbia.edu/content/order-erase-unification-and-hostile-state-revision"
+      ]
+    },
+    {
+      "profileId": "dprk",
+      "label": "Peer-reviewed and scholarly",
+      "citations": [
+        "D. Byman & J. Lind, \"Pyongyang's Survival Strategy: Tools of Authoritarian Control in North Korea,\" *International Security* 35(1), 2010, pp. 44-74. https://direct.mit.edu/isec/article/35/1/44/11988/",
+        "V. Narang, *Nuclear Strategy in the Modern Era: Regional Powers and International Conflict*, Princeton UP, 2014 (catalytic / assured-retaliation / asymmetric-escalation typology).",
+        "I. Cho & M. Petrovics, \"North Korea's Strategically Ambiguous Nuclear Posture,\" *The Washington Quarterly* 45(2), 2022. https://cissm.umd.edu/sites/default/files/2022-07/ChoPetrovics_45-2_TWQ-1.pdf",
+        "V. Jackson, *Rival Reputations: Coercion and Credibility in US-North Korea Relations*, Cambridge UP, 2016 (argues against the \"provocation cycle\" framing in favour of a sustained rivalry pattern).",
+        "V. Cha & D. Kang, *Nuclear North Korea: A Debate on Engagement Strategies*, Columbia UP.",
+        "A.A.C. Hess, \"Why Does North Korea Engage in Provocations?\", *Journal of Asian Security and International Affairs*, 2018. https://journals.sagepub.com/doi/10.1177/2347797017749044"
+      ]
+    },
+    {
+      "profileId": "dprk",
+      "label": "Think-tank / war-college",
+      "citations": [
+        "T. Roehrig & D. Logan, *Deterring a Nuclear North Korea*, 38 North Special Report, 2024. https://www.38north.org/wp-content/uploads/pdf/24-1017-Roehrig-Logan-Deterrence-Special-Report-FINAL-1.pdf",
+        "C. Seshadri, \"Assessing the MSMT's DPRK IT Worker Threat Report,\" 38 North, 15 Dec 2025. https://www.38north.org/2025/12/assessing-the-msmts-dprk-it-worker-threat-report/",
+        "\"North Korea's Military Intervention in Kursk: A High Casualty Learning Curve,\" 38 North, Feb 2025. https://www.38north.org/2025/02/north-koreas-military-intervention-in-kursk-a-high-casualty-learning-curve/",
+        "Ju Hyung Kim, \"North Korea's Emerging Limited Nuclear-Use Strategy,\" Global Security Review, 2026 (on ROK Three-Axis/Kill Chain interaction and incentives to shorten decision times).",
+        "National Defense University WMD Center, *North Korean Nuclear Command and Control* (cited via search index; direct fetch blocked 403).",
+        "Atlantic Council, *A Rising Nuclear Double Threat in East Asia: Guardian Tiger I and II Tabletop Exercises* (US chose conventional over nuclear response to DPRK low-yield use in-game).",
+        "CSIS, \"Deterrence Under Pressure: Sustaining U.S.-ROK Cyber Cooperation Against North Korea.\""
+      ]
+    },
+    {
+      "profileId": "criminal-syndicate",
+      "label": "Government / primary assessments",
+      "citations": [
+        "CISA, FBI, MS-ISAC, ACSC, CCCS, NCSC-UK, ANSSI, BSI, CERT NZ/NCSC NZ, *Understanding Ransomware Threat Actors: LockBit*, Advisory AA23-165A, 14 June 2023. https://www.cisa.gov/news-events/cybersecurity-advisories/aa23-165a — the load-bearing primary source for decisionCentralization, proxyPreference, and observed sector targeting: \"Due to the large number of unconnected affiliates in the operation, LockBit ransomware attacks vary significantly in observed tactics, techniques, and procedures\"; affiliates paid *before* the core, an inversion of normal RaaS practice used as a labor-market reputation instrument.",
+        "Europol, *Internet Organised Crime Threat Assessment (IOCTA) 2025 — \"Steal, Deal and Repeat\"*, 2025. https://www.europol.europa.eu/cms/sites/default/files/documents/Steal-deal-repeat-IOCTA_2025.pdf — fragmentation, 120+ active brands, affiliates and administrators operating across multiple brands, public/semi-closed/closed RaaS tiering.",
+        "UK National Crime Agency, *Operation Cronos: the disruption of LockBit*, Feb 2024, and the May 2024 OFAC/NCA/AFP designation of the LockBit lead. https://www.nationalcrimeagency.gov.uk/the-nca-announces-the-disruption-of-lockbit-with-operation-cronos",
+        "US Treasury/OFAC designations of bulletproof-hosting providers (Zservers, Feb 2025; AEZA Group, July 2025), summarized in Chainalysis's OFAC sanctions tracker. https://www.chainalysis.com/blog/ofac-sanctions/"
+      ]
+    },
+    {
+      "profileId": "criminal-syndicate",
+      "label": "Peer-reviewed / academic",
+      "citations": [
+        "C. McGlave, H. Neprash, S. Nikpay, \"Hacked to Pieces? The Effects of Ransomware Attacks on Hospitals and Patients,\" *American Economic Journal: Economic Policy* (2026); SSRN 4579292. https://www.aeaweb.org/articles?id=10.1257/pol.20240594 — in-hospital mortality rises 34–38% for patients already admitted when an attack begins; hospital volume falls 17–24% in the attack week. The empirical anchor for counterpartHarmRestraint.",
+        "T. Meurs, A. Cartwright, E. Cartwright, H. Houba, D. Woods, \"The Ransomware Pricing Paradox: An Empirical Study of the Six Stages of Ransomware Negotiations,\" Tinbergen Institute Discussion Paper TI 2025-052/VII, rev. Oct 2025. https://papers.tinbergen.nl/25052.pdf — 481 police-reported incidents plus 237 negotiation transcripts across 23 groups; finds revenue-scaled dynamic pricing, high-demand-then-large-discount signaling, backup status as the dominant determinant of payment, and *no evidence that re-extortion is common*. Primary anchor for rationalityPrecision and signalingPreference.",
+        "E. Cartwright, J. Hernández-Castro, A. Stepanova, \"To pay or not: game theoretic models of ransomware,\" *Journal of Cybersecurity* 5(1), 2019. https://academic.oup.com/cybersecurity/article/5/1/tyz009/5554879 — kidnapping-analogy framing, uniform pricing vs. price discrimination vs. bargaining.",
+        "C. Paternoster, M. Nazzari, M. Jofre, T. E. Uberti, \"Inside the Leak: Exploring the Structure of the Conti Ransomware Group,\" CrimRxiv / *Global Crime* 26(2), 2024–25. https://www.crimrxiv.com/pub/i6n43dnf/release/1 — social network analysis of 168,740 leaked Conti messages; finds a hierarchical, firm-like structure with discernible leadership and clear division of labor. This is the principal counter-evidence to a low decisionCentralization value.",
+        "Related 2025 study on Conti's organisational units, functions and communication patterns, *Global Crime*, doi:10.1080/17440572.2025.2534387 (paywalled; abstract only).",
+        "University of Twente / ScienceDirect, \"Engaging with cybercriminals: phases and influence strategies in ransomware negotiations,\" *Computers in Human Behavior*, 2026 — 41 authentic negotiation logs; threat actors rely on credibility signals (proof of decryption) and direct pressure across proof-of-life, bargaining, and support phases."
+      ]
+    },
+    {
+      "profileId": "criminal-syndicate",
+      "label": "Reputable industry / threat-intelligence (used for measurement, not framing)",
+      "citations": [
+        "Chainalysis, *2026 Crypto Crime Report: Ransomware*. https://www.chainalysis.com/blog/crypto-ransomware-2026/ — $820M paid in 2025 (−8% YoY, −35% from 2023's $1.25B) against a 50% rise in claimed attacks; payment rate ~28%, an apparent all-time low; median payment up 368% to ~$59.5K; ~85 active extortion groups; IAB inflows ~$14M with access prices collapsing from ~$1,427 (Q1 2023) to $439 (Q1 2026); explicit finding of \"decreasing centralization\"; harsher negotiation including outreach to victims' employees and customers.",
+        "Recorded Future Insikt Group, *Dark Covenant 3.0: Controlled Impunity and Russia's Cybercriminals*, 2025. https://www.recordedfuture.com/research/dark-covenant-3-controlled-impunity-and-russias-cybercriminals — shelter has shifted from passive tolerance to selective, managed enforcement; internal trust in the underground eroding; groups decentralizing communications and tightening affiliate vetting in response.",
+        "Mandiant, *M-Trends 2026* — median initial-access-to-ransomware-affiliate handoff of 22 seconds in 2025, down from >8 hours in 2022.",
+        "Secureworks, *State of the Threat* (2023) — median ransomware dwell time under 24 hours; deployment within 5 hours in 10% of cases.",
+        "Sophos, *The State of Ransomware 2025*. https://www.sophos.com/en-us/blog/the-state-of-ransomware-2025 — payers paid ~85% of the initial demand on average; 53% below ask, 29% at ask, 18% above; 71% of reductions came via negotiation.",
+        "Mandiant, *Shining a Light on DARKSIDE Ransomware Operations* (2021) — affiliate rules of engagement, CIS exclusion by locale check.",
+        "B. Krebs, \"BlackCat Ransomware Group Implodes After Apparent $22M Ransom Payment by Change Healthcare,\" Mar 2024. https://krebsonsecurity.com/2024/03/blackcat-ransomware-group-implodes-after-apparent-22m-ransom-payment-by-change-healthcare/",
+        "Institute for Security and Technology, Ransomware Task Force, *Combating Ransomware: A Comprehensive Framework for Action* (2021) and *The RTF at 5 Years: Progress… and Backsliding* (2026). https://securityandtechnology.org/ransomwaretaskforce/report/ — policy framing of the business model as the disruption target.",
+        "DarkSide's May 2021 post-Colonial statement (\"We are apolitical… Our goal is to make money, and not creating problems for society\"), and ALPHV's Dec 2023 rules statement, both as reported contemporaneously (Threatpost; Barracuda Networks blog, Mar 2024). Journalism, used only for the actors' own declaratory text."
+      ]
+    },
+    {
+      "profileId": "ideological-nonstate",
+      "label": "Primary theoretical / peer-reviewed",
+      "citations": [
+        "Kydd, A. & Walter, B. (2006). \"The Strategies of Terrorism.\" *International Security* 31(1), 49–80. Terrorism as costly signaling; attrition, intimidation, provocation, spoiling, outbidding. https://direct.mit.edu/isec/article/31/1/49/11864/The-Strategies-of-Terrorism",
+        "Ginges, J., Atran, S. & Medin, D. (2007). \"Sacred bounds on rational resolution of violent political conflict.\" *PNAS* 104(18), 7357–7360. Material inducements backfire on sacred values. https://www.pnas.org/doi/10.1073/pnas.0701768104",
+        "Gómez, Á., Atran, S. et al. (2014). \"Devoted actors sacrifice for close comrades and sacred cause.\" *PNAS*. https://pmc.ncbi.nlm.nih.gov/articles/PMC4273409/",
+        "Atran, S. (2016). \"The Devoted Actor: Unconditional Commitment and Intractable Conflict across Cultures.\" *Current Anthropology* 57(S13). https://www.journals.uchicago.edu/doi/full/10.1086/685495",
+        "Shapiro, J. N. (2013). *The Terrorist's Dilemma: Managing Violent Covert Organizations.* Princeton UP. Principal–agent problem; security-vs-control tradeoff. Working paper: https://jns.scholar.princeton.edu/sites/g/files/toruqf2751/files/jns/files/shapiro_bureaucracy_control_terrorism_2.pdf",
+        "Abrahms, M. & Conrad, J. (2017). \"The Strategic Logic of Credit Claiming: A New Theory for Anonymous Terrorist Attacks.\" *Security Studies* 26(2). ~1 in 7 attacks claimed. https://www.tandfonline.com/doi/abs/10.1080/09636412.2017.1280304",
+        "Polo, S. & Welsh, B. (2024). \"Violent Competition and Terrorist Restraint.\" *International Organization* 78(3), 397–426. 290 organizations, 1970–2018; extreme violent competition → restraint, not outbidding. https://www.cambridge.org/core/journals/international-organization/article/violent-competition-and-terrorist-restraint/051235B048F9E283FE8B0ABA26F39086",
+        "Stanton, J. (2016). *Violence and Restraint in Civil War: Civilian Targeting in the Shadow of International Law.* Cambridge UP; and (2020) *International Organization*. https://www.cambridge.org/core/books/violence-and-restraint-in-civil-war/FB455F6EDDE7016E3381536FC10E86BA",
+        "Jo, H. (2015). *Compliant Rebels: Rebel Groups and International Law in World Politics.* Cambridge UP. Legitimacy-seeking as the mechanism for IHL compliance. https://www.cambridge.org/core/journals/international-review-of-the-red-cross/article/abs/compliant-rebels-rebel-groups-and-international-law-in-world-politics-hyeran-jo/BE0D48CF73723E5927AD982A77A5BB43",
+        "Busher, J., Holbrook, D. & Macklin, G. (2019). \"The internal brakes on violent escalation: a typology.\" *Behavioral Sciences of Terrorism and Political Aggression*; and (2021) \"How the 'Internal Brakes' … Work and Fail,\" *Studies in Conflict & Terrorism*. Five restraint logics: strategic, moral, ego maintenance, out-group definition, organizational. Full CREST report: https://crestresearch.ac.uk/resources/internal-brakes-full-report/",
+        "Phillips, B. J. (2019). \"Do 90 Percent of Terrorist Groups Last Less than a Year? Updating the Conventional Wisdom.\" *Terrorism and Political Violence* 31(6). Eight datasets, 1968–2013; first-year failure 25–74%. https://www.tandfonline.com/doi/full/10.1080/09546553.2017.1361411",
+        "Hafez, M. M. (2006). *Manufacturing Human Bombs.* USIP Press. Individual motive × organizational deployment × societal attitude; martyrdom as an organizationally produced repertoire. https://www.usip.org/publications/2006/01/manufacturing-human-bombs"
+      ]
+    },
+    {
+      "profileId": "ideological-nonstate",
+      "label": "Think-tank / war-college / government public assessment",
+      "citations": [
+        "Jenkins, B. M. (1974/1975). *International Terrorism: A New Kind of Warfare*, RAND P-5261; \"Terrorism Works — Sometimes,\" RAND P-5217. https://www.ojp.gov/pdffiles1/Photocopy/19510NCJRS.pdf",
+        "Jones, S. G. & Libicki, M. C. (2008). *How Terrorist Groups End*, RAND MG-741-1. 43% politics, 40% policing/intelligence, ~7% military force, few win. https://www.rand.org/content/dam/rand/pubs/monographs/2008/RAND_MG741-1.pdf",
+        "Jackson, B. A. et al. (2005). *Aptitude for Destruction*, RAND MG-331 / MG-332. Organizational learning is real but slow and constrained. https://www.rand.org/pubs/monographs/MG331.html",
+        "Watkins, A. (2016). \"Losing Territory and Lashing Out: The Islamic State and International Terror.\" *CTC Sentinel* / CTC West Point. Top-down diversion logic + bottom-up momentum leadership \"cannot fully control.\" https://ctc.westpoint.edu/losing-territory-and-lashing-out-the-islamic-state-and-international-terror/",
+        "Meleagrou-Hitchens, A. & Hughes, S. (2017). \"The Threat to the United States from the Islamic State's Virtual Entrepreneurs.\" *CTC Sentinel* 10(3). Remote direction of sympathizers; 8 US plots, 13 individuals since 2014. https://ctc.westpoint.edu/the-threat-to-the-united-states-from-the-islamic-states-virtual-entrepreneurs/",
+        "RAND (2022). *A Dangerous Web: Mapping Racially and Ethnically Motivated Violent Extremism*, RBA1841-1. Diffuse, leaderless movement structure. https://www.rand.org/pubs/research_briefs/RBA1841-1.html",
+        "GNET (2022). \"Ideological Leaderless Resistance in the Digital Age.\" https://gnet-research.org/2022/10/26/ideological-leaderless-resistance-in-the-digital-age/",
+        "ODNI, *Annual Threat Assessment of the U.S. Intelligence Community* (2025; 2026). Decentralized affiliate structures; propaganda explicitly aimed at inspiring self-directed supporters. https://www.odni.gov/files/ODNI/documents/assessments/ATA-2025-Unclassified-Report.pdf",
+        "Dolnik, A. (2007). *Understanding Terrorist Innovation*; and Rasmussen/Hemmingsen-line work on innovation frameworks, *Terrorism and Political Violence* 35(2), 2023. Innovation is rare and conservative. https://www.tandfonline.com/doi/full/10.1080/09546553.2021.1903440"
+      ]
+    },
+    {
+      "profileId": "state-proxy",
+      "label": "Primary peer-reviewed (principal-agent / delegation)",
+      "citations": [
+        "Salehyan, Idean. \"The Delegation of War to Rebel Organizations.\" *Journal of Conflict Resolution* 54(3), 2010, 493–515. https://journals.sagepub.com/doi/10.1177/0022002709357890 — foundational P-A framing: adverse selection, moral hazard, loss of foreign-policy autonomy as the price of cost-shifting.",
+        "Salehyan, Idean; Siroky, David; Wood, Reed M. \"External Rebel Sponsorship and Civilian Abuse: A Principal-Agent Analysis of Wartime Atrocities.\" *International Organization*, 2014. https://www.cambridge.org/core/journals/international-organization/article/abs/external-rebel-sponsorship-and-civilian-abuse-a-principalagent-analysis-of-wartime-atrocities/7B8C7423A615E804A829E95AEE9E4A39 — the single most load-bearing source for `counterpartHarmRestraint`: foreign funding reduces the need to extract resources from (and therefore court) the population, raising one-sided violence; democratic/human-rights-exposed principals restrain more; multiple principals restrain less.",
+        "Byman, Daniel & Kreps, Sarah E. \"Agents of Destruction? Applying Principal-Agent Analysis to State-Sponsored Terrorism.\" *International Studies Perspectives* 11(1), 2010, 1–18. https://academic.oup.com/isp/article-abstract/11/1/1/1785085 — why states delegate, the control instruments they use, and where the relationship strains.",
+        "Popovic, Milos. \"Fragile Proxies: Explaining Rebel Defection Against Their State Sponsors.\" *Terrorism and Political Violence* 29(5), 2017, 922–942. https://www.tandfonline.com/doi/abs/10.1080/09546553.2015.1092437 — decentralized/factionalized agents defect; coercive sponsor discipline backfires. Drives `lossFrameRiskAcceptance`, `decisionCentralization`, and the first redline. Dissertation version (open): https://www.etd.ceu.edu/2015/popovic_milos.pdf",
+        "Moghadam, Assaf & Wyss, Michel. \"The Political Power of Proxies: Why Nonstate Actors Use Local Surrogates.\" *International Security* 44(4), 2020, 119–157. https://direct.mit.edu/isec/article-abstract/44/4/119/12248/ — proxies as political actors with their own agendas, not just military instruments; states select for military utility, nonstate sponsors for political value.",
+        "Jo, Hyeran. *Compliant Rebels: Rebel Groups and International Law in World Politics.* Cambridge UP, 2015. — legitimacy-seeking armed groups comply materially more with IHL; the reason `counterpartHarmRestraint` and `legitimacyWeight` are bimodal rather than uniformly low.",
+        "Cunningham, David E. \"Blocking Resolution: How External States Can Prolong Civil Wars.\" *Journal of Peace Research* 47(2), 2010, 115–127. https://www.prio.org/publications/4446 — external sponsors with independent goals block termination; empirical anchor for divergent objectives.",
+        "Karlen, Niklas. \"The Legacy of Foreign Patrons.\" *Journal of Peace Research* 54(4), 2017. https://journals.sagepub.com/doi/10.1177/0022343317700465; and \"Turning off the Taps: The Termination of State Sponsorship.\" *Terrorism and Political Violence* 31(4). https://www.tandfonline.com/doi/full/10.1080/09546553.2017.1282861 — support is terminable; termination effects drive `timeHorizon` and the patron-retention redline.",
+        "Cormac, Rory & Aldrich, Richard J. \"Grey is the new black: covert action and implausible deniability.\" *International Affairs* 94(3), 2018, 477–494. https://academic.oup.com/ia/article/94/3/477/4992414 — deniability is usually implausible yet still operative as *non-acknowledgement*; keeps `attributionAversion` off the ceiling.",
+        "Carson, Austin. *Secret Wars: Covert Conflict in International Politics.* Princeton UP, 2018. https://press.princeton.edu/books/hardcover/9780691181769/secret-wars — the case that covertness genuinely limits escalation; the strongest support for a non-trivial `escalationControlBelief`."
+      ]
+    },
+    {
+      "profileId": "state-proxy",
+      "label": "Doctrine-adjacent / government and think-tank",
+      "citations": [
+        "RAND Corporation. *Proxy Warfare in Strategic Competition: Overarching Findings and Recommendations* (RR-A307-1) and *State Motivations and Future Trends* (RR-A307-2), March 2023, sponsored by the U.S. Army G-3/5/7. https://www.rand.org/pubs/research_reports/RRA307-1.html · https://www.rand.org/pubs/research_reports/RRA307-2.html — quantitative analysis of proxy wars since 1946 plus China/Iran/Russia case studies; state-supported violent nonstate actors are markedly more lethal than unsupported ones; geopolitical vulnerability is the primary sponsor motive; recommends investment in attribution as the counter-lever.",
+        "Chatham House. Hakmeh, Joyce; Moynihan, Harriet, et al. *Holding state-sponsored hackers and other cyber proxies to account*, March 2026. https://www.chathamhouse.org/2026/03/holding-state-sponsored-hackers-and-other-cyber-proxies-account — maps the cyber-proxy ecosystem across intelligence units, criminal syndicates, front companies, patriotic hackers and loose hacktivists, with varying degrees of direction; deniability, sanctions insulation, and deliberately messy attribution as design features.",
+        "Maurer, Tim. *Cyber Mercenaries: The State, Hackers, and Power.* Cambridge UP, 2018 — the delegation / orchestration / sanctioning spectrum, the standard taxonomy for placing a cyber proxy on a control axis.",
+        "Krieg, Andreas & Rickli, Jean-Marc. *Surrogate Warfare: The Transformation of War in the Twenty-First Century.* Georgetown UP, 2019. https://press.georgetown.edu/Book/Surrogate-Warfare — the substitution/control trade-off stated explicitly; the conceptual spine of this profile.",
+        "Irregular Warfare Center (Mullins, Sam). *The Role of Non-State Actors as Proxies in Irregular Warfare and Malign State Influence.* https://irregularwarfarecenter.org/publications/research-studies/the-role-of-non-state-actors-as-proxies-in-irregular-warfare-and-malign-state-influence/ — U.S. government-affiliated framing of the proxy problem set.",
+        "CSIS. \"Band of Brothers: The Wagner Group and the Russian State\" and \"Putin's Proxies: Examining Russia's Use of Private Military Companies.\" https://www.csis.org/blogs/post-soviet-post/band-brothers-wagner-group-and-russian-state · https://www.csis.org/analysis/putins-proxies-examining-russias-use-private-military-companies — contractor-type proxies; CRS *Wagner Group Mutiny in Russia* (IN12186) documents the June 2023 agency-slack failure in the extreme.",
+        "Clausen, Maria-Louise (DIIS). \"Reassessing Principal-Agent Theory: The Houthis' evolving relationship with Iran,\" POMEPS, 2026. https://pomeps.org/reassessing-patron-agent-theory-the-case-of-the-houthis-evolving-relationship-to-iran — post-October-2023 evidence that attribution and control decouple: operations are ascribed to the patron even where experts assess the patron lacks command and control."
+      ]
+    },
+    {
+      "profileId": "hacktivist",
+      "label": "Retrieved and read this session",
+      "citations": [
+        "Mačák, K. & Rodenhäuser, T. — *8 rules for \"civilian hackers\" during war, and 4 obligations for states to restrain them*, ICRC Humanitarian Law & Policy Blog, 4 Oct 2023. https://blogs.icrc.org/law-and-policy/2023/10/04/8-rules-civilian-hackers-war-4-obligations-states-restrain-them/",
+        "Vu, A. V., Thomas, D. R., Collier, B., Hutchings, A., Clayton, R. & Anderson, R. — *Getting Bored of Cyberwar: Exploring the Role of Low-level Cybercrime Actors in the Russia-Ukraine Conflict*, ACM WWW 2024 (358k defacements, 1.7M DDoS events analysed). https://arxiv.org/abs/2208.10629",
+        "Graphika — *Keeping Up With The Hacktivists* (~700 groups tracked since 2022; perception hacking, Telegram claiming, monetization, state-sponsored personas). https://www.graphika.com/reports/keeping-up-with-the-hacktivists"
+      ]
+    },
+    {
+      "profileId": "hacktivist",
+      "label": "Read via reputable secondary summary because the primary returned HTTP 403 to my fetcher",
+      "citations": [
+        "CISA/FBI/NSA and international partners — *Pro-Russia Hacktivists Conduct Opportunistic Attacks Against US and Global Critical Infrastructure*, AA25-343A, 9 Dec 2025 (CARR, Z-Pentest, NoName057(16), Sector16). https://www.cisa.gov/news-events/cybersecurity-advisories/aa25-343a — content taken from Cybersecurity Dive's quotation of the advisory: https://www.cybersecuritydive.com/news/russian-hacktivists-critical-infrastructure-remote-access-advisory/807493/",
+        "CISA et al. — *Defending OT Operations Against Ongoing Pro-Russia Hacktivist Activity*, fact sheet, 1 May 2024 (HMI manipulation at water/wastewater, dams, energy, food & ag). https://www.cisa.gov/sites/default/files/2024-05/defending-ot-operations-against-ongoing-pro-russia-hacktivist-activity-508c.pdf",
+        "Mandiant / Google Cloud — *APT44: Unearthing Sandworm*, Apr 2024 (CARR, XAKNET, Solntsepek assessed as GRU-controlled personas). https://cloud.google.com/blog/topics/threat-intelligence/apt44-unearthing-sandworm",
+        "Soesanto, S. — *The IT Army of Ukraine: Structure, Tasking, and Ecosystem*, Cyberdefense Report, CSS ETH Zürich, June 2022. https://css.ethz.ch/content/dam/ethz/special-interest/gess/cis/center-for-securities-studies/pdfs/Cyber-Reports-2022-06-IT-Army-of-Ukraine.pdf",
+        "U.S. Department of the Treasury — sanctions on six IRGC-CEC officials for the CyberAv3ngers-branded Unitronics campaign, 2 Feb 2024. https://home.treasury.gov/news/press-releases/jy2072"
+      ]
+    },
+    {
+      "profileId": "hacktivist",
+      "label": "Standing literature cited but not retrieved in full this session (typology only, from search-returned summaries)",
+      "citations": [
+        "Maurer, T. — *Cyber Mercenaries: The State, Hackers, and Power*, Cambridge University Press, 2018 (delegation / orchestration / sanctioning proxy typology). https://assets.cambridge.org/97811071/27609/frontmatter/9781107127609_frontmatter.pdf",
+        "Holt et al. (eds.) — *Hacktivism: From Loners to Formal Organizations? Assessing the Social Organization of Hacktivist Networks*, Deviant Behavior, 2024 — abstract-level only (paywalled). https://www.tandfonline.com/doi/full/10.1080/01639625.2024.2431066",
+        "Australian Strategic Policy Institute — *Hacktivism is an underestimated threat, especially in geopolitical crises*. https://www.aspistrategist.org.au/hacktivism-is-an-underestimated-threat-especially-in-geopolitical-crises/"
       ]
     }
   ]

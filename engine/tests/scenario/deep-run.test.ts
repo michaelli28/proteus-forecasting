@@ -99,13 +99,64 @@ describe("decisionPoints", () => {
 });
 
 describe("capPerBranch", () => {
-  const point = (branchId: string, tick: number, rank: number) => ({
+  const point = (
+    branchId: string,
+    tick: number,
+    rank: number,
+    actorId = "russia",
+  ) => ({
     branchId,
     tick,
-    actorId: "russia",
+    actorId,
     trigger: "t",
     rank,
     payload: {} as never,
+  });
+
+  it("gives every actor a step before any actor gets a second", () => {
+    // The case this exists for: one actor authorises move after move while the
+    // other declines for the whole window. Ranked strictly, the busy actor
+    // takes every slot and the one that declined — the comparison the run was
+    // set up to make — convenes nothing and reads as though it were idle.
+    const { kept } = capPerBranch(
+      [
+        point("w1", 10, 0, "russia"),
+        point("w1", 11, 0, "russia"),
+        point("w1", 12, 0, "russia"),
+        point("w1", 99, 4, "china"),
+      ],
+      2,
+    );
+    expect(kept.map((entry) => entry.actorId).sort()).toEqual([
+      "china",
+      "russia",
+    ]);
+  });
+
+  it("still prefers the better-ranked step within one actor", () => {
+    const { kept } = capPerBranch(
+      [
+        point("w1", 10, 3, "russia"),
+        point("w1", 11, 0, "russia"),
+        point("w1", 99, 4, "china"),
+      ],
+      2,
+    );
+    expect(kept.map((entry) => entry.tick)).toEqual([11, 99]);
+  });
+
+  it("cannot seat more actors than the cap allows, and says how many it dropped", () => {
+    const { kept, dropped } = capPerBranch(
+      [
+        point("w1", 1, 0, "russia"),
+        point("w1", 2, 1, "china"),
+        point("w1", 3, 2, "iran"),
+      ],
+      2,
+    );
+    expect(kept).toHaveLength(2);
+    expect(dropped).toBe(1);
+    expect(kept.map((entry) => entry.actorId)).toEqual(["russia", "china"]);
   });
 
   it("keeps the most interesting steps and reports what it dropped", () => {

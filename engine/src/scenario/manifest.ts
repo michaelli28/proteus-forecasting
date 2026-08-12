@@ -13,9 +13,20 @@
  */
 
 import { loadDoctrineLibrary } from "../actors/library.js";
-import { lowConfidenceParameters } from "../actors/doctrine.js";
-import type { DoctrineProfile } from "../actors/doctrine.js";
+import {
+  CONSTRAINED_ATTRIBUTES,
+  citationCount,
+  constraintReach,
+  groupedSources,
+  lowConfidenceParameters,
+} from "../actors/doctrine.js";
+import type {
+  ConstrainedAttribute,
+  DoctrineProfile,
+} from "../actors/doctrine.js";
 import { SCENARIO_PACKS } from "./packs/index.js";
+import { SCENARIO_PRESETS, validatePresets } from "./presets.js";
+import type { ScenarioPreset } from "./presets.js";
 
 export interface ManifestDefense {
   readonly kind: string;
@@ -57,6 +68,23 @@ export interface ScenarioManifest {
   readonly profileMethod: string;
   readonly packs: readonly ManifestPack[];
   readonly actors: readonly ManifestActor[];
+  /** Configurations worth a reader's first ten minutes. See `presets.ts`. */
+  readonly presets: readonly ScenarioPreset[];
+}
+
+/** The highest value each constrainable attribute reaches in one pack's ladder. */
+function ladderMaxima(packId: string): {
+  packId: string;
+  maxima: Record<ConstrainedAttribute, number>;
+} {
+  const pack = SCENARIO_PACKS[packId]!;
+  const maxima = {} as Record<ConstrainedAttribute, number>;
+  for (const attribute of CONSTRAINED_ATTRIBUTES) {
+    maxima[attribute] = Math.max(
+      ...pack.ladder.map((rung) => rung[attribute] ?? 0),
+    );
+  }
+  return { packId, maxima };
 }
 
 /**
@@ -73,18 +101,60 @@ export interface DossierFile {
   readonly reviewedAt: string;
   readonly method: string;
   readonly profiles: readonly DoctrineProfile[];
+  /**
+   * For each enforceable commitment, the scenarios that can actually trip it.
+   *
+   * Computed here because it is the one fact about a redline that needs both
+   * halves of the system — the profile that declares the threshold and the
+   * ladders that do or do not reach it. Published rather than derived in the
+   * dashboard so the page cannot disagree with the engine about whether a
+   * commitment binds.
+   */
+  readonly constraintReach: readonly {
+    readonly profileId: string;
+    readonly redlineId: string;
+    readonly attribute: string;
+    readonly maxAcceptable: number;
+    readonly reachedIn: readonly string[];
+  }[];
+  /**
+   * Each profile's citations under the headings its author filed them beneath.
+   *
+   * Published beside the raw `sources` rather than replacing it: the flat array
+   * is what the library actually holds and what a reader diffing the data will
+   * see, and this is the repaired reading of it.
+   */
+  readonly sourceGroups: readonly {
+    readonly profileId: string;
+    readonly label: string;
+    readonly citations: readonly string[];
+  }[];
 }
 
 export async function buildDossiers(
   profilePath?: string,
 ): Promise<DossierFile> {
   const library = await loadDoctrineLibrary(profilePath);
+  const ladders = Object.keys(SCENARIO_PACKS).map(ladderMaxima);
+
   return {
     generatedNote:
       "Published by the engine from data/doctrine-profiles.json. The dashboard renders this and never recomputes it.",
     reviewedAt: library.reviewedAt,
     method: library.method,
     profiles: library.profiles,
+    constraintReach: library.profiles.flatMap((profile) =>
+      constraintReach(profile, ladders).map((reach) => ({
+        profileId: profile.id,
+        ...reach,
+      })),
+    ),
+    sourceGroups: library.profiles.flatMap((profile) =>
+      groupedSources(profile).map((group) => ({
+        profileId: profile.id,
+        ...group,
+      })),
+    ),
   };
 }
 
@@ -129,9 +199,13 @@ export async function buildManifest(
       binding: redline.constraint !== undefined,
     })),
     lowConfidence: lowConfidenceParameters(profile),
-    sourceCount: profile.sources.length,
+    sourceCount: citationCount(profile),
     uncertainty: profile.uncertainty,
   }));
+
+  // Fails the build rather than shipping a button that names an actor or a
+  // mitigation the engine no longer has.
+  validatePresets(library);
 
   return {
     generatedNote:
@@ -140,5 +214,6 @@ export async function buildManifest(
     profileMethod: library.method,
     packs,
     actors,
+    presets: SCENARIO_PRESETS,
   };
 }

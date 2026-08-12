@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import SiteHeader from "../components/site/SiteHeader";
 
 export const metadata: Metadata = {
-  title: "PROTEUS",
+  title: "Proteus",
   description:
-    "Calibrated forecasting against a simulated world, with an evidence-gated abstention path.",
+    "Forecasting national-security questions, red-teaming the adversary's decisions, and ranking where systems are most exposed.",
 };
 
 export default function RootLayout({
@@ -21,12 +22,17 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
+        {/* Spectral (serif headings) + Public Sans (federal-grade body/UI). Loaded
+            at runtime via link rather than next/font to avoid a build-time fetch. */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Spectral:wght@400;500;600&display=swap"
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <SiteHeader />
+        {children}
+      </body>
     </html>
   );
 }

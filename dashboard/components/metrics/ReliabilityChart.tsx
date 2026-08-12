@@ -28,13 +28,9 @@ interface ReliabilityChartProps {
 const x = (v: number) => PAD.left + v * PLOT_W;
 const y = (v: number) => PAD.top + (1 - v) * PLOT_H;
 
-/**
- * Marker radius carries bin occupancy.
- *
- * A bin holding one forecast and a bin holding sixty are the same dot otherwise,
- * and the difference is exactly what decides whether a deviation from the
- * diagonal is a calibration finding or a sample-size accident.
- */
+/** Marker radius carries bin occupancy — a one-forecast bin and a sixty-forecast
+ *  bin are otherwise the same dot, and the difference is what decides whether a
+ *  deviation is a finding or a sample-size accident. */
 const radius = (count: number) =>
   Math.max(4, Math.min(11, 3 + Math.sqrt(count)));
 
@@ -47,9 +43,9 @@ export default function ReliabilityChart({ arms }: ReliabilityChartProps) {
       <div className="relative overflow-x-auto">
         <svg
           viewBox={`0 0 ${W} ${H}`}
-          className="w-full max-w-[520px] h-auto"
+          className="h-auto w-full max-w-[520px]"
           role="img"
-          aria-label="Reliability diagram: stated probability against observed frequency, one series per benchmark arm"
+          aria-label="Stated probability against how often it actually happened, one line per scenario"
         >
           {TICKS.map((t) => (
             <g key={t}>
@@ -58,7 +54,7 @@ export default function ReliabilityChart({ arms }: ReliabilityChartProps) {
                 y1={PAD.top}
                 x2={x(t)}
                 y2={PAD.top + PLOT_H}
-                stroke="rgba(255,252,218,0.07)"
+                stroke="var(--color-line)"
                 strokeWidth={1}
               />
               <line
@@ -66,43 +62,52 @@ export default function ReliabilityChart({ arms }: ReliabilityChartProps) {
                 y1={y(t)}
                 x2={PAD.left + PLOT_W}
                 y2={y(t)}
-                stroke="rgba(255,252,218,0.07)"
+                stroke="var(--color-line)"
                 strokeWidth={1}
               />
               <text
                 x={x(t)}
                 y={PAD.top + PLOT_H + 18}
                 textAnchor="middle"
-                className="fill-text-muted"
-                style={{ fontSize: 10, fontFamily: "var(--font-mono)" }}
+                className="fill-muted"
+                style={{ fontSize: 10 }}
               >
-                {t}
+                {percent(t)}
               </text>
               <text
                 x={PAD.left - 10}
                 y={y(t) + 3}
                 textAnchor="end"
-                className="fill-text-muted"
-                style={{ fontSize: 10, fontFamily: "var(--font-mono)" }}
+                className="fill-muted"
+                style={{ fontSize: 10 }}
               >
-                {t}
+                {percent(t)}
               </text>
             </g>
           ))}
 
-          {/* Perfect calibration. Recessive: it is a reference, not a series. */}
+          {/* Perfect calibration — a recessive reference, not a series. */}
           <line
             x1={x(0)}
             y1={y(0)}
             x2={x(1)}
             y2={y(1)}
-            stroke="rgba(255,252,218,0.28)"
+            stroke="var(--color-line-strong)"
             strokeWidth={1.5}
             strokeDasharray="4 4"
           />
+          <text
+            x={x(0.82)}
+            y={y(0.82) - 8}
+            className="fill-muted"
+            style={{ fontSize: 10 }}
+            transform={`rotate(-45 ${x(0.82)} ${y(0.82)})`}
+          >
+            perfectly honest
+          </text>
 
           {plotted.map((arm) => {
-            const color = ARM_COLOR[arm.arm] ?? "rgba(255,252,218,0.4)";
+            const color = ARM_COLOR[arm.arm] ?? "var(--color-muted)";
             const path = arm.calibration
               .map(
                 (p, i) =>
@@ -116,7 +121,7 @@ export default function ReliabilityChart({ arms }: ReliabilityChartProps) {
                   fill="none"
                   stroke={color}
                   strokeWidth={2}
-                  opacity={0.55}
+                  opacity={0.65}
                 />
                 {arm.calibration.map((p) => (
                   <circle
@@ -125,7 +130,7 @@ export default function ReliabilityChart({ arms }: ReliabilityChartProps) {
                     cy={y(p.observed)}
                     r={radius(p.count)}
                     fill={color}
-                    stroke="#001a0d"
+                    stroke="var(--color-surface)"
                     strokeWidth={2}
                     onMouseEnter={() =>
                       setHover({
@@ -148,39 +153,39 @@ export default function ReliabilityChart({ arms }: ReliabilityChartProps) {
             x={PAD.left + PLOT_W / 2}
             y={H - 6}
             textAnchor="middle"
-            className="fill-text-secondary"
+            className="fill-slate"
             style={{ fontSize: 11 }}
           >
-            stated probability
+            what it said the odds were
           </text>
           <text
             x={14}
             y={PAD.top + PLOT_H / 2}
             textAnchor="middle"
             transform={`rotate(-90 14 ${PAD.top + PLOT_H / 2})`}
-            className="fill-text-secondary"
+            className="fill-slate"
             style={{ fontSize: 11 }}
           >
-            observed frequency
+            how often it actually happened
           </text>
         </svg>
 
         {hover && (
           <div
-            className="pointer-events-none absolute z-10 rounded border border-border-green bg-bg-dark/95 px-2.5 py-1.5 font-mono text-[11px] leading-relaxed text-text-primary shadow-lg"
+            className="pointer-events-none absolute z-10 rounded-lg border border-line bg-surface px-2.5 py-1.5 text-[11px] leading-relaxed text-ink shadow-md"
             style={{
               left: `${(hover.x / W) * 100}%`,
               top: `${(hover.y / H) * 100}%`,
               transform: "translate(-50%, -130%)",
             }}
           >
-            <div className="text-text-secondary">{hover.arm}</div>
-            <div>
+            <div className="font-medium text-slate">{hover.arm}</div>
+            <div className="tnum">
               said {percent(hover.forecast)} → happened{" "}
               {percent(hover.observed)}
             </div>
-            <div className="text-text-muted">
-              {hover.count} forecast{hover.count === 1 ? "" : "s"} in this bin
+            <div className="text-muted">
+              {hover.count} forecast{hover.count === 1 ? "" : "s"} here
             </div>
           </div>
         )}
@@ -190,10 +195,10 @@ export default function ReliabilityChart({ arms }: ReliabilityChartProps) {
         {plotted.map((arm) => (
           <span
             key={arm.arm}
-            className="flex items-center gap-1.5 font-mono text-[11px] text-text-secondary"
+            className="flex items-center gap-1.5 text-[12px] text-slate"
           >
             <span
-              className="inline-block h-2 w-2 rounded-full"
+              className="inline-block h-2.5 w-2.5 rounded-full"
               style={{ backgroundColor: ARM_COLOR[arm.arm] }}
             />
             {arm.arm}
@@ -201,11 +206,10 @@ export default function ReliabilityChart({ arms }: ReliabilityChartProps) {
         ))}
       </div>
 
-      <p className="mt-3 max-w-prose text-[12px] leading-relaxed text-text-muted">
-        On the dashed line, things said to be 30% likely happened 30% of the
-        time. Marker size is how many forecasts landed in that bin — the small
-        ones move a long way on very little evidence, which is why the worst
-        single bin (MCE) is not a calibration finding here.
+      <p className="mt-3 max-w-[68ch] text-[12.5px] leading-relaxed text-muted">
+        On the dashed line, things it called 30% likely happened 30% of the
+        time. Bigger dots are backed by more forecasts; the small ones swing a
+        long way on very little evidence.
       </p>
     </div>
   );

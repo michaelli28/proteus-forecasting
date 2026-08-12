@@ -20,3 +20,17 @@ dist/
 # Caches
 .c4tmp/
 .DS_Store
+
+# Python consequence twin — the venv and EPANET-solved tables are regenerated
+# by `npm run consequence:build`, never committed. The table is ~200 KB of
+# machine output and the venv is hundreds of MB.
+engine/.venv/
+engine/.cache/
+__pycache__/
+.pytest_cache/
+
+# EPANET writes .inp/.rpt/.bin scratch next to cwd when a solve is not sandboxed
+# to a temp dir; regenerable, never committed.
+engine/temp.*
+*.inp
+*.rpt

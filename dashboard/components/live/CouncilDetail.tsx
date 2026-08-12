@@ -1,27 +1,36 @@
 "use client";
 
 /**
- * One council, as it fills in.
+ * One council, opened.
+ *
+ * This is the inside of a row in `Councils` — the seats, what each of them
+ * recommended, and what the chair did with the table. The row above it owns the
+ * identifying line and the warning mark, so nothing here repeats them.
  *
  * The card is built around the thing worth looking at, which is not the answer
- * but the split: five institutional gates reaching different calls, and a chair
- * having to overrule one of them. A unanimous table is reported quietly; a table
- * that divided, or that landed somewhere the arithmetic did not, gets the ink.
+ * but the split: institutional gates reaching different calls, and a chair
+ * having to overrule one of them.
  *
  * Every seat is a button because the whole promise of the page is that you can
  * open any one of them and read exactly what it was asked and what it said.
  */
 
 import type { AgentRecord, Council } from "../../lib/run-state";
-import { Card, Pill } from "../site/ui";
 
-const RECOMMENDATION_COPY: Record<string, string> = {
+export const RECOMMENDATION_COPY: Record<string, string> = {
   act: "authorise",
   hold: "wait",
   refuse: "refuse",
 };
 
-export function CouncilCard({
+/** The colour a recommendation earns. Waiting is the quiet, ordinary case. */
+export function recommendationClass(recommendation: string): string {
+  if (recommendation === "act") return "text-warn";
+  if (recommendation === "refuse") return "text-accent-strong";
+  return "text-slate";
+}
+
+export function CouncilDetail({
   council,
   agentFor,
   onOpenAgent,
@@ -34,22 +43,8 @@ export function CouncilCard({
   const pending = council.seats.length - council.opinions.length;
 
   return (
-    <Card
-      className={verdict && !verdict.agreed ? "border-warn" : "border-line"}
-    >
-      <div className="flex flex-wrap items-baseline gap-x-2.5 gap-y-1">
-        <span className="tnum text-[12px] text-muted">
-          {council.branchId} · step {council.tick}
-        </span>
-        <span className="text-[14px] font-semibold text-navy">
-          {council.actorLabel}
-        </span>
-        {verdict && !verdict.agreed && (
-          <Pill tone="warn">judgement parted from the arithmetic</Pill>
-        )}
-      </div>
-
-      <p className="mt-1.5 text-[13px] leading-relaxed text-slate">
+    <div>
+      <p className="text-[13px] leading-relaxed text-slate">
         Convened because {council.trigger}.
       </p>
 
@@ -61,7 +56,7 @@ export function CouncilCard({
         </p>
       )}
 
-      <div className="mt-4 space-y-1.5">
+      <div className="mt-3 space-y-1.5">
         {council.seats.map((seat) => {
           const opinion = council.opinions.find(
             (entry) => entry.seatId === seat.id,
@@ -91,19 +86,15 @@ export function CouncilCard({
                   `${seat.stage} · ${seat.gate}`,
                 )
               }
-              className="flex w-full items-baseline gap-2 rounded-lg px-2 py-1.5 text-left transition-colors hover:bg-sunken disabled:cursor-default disabled:hover:bg-transparent"
+              className="flex w-full items-baseline gap-2 rounded-lg px-2 py-1.5 text-left transition-colors hover:bg-surface disabled:cursor-default disabled:hover:bg-transparent"
             >
               <span className="min-w-0 flex-1 truncate text-[12.5px] text-ink">
                 {opinion.office}
               </span>
               <span
-                className={`text-[12.5px] font-semibold ${
-                  opinion.recommendation === "act"
-                    ? "text-warn"
-                    : opinion.recommendation === "refuse"
-                      ? "text-accent-strong"
-                      : "text-slate"
-                }`}
+                className={`text-[12.5px] font-semibold ${recommendationClass(
+                  opinion.recommendation,
+                )}`}
               >
                 {RECOMMENDATION_COPY[opinion.recommendation] ??
                   opinion.recommendation}
@@ -133,7 +124,7 @@ export function CouncilCard({
                 `read the whole table and reached "${verdict.decision}"`,
               )
             }
-            className="w-full rounded-lg px-2 py-1.5 text-left transition-colors hover:bg-sunken disabled:cursor-default disabled:hover:bg-transparent"
+            className="w-full rounded-lg text-left transition-colors hover:bg-surface disabled:cursor-default disabled:hover:bg-transparent"
           >
             <div className="flex flex-wrap items-baseline gap-2">
               <span className="text-[12px] font-semibold uppercase tracking-wider text-muted">
@@ -170,6 +161,6 @@ export function CouncilCard({
           </p>
         </div>
       )}
-    </Card>
+    </div>
   );
 }

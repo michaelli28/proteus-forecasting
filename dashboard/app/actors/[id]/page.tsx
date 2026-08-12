@@ -19,15 +19,20 @@ import {
   DOSSIERS,
   KIND_LABEL,
   PARAMETER_COPY,
+  citationCount,
   dossierFor,
   episodesFor,
+  redlineReach,
+  sourceGroupsFor,
 } from "../../../lib/dossier";
 import type { Dossier, DoctrineParameter } from "../../../lib/dossier";
 import {
   Basis,
   Claim,
   DossierSection,
+  Inline,
   ParameterBar,
+  Prose,
 } from "../../../components/actors/dossier-parts";
 import { Card, Eyebrow, Page, Pill } from "../../../components/site/ui";
 
@@ -98,7 +103,7 @@ function Redlines({ dossier }: { dossier: Dossier }) {
   return (
     <DossierSection
       title="What it will not trade"
-      lede="Commitments this institution does not price. The model removes a move that touches one before it is ever scored, which is why raising the cost of crossing it changes nothing."
+      lede="Commitments this institution does not price — raising the cost of crossing one does not deter, because it is not running the trade. Each row says what the model does with it, which is not always the same as what the institution would do."
       empty={
         dossier.redlines.length === 0
           ? "No commitment of this kind is recorded for this actor. Every move it can reach is priced on cost and benefit alone."
@@ -114,25 +119,60 @@ function Redlines({ dossier }: { dossier: Dossier }) {
                   ? "it refuses to do this"
                   : "this forces it to respond"}
               </span>
-              {redline.constraint ? (
-                <Pill tone="accent">
-                  enforced — {redline.constraint.attribute} above{" "}
-                  {redline.constraint.maxAcceptable}
-                </Pill>
-              ) : (
-                <span className="text-[11.5px] text-muted">
-                  stated, but nothing in the model enforces it
-                </span>
-              )}
+              <Enforcement dossier={dossier} redlineId={redline.id} />
             </div>
             <p className="mt-2 text-[13.5px] leading-relaxed text-ink">
-              {redline.statement}
+              <Inline line={redline.statement} />
             </p>
             <Basis basis={redline.basis} confidence={redline.confidence} />
           </Card>
         ))}
       </div>
     </DossierSection>
+  );
+}
+
+/**
+ * What the model actually does with this commitment.
+ *
+ * The honest answer has three cases and the interesting one is the third: every
+ * commitment in this library that the kernel CAN enforce sits above the highest
+ * value any shipped ladder reaches, so none of them has ever removed a move. A
+ * pill reading "enforced" beside such a commitment is accurate and misleading in
+ * the same breath, which is worse than either.
+ *
+ * The gap is not a defect to hide. A council seated from this actor's own
+ * procedure has refused moves on exactly the ground the arithmetic cannot see,
+ * and that disagreement is the most interesting thing a run produces.
+ */
+function Enforcement({
+  dossier,
+  redlineId,
+}: {
+  dossier: Dossier;
+  redlineId: string;
+}) {
+  const reach = redlineReach(dossier, redlineId);
+
+  if (!reach) {
+    return (
+      <span className="text-[11.5px] text-muted">
+        stated, but nothing in the model enforces it
+      </span>
+    );
+  }
+
+  if (reach.reachedIn.length > 0) {
+    return (
+      <Pill tone="accent">removes moves in {reach.reachedIn.join(", ")}</Pill>
+    );
+  }
+
+  return (
+    <span className="max-w-[46ch] text-right text-[11.5px] leading-snug text-muted">
+      enforced at {reach.attribute} above {reach.maxAcceptable} — no move in any
+      scenario here goes that far, so it never removes one
+    </span>
   );
 }
 
@@ -178,7 +218,7 @@ function Procedure({ dossier }: { dossier: Dossier }) {
                     </span>
                   </div>
                   <p className="mt-1.5 text-[13px] leading-relaxed text-ink">
-                    {step.gate}
+                    <Inline line={step.gate} />
                   </p>
                   <Basis basis={step.basis} confidence={step.confidence} />
                 </li>
@@ -251,7 +291,7 @@ function History({ dossier }: { dossier: Dossier }) {
             </div>
             <p className="mt-2 text-[13.5px] leading-relaxed text-ink">
               <span className="font-semibold">It {episode.choice}.</span>{" "}
-              {episode.lesson}
+              <Inline line={episode.lesson} />
             </p>
             {episode.bearsOn.length > 0 && (
               <p className="mt-2 text-[12px] text-muted">
@@ -441,16 +481,35 @@ function Weaknesses({ dossier }: { dossier: Dossier }) {
   return (
     <DossierSection
       title="Where this profile is weak"
-      lede="Stated before the conclusions rather than after them, because a reader is entitled to know which findings rest on thin sourcing while they are still deciding what to do."
+      lede="Written by the researcher who assembled it, and kept in full rather than summarised. A reader deciding whether to act on anything above is entitled to the argument against it at the same length as the argument for it."
     >
       <div className="space-y-4">
+        {/* First, and visually apart from the survey below it: this names ONE
+            field and argues it is the worst. A reviewer with an hour reads this
+            and stops, so it cannot sit fourth in a list of caveats. */}
+        {dossier.weakestClaim && (
+          <div className="rounded-xl border border-warn bg-warn-soft p-5">
+            <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+              <span className="text-[12px] font-semibold uppercase tracking-wider text-warn">
+                Least defensible claim in this profile
+              </span>
+              <code className="tnum text-[12px] text-slate">
+                {dossier.weakestClaim.section}
+              </code>
+            </div>
+            <p className="mt-2.5 max-w-[76ch] text-[13.5px] leading-relaxed text-ink">
+              {dossier.weakestClaim.finding}
+            </p>
+          </div>
+        )}
+
         <Card>
           <div className="text-[12px] font-semibold uppercase tracking-wider text-muted">
             What its author flagged
           </div>
-          <p className="mt-2 max-w-[76ch] text-[13.5px] leading-relaxed text-ink">
-            {dossier.uncertainty}
-          </p>
+          <div className="mt-3">
+            <Prose source={dossier.uncertainty} />
+          </div>
         </Card>
 
         {dossier.declaredVsObserved && (
@@ -458,9 +517,9 @@ function Weaknesses({ dossier }: { dossier: Dossier }) {
             <div className="text-[12px] font-semibold uppercase tracking-wider text-muted">
               Where what it says and what it does disagree
             </div>
-            <p className="mt-2 max-w-[76ch] text-[13.5px] leading-relaxed text-ink">
-              {dossier.declaredVsObserved}
-            </p>
+            <div className="mt-3">
+              <Prose source={dossier.declaredVsObserved} />
+            </div>
           </Card>
         )}
 
@@ -481,23 +540,51 @@ function Weaknesses({ dossier }: { dossier: Dossier }) {
   );
 }
 
+/**
+ * The citations, grouped the way the researcher filed them.
+ *
+ * Numbered continuously across groups rather than restarting, so "source 27" in
+ * a review note means one thing on this page.
+ */
 function Sources({ dossier }: { dossier: Dossier }) {
+  const groups = sourceGroupsFor(dossier);
+  let number = 0;
+
   return (
     <DossierSection
-      title={`Sources (${dossier.sources.length})`}
+      title={`Sources (${citationCount(dossier)})`}
       lede="Every number and claim above traces to one of these. A profile you disagree with is a file you can replace — the engine loads profiles as data, not code."
     >
-      <ol className="space-y-2">
-        {dossier.sources.map((source, index) => (
-          <li
-            key={index}
-            className="flex gap-3 text-[12.5px] leading-relaxed text-slate"
-          >
-            <span className="tnum shrink-0 text-muted">{index + 1}</span>
-            <span>{source}</span>
-          </li>
+      <div className="space-y-6">
+        {groups.map((group, index) => (
+          <div key={index}>
+            {group.label && (
+              <h3 className="mb-2.5 text-[12px] font-semibold uppercase tracking-wider text-muted">
+                {group.label}
+              </h3>
+            )}
+            <ol className="space-y-2">
+              {group.citations.map((citation) => {
+                number += 1;
+                return (
+                  <li
+                    key={number}
+                    className="flex gap-3 text-[12.5px] leading-relaxed text-slate"
+                  >
+                    <span className="tnum shrink-0 text-muted">{number}</span>
+                    {/* Citations end in full URLs, which are single unbreakable
+                        words wider than a phone. Without this the page scrolls
+                        sideways. */}
+                    <span className="min-w-0 break-words">
+                      <Inline line={citation} />
+                    </span>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
         ))}
-      </ol>
+      </div>
     </DossierSection>
   );
 }

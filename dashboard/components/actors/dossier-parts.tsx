@@ -13,6 +13,7 @@
 
 import type { ReactNode } from "react";
 import type { Confidence, SourcedClaim } from "../../lib/dossier";
+import { parseProse, parseSpans } from "../../lib/prose";
 import { Pill } from "../site/ui";
 
 export function Claim({
@@ -26,7 +27,7 @@ export function Claim({
     <div className={className}>
       <div className="flex items-start gap-2">
         <p className="flex-1 text-[13.5px] leading-relaxed text-ink">
-          {claim.statement}
+          <Inline line={claim.statement} />
         </p>
         {claim.confidence === "low" && <Pill tone="warn">thin evidence</Pill>}
       </div>
@@ -51,8 +52,8 @@ export function Basis({
         {label}
         {confidence ? ` · ${confidence} confidence` : ""}
       </summary>
-      <p className="mt-1.5 border-l-2 border-line pl-3 text-[12.5px] leading-relaxed text-slate">
-        {basis}
+      <p className="mt-1.5 break-words border-l-2 border-line pl-3 text-[12.5px] leading-relaxed text-slate">
+        <Inline line={basis} />
       </p>
     </details>
   );
@@ -92,6 +93,87 @@ export function DossierSection({
         <div className="mt-5">{children}</div>
       )}
     </section>
+  );
+}
+
+/**
+ * A researcher's long-form note, rendered as the document it was written as.
+ *
+ * These run to several thousand words of argued caveats and are the part of a
+ * profile a reviewer most needs to be able to read. Headings and lists carry
+ * the structure of that argument, so flattening them loses the argument itself,
+ * not just its formatting.
+ */
+export function Prose({ source }: { source: string }) {
+  return (
+    <div className="max-w-[78ch] space-y-3 break-words">
+      {parseProse(source).map((block, index) => {
+        if (block.kind === "heading") {
+          return (
+            <h3
+              key={index}
+              className="pt-2 text-[13px] font-semibold text-navy first:pt-0"
+            >
+              <Inline line={block.text} />
+            </h3>
+          );
+        }
+        if (block.kind === "list") {
+          return (
+            <ul key={index} className="space-y-2">
+              {block.items.map((item, at) => (
+                <li
+                  key={at}
+                  className="border-l-2 border-line pl-3.5 text-[13.5px] leading-relaxed text-ink"
+                >
+                  <Inline line={item} />
+                </li>
+              ))}
+            </ul>
+          );
+        }
+        return (
+          <p key={index} className="text-[13.5px] leading-relaxed text-ink">
+            <Inline line={block.text} />
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
+/** One line of research prose with its emphasis rendered rather than printed. */
+export function Inline({ line }: { line: string }) {
+  return (
+    <>
+      {parseSpans(line).map((span, index) => {
+        if (span.kind === "bold") {
+          // The research routinely bolds a parameter name — **`proxyPreference`
+          // (0.55)** — so a bold span that renders its contents as flat text
+          // shows the backticks. Recursing once is enough: the bold pattern
+          // cannot contain another bold, so this terminates.
+          return (
+            <strong key={index} className="font-semibold text-navy">
+              <Inline line={span.text} />
+            </strong>
+          );
+        }
+        if (span.kind === "italic") {
+          return <em key={index}>{span.text}</em>;
+        }
+        if (span.kind === "code") {
+          return (
+            <code
+              key={index}
+              className="rounded bg-sunken px-1 py-0.5 text-[12.5px] text-slate"
+            >
+              {span.text}
+            </code>
+          );
+        }
+        return <span key={index}>{span.text}</span>;
+      })}
+    </>
   );
 }
 

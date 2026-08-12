@@ -27,11 +27,11 @@ export function ArmComparison() {
 
   return (
     <section className="mt-16 border-t border-line pt-8">
-      <h2 className="text-[17px]">Did the mitigation work?</h2>
+      <h2 className="text-[17px]">Did the defense work?</h2>
       <p className="mt-3 max-w-[76ch] text-[13.5px] leading-relaxed text-slate">
-        One run cannot tell you. Harm here is driven by when an actor happens to
-        gain access relative to when acting pays, and that varies enough between
-        worlds to swamp most mitigations. So every measure below was replayed
+        One run cannot tell you. Harm here depends on whether an actor gains
+        access at a moment when acting pays off, and that swings enough between
+        worlds to outweigh most defenses. So every defense below was replayed
         across the same six worlds, against the actor that does the most damage
         to that system undefended. Only {everywhereReliable} of {total} came out
         ahead in all six.
@@ -44,11 +44,11 @@ export function ArmComparison() {
       </div>
 
       <p className="mt-8 max-w-[76ch] text-[12.5px] leading-relaxed text-muted">
-        Cost is the measure&rsquo;s own price per {ARM_COMPARISONS[0]?.tickUnit}
-        , in the units the scenario declares; harm is in the units its oracle
-        declares. They are different units and no ratio between them is offered
-        here, because dividing one by the other would produce a return figure
-        that looks like money and is not.
+        Cost is the defense&rsquo;s own price per {ARM_COMPARISONS[0]?.tickUnit}
+        , in the units the scenario declares; harm is in the units that scenario
+        declares for harm. They are different units and no ratio between them is
+        offered here, because dividing one by the other would produce a return
+        figure that looks like money and is not.
       </p>
     </section>
   );
@@ -76,7 +76,7 @@ function PackTable({ comparison }: { comparison: Comparison }) {
         <table className="w-full min-w-[46rem] border-collapse text-[13px]">
           <thead>
             <tr className="border-b border-line text-left text-[11.5px] uppercase tracking-wider text-muted">
-              <th className="py-2 pr-4 font-semibold">Measure</th>
+              <th className="py-2 pr-4 font-semibold">Defense</th>
               <th className="py-2 pr-4 text-right font-semibold">
                 Median harm
               </th>
@@ -88,7 +88,7 @@ function PackTable({ comparison }: { comparison: Comparison }) {
           </thead>
           <tbody>
             <Row
-              label="no mitigation"
+              label="no defense"
               arm={comparison.baseline}
               seeds={seeds}
               ceiling={ceiling}

@@ -9,7 +9,7 @@ import HeadlineFindings from "../components/site/HeadlineFindings";
 export const metadata = {
   title: "Proteus — national-security forecasting",
   description:
-    "Forecasts national-security questions, red-teams the adversary's decisions, and ranks where critical systems are most exposed.",
+    "Forecasts national-security questions, simulates the attacker's decisions, and ranks where critical systems are most exposed.",
 };
 
 export default function OverviewPage() {
@@ -25,7 +25,7 @@ export default function OverviewPage() {
             See the attack decision before it happens.
           </h1>
           <p className="mt-5 max-w-[60ch] text-[17px] leading-relaxed text-slate">
-            Proteus simulates an adversary&rsquo;s <em>decisions</em> — not its
+            Proteus simulates an attacker&rsquo;s <em>decisions</em> — not its
             code — thousands of times over, then ranks where a system is most
             exposed and which defenses are actually worth the money. It never
             touches a real network or a real person.
@@ -54,15 +54,15 @@ export default function OverviewPage() {
             {[
               {
                 k: "It forecasts",
-                v: "A calibrated probability for a specific, resolvable question — with the uncertainty stated, not hidden.",
+                v: "A probability for one specific question that can later be checked — with the uncertainty stated, not hidden.",
               },
               {
-                k: "It red-teams",
-                v: "An adversary that weighs payoff against attribution risk and decides when to spend the access it holds.",
+                k: "It plays the attacker",
+                v: "An attacker that weighs the payoff against the risk of getting blamed, and decides when to spend the access it already has.",
               },
               {
                 k: "It ranks",
-                v: "The components whose compromise hurts most, and the defenses that buy the most protection per dollar.",
+                v: "The parts that do the most damage if an attacker takes them, and the defenses that buy the most protection per dollar.",
               },
             ].map((item, i) => (
               <StaggerItem key={item.k} index={i} className="bg-surface p-5">
@@ -91,10 +91,11 @@ export default function OverviewPage() {
               One method, many kinds of threat.
             </h2>
             <p className="mt-2 max-w-[68ch] text-[15px] leading-relaxed text-slate">
-              The same engine forecasts and red-teams any domain where an
-              adversary makes a costly choice under uncertainty — cyber-physical
-              sabotage is only the most tangible. Water is the worked example
-              here because its consequences can be checked against real physics.
+              The same engine works anywhere an attacker has to make a costly
+              choice without knowing how it will turn out — breaking physical
+              equipment is only the easiest to picture. Water is the worked
+              example here because its consequences can be checked against real
+              physics.
             </p>
           </Reveal>
           <div className="mt-6">

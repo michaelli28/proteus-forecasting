@@ -33,7 +33,7 @@
     "defended": [
       {
         "defense": "manual-fallback",
-        "label": "staffed manual operation",
+        "label": "crews running the system by hand",
         "costPerTick": 6,
         "harm": [
           678101.2,
@@ -50,7 +50,7 @@
       },
       {
         "defense": "anomaly-detection",
-        "label": "operations anomaly detection",
+        "label": "alerts for unusual activity",
         "costPerTick": 12,
         "harm": [
           807450,
@@ -67,7 +67,7 @@
       },
       {
         "defense": "credential-rotation",
-        "label": "credential rotation",
+        "label": "regular password and key changes",
         "costPerTick": 8,
         "harm": [
           603330,
@@ -84,7 +84,7 @@
       },
       {
         "defense": "segmentation",
-        "label": "control-network segmentation",
+        "label": "control network kept in separate zones",
         "costPerTick": 18,
         "harm": [
           655314,
@@ -135,7 +135,7 @@
     "defended": [
       {
         "defense": "credential-rotation",
-        "label": "credential rotation",
+        "label": "regular password and key changes",
         "costPerTick": 9,
         "harm": [
           135162,
@@ -152,7 +152,7 @@
       },
       {
         "defense": "segmentation",
-        "label": "operations network segmentation",
+        "label": "operations network kept in separate zones",
         "costPerTick": 20,
         "harm": [
           382245.6,
@@ -169,7 +169,7 @@
       },
       {
         "defense": "anomaly-detection",
-        "label": "operations anomaly detection",
+        "label": "alerts for unusual activity",
         "costPerTick": 12,
         "harm": [
           417867.6,
@@ -186,7 +186,7 @@
       },
       {
         "defense": "manifest-attestation",
-        "label": "independent manifest attestation",
+        "label": "separate backup record of every box",
         "costPerTick": 14,
         "harm": [
           175882.8384,
@@ -237,7 +237,7 @@
     "defended": [
       {
         "defense": "privileged-access-review",
-        "label": "privileged access review",
+        "label": "regular review of who has admin access",
         "costPerTick": 10,
         "harm": [
           28917000,
@@ -254,7 +254,7 @@
       },
       {
         "defense": "determination-sampling",
-        "label": "independent determination sampling",
+        "label": "independent spot-checks of decisions",
         "costPerTick": 16,
         "harm": [
           144253059.6,
@@ -271,7 +271,7 @@
       },
       {
         "defense": "anomaly-detection",
-        "label": "transaction anomaly detection",
+        "label": "alerts for unusual payments",
         "costPerTick": 12,
         "harm": [
           186450000,
@@ -288,7 +288,7 @@
       },
       {
         "defense": "segmentation",
-        "label": "service segmentation",
+        "label": "service split into separate parts",
         "costPerTick": 22,
         "harm": [
           50625000,

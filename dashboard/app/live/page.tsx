@@ -6,7 +6,7 @@ import { Eyebrow, Page } from "../../components/site/ui";
 export const metadata = {
   title: "Watch a run — Proteus",
   description:
-    "Run an adversary against a contested system and watch every decision as it is made.",
+    "Run an attacker against a system it wants to disrupt and watch every decision as it is made.",
 };
 
 export default function LivePage() {
@@ -14,20 +14,21 @@ export default function LivePage() {
     <Page>
       <Eyebrow>Live</Eyebrow>
       <h1 className="max-w-[24ch] text-[34px] leading-[1.1]">
-        Watch an adversary decide
+        Watch an attacker decide
       </h1>
       <p className="mt-4 max-w-[72ch] text-[15px] leading-relaxed text-slate">
-        Pick a system and pick who is coming after it. The model replays the
-        situation several times over, and at the steps that mattered it seats
-        that actor&rsquo;s own institutional gates — the offices that would
-        really have to sign off — as separate agents, and makes them judge the
-        same option set. You can open any one of them and read exactly what it
-        was asked and what it said, down to the raw text.
+        Pick a system and pick who is coming after it. The calculation replays
+        the situation several times over. At the steps that mattered, it puts
+        that actor&rsquo;s own officials in the room — the ones who would really
+        have to sign off — as separate agents, and asks each of them to judge
+        the same set of choices. You can open any one of them and read exactly
+        what it was asked and what it said, word for word.
       </p>
       <p className="mt-3 max-w-[72ch] text-[15px] leading-relaxed text-slate">
-        The arithmetic underneath is unchanged and still reproduces from its
-        seed. The councils never overrule it, which is what makes the places
-        they disagree with it worth reading.
+        The calculation underneath — the fixed scoring the simulation runs, with
+        no AI in it — is unchanged, and still gives the same answer from the
+        same seed. The councils never overrule it, which is what makes the
+        places they disagree with it worth reading.
       </p>
 
       <LiveRun />
@@ -40,11 +41,10 @@ export default function LivePage() {
           {MANIFEST.profileMethod}
         </p>
         <p className="mt-3 max-w-[76ch] text-[13.5px] leading-relaxed text-slate">
-          Reviewed {MANIFEST.profilesReviewedAt}. Each profile carries the
-          source behind every number, and the panel beside a running actor shows
-          how many of its parameters rest on thin evidence. Profiles are data,
-          not code — an evaluator with better sourcing replaces the file and
-          reruns.
+          Reviewed {MANIFEST.profilesReviewedAt}. Each profile shows where every
+          number came from, and the panel beside a running actor shows how many
+          of those numbers rest on thin evidence. Profiles are data, not code —
+          an evaluator with better sources replaces the file and runs it again.
         </p>
       </section>
     </Page>

@@ -19,7 +19,7 @@ import { Card, Eyebrow, Page, Pill } from "../../components/site/ui";
 export const metadata = {
   title: "Actors — Proteus",
   description:
-    "Every adversary profile the engine can place in a scenario: how it decides, what it refuses, and what it has actually done.",
+    "Every attacker profile the engine can place in a scenario: how it decides, what it refuses, and what it has actually done.",
 };
 
 const KIND_ORDER = [
@@ -42,22 +42,23 @@ export default function ActorsPage() {
     <Page>
       <Eyebrow>Actors</Eyebrow>
       <h1 className="max-w-[26ch] text-[34px] leading-[1.1]">
-        Who the model can put across the table
+        Who the calculation can put across the table
       </h1>
       <p className="mt-4 max-w-[72ch] text-[15px] leading-relaxed text-slate">
-        Two adversaries with the same access and the same target choose
-        differently, because they weigh exposure, allied opinion, their own
-        losses and time differently. Each profile below states those weights,
-        what the institution refuses outright, and the sourcing behind every
-        figure — so the ones you disagree with are the ones you can replace.
+        Two attackers with the same access and the same target choose
+        differently, because they weigh the risk of being blamed for it, allied
+        opinion, their own losses and time differently. Each profile below
+        states those weights, the red lines the institution holds to, and where
+        every number came from — so the ones you disagree with are the ones you
+        can replace.
       </p>
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2">
         {profiles.map((dossier) => {
           const depth = dossierDepth(dossier);
           const documented = [
-            depth.procedure ? "decision procedure" : null,
-            depth.worldview ? "declared ends" : null,
+            depth.procedure ? "how it decides" : null,
+            depth.worldview ? "what it says it wants" : null,
             depth.history > 0 ? `${depth.history} decisions on record` : null,
           ].filter(Boolean);
 
@@ -85,14 +86,12 @@ export default function ActorsPage() {
                   <span>{citationCount(dossier)} sources</span>
                   <span>
                     {dossier.redlines.length}{" "}
-                    {dossier.redlines.length === 1
-                      ? "commitment"
-                      : "commitments"}
+                    {dossier.redlines.length === 1 ? "red line" : "red lines"}
                   </span>
                   {documented.length > 0 ? (
                     <span>{documented.join(" · ")}</span>
                   ) : (
-                    <span>numbers only — no dossier written yet</span>
+                    <span>numbers only — no profile written yet</span>
                   )}
                   {depth.lowConfidence > 0 && (
                     <Pill tone="warn">
@@ -113,11 +112,10 @@ export default function ActorsPage() {
           {DOSSIERS.method}
         </p>
         <p className="mt-3 max-w-[76ch] text-[13.5px] leading-relaxed text-slate">
-          Reviewed {DOSSIERS.reviewedAt}. A parameter here describes a regime,
-          an institution, or a doctrine. There is no field for an ethnicity, a
-          religion, or the character of a population, so no page can render one
-          and no council prompt can be built from one — the refusal is
-          structural, not editorial.
+          Reviewed {DOSSIERS.reviewedAt}. There is nowhere to record an
+          ethnicity, a religion, or the character of a population, so no page
+          can show one and none can reach the council of officials a run puts in
+          the room — the block is built into the data, not a matter of editing.
         </p>
       </section>
     </Page>

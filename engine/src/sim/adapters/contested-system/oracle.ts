@@ -122,11 +122,11 @@ export function weakestClass(
 export function describeOracle(oracle: ConsequenceOracle): string {
   switch (oracle.evidenceClass) {
     case "solved":
-      return `Consequences solved by ${oracle.method}. VERIFIABLE, not VALIDATED: the solver is both the predictor and the answer key here, so measured skill on this stage is 1.0 by construction. Ranking order is a claim about the model, not about any real system.`;
+      return `Harm worked out by ${oracle.method}. This checks the model against itself, not against the world: the same solver both makes the prediction and marks it, so the score here is a perfect 1.0 whatever happens. Read the ranking as a claim about the model, never about any real system.`;
     case "supplied":
-      return `Consequences supplied by the evaluator (${oracle.method}). The ranking inherits the accuracy of that data and asserts nothing beyond it.`;
+      return `Harm figures supplied by the evaluator (${oracle.method}). The ranking is only as accurate as that data, and claims nothing beyond it.`;
     case "parametric":
-      return `Consequences estimated by ${oracle.method}, an analytic stand-in with no domain solver behind it. These are STRUCTURED GUESSES: internally consistent and reproducible from the seed, but not evidence about the world. Use the ranking to decide where to look, never as a magnitude to plan against.`;
+      return `Harm estimated by ${oracle.method}, a stand-in formula with no real-world solver behind it. These are STRUCTURED GUESSES: consistent with each other and repeatable from the seed, but not evidence about the world. Use the ranking to decide where to look — never as a number to plan against.`;
   }
 }
 

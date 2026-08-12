@@ -207,9 +207,8 @@ export default function ReliabilityChart({ arms }: ReliabilityChartProps) {
       </div>
 
       <p className="mt-3 max-w-[68ch] text-[12.5px] leading-relaxed text-muted">
-        On the dashed line, things it called 30% likely happened 30% of the
-        time. Bigger dots are backed by more forecasts; the small ones swing a
-        long way on very little evidence.
+        Bigger dots are backed by more forecasts; the small ones swing a long
+        way on very little evidence.
       </p>
     </div>
   );

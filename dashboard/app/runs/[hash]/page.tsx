@@ -61,7 +61,7 @@ export default async function RunPage({
         </h1>
         <p className="mt-2 max-w-[64ch] text-[14px] leading-relaxed text-slate">
           One simulated run of a disinformation campaign spreading through a
-          fictitious population. Nothing here is a real account, platform, or
+          made-up population. Nothing here is a real account, platform, or
           person. Press play to watch it unfold.
         </p>
 
@@ -74,7 +74,7 @@ export default async function RunPage({
             <Fact label="Competing messages" value={String(world.narratives)} />
             <Fact label="Days simulated" value={String(world.ticks)} />
             <Fact
-              label="Counts as believing at"
+              label="Believing starts at"
               value={world.adoptionThreshold.toFixed(2)}
             />
           </div>
@@ -126,8 +126,8 @@ export default async function RunPage({
             </>
           ) : (
             <p className="mt-2 text-[13.5px] text-slate">
-              None — this is a control run with no attacker. Any movement below
-              is the population drifting on its own.
+              None — this is a comparison run with no attacker. Any movement
+              below is the population drifting on its own.
             </p>
           )}
         </section>
@@ -138,7 +138,7 @@ export default async function RunPage({
 
         <section className="mt-12 border-t border-line pt-6">
           <h2 className="text-[13px] font-semibold text-navy">
-            Reproducibility
+            Re-running this yourself
           </h2>
           <div className="mt-3 grid grid-cols-1 gap-x-6 gap-y-3 sm:grid-cols-2">
             <Fact label="Run ID" value={trace.runId} />

@@ -19,7 +19,7 @@ import type { SituationSpec } from "../spec.js";
 export const PORT_THROUGHPUT: SituationSpec = {
   id: "port-throughput",
   statement:
-    "A container terminal's ability to move boxes, contested over a 120-day window.",
+    "A container terminal's ability to move boxes, under attack for 120 days.",
   provenance:
     "Synthetic. Generic terminal functions — berths, yard cranes, gate and manifest systems. No real port or operator is represented.",
   ticks: 120,
@@ -118,7 +118,8 @@ export const PORT_THROUGHPUT: SituationSpec = {
     },
     {
       id: "presence_revealed",
-      statement: "presence made evident without operational effect",
+      statement:
+        "makes itself visible inside the system without disrupting anything",
       attributability: 0.3,
       visibility: 0.25,
       civilianHarmShare: 0,
@@ -128,7 +129,8 @@ export const PORT_THROUGHPUT: SituationSpec = {
     },
     {
       id: "handling_slowdown",
-      statement: "handling slows without any single system failing",
+      statement:
+        "cargo handling slows down, with no single system actually failing",
       attributability: 0.25,
       visibility: 0.3,
       civilianHarmShare: 0.1,
@@ -138,7 +140,7 @@ export const PORT_THROUGHPUT: SituationSpec = {
     },
     {
       id: "system_denial",
-      statement: "an operating system becomes unavailable",
+      statement: "one of the systems the terminal runs on goes down",
       attributability: 0.6,
       visibility: 0.7,
       civilianHarmShare: 0.25,
@@ -149,7 +151,7 @@ export const PORT_THROUGHPUT: SituationSpec = {
     {
       id: "records_corruption",
       statement:
-        "operating records become untrustworthy and cargo provenance cannot be established",
+        "the terminal's records can no longer be trusted, so nobody can establish what is in each box or where it came from",
       attributability: 0.45,
       visibility: 0.5,
       civilianHarmShare: 0.35,
@@ -163,9 +165,9 @@ export const PORT_THROUGHPUT: SituationSpec = {
   defenses: [
     {
       kind: "segmentation",
-      label: "operations network segmentation",
+      label: "operations network kept in separate zones",
       statement:
-        "Separates terminal operating systems so reaching one does not reach the next.",
+        "Splits the terminal's systems apart, so breaking into one does not open the next.",
       startTick: 0,
       intensity: 0.6,
       costPerTick: 20,
@@ -174,9 +176,9 @@ export const PORT_THROUGHPUT: SituationSpec = {
     },
     {
       kind: "credential-rotation",
-      label: "credential rotation",
+      label: "regular password and key changes",
       statement:
-        "Retires standing access on a schedule so quiet access goes stale.",
+        "Changes passwords and keys on a schedule, so access an attacker is quietly sitting on stops working.",
       startTick: 0,
       intensity: 0.6,
       costPerTick: 9,
@@ -185,9 +187,9 @@ export const PORT_THROUGHPUT: SituationSpec = {
     },
     {
       kind: "manifest-attestation",
-      label: "independent manifest attestation",
+      label: "separate backup record of every box",
       statement:
-        "Keeps a second, separately-held record of what is in each box, so corrupted records can be reconstructed instead of re-inspected.",
+        "Keeps a second, separately-held record of what is in each box, so ruined records can be rebuilt from it instead of every container being reopened.",
       startTick: 0,
       intensity: 0.6,
       costPerTick: 14,
@@ -199,9 +201,9 @@ export const PORT_THROUGHPUT: SituationSpec = {
     },
     {
       kind: "anomaly-detection",
-      label: "operations anomaly detection",
+      label: "alerts for unusual activity",
       statement:
-        "Raises the chance activity is noticed and traced, deterring actors that need deniability.",
+        "Makes it more likely the activity is noticed and traced back to them, which puts off attackers who need to be able to deny it.",
       startTick: 0,
       intensity: 0.6,
       costPerTick: 12,

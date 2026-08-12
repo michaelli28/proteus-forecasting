@@ -9,7 +9,7 @@ const STEPS = [
   {
     n: "01",
     title: "Simulate the decision",
-    body: "For each run, a modeled adversary weighs the payoff of acting now against the risk of being caught, and decides whether to spend the access it already holds. Thousands of runs map the full range of what it might do.",
+    body: "Thousands of runs map the full range of what it might do.",
   },
   {
     n: "02",
@@ -19,7 +19,7 @@ const STEPS = [
   {
     n: "03",
     title: "Rank exposure and defenses",
-    body: "The runs are turned into a ranking: which components cause the most damage if compromised, and which defensive measures buy the most protection for the least cost.",
+    body: "The runs are turned into a ranking.",
   },
 ];
 

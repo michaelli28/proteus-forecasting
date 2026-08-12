@@ -3,16 +3,16 @@
 /**
  * One council, opened.
  *
- * This is the inside of a row in `Councils` — the seats, what each of them
+ * This is the inside of a row in `Councils` — the officials, what each of them
  * recommended, and what the chair did with the table. The row above it owns the
  * identifying line and the warning mark, so nothing here repeats them.
  *
  * The card is built around the thing worth looking at, which is not the answer
- * but the split: institutional gates reaching different calls, and a chair
- * having to overrule one of them.
+ * but the split: officials reaching different calls, and a chair having to
+ * overrule one of them.
  *
- * Every seat is a button because the whole promise of the page is that you can
- * open any one of them and read exactly what it was asked and what it said.
+ * Every official is a button because the whole promise of the page is that you
+ * can open any one of them and read exactly what it was asked and what it said.
  */
 
 import type { AgentRecord, Council } from "../../lib/run-state";
@@ -21,6 +21,21 @@ export const RECOMMENDATION_COPY: Record<string, string> = {
   act: "authorise",
   hold: "wait",
   refuse: "refuse",
+};
+
+// The engine's trigger string is also a prompt input, so it cannot be reworded
+// there; this plainifies the known ones for display only.
+const TRIGGER_COPY: Record<string, string> = {
+  "the model authorised a move at this step":
+    "the calculation approved a move at this step",
+  "the institution began treating its position as losing":
+    "this attacker started treating its position as losing",
+  "its own commitments emptied the table":
+    "its own red lines ruled out every move",
+  "waiting and acting were within a hair of each other":
+    "waiting and acting scored within a hair of each other",
+  "this institution never acted in the whole window, and this is the step where it came closest":
+    "this attacker never attacked in the whole run, and this is the step where it came closest",
 };
 
 /** The colour a recommendation earns. Waiting is the quiet, ordinary case. */
@@ -45,14 +60,15 @@ export function CouncilDetail({
   return (
     <div>
       <p className="text-[13px] leading-relaxed text-slate">
-        Convened because {council.trigger}.
+        It put its own officials in the room because{" "}
+        {TRIGGER_COPY[council.trigger] ?? council.trigger}.
       </p>
 
       {council.seatSource === "fallback" && (
         <p className="mt-2 text-[12px] leading-snug text-muted">
-          This actor&rsquo;s real decision procedure is not documented, so the
-          table is a generic four-gate stand-in rather than its own authority
-          chain.
+          This actor&rsquo;s real approval process is not written into its
+          profile yet, so these are four stand-in officials, not its own chain
+          of command.
         </p>
       )}
 
@@ -68,7 +84,7 @@ export function CouncilDetail({
                 className="flex items-baseline gap-2 px-2 py-1.5 text-[12.5px] text-muted"
               >
                 <span className="flex-1">{seat.office}</span>
-                <span>deliberating…</span>
+                <span>still deciding…</span>
               </div>
             );
           }
@@ -107,7 +123,7 @@ export function CouncilDetail({
         })}
         {pending > 0 && council.opinions.length === 0 && (
           <div className="px-2 py-1.5 text-[12.5px] text-muted">
-            the table is being seated…
+            bringing in the officials…
           </div>
         )}
       </div>
@@ -121,7 +137,7 @@ export function CouncilDetail({
               onOpenAgent(
                 verdict.agentLabel,
                 `Final authority — ${council.actorLabel}`,
-                `read the whole table and reached "${verdict.decision}"`,
+                `read every opinion and decided "${verdict.decision}"`,
               )
             }
             className="w-full rounded-lg text-left transition-colors hover:bg-surface disabled:cursor-default disabled:hover:bg-transparent"
@@ -134,7 +150,7 @@ export function CouncilDetail({
                 {RECOMMENDATION_COPY[verdict.decision] ?? verdict.decision}
               </span>
               <span className="text-[12px] text-muted">
-                seats split {verdict.split.act ?? 0} authorise ·{" "}
+                officials split {verdict.split.act ?? 0} authorise ·{" "}
                 {verdict.split.hold ?? 0} wait · {verdict.split.refuse ?? 0}{" "}
                 refuse
               </span>
@@ -156,8 +172,8 @@ export function CouncilDetail({
             }`}
           >
             {verdict.agreed
-              ? `The model's arithmetic reached the same call.`
-              : `The model's arithmetic reached "${verdict.kernelDecision}" instead. The arithmetic is what the run executed — this table is advisory, and the gap between them is the finding.`}
+              ? `The calculation reached the same call.`
+              : `These officials disagreed with the calculation, which reached "${verdict.kernelDecision}" instead, and the gap between them is the finding.`}
           </p>
         </div>
       )}

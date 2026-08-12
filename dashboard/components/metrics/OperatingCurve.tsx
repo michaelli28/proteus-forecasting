@@ -30,7 +30,7 @@ export default function OperatingCurve({
   if (points.length === 0) {
     return (
       <p className="text-[12.5px] text-muted">
-        No operating curve in this snapshot.
+        No caution settings were recorded in this snapshot.
       </p>
     );
   }
@@ -179,7 +179,7 @@ export default function OperatingCurve({
             y={y(mid.falseAbstentionRate) + 18}
             style={{ fontSize: 11, fill: REFUSED_COLOR }}
           >
-            over-refused
+            wrongly skipped
           </text>
 
           <text
@@ -211,23 +211,6 @@ export default function OperatingCurve({
             </div>
           </div>
         )}
-      </div>
-
-      <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-[12px] text-slate">
-        <span className="flex items-center gap-1.5">
-          <span
-            className="inline-block h-2.5 w-2.5 rounded-full"
-            style={{ backgroundColor: CAUGHT_COLOR }}
-          />
-          correctly stayed silent on the unanswerable
-        </span>
-        <span className="flex items-center gap-1.5">
-          <span
-            className="inline-block h-2.5 w-2.5 rounded-full"
-            style={{ backgroundColor: REFUSED_COLOR }}
-          />
-          wrongly skipped ones it could answer
-        </span>
       </div>
 
       <p className="mt-3 max-w-[68ch] text-[12.5px] leading-relaxed text-muted">

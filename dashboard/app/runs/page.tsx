@@ -7,7 +7,7 @@ import Footer from "../../components/site/Footer";
 export const metadata = {
   title: "Runs — Proteus",
   description:
-    "Individual simulation runs from the influence-operations example: what the adversary tried, how far the narrative spread, and how detectable it was.",
+    "Individual simulation runs from the disinformation example: what the attacker tried, how far the false claim spread, and how easy it would have been to spot.",
 };
 
 const HEAD =
@@ -19,31 +19,30 @@ export default function RunsPage() {
       <Page>
         <Reveal as="section" className="pt-6">
           <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">
-            Worked example · Influence operations
+            Worked example · Disinformation
           </div>
           <h1 className="mt-3 max-w-[20ch] text-[clamp(1.9rem,4vw,2.9rem)] leading-[1.08]">
             Individual runs, opened up.
           </h1>
           <p className="mt-5 max-w-[64ch] text-[16px] leading-relaxed text-slate">
             A different worked example: a coordinated disinformation campaign
-            spreading through a synthetic population. Each row is one simulated
-            run with a different adversary. Open one to watch it unfold tick by
-            tick — and to see the sharp line the system keeps between what
-            really happened and what a defender watching from outside could
-            actually see.
+            spreading through a made-up population. Each row is one simulated
+            run with a different attacker. Open one to watch it unfold day by
+            day — and to see the sharp line the system keeps between what really
+            happened and what a defender watching from outside could actually
+            see.
           </p>
           <p className="mt-4 max-w-[64ch] text-[14px] leading-relaxed text-muted">
-            Every figure comes from a simulation of a fictitious population. No
-            real account, platform, or person is involved.
+            No real account, platform, or person is involved.
           </p>
         </Reveal>
 
         <section className="mt-12">
           <h2 className="text-[18px] leading-tight">The runs</h2>
           <p className="mt-1.5 max-w-[64ch] text-[13.5px] leading-relaxed text-slate">
-            Two dials set each adversary: how much risk it accepts, and how
-            aggressively it pushes. That spread is what a combined forecast is
-            built from.
+            Two dials set each attacker: how much risk it accepts, and how
+            aggressively it pushes. The forecast is built from that whole
+            spread, not from any one run.
           </p>
 
           <div className="mt-5 overflow-x-auto rounded-xl border border-line bg-surface">
@@ -56,7 +55,7 @@ export default function RunsPage() {
                   <th className={HEAD}>Attack window</th>
                   <th className={HEAD}>Believed it</th>
                   <th className={HEAD}>How split</th>
-                  <th className={HEAD}>Detectability</th>
+                  <th className={HEAD}>How visible</th>
                 </tr>
               </thead>
               <tbody>
@@ -83,7 +82,7 @@ export default function RunsPage() {
                       <td className="px-4 py-3 tnum text-slate">
                         {trace.campaign
                           ? `day ${trace.campaign.startTick}–${trace.campaign.endTick}`
-                          : "no attack (control)"}
+                          : "no attack (comparison run)"}
                       </td>
                       <td className="px-4 py-3 tnum font-semibold text-ink">
                         {percent(final.adoptionRate)}
@@ -102,11 +101,11 @@ export default function RunsPage() {
           </div>
           <p className="mt-3 max-w-[70ch] text-[12.5px] leading-relaxed text-muted">
             <strong className="font-semibold text-ink">Believed it</strong> is
-            the share of the population that ended up adopting the narrative.{" "}
-            <strong className="font-semibold text-ink">How split</strong> is
-            whether the population polarized into two camps (higher = more
+            the share of the population that ended up believing the false claim.{" "}
+            <strong className="font-semibold text-ink">How split</strong> is how
+            far the population broke into two opposed camps (higher = more
             split).{" "}
-            <strong className="font-semibold text-ink">Detectability</strong> is
+            <strong className="font-semibold text-ink">How visible</strong> is
             how strongly the campaign showed up in the activity a defender could
             monitor.
           </p>

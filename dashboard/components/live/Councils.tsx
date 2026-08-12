@@ -4,8 +4,8 @@
  * Every council the run held, grouped by the world that held it.
  *
  * What this replaced printed every one of them open, which on a six-world run
- * is three dozen full cards — a table of seats, a verdict and an arithmetic
- * line each — and a reader hunting the few that parted from the arithmetic had
+ * is three dozen full cards — a table of officials, a verdict and a calculation
+ * line each — and a reader hunting the few that parted from the calculation had
  * to scroll the ones that did not. Nothing about the shape of the page said
  * where the findings were.
  *
@@ -88,7 +88,7 @@ export function Councils({
     <div>
       <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2">
         <h3 className="text-[15px]">
-          Where the institutions actually deliberated
+          Where each actor&rsquo;s own officials weighed the same choice
         </h3>
         {/* Offered only when it can change what is on screen: with nothing to
             filter down to, or nothing filtered out, the control is decoration. */}
@@ -107,18 +107,18 @@ export function Councils({
             }`}
           >
             {partedOnly
-              ? `showing the ${parted} that parted — show all ${councils.length}`
-              : `show only the ${parted} that parted from the arithmetic`}
+              ? `showing the ${parted} that disagreed — show all ${councils.length}`
+              : `show only the ${parted} that disagreed with the calculation`}
           </button>
         )}
       </div>
 
       <p className="mt-1.5 max-w-[72ch] text-[13px] leading-relaxed text-slate">
-        At each step below, that actor&rsquo;s own gates were seated as separate
-        agents and asked to judge the same option set. They are advisory — the
-        arithmetic is what the run executed — so the{" "}
+        At each step below, the officials inside that actor who would have to
+        sign off were asked to judge the same options. They only advise — the
+        calculation is what the run actually did — so the{" "}
         {parted > 0
-          ? `${parted} ${parted === 1 ? "council" : "councils"} that reached a different call than the arithmetic ${parted === 1 ? "is" : "are"} the finding`
+          ? `${parted} ${parted === 1 ? "council" : "councils"} that disagreed with the calculation ${parted === 1 ? "is" : "are"} the finding`
           : "places where they agree are a check on it"}
         .
       </p>
@@ -166,7 +166,7 @@ export function Councils({
                 </span>
                 {world.parted > 0 && !partedOnly && (
                   <span className="text-[12.5px] text-warn">
-                    {world.parted} parted from the arithmetic
+                    {world.parted} disagreed with the calculation
                   </span>
                 )}
                 <span className="ml-auto text-[12px] text-muted">
@@ -246,10 +246,13 @@ function CouncilRows({
                 </>
               ) : (
                 <span className="text-[12px] text-muted">
-                  {council.opinions.length} of {council.seats.length} seats in
+                  {council.opinions.length} of {council.seats.length} officials
+                  answered
                 </span>
               )}
-              {dissented && <Pill tone="warn">parted from the arithmetic</Pill>}
+              {dissented && (
+                <Pill tone="warn">disagreed with the calculation</Pill>
+              )}
               <Chevron open={isOpen} />
             </button>
 
@@ -296,8 +299,8 @@ function Chevron({ open }: { open: boolean }) {
 /**
  * How the table divided — and nothing at all when it did not.
  *
- * A run where every council was unanimous would otherwise print "all 7 seats
- * agreed" down the whole list, which is a column of identical text that tells a
+ * A run where every council was unanimous would otherwise print "all 7
+ * officials agreed" down the whole list, a column of identical text that tells a
  * reader nothing about which row to open. The divided tables are the ones worth
  * finding, so they are the only ones that say anything here.
  */
@@ -307,7 +310,7 @@ function tableCopy(council: Council): string {
   const seats = council.opinions.length;
   const agreeing = verdict.split[verdict.decision] ?? 0;
   if (seats === 0 || agreeing >= seats) return "";
-  return `${agreeing} of ${seats} seats agreed`;
+  return `${agreeing} of ${seats} officials agreed`;
 }
 
 /**

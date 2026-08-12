@@ -108,8 +108,7 @@ export default function SkillTrend({ snapshots }: SkillTrendProps) {
       </div>
       <p className="mt-3 max-w-[68ch] text-[12.5px] leading-relaxed text-muted">
         Zero is a plain coin-flip. Bars to the right did better than that; to
-        the left, worse. The &ldquo;misspecified&rdquo; scenario is supposed to
-        land on the left — it is the check that the system fails when it should.
+        the left, worse.
       </p>
     </div>
   );

@@ -135,7 +135,7 @@ export async function runDeep(options: DeepRunOptions): Promise<DeepRunResult> {
     emitter.emit({
       type: "stage",
       stage: "worlds",
-      detail: `replaying the same situation ${branches} times under different draws`,
+      detail: `replaying the same situation ${branches} times, with the random details different each time`,
     });
 
     const summaries: BranchSummary[] = [];
@@ -196,17 +196,17 @@ export async function runDeep(options: DeepRunOptions): Promise<DeepRunResult> {
         type: "stage",
         stage: "councils",
         detail:
-          "skipped — no model backend was configured, so no institution deliberated. " +
-          "Everything above is the arithmetic kernel alone.",
+          "skipped — no AI model was set up, so none of the attacker's own decision-makers weighed in. " +
+          "Everything above is the calculation alone — the fixed scoring, no AI in it.",
       });
     } else {
       emitter.emit({
         type: "stage",
         stage: "councils",
         detail:
-          `convening ${kept.length} councils across ${branches} worlds` +
+          `putting the attacker's own decision-makers in the room ${kept.length} times across ${branches} worlds` +
           (dropped > 0
-            ? ` — ${dropped} further qualifying steps were left out by the per-world cap of ${options.maxCouncilsPerBranch}`
+            ? ` — ${dropped} more steps also qualified but were left out by the limit of ${options.maxCouncilsPerBranch} per world`
             : ""),
       });
     }
@@ -226,7 +226,7 @@ export async function runDeep(options: DeepRunOptions): Promise<DeepRunResult> {
         type: "stage",
         stage: "judges",
         detail:
-          "no judge returned a usable verdict — the ensemble stands unadjudicated",
+          "no reviewer returned a usable verdict — nobody reviewed the set of replays",
       });
     }
 
@@ -602,7 +602,7 @@ async function runJudges(
   emitter.emit({
     type: "stage",
     stage: "judges",
-    detail: `${techniques.length} adjudicators, each applying a different technique to the same ${branches.length} worlds`,
+    detail: `${techniques.length} reviewers, each applying a different technique to the same ${branches.length} worlds`,
   });
 
   const brief = buildEnsembleBrief(branches, councils, config);

@@ -22,7 +22,7 @@ import type { SituationSpec } from "../spec.js";
 export const BENEFITS_DELIVERY: SituationSpec = {
   id: "benefits-delivery",
   statement:
-    "A government benefits eligibility and disbursement service, contested over a 240-day window.",
+    "A government service that decides who qualifies for benefits and pays them, under attack for 240 days.",
   provenance:
     "Synthetic. Generic eligibility, disbursement, and identity-proofing functions. No real agency, programme, or vendor is represented.",
   ticks: 240,
@@ -122,7 +122,8 @@ export const BENEFITS_DELIVERY: SituationSpec = {
     },
     {
       id: "presence_revealed",
-      statement: "presence made evident without operational effect",
+      statement:
+        "makes itself visible inside the system without disrupting anything",
       attributability: 0.35,
       visibility: 0.3,
       civilianHarmShare: 0,
@@ -142,7 +143,7 @@ export const BENEFITS_DELIVERY: SituationSpec = {
     },
     {
       id: "bulk_exposure",
-      statement: "beneficiary records are exposed",
+      statement: "people's personal benefit records are leaked",
       attributability: 0.5,
       visibility: 0.8,
       civilianHarmShare: 0.9,
@@ -153,7 +154,7 @@ export const BENEFITS_DELIVERY: SituationSpec = {
     {
       id: "silent_determination_drift",
       statement:
-        "determinations become quietly wrong while the service reports itself healthy",
+        "decisions about who gets paid quietly go wrong while the service still reports itself healthy",
       // Low visibility is exactly what makes this the top rung: nobody stops it,
       // so duration is set by when someone finally notices rather than by
       // recovery. Same shape as alarm suppression in the water domain.
@@ -169,9 +170,9 @@ export const BENEFITS_DELIVERY: SituationSpec = {
   defenses: [
     {
       kind: "segmentation",
-      label: "service segmentation",
+      label: "service split into separate parts",
       statement:
-        "Separates adjudication, payment, and records so reaching one does not reach the next.",
+        "Keeps the decision-making, payment, and records systems apart, so breaking into one does not open the next.",
       startTick: 0,
       intensity: 0.6,
       costPerTick: 22,
@@ -180,9 +181,9 @@ export const BENEFITS_DELIVERY: SituationSpec = {
     },
     {
       kind: "privileged-access-review",
-      label: "privileged access review",
+      label: "regular review of who has admin access",
       statement:
-        "Recertifies who can change eligibility logic, so standing authority goes stale.",
+        "Re-checks who is allowed to change the rules on who qualifies, so old access stops working.",
       startTick: 0,
       intensity: 0.6,
       costPerTick: 10,
@@ -191,9 +192,9 @@ export const BENEFITS_DELIVERY: SituationSpec = {
     },
     {
       kind: "determination-sampling",
-      label: "independent determination sampling",
+      label: "independent spot-checks of decisions",
       statement:
-        "Re-adjudicates a random sample of decisions against the published rules, so wrong answers surface in days instead of months.",
+        "A separate reviewer re-checks a random sample of decisions against the published rules, so wrong answers show up in days instead of months.",
       startTick: 0,
       intensity: 0.6,
       costPerTick: 16,
@@ -207,9 +208,9 @@ export const BENEFITS_DELIVERY: SituationSpec = {
     },
     {
       kind: "anomaly-detection",
-      label: "transaction anomaly detection",
+      label: "alerts for unusual payments",
       statement:
-        "Raises the chance activity is noticed and traced, deterring actors that need deniability.",
+        "Makes it more likely the activity is noticed and traced back to them, which puts off attackers who need to be able to deny it.",
       startTick: 0,
       intensity: 0.6,
       costPerTick: 12,

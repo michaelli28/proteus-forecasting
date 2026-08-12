@@ -64,7 +64,7 @@ export default function CalibrationPage() {
         <Section
           eyebrow="The core test"
           title="When it says 30%, does it happen 30%?"
-          lede="Each dot is a batch of forecasts. On the dashed line, the stated odds matched reality exactly. Below the line means overconfident; above means the opposite."
+          lede="Each dot is a batch of forecasts. On the dashed line, the stated odds matched what really happened. Below the line, it was overconfident; above, it was too cautious."
         >
           <Card>
             <ReliabilityChart arms={snapshot.arms} />
@@ -74,7 +74,7 @@ export default function CalibrationPage() {
         <Section
           eyebrow="Scenario by scenario"
           title="Harder questions, measured separately"
-          lede="Each scenario gives the system a different amount of evidence. They are scored on their own — never averaged together, because a hard question and an easy one answer different things."
+          lede="Each scenario gives the system a different amount of evidence. They are scored on their own — never averaged together, because a hard question and an easy one are not measuring the same thing."
         >
           <ArmTable arms={snapshot.arms} />
         </Section>
@@ -95,7 +95,7 @@ export default function CalibrationPage() {
         <Section
           eyebrow="Track record"
           title="Better than a coin flip, where it should be"
-          lede="Skill for each scenario, against a plain baseline. The deliberately-broken scenario is expected to score below zero — proof the measurement catches failure, not just success."
+          lede="One score per scenario, against a plain baseline. The deliberately-broken scenario is expected to score below zero — proof the measurement catches failure, not just success."
         >
           <SkillTrend snapshots={SNAPSHOTS} />
         </Section>
@@ -123,16 +123,14 @@ export default function CalibrationPage() {
           {!cost.modelInLoop && (
             <p className="mt-4 max-w-[70ch] text-[13px] leading-relaxed text-muted">
               No AI model ran in this batch — the forecast came from the
-              simulation ensemble alone, which is how the system currently
-              ships. So there is no per-answer price to report. It is unpriced,
-              not free.
+              calculation alone, which is how the system currently ships. It is
+              unpriced, not free.
             </p>
           )}
         </Section>
 
         <footer className="mt-16 border-t border-line pt-5 text-[12px] text-muted">
-          Snapshot {snapshot.label} · generated {snapshot.generatedAt} ·{" "}
-          {percent(abstainRate)} of all questions declined as unanswerable
+          Snapshot {snapshot.label} · generated {snapshot.generatedAt}
         </footer>
       </Page>
       <Footer />

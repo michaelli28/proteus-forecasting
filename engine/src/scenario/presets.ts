@@ -88,11 +88,11 @@ export const PRESET_VERIFICATION_SEEDS = [
 export const SCENARIO_PRESETS: readonly ScenarioPreset[] = [
   {
     id: "identity-decides",
-    question: "Does it change anything which adversary you are facing?",
+    question: "Does it matter which attacker you are up against?",
     finding:
-      "Russia and China are placed in the same grid, with the same access, the same options and the same ladder. Russia acts six times. China never once finds a move worth making in a hundred and eighty days — every option costs it more legitimacy than it gains. Nothing about capability separates them; only what each institution weighs.",
+      "Russia and China get the same grid, the same access, the same options and the same ladder of escalation. Russia attacks six times. China never once finds a move worth making in a hundred and eighty days — every option costs it more in law and allies than it gains. They are given the same capability here, so nothing about capability separates them — only what each one weighs.",
     watchFor:
-      "China convenes a council too — at the step it came closest to acting — so both institutions answer the same question about the same grid. Open a seat from each and compare the grounds they give.",
+      "China holds a council too — its own officials, at the step it came closest to attacking — so both sides answer the same question about the same grid. Open one official from each and compare the reasons they give.",
     pack: "regional-grid",
     actors: ["russia", "china"],
     respondents: [],
@@ -107,11 +107,12 @@ export const SCENARIO_PRESETS: readonly ScenarioPreset[] = [
   },
   {
     id: "commitment-the-arithmetic-misses",
-    question: "Can the model see a commitment that would actually stop this?",
+    question:
+      "Can the calculation see a red line the attacker set for itself that would actually stop this?",
     finding:
-      "Russia's non-acknowledgment commitment is one the kernel enforces — and no rung in any scenario shipped here is attributable enough to trip it, so it never removes a single move. The arithmetic runs as though the commitment did not exist, and it acts.",
+      "Russia has one red line: never admit it did this. The calculation does enforce that red line. But no move in any scenario shipped here is traced back to Russia clearly enough to count as breaking it, so the red line never removes a single move. The calculation runs as if the red line were not there, and Russia attacks.",
     watchFor:
-      "Russia's documented procedure seats a gate whose entire remit is maintaining non-acknowledgment. Watch the councils decline steps the arithmetic authorised, then open that seat: it is pricing the exposure of spending unacknowledged access — the cost the kernel has no threshold low enough to charge.",
+      "Russia's documented procedure includes an official who has to sign off, and whose whole job is keeping that denial intact. Watch for councils turning down steps the calculation approved, then open that official: it is weighing the risk of being blamed for using access nobody knows it has — a cost the calculation never manages to charge.",
     pack: "regional-grid",
     actors: ["russia"],
     respondents: [],
@@ -125,11 +126,11 @@ export const SCENARIO_PRESETS: readonly ScenarioPreset[] = [
   },
   {
     id: "one-world-cannot-tell-you",
-    question: "Did the mitigation work?",
+    question: "Did the defense work?",
     finding:
-      "Credential rotation is bought against the actor that does the most damage to this grid, and across replays the same mitigation lands anywhere from no harm at all to more harm than running undefended. The spread between worlds is larger than the effect being measured.",
+      "Credential rotation — regularly changing passwords and keys — is bought against the attacker that does the most damage to this grid. Across replays of the same situation, that same defense lands anywhere from no harm at all to more harm than having no defense. How much the result changes between replays is larger than the effect being measured.",
     watchFor:
-      "The worlds panel, before anything else. Any single number pulled from one of those worlds would support a confident and opposite conclusion to the number beside it — which is the argument for replaying at all.",
+      "Look at the worlds panel before anything else. Take any single number out of one of those worlds and it would let you say, confidently, the opposite of the world beside it — which is the whole argument for replaying.",
     pack: "regional-grid",
     actors: ["criminal-syndicate"],
     respondents: [],
@@ -143,11 +144,11 @@ export const SCENARIO_PRESETS: readonly ScenarioPreset[] = [
   },
   {
     id: "the-target-nobody-declines",
-    question: "What does a target look like that no adversary walks away from?",
+    question: "What kind of target does no attacker walk away from?",
     finding:
-      "Four of nine actors refuse the power grid outright. Against benefits delivery every one of them acts, and the move they converge on is not an outage — it is silent determination drift: the system stays up and quietly returns wrong answers. The worst case here is never visible as a failure.",
+      "Four of the nine attackers refuse the power grid outright. Against benefits delivery every one of them attacks, and they all settle on the same move. It is not an outage. It is silent determination drift: the system stays up and quietly starts giving people the wrong answers. The worst case here never looks like a failure.",
     watchFor:
-      "How the councils reason about a move that produces no alarm. The gates that stop a visible attack have much less to say about one nobody notices.",
+      "How the councils argue about a move that sets off no alarm. The officials who have to sign off on a visible attack have much less to say about one nobody notices.",
     pack: "benefits-delivery",
     actors: ["russia", "criminal-syndicate"],
     respondents: [],
@@ -163,9 +164,9 @@ export const SCENARIO_PRESETS: readonly ScenarioPreset[] = [
     id: "the-one-that-gets-caught",
     question: "Who gets named, and who gets away with it?",
     finding:
-      "A hacktivist collective works the grid while a third party watches for attributable acts. It is named every time. The criminal syndicate, which does more damage in the same scenario, is never attributed once — it takes the rungs that hide. Being caught is a choice here, not an outcome.",
+      "A hacktivist group works the grid while a third party watches for attacks it can trace back to someone. The hacktivists are named every time. The criminal syndicate, which does more damage in the same scenario, is never once traced back — it picks the moves that hide. Getting caught here is a choice, not bad luck.",
     watchFor:
-      "The seats that weigh exposure. For an institution whose purpose is the claim itself, being seen is not the cost the other profiles treat it as — read how its gates price it.",
+      "The officials who weigh the risk of being blamed for it. For a group whose whole purpose is claiming the attack, being blamed is not the cost the other profiles treat it as — read how its council weighs it.",
     pack: "regional-grid",
     actors: ["hacktivist"],
     respondents: ["us"],

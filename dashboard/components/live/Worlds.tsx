@@ -47,9 +47,9 @@ export function Worlds({
       </h3>
       {worlds.length > 1 && (
         <p className="mt-1.5 max-w-[72ch] text-[13px] leading-relaxed text-slate">
-          Identical setup, replayed under a different draw of who gains access
-          when and which option a boundedly-rational actor picks. Where they
-          diverge is where a plan built on any single run would have been wrong.
+          Same setup, replayed. Each replay redraws who gains access when, and
+          which option the actor picks. Where they diverge is where a plan built
+          on any single run would have been wrong.
         </p>
       )}
 
@@ -79,7 +79,7 @@ export function Worlds({
                 </span>
                 {world.finished && (
                   <span className="text-[12.5px] text-muted">
-                    {world.finished.decisionPoints} steps worth deliberating
+                    {world.finished.decisionPoints} steps the run stopped on
                   </span>
                 )}
                 <span className="ml-auto text-[12px] text-muted">
@@ -156,7 +156,7 @@ function Sparkline({
       preserveAspectRatio="none"
       className="h-3 w-full"
       role="img"
-      aria-label={`harm over the window in world ${world.id}`}
+      aria-label={`harm over time in world ${world.id}`}
     >
       <path
         d={path}
@@ -185,7 +185,7 @@ function Timeline({ world, tickUnit }: { world: Branch; tickUnit: string }) {
   if (world.deliberations.length === 0) {
     return (
       <p className="mt-3 text-[13px] text-muted">
-        Nothing has changed posture in this world yet.
+        Nothing has changed stance in this world yet.
       </p>
     );
   }
@@ -211,13 +211,13 @@ function Timeline({ world, tickUnit }: { world: Branch; tickUnit: string }) {
               </span>
               {acted && <Pill tone="warn">acted</Pill>}
               {entry.frame === "loss" && (
-                <Pill tone="accent">now sees itself losing</Pill>
+                <Pill tone="accent">now sees itself behind</Pill>
               )}
               <span className="min-w-0 flex-1 truncate text-[12.5px] text-slate">
                 {entry.rationale}
               </span>
               <span className="text-[11.5px] text-muted">
-                {entry.consideredCount} weighed
+                {entry.consideredCount} options weighed
               </span>
             </button>
 
@@ -232,10 +232,10 @@ function Timeline({ world, tickUnit }: { world: Branch; tickUnit: string }) {
 /**
  * The full option set at one step.
  *
- * Every column is a term the model actually multiplied, so a reader can see not
- * just that an option lost but which cost beat it. The chosen row is marked; the
- * options a commitment removed are listed beneath, because a move that was never
- * scored is a different fact from one that scored badly.
+ * Every column is a term the calculation actually multiplied, so a reader can
+ * see not just that an option lost but which cost beat it. The chosen row is
+ * marked; the options a red line removed are listed beneath, because a move
+ * that was never scored is a different fact from one that scored badly.
  */
 function OptionTable({ entry }: { entry: KeptDeliberation }) {
   const options = [...entry.considered].sort((a, b) => b.total - a.total);
@@ -260,7 +260,7 @@ function OptionTable({ entry }: { entry: KeptDeliberation }) {
                 <th className="pb-1.5 pr-3 text-right font-medium">worth</th>
                 <th className="pb-1.5 pr-3 text-right font-medium">gain</th>
                 <th className="pb-1.5 pr-3 text-right font-medium">
-                  being seen
+                  being blamed
                 </th>
                 <th className="pb-1.5 pr-3 text-right font-medium">
                   law &amp; allies
@@ -302,14 +302,14 @@ function OptionTable({ entry }: { entry: KeptDeliberation }) {
         </div>
       ) : (
         <p className="mt-2 text-[12.5px] text-muted">
-          Nothing was scoreable at this step.
+          There was nothing to score at this step.
         </p>
       )}
 
       {entry.blocked.length > 0 && (
         <div className="mt-3 border-t border-line pt-2.5">
           <div className="text-[11px] font-semibold uppercase tracking-wider text-muted">
-            Removed before scoring by its own commitments
+            Ruled out by its own red lines before scoring
           </div>
           <ul className="mt-1.5 space-y-1">
             {entry.blocked.slice(0, 4).map((blocked, index) => (

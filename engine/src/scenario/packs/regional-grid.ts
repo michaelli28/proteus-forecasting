@@ -20,7 +20,7 @@ import type { SituationSpec } from "../spec.js";
 export const REGIONAL_GRID: SituationSpec = {
   id: "regional-grid",
   statement:
-    "A regional electricity distribution system serving a mixed urban and rural area, contested over a 180-day window.",
+    "A regional power grid serving a mix of city and rural customers, under attack for 180 days.",
   provenance:
     "Synthetic. Generic radial distribution topology with a tie point; no real utility, substation, or control system is represented.",
   ticks: 180,
@@ -130,7 +130,8 @@ export const REGIONAL_GRID: SituationSpec = {
     },
     {
       id: "presence_revealed",
-      statement: "presence made evident without operational effect",
+      statement:
+        "makes itself visible inside the system without disrupting anything",
       attributability: 0.35,
       visibility: 0.3,
       civilianHarmShare: 0,
@@ -150,7 +151,7 @@ export const REGIONAL_GRID: SituationSpec = {
     },
     {
       id: "supply_interruption",
-      statement: "supply interrupted to served customers",
+      statement: "customers lose power",
       attributability: 0.65,
       visibility: 0.9,
       civilianHarmShare: 0.75,
@@ -161,7 +162,7 @@ export const REGIONAL_GRID: SituationSpec = {
     {
       id: "interruption_without_alarm",
       statement:
-        "supply interrupted while operator alarms report normal conditions",
+        "customers lose power while the control room's alarms still show everything as normal",
       attributability: 0.7,
       visibility: 0.85,
       civilianHarmShare: 0.85,
@@ -181,9 +182,9 @@ export const REGIONAL_GRID: SituationSpec = {
   defenses: [
     {
       kind: "segmentation",
-      label: "control-network segmentation",
+      label: "control network kept in separate zones",
       statement:
-        "Separates the operations network so reaching one asset does not reach the next.",
+        "Splits the control network into zones, so breaking into one part does not open the next.",
       startTick: 0,
       intensity: 0.6,
       costPerTick: 18,
@@ -192,9 +193,9 @@ export const REGIONAL_GRID: SituationSpec = {
     },
     {
       kind: "credential-rotation",
-      label: "credential rotation",
+      label: "regular password and key changes",
       statement:
-        "Retires standing access on a schedule, so access held quietly goes stale.",
+        "Changes passwords and keys on a schedule, so access an attacker is quietly sitting on stops working.",
       startTick: 0,
       intensity: 0.6,
       costPerTick: 8,
@@ -203,9 +204,9 @@ export const REGIONAL_GRID: SituationSpec = {
     },
     {
       kind: "anomaly-detection",
-      label: "operations anomaly detection",
+      label: "alerts for unusual activity",
       statement:
-        "Raises the chance activity is noticed and traced, which deters actors that need deniability.",
+        "Makes it more likely the activity is noticed and traced back to them, which puts off attackers who need to be able to deny it.",
       startTick: 0,
       intensity: 0.6,
       costPerTick: 12,
@@ -217,9 +218,9 @@ export const REGIONAL_GRID: SituationSpec = {
     },
     {
       kind: "manual-fallback",
-      label: "staffed manual operation",
+      label: "crews running the system by hand",
       statement:
-        "Crews run the system by hand, ending the event without removing the intruder.",
+        "Crews run the grid manually, which ends the outage but leaves the attacker in place.",
       startTick: 0,
       intensity: 0.6,
       costPerTick: 6,

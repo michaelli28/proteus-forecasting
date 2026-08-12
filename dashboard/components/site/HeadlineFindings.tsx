@@ -46,7 +46,7 @@ export default function HeadlineFindings() {
           Three results from the water example.
         </h2>
         <p className="mt-2 max-w-[68ch] text-[15px] leading-relaxed text-slate">
-          Each comes straight from the simulation, run{" "}
+          Each comes straight from the calculation, run{" "}
           {municipal.runsPerArm.toLocaleString("en-US")} times per scenario.
         </p>
       </Reveal>
@@ -64,7 +64,7 @@ export default function HeadlineFindings() {
           </div>
           <p className="mt-2 text-[13.5px] leading-relaxed text-slate">
             Simply having operators run the plant by hand cut lost water service
-            by nearly half — and cost less than every high-tech measure tested.
+            by nearly half — and cost less than every high-tech defense tested.
           </p>
         </Reveal>
 
@@ -107,7 +107,7 @@ export default function HeadlineFindings() {
           <p className="mt-2 text-[13.5px] leading-relaxed text-slate">
             On the large system, most modeled attacks aim at a single{" "}
             {componentName(dominant.componentId).toLowerCase()} — the clearest
-            &ldquo;harden this first&rdquo; the analysis produces.
+            &ldquo;fix this first&rdquo; the analysis produces.
           </p>
         </Reveal>
       </div>

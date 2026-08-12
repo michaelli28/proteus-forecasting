@@ -181,7 +181,7 @@ function Chokepoints({ result }: { result: ArchetypeResult }) {
     <Block
       n="1"
       title="Biggest exposures"
-      lede="Every control component, ranked by the damage its compromise could do — whether or not the attacker in the simulation chose to target it. That is the point: the worst vulnerabilities are not always the ones under attack."
+      lede="Every control component, ranked by the damage an attacker could do by taking it over — whether or not the simulated attacker chose to target it. That is the point: the worst weak spots are not always the ones under attack."
     >
       <div className="overflow-x-auto rounded-xl border border-line bg-surface">
         <table className="w-full text-[13.5px]">
@@ -273,7 +273,7 @@ function AttackPaths({ result }: { result: ArchetypeResult }) {
       <Block
         n="2"
         title="How the attacker moves"
-        lede="Where the simulated attacker actually spent its access, and what each move cost the public."
+        lede="Where the simulated attacker actually used its access, and what each move cost the public."
       >
         <Empty>
           On this system the attacker never found a move worth making — the
@@ -289,7 +289,7 @@ function AttackPaths({ result }: { result: ArchetypeResult }) {
     <Block
       n="2"
       title="How the attacker moves"
-      lede="Where the simulated attacker actually spent its access, split by the kind of interference — because locking operators out and silently sabotaging controls are very different events."
+      lede="Where the simulated attacker actually used its access, split by what kind of interference it caused — because locking operators out and quietly sabotaging controls are very different events."
     >
       <div className="overflow-x-auto rounded-xl border border-line bg-surface">
         <table className="w-full text-[13.5px]">
@@ -338,7 +338,7 @@ function AttackPaths({ result }: { result: ArchetypeResult }) {
       </div>
       <Caption>
         &ldquo;Days it waited&rdquo; is how long the attacker sat on its access
-        before acting — a patient intruder holding a foothold for the right
+        before acting — a patient attacker holding a foothold for the right
         moment, which is exactly the behaviour that is hard to catch.
       </Caption>
     </Block>
@@ -359,7 +359,7 @@ function Defenses({ result }: { result: ArchetypeResult }) {
     <Block
       n="3"
       title="Defenses worth the money"
-      lede="Each measure is tested against the exact same attacks, changing one thing at a time, so the protection it buys is measured — not assumed. Ranked by value for money."
+      lede="Each defense is tested against the exact same attacks, changing one thing at a time, so the protection it buys is measured — not assumed. Ranked by value for money."
     >
       <div className="grid gap-3 sm:grid-cols-2">
         {rows.map((row) => (
@@ -373,10 +373,10 @@ function Defenses({ result }: { result: ArchetypeResult }) {
       </div>
       <Caption>
         Prevention is measured against a baseline of {personHoursLong(baseline)}{" "}
-        lost-service hours with no defense in place. A measure that
+        lost-service hours with no defense in place. A defense that
         &ldquo;backfires&rdquo; made things worse — tighter monitoring can push
         an attacker to act sooner rather than lose its foothold, and the
-        analysis surfaces that instead of hiding it.
+        analysis shows that instead of hiding it.
       </Caption>
     </Block>
   );
@@ -435,7 +435,6 @@ function DefenseCard({
       {!row.backfired && (
         <div className="mt-4">
           <div className="flex items-center justify-between text-[11.5px] text-muted">
-            <span>value for money</span>
             <span className="tnum">
               {Math.round(row.personHoursPerCost)} hrs saved / $
             </span>

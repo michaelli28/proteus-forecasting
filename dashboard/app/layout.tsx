@@ -5,7 +5,7 @@ import SiteHeader from "../components/site/SiteHeader";
 export const metadata: Metadata = {
   title: "Proteus",
   description:
-    "Forecasting national-security questions, red-teaming the adversary's decisions, and ranking where systems are most exposed.",
+    "Forecasting national-security questions, simulating the attacker's decisions, and ranking where systems are most exposed.",
 };
 
 export default function RootLayout({

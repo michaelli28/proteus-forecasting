@@ -64,6 +64,43 @@ Useful flags: `--tick` (when the outcome resolves), `--range lo,hi` (the outcome
 range the bands tile), `--seed` (same seed ⇒ same run), `--as-of YYYY-MM-DD`
 (information cutoff), `--json` (machine-readable product).
 
+## Any system, any adversary
+
+The influence-ops and cyber-water domains are purpose-built. The
+**contested-system** engine is the same model with the domain taken out: an actor
+chooses an asset, a rung of an escalation ladder, and a duration, and the
+scenario supplies all three. Three worked packs ship — `regional-grid`,
+`port-throughput`, `benefits-delivery` — plus nine researched actor profiles.
+
+Watch one run, decision by decision:
+
+```bash
+cd engine && npm run build
+node dist/cli.js simulate --pack regional-grid --actors russia --respondents us
+```
+
+Useful flags: `--defense <kind>` (run a mitigation arm), `--delay <ms>` (pace it
+for watching), `--seed`, `--stream` (newline-delimited JSON), `--actors a,b`
+(more than one adversary at once).
+
+Compile a scenario nobody has built yet, from a plain-language description:
+
+```bash
+node dist/cli.js compile "A regional hospital network's patient records and
+  scheduling systems, contested over four months." --retrieve
+```
+
+`--retrieve` grounds the scenario in live public sources and keeps the cited
+passages. Needs `ANTHROPIC_API_KEY`; without it, compile still works from the
+description alone.
+
+The actor profiles are **data**, at `engine/data/doctrine-profiles.json`, carrying
+the source behind every parameter. Disagree with one and edit it — nothing needs
+rebuilding but the manifest (`node dist/cli.js manifest`).
+
+See `docs/GENERALIZED-ADVERSARY.md` for what this models, what it refuses to
+model, and what each number is worth.
+
 ## Seeing inside a run
 
 Every run writes 120 ticks of ground truth and platform telemetry to its
@@ -94,11 +131,17 @@ stays a measured number instead of a tautology.
 cd dashboard && npm install && npm run dev
 ```
 
-| Route        | What it shows                                                   |
-| ------------ | --------------------------------------------------------------- |
-| `/metrics`   | Calibration benchmark — reliability, the gate's operating curve |
-| `/runs`      | How the model works, and every published run                    |
-| `/runs/<id>` | One run, tick by tick, with the scrubber                        |
+| Route        | What it shows                                                     |
+| ------------ | ----------------------------------------------------------------- |
+| `/live`      | Watch a run happen — every decision, and every option it rejected |
+| `/metrics`   | Calibration benchmark — reliability, the gate's operating curve   |
+| `/runs`      | How the model works, and every published run                      |
+| `/runs/<id>` | One run, tick by tick, with the scrubber                          |
+
+`/live` is the only page that does not read pre-published JSON: it spawns the
+same CLI you would run in a terminal and forwards its stream. The engine stays
+the single source of truth, so the page can only fail to render something —
+never compute something the engine did not.
 
 It renders `dashboard/data/*.json`, which the engine publishes. To regenerate:
 

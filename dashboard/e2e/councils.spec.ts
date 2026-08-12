@@ -49,23 +49,23 @@ test("a row says how its table divided only when it did", async ({ page }) => {
   const w1 = page.getByRole("button", { name: /^w1 3 councils/ });
   if ((await w1.getAttribute("aria-expanded")) !== "true") await w1.click();
 
-  // Step 33 divided 2–1 without parting from the arithmetic; step 11 was
+  // Step 33 divided 2–1 without disagreeing with the calculation; step 11 was
   // unanimous. A unanimous table says nothing rather than saying "all agreed"
   // down every row of a run where nothing divided.
   await expect(
     councilRows(page).filter({ hasText: "step 33" }),
     "a divided table did not report its split",
-  ).toContainText("2 of 3 seats agreed");
+  ).toContainText("2 of 3 officials agreed");
   await expect(
     councilRows(page).filter({ hasText: "step 11" }),
-  ).not.toContainText("seats agreed");
+  ).not.toContainText("officials agreed");
 
   // Dividing and parting are different facts and get different marks.
   await expect(
     councilRows(page).filter({ hasText: "step 33" }),
-  ).not.toContainText("parted from the arithmetic");
+  ).not.toContainText("disagreed with the calculation");
   await expect(councilRows(page).filter({ hasText: "step 22" })).toContainText(
-    "parted from the arithmetic",
+    "disagreed with the calculation",
   );
 });
 
@@ -99,18 +99,18 @@ test("opening a world lists its councils, and opening one gives the table back",
   await expect(page.getByText("CHAIR-REASONING-w1-t11-russia")).toHaveCount(0);
 });
 
-test("the filter narrows the list to the councils that parted from the arithmetic", async ({
+test("the filter narrows the list to the councils that disagreed with the calculation", async ({
   page,
 }) => {
   await runStubbed(page);
 
   const filter = page.getByRole("button", {
-    name: /show only the 2 that parted/i,
+    name: /show only the 2 that disagreed/i,
   });
   await expect(filter, "the filter was not offered").toBeVisible();
   await filter.click();
 
-  // Both worlds still listed — each held one that parted — but one step each.
+  // Both worlds still listed — each held one that disagreed — but one step each.
   await expect(
     page.getByRole("button", { name: /^w1 1 council\b/ }),
   ).toBeVisible();

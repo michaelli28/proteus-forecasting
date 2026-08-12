@@ -5,7 +5,7 @@
   "packs": [
     {
       "id": "regional-grid",
-      "statement": "A regional electricity distribution system serving a mixed urban and rural area, contested over a 180-day window.",
+      "statement": "A regional power grid serving a mix of city and rural customers, under attack for 180 days.",
       "provenance": "Synthetic. Generic radial distribution topology with a tie point; no real utility, substation, or control system is represented.",
       "ticks": 180,
       "tickUnit": "day",
@@ -16,7 +16,7 @@
       "ladder": [
         {
           "id": "presence_revealed",
-          "statement": "presence made evident without operational effect"
+          "statement": "makes itself visible inside the system without disrupting anything"
         },
         {
           "id": "operator_lockout",
@@ -24,43 +24,43 @@
         },
         {
           "id": "supply_interruption",
-          "statement": "supply interrupted to served customers"
+          "statement": "customers lose power"
         },
         {
           "id": "interruption_without_alarm",
-          "statement": "supply interrupted while operator alarms report normal conditions"
+          "statement": "customers lose power while the control room's alarms still show everything as normal"
         }
       ],
       "defenses": [
         {
           "kind": "segmentation",
-          "label": "control-network segmentation",
-          "statement": "Separates the operations network so reaching one asset does not reach the next.",
+          "label": "control network kept in separate zones",
+          "statement": "Splits the control network into zones, so breaking into one part does not open the next.",
           "costPerTick": 18
         },
         {
           "kind": "credential-rotation",
-          "label": "credential rotation",
-          "statement": "Retires standing access on a schedule, so access held quietly goes stale.",
+          "label": "regular password and key changes",
+          "statement": "Changes passwords and keys on a schedule, so access an attacker is quietly sitting on stops working.",
           "costPerTick": 8
         },
         {
           "kind": "anomaly-detection",
-          "label": "operations anomaly detection",
-          "statement": "Raises the chance activity is noticed and traced, which deters actors that need deniability.",
+          "label": "alerts for unusual activity",
+          "statement": "Makes it more likely the activity is noticed and traced back to them, which puts off attackers who need to be able to deny it.",
           "costPerTick": 12
         },
         {
           "kind": "manual-fallback",
-          "label": "staffed manual operation",
-          "statement": "Crews run the system by hand, ending the event without removing the intruder.",
+          "label": "crews running the system by hand",
+          "statement": "Crews run the grid manually, which ends the outage but leaves the attacker in place.",
           "costPerTick": 6
         }
       ]
     },
     {
       "id": "port-throughput",
-      "statement": "A container terminal's ability to move boxes, contested over a 120-day window.",
+      "statement": "A container terminal's ability to move boxes, under attack for 120 days.",
       "provenance": "Synthetic. Generic terminal functions — berths, yard cranes, gate and manifest systems. No real port or operator is represented.",
       "ticks": 120,
       "tickUnit": "day",
@@ -71,51 +71,51 @@
       "ladder": [
         {
           "id": "presence_revealed",
-          "statement": "presence made evident without operational effect"
+          "statement": "makes itself visible inside the system without disrupting anything"
         },
         {
           "id": "handling_slowdown",
-          "statement": "handling slows without any single system failing"
+          "statement": "cargo handling slows down, with no single system actually failing"
         },
         {
           "id": "system_denial",
-          "statement": "an operating system becomes unavailable"
+          "statement": "one of the systems the terminal runs on goes down"
         },
         {
           "id": "records_corruption",
-          "statement": "operating records become untrustworthy and cargo provenance cannot be established"
+          "statement": "the terminal's records can no longer be trusted, so nobody can establish what is in each box or where it came from"
         }
       ],
       "defenses": [
         {
           "kind": "segmentation",
-          "label": "operations network segmentation",
-          "statement": "Separates terminal operating systems so reaching one does not reach the next.",
+          "label": "operations network kept in separate zones",
+          "statement": "Splits the terminal's systems apart, so breaking into one does not open the next.",
           "costPerTick": 20
         },
         {
           "kind": "credential-rotation",
-          "label": "credential rotation",
-          "statement": "Retires standing access on a schedule so quiet access goes stale.",
+          "label": "regular password and key changes",
+          "statement": "Changes passwords and keys on a schedule, so access an attacker is quietly sitting on stops working.",
           "costPerTick": 9
         },
         {
           "kind": "manifest-attestation",
-          "label": "independent manifest attestation",
-          "statement": "Keeps a second, separately-held record of what is in each box, so corrupted records can be reconstructed instead of re-inspected.",
+          "label": "separate backup record of every box",
+          "statement": "Keeps a second, separately-held record of what is in each box, so ruined records can be rebuilt from it instead of every container being reopened.",
           "costPerTick": 14
         },
         {
           "kind": "anomaly-detection",
-          "label": "operations anomaly detection",
-          "statement": "Raises the chance activity is noticed and traced, deterring actors that need deniability.",
+          "label": "alerts for unusual activity",
+          "statement": "Makes it more likely the activity is noticed and traced back to them, which puts off attackers who need to be able to deny it.",
           "costPerTick": 12
         }
       ]
     },
     {
       "id": "benefits-delivery",
-      "statement": "A government benefits eligibility and disbursement service, contested over a 240-day window.",
+      "statement": "A government service that decides who qualifies for benefits and pays them, under attack for 240 days.",
       "provenance": "Synthetic. Generic eligibility, disbursement, and identity-proofing functions. No real agency, programme, or vendor is represented.",
       "ticks": 240,
       "tickUnit": "day",
@@ -126,7 +126,7 @@
       "ladder": [
         {
           "id": "presence_revealed",
-          "statement": "presence made evident without operational effect"
+          "statement": "makes itself visible inside the system without disrupting anything"
         },
         {
           "id": "service_interruption",
@@ -134,36 +134,36 @@
         },
         {
           "id": "bulk_exposure",
-          "statement": "beneficiary records are exposed"
+          "statement": "people's personal benefit records are leaked"
         },
         {
           "id": "silent_determination_drift",
-          "statement": "determinations become quietly wrong while the service reports itself healthy"
+          "statement": "decisions about who gets paid quietly go wrong while the service still reports itself healthy"
         }
       ],
       "defenses": [
         {
           "kind": "segmentation",
-          "label": "service segmentation",
-          "statement": "Separates adjudication, payment, and records so reaching one does not reach the next.",
+          "label": "service split into separate parts",
+          "statement": "Keeps the decision-making, payment, and records systems apart, so breaking into one does not open the next.",
           "costPerTick": 22
         },
         {
           "kind": "privileged-access-review",
-          "label": "privileged access review",
-          "statement": "Recertifies who can change eligibility logic, so standing authority goes stale.",
+          "label": "regular review of who has admin access",
+          "statement": "Re-checks who is allowed to change the rules on who qualifies, so old access stops working.",
           "costPerTick": 10
         },
         {
           "kind": "determination-sampling",
-          "label": "independent determination sampling",
-          "statement": "Re-adjudicates a random sample of decisions against the published rules, so wrong answers surface in days instead of months.",
+          "label": "independent spot-checks of decisions",
+          "statement": "A separate reviewer re-checks a random sample of decisions against the published rules, so wrong answers show up in days instead of months.",
           "costPerTick": 16
         },
         {
           "kind": "anomaly-detection",
-          "label": "transaction anomaly detection",
-          "statement": "Raises the chance activity is noticed and traced, deterring actors that need deniability.",
+          "label": "alerts for unusual payments",
+          "statement": "Makes it more likely the activity is noticed and traced back to them, which puts off attackers who need to be able to deny it.",
           "costPerTick": 12
         }
       ]
@@ -442,9 +442,9 @@
   "presets": [
     {
       "id": "identity-decides",
-      "question": "Does it change anything which adversary you are facing?",
-      "finding": "Russia and China are placed in the same grid, with the same access, the same options and the same ladder. Russia acts six times. China never once finds a move worth making in a hundred and eighty days — every option costs it more legitimacy than it gains. Nothing about capability separates them; only what each institution weighs.",
-      "watchFor": "China convenes a council too — at the step it came closest to acting — so both institutions answer the same question about the same grid. Open a seat from each and compare the grounds they give.",
+      "question": "Does it matter which attacker you are up against?",
+      "finding": "Russia and China get the same grid, the same access, the same options and the same ladder of escalation. Russia attacks six times. China never once finds a move worth making in a hundred and eighty days — every option costs it more in law and allies than it gains. They are given the same capability here, so nothing about capability separates them — only what each one weighs.",
+      "watchFor": "China holds a council too — its own officials, at the step it came closest to attacking — so both sides answer the same question about the same grid. Open one official from each and compare the reasons they give.",
       "pack": "regional-grid",
       "actors": [
         "russia",
@@ -466,9 +466,9 @@
     },
     {
       "id": "commitment-the-arithmetic-misses",
-      "question": "Can the model see a commitment that would actually stop this?",
-      "finding": "Russia's non-acknowledgment commitment is one the kernel enforces — and no rung in any scenario shipped here is attributable enough to trip it, so it never removes a single move. The arithmetic runs as though the commitment did not exist, and it acts.",
-      "watchFor": "Russia's documented procedure seats a gate whose entire remit is maintaining non-acknowledgment. Watch the councils decline steps the arithmetic authorised, then open that seat: it is pricing the exposure of spending unacknowledged access — the cost the kernel has no threshold low enough to charge.",
+      "question": "Can the calculation see a red line the attacker set for itself that would actually stop this?",
+      "finding": "Russia has one red line: never admit it did this. The calculation does enforce that red line. But no move in any scenario shipped here is traced back to Russia clearly enough to count as breaking it, so the red line never removes a single move. The calculation runs as if the red line were not there, and Russia attacks.",
+      "watchFor": "Russia's documented procedure includes an official who has to sign off, and whose whole job is keeping that denial intact. Watch for councils turning down steps the calculation approved, then open that official: it is weighing the risk of being blamed for using access nobody knows it has — a cost the calculation never manages to charge.",
       "pack": "regional-grid",
       "actors": [
         "russia"
@@ -486,9 +486,9 @@
     },
     {
       "id": "one-world-cannot-tell-you",
-      "question": "Did the mitigation work?",
-      "finding": "Credential rotation is bought against the actor that does the most damage to this grid, and across replays the same mitigation lands anywhere from no harm at all to more harm than running undefended. The spread between worlds is larger than the effect being measured.",
-      "watchFor": "The worlds panel, before anything else. Any single number pulled from one of those worlds would support a confident and opposite conclusion to the number beside it — which is the argument for replaying at all.",
+      "question": "Did the defense work?",
+      "finding": "Credential rotation — regularly changing passwords and keys — is bought against the attacker that does the most damage to this grid. Across replays of the same situation, that same defense lands anywhere from no harm at all to more harm than having no defense. How much the result changes between replays is larger than the effect being measured.",
+      "watchFor": "Look at the worlds panel before anything else. Take any single number out of one of those worlds and it would let you say, confidently, the opposite of the world beside it — which is the whole argument for replaying.",
       "pack": "regional-grid",
       "actors": [
         "criminal-syndicate"
@@ -504,9 +504,9 @@
     },
     {
       "id": "the-target-nobody-declines",
-      "question": "What does a target look like that no adversary walks away from?",
-      "finding": "Four of nine actors refuse the power grid outright. Against benefits delivery every one of them acts, and the move they converge on is not an outage — it is silent determination drift: the system stays up and quietly returns wrong answers. The worst case here is never visible as a failure.",
-      "watchFor": "How the councils reason about a move that produces no alarm. The gates that stop a visible attack have much less to say about one nobody notices.",
+      "question": "What kind of target does no attacker walk away from?",
+      "finding": "Four of the nine attackers refuse the power grid outright. Against benefits delivery every one of them attacks, and they all settle on the same move. It is not an outage. It is silent determination drift: the system stays up and quietly starts giving people the wrong answers. The worst case here never looks like a failure.",
+      "watchFor": "How the councils argue about a move that sets off no alarm. The officials who have to sign off on a visible attack have much less to say about one nobody notices.",
       "pack": "benefits-delivery",
       "actors": [
         "russia",
@@ -529,8 +529,8 @@
     {
       "id": "the-one-that-gets-caught",
       "question": "Who gets named, and who gets away with it?",
-      "finding": "A hacktivist collective works the grid while a third party watches for attributable acts. It is named every time. The criminal syndicate, which does more damage in the same scenario, is never attributed once — it takes the rungs that hide. Being caught is a choice here, not an outcome.",
-      "watchFor": "The seats that weigh exposure. For an institution whose purpose is the claim itself, being seen is not the cost the other profiles treat it as — read how its gates price it.",
+      "finding": "A hacktivist group works the grid while a third party watches for attacks it can trace back to someone. The hacktivists are named every time. The criminal syndicate, which does more damage in the same scenario, is never once traced back — it picks the moves that hide. Getting caught here is a choice, not bad luck.",
+      "watchFor": "The officials who weigh the risk of being blamed for it. For a group whose whole purpose is claiming the attack, being blamed is not the cost the other profiles treat it as — read how its council weighs it.",
       "pack": "regional-grid",
       "actors": [
         "hacktivist"

@@ -134,7 +134,7 @@ test.describe("the mitigation comparison", () => {
     );
 
     const body = await section.first().innerText();
-    expect(body, "baseline arm is shown").toContain("no mitigation");
+    expect(body, "baseline arm is shown").toContain("no defense");
     // The finding is the spread. A range on every row is what makes it visible.
     expect(
       (body.match(/\bto\b/g) ?? []).length,
@@ -183,13 +183,19 @@ test.describe("actor dossiers", () => {
       ).toBeVisible();
 
       // It has to say WHERE. A weakness that names no section is a disclaimer.
-      // Scoped to the label's own row — the prose above this panel is full of
-      // code spans naming parameters, and the first one on the page is not it.
-      const path = (
-        await label.locator("..").locator("code").innerText()
+      // The section used to print as its stored path (`worldview.adversaryModel`);
+      // it now prints as the heading a reader actually saw. So the assertion is
+      // that it resolved to one of those headings — which ALSO fails if an
+      // unmapped section falls through and leaks a raw field path to the reader,
+      // the failure the old path-shaped assertion could not have caught.
+      const where = (
+        await label.locator("..").locator("span").nth(1).innerText()
       ).trim();
-      expect(path, `${actor} weakest-claim path`).toMatch(
-        /^(procedure|worldview|history)\b/,
+      expect(where, `${actor} weakest-claim section`).toMatch(
+        /^(where authority sits|how a decision gets made|what has to be true|how it describes itself|what it says it is trying|what it names as the threat|what it believes the other side|the programme it published|what it has actually done)/,
+      );
+      expect(where, `${actor} leaks a raw field path`).not.toMatch(
+        /^[a-z]+\.[a-zA-Z]/,
       );
     }
   });

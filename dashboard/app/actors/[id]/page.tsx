@@ -36,6 +36,43 @@ import {
 } from "../../../components/actors/dossier-parts";
 import { Card, Eyebrow, Page, Pill } from "../../../components/site/ui";
 
+/**
+ * Plain names for the two stored values this page would otherwise print raw.
+ *
+ * `attributability` and `worldview.adversaryModel` are storage names; a reader
+ * has seen only the phrase or the heading they render as. Anything unmapped
+ * falls back to the raw key rather than going missing.
+ */
+const REDLINE_ATTRIBUTE_LABEL: Record<string, string> = {
+  attributability: "how clearly it could be traced back",
+  legitimacyCost: "what it costs in law and allies",
+  civilianHarmShare: "how much of the harm falls on civilians",
+};
+
+const SECTION_LABEL: Record<string, string> = {
+  "procedure.authority": "where authority sits",
+  "procedure.steps": "how a decision gets made",
+  "procedure.preconditions":
+    "what has to be true before it will authorise anything",
+  "worldview.selfImage": "how it describes itself",
+  "worldview.declaredEnds": "what it says it is trying to achieve",
+  "worldview.threatModel": "what it names as the threat to itself",
+  "worldview.adversaryModel": "what it believes the other side will do",
+  "worldview.declaredIdeology": "the programme it published",
+  history: "what it has actually done",
+};
+
+/** A stored section name as the heading a reader saw, keeping any note on it. */
+function sectionLabel(section: string): string {
+  const path = section
+    .replace(/\[\d+\]/g, "")
+    .replace(/\s*\([^)]*\)\s*$/, "")
+    .trim();
+  const note = section.match(/\(([^)]*)\)\s*$/)?.[1];
+  const label = SECTION_LABEL[path] ?? section;
+  return note ? `${label} — ${note}` : label;
+}
+
 export function generateStaticParams() {
   return DOSSIERS.profiles.map((profile) => ({ id: profile.id }));
 }
@@ -95,18 +132,18 @@ export default async function ActorPage({
  *
  * First, because it is the one thing on this page that changes what a defender
  * should do: raising the price of crossing a red line does not deter, since the
- * actor is not running the trade. The distinction between a commitment the
- * kernel enforces and one that is only prose is stated on the row, so inert text
- * is never presented as though it bound the model.
+ * actor is not running the trade. The distinction between a red line the
+ * calculation enforces and one that is only prose is stated on the row, so inert
+ * text is never presented as though it bound the calculation.
  */
 function Redlines({ dossier }: { dossier: Dossier }) {
   return (
     <DossierSection
-      title="What it will not trade"
-      lede="Commitments this institution does not price — raising the cost of crossing one does not deter, because it is not running the trade. Each row says what the model does with it, which is not always the same as what the institution would do."
+      title="Its own red lines"
+      lede="Red lines it does not weigh costs against — so raising the cost of crossing one does not deter it. Each row says what the calculation — the fixed scoring the simulation runs, with no AI in it — does with the red line, which is not always what the institution would do."
       empty={
         dossier.redlines.length === 0
-          ? "No commitment of this kind is recorded for this actor. Every move it can reach is priced on cost and benefit alone."
+          ? "No red line is recorded for this actor. Every move it can reach is judged on cost and benefit alone."
           : undefined
       }
     >
@@ -133,16 +170,16 @@ function Redlines({ dossier }: { dossier: Dossier }) {
 }
 
 /**
- * What the model actually does with this commitment.
+ * What the calculation actually does with this red line.
  *
  * The honest answer has three cases and the interesting one is the third: every
- * commitment in this library that the kernel CAN enforce sits above the highest
- * value any shipped ladder reaches, so none of them has ever removed a move. A
- * pill reading "enforced" beside such a commitment is accurate and misleading in
- * the same breath, which is worse than either.
+ * red line in this library that the calculation CAN enforce sits above the
+ * highest value any shipped ladder reaches, so none of them has ever removed a
+ * move. A pill reading "enforced" beside such a red line is accurate and
+ * misleading in the same breath, which is worse than either.
  *
  * The gap is not a defect to hide. A council seated from this actor's own
- * procedure has refused moves on exactly the ground the arithmetic cannot see,
+ * procedure has refused moves on exactly the ground the calculation cannot see,
  * and that disagreement is the most interesting thing a run produces.
  */
 function Enforcement({
@@ -157,7 +194,7 @@ function Enforcement({
   if (!reach) {
     return (
       <span className="text-[11.5px] text-muted">
-        stated, but nothing in the model enforces it
+        stated, but nothing in the calculation enforces it
       </span>
     );
   }
@@ -168,10 +205,12 @@ function Enforcement({
     );
   }
 
+  const attribute = REDLINE_ATTRIBUTE_LABEL[reach.attribute] ?? reach.attribute;
+
   return (
     <span className="max-w-[46ch] text-right text-[11.5px] leading-snug text-muted">
-      enforced at {reach.attribute} above {reach.maxAcceptable} — no move in any
-      scenario here goes that far, so it never removes one
+      blocks any move where {attribute} is above {reach.maxAcceptable} — no move
+      in any scenario here goes that far, so it never removes one
     </span>
   );
 }
@@ -182,10 +221,10 @@ function Procedure({ dossier }: { dossier: Dossier }) {
   return (
     <DossierSection
       title="How a decision gets made"
-      lede="The path from proposal to execution, and the offices that can stop it. When a run convenes this actor's council, these are the seats at the table."
+      lede="The path from proposal to action, and the offices that can stop it. When a run seats a council for this actor, these are the officials at the table."
       empty={
         !procedure
-          ? "This actor's decision procedure has not been documented yet. A run still convenes a council for it, but from a generic four-gate table — operations, legal review, intelligence assessment, decision authority — and every screen that shows it says so."
+          ? "How this actor decides has not been documented yet. A run still puts a council in the room for it, but a generic one with four standard officials — operations, legal review, intelligence assessment, decision authority — and every screen that shows it says so."
           : undefined
       }
     >
@@ -260,7 +299,7 @@ function Procedure({ dossier }: { dossier: Dossier }) {
   );
 }
 
-/** The record the model can be checked against. */
+/** The record the numbers can be checked against. */
 function History({ dossier }: { dossier: Dossier }) {
   const history = [...(dossier.history ?? [])].sort((a, b) =>
     b.date.localeCompare(a.date),
@@ -268,10 +307,10 @@ function History({ dossier }: { dossier: Dossier }) {
   return (
     <DossierSection
       title="What it has actually done"
-      lede="Dated decisions, each linked to the parameters it is evidence for. This is what makes the numbers below falsifiable rather than merely stated."
+      lede="Dated decisions, each linked to the numbers it is evidence for. This is what makes the numbers below something you can check rather than merely take on trust."
       empty={
         history.length === 0
-          ? "No decision record has been compiled for this actor yet. Its parameters rest on the sourcing in each basis alone, with no episodes to check them against."
+          ? "No decision record has been compiled for this actor yet. Its numbers rest on the sources listed under each one alone, with no past decisions to check them against."
           : undefined
       }
     >
@@ -317,8 +356,8 @@ function History({ dossier }: { dossier: Dossier }) {
 function Parameters({ dossier }: { dossier: Dossier }) {
   return (
     <DossierSection
-      title="The numbers the model runs on"
-      lede="Every decision in a run is arithmetic over these eleven values. Each one carries the reasoning that set it, and the episodes above that bear on it."
+      title="The numbers the calculation runs on"
+      lede="Every decision in a run comes out of the calculation working on these eleven numbers. Each one carries the reasoning that set it, and the decisions above that bear on it."
     >
       <div className="space-y-3">
         {DOCTRINE_PARAMETERS.map((parameter) => (
@@ -340,12 +379,12 @@ function Parameters({ dossier }: { dossier: Dossier }) {
           </span>
         </div>
         <p className="mt-2 max-w-[72ch] text-[13px] leading-relaxed text-slate">
-          On a scale where about 1 means it chooses almost at random among what
-          it can reach and about 12 means it takes the highest-value option
-          nearly every time. This is not a measure of competence — a fragmented
-          criminal ecosystem scores low because many hands pursue local
-          objectives, and that produces the wide, genuinely observed spread in
-          what such an actor hits.
+          On a scale where about 1 means it picks almost at random among the
+          moves it can reach, and about 12 means it takes the highest-value one
+          nearly every time. This is not a measure of skill — a scattered
+          criminal network scores low because many separate hands chase their
+          own local goals, and that produces the wide, genuinely observed spread
+          in what such an actor hits.
         </p>
       </Card>
     </DossierSection>
@@ -388,8 +427,8 @@ function ParameterRow({
 
       {episodes.length > 0 && (
         <p className="mt-2 text-[12px] leading-snug text-muted">
-          read off {episodes.length}{" "}
-          {episodes.length === 1 ? "episode" : "episodes"} above —{" "}
+          based on {episodes.length}{" "}
+          {episodes.length === 1 ? "decision" : "decisions"} above —{" "}
           {episodes.map((episode) => episode.episode).join("; ")}
         </p>
       )}
@@ -412,7 +451,7 @@ function Worldview({ dossier }: { dossier: Dossier }) {
       lede="Drawn from what the institution itself published — programmes, charters, doctrine, strategy papers. What it states, not what anyone infers about it."
       empty={
         !worldview
-          ? "No declared-ends research has been compiled for this actor yet. Its council reasons from the parameters and commitments alone."
+          ? "No research on what this actor says it wants has been compiled yet. Its council of officials works from the numbers and the red lines alone."
           : undefined
       }
     >
@@ -481,7 +520,7 @@ function Weaknesses({ dossier }: { dossier: Dossier }) {
   return (
     <DossierSection
       title="Where this profile is weak"
-      lede="Written by the researcher who assembled it, and kept in full rather than summarised. A reader deciding whether to act on anything above is entitled to the argument against it at the same length as the argument for it."
+      lede="Written by the researcher who assembled it, and kept in full rather than summarised."
     >
       <div className="space-y-4">
         {/* First, and visually apart from the survey below it: this names ONE
@@ -493,9 +532,9 @@ function Weaknesses({ dossier }: { dossier: Dossier }) {
               <span className="text-[12px] font-semibold uppercase tracking-wider text-warn">
                 Least defensible claim in this profile
               </span>
-              <code className="tnum text-[12px] text-slate">
-                {dossier.weakestClaim.section}
-              </code>
+              <span className="text-[12px] text-slate">
+                {sectionLabel(dossier.weakestClaim.section)}
+              </span>
             </div>
             <p className="mt-2.5 max-w-[76ch] text-[13.5px] leading-relaxed text-ink">
               {dossier.weakestClaim.finding}

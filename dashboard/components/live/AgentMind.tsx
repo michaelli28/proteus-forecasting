@@ -9,9 +9,9 @@
  * fences, stray prose and all — because a tidied transcript is a claim about
  * what the model said rather than the thing it said.
  *
- * The repair rounds matter as much as the answer. A seat that had to be asked
- * three times was asked badly the first time, and that is a fact about the
- * system worth seeing rather than an embarrassment worth hiding.
+ * The repair rounds matter as much as the answer. An official that had to be
+ * asked three times was asked badly the first time, and that is a fact about
+ * the system worth seeing rather than an embarrassment worth hiding.
  */
 
 import { useEffect } from "react";
@@ -83,7 +83,7 @@ export function AgentMind({
             {agent.costUsd !== undefined ? (
               <span>${agent.costUsd.toFixed(4)}</span>
             ) : (
-              <span>cost not priced for this model</span>
+              <span>no price on file for this model</span>
             )}
             {agent.retries.length > 0 && (
               <span className="text-warn">
@@ -112,7 +112,7 @@ export function AgentMind({
 
           {agent.retries.length > 0 && (
             <section>
-              <SectionLabel>Where it was sent back</SectionLabel>
+              <SectionLabel>When it had to be asked again</SectionLabel>
               <ol className="mt-2 space-y-2">
                 {agent.retries.map((retry) => (
                   <li
@@ -140,9 +140,7 @@ export function AgentMind({
           </section>
 
           <p className="border-t border-line pt-4 text-[11.5px] leading-relaxed text-muted">
-            Stream label <span className="tnum text-slate">{agent.label}</span>.
-            This is the whole record of the call — nothing on this panel was
-            summarised or rewritten.
+            Record id <span className="tnum text-slate">{agent.label}</span>.
           </p>
         </div>
       </div>

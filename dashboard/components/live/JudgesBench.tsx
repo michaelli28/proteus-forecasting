@@ -3,7 +3,7 @@
 /**
  * The bench.
  *
- * Four adjudicators, each applying a different structured analytic technique to
+ * Four reviewers, each applying a different structured analytic technique to
  * the same worlds. The panel is composed of TECHNIQUES rather than personas
  * because a panel of invented characters produces correlated opinions dressed as
  * independent ones, while competing-hypotheses, a devil's advocate and a
@@ -20,11 +20,11 @@ import { Card, Pill } from "../site/ui";
 const TECHNIQUE_COPY: Record<string, { name: string; does: string }> = {
   analysis_of_competing_hypotheses: {
     name: "Competing hypotheses",
-    does: "scores the evidence against every world, weighting what tells them apart over what fits them all",
+    does: "scores the evidence against every world, counting what tells them apart more than what fits them all",
   },
   key_assumptions_check: {
     name: "Key assumptions",
-    does: "surfaces what the conclusion rests on, and what reading would break each assumption",
+    does: "spells out what the conclusion rests on, and what would break each assumption",
   },
   devils_advocate: {
     name: "Devil's advocate",
@@ -36,7 +36,7 @@ const TECHNIQUE_COPY: Record<string, { name: string; does: string }> = {
   },
   red_team: {
     name: "Red team",
-    does: "takes the adversary's side and says which world flatters the defender",
+    does: "takes the attacker's side and says which world makes the defender look too good",
   },
 };
 
@@ -56,11 +56,11 @@ export function JudgesBench({
 
   return (
     <div>
-      <h3 className="text-[15px]">What the adjudicators made of it</h3>
+      <h3 className="text-[15px]">What the reviewers made of it</h3>
       <p className="mt-1.5 max-w-[72ch] text-[13px] leading-relaxed text-slate">
-        Each applies one technique to the same worlds and reports likelihood and
-        confidence separately, so &ldquo;this is the world to plan against, and
-        I am not confident&rdquo; stays sayable.
+        Each reviewer applies one technique to the same worlds, and says how
+        likely a world is separately from how sure it is — so &ldquo;plan
+        against this one, and I am not confident&rdquo; stays sayable.
         {rankings.length > 1 && (
           <>
             {" "}

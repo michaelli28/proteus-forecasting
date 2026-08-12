@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import BeliefDistribution from "./BeliefDistribution";
 import TimeSeries from "./TimeSeries";
 import TruthTelemetry from "./TruthTelemetry";
-import { ROLE_COLOR, campaignActiveAt, percent } from "../../lib/traces";
+import { ROLE_COLOR, campaignActiveAt } from "../../lib/traces";
 import type { RunTrace } from "../../lib/traces";
 
 /** Ticks advanced per second while playing. Slow enough to read the histogram. */
@@ -130,37 +130,11 @@ export default function RunViewer({ trace }: { trace: RunTrace }) {
             Each bar is how many people agree with the false claim to that
             degree. Watch the ends fill and two humps form — the population
             splitting into camps on its own, because people mostly listen to
-            others already close to their view. The model was never told to
-            polarize.
+            others already close to their view. The calculation was never told
+            to split them.
           </p>
         </div>
         <BeliefDistribution trace={trace} tick={current} />
-        <div className="flex flex-wrap gap-x-6 gap-y-1 text-[12.5px] text-slate">
-          <span>
-            average agreement{" "}
-            <span className="tabular-nums font-semibold text-ink">
-              {current.truth.meanBelief.toFixed(2)}
-            </span>
-          </span>
-          <span>
-            split into camps{" "}
-            <span className="tabular-nums font-semibold text-ink">
-              {current.truth.bimodality.toFixed(2)}
-            </span>
-          </span>
-          <span>
-            believe it{" "}
-            <span className="tabular-nums font-semibold text-ink">
-              {percent(current.truth.adoptionRate)}
-            </span>
-          </span>
-          <span>
-            gap between groups{" "}
-            <span className="tabular-nums font-semibold text-ink">
-              {current.truth.clusterSeparation.toFixed(2)}
-            </span>
-          </span>
-        </div>
       </section>
 
       {/* ── the boundary ── */}
@@ -186,7 +160,7 @@ export default function RunViewer({ trace }: { trace: RunTrace }) {
           <h2 className="text-[18px] leading-tight">Over the whole run</h2>
           <p className="mt-1.5 max-w-[68ch] text-[13.5px] leading-relaxed text-slate">
             The shaded band is the attack window. The vertical line marks the
-            day you&rsquo;re scrubbed to.
+            day you have picked.
           </p>
         </div>
 

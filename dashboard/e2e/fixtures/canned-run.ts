@@ -203,10 +203,10 @@ export async function runStubbed(page: Page): Promise<void> {
   await page.getByRole("button", { name: /^run it( for real)?$/i }).click();
 
   await expect(
-    page.getByRole("heading", { name: /where the institutions/i }),
+    page.getByRole("heading", { name: /officials weighed the same choice/i }),
     "the councils section never rendered",
   ).toBeVisible({ timeout: 20_000 });
-  await expect(page.getByText(/reproduces exactly/i)).toBeVisible({
+  await expect(page.getByText(/comes out identical every time/i)).toBeVisible({
     timeout: 20_000,
   });
 }

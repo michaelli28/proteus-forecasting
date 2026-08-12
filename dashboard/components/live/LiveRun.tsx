@@ -11,11 +11,11 @@
  *
  * So this one is built around the opposite claim: a run should be able to show
  * its work. A deep run replays several worlds, convenes the actors' own
- * institutional gates as model agents at the steps that mattered, and puts a
- * bench of analytic techniques over the result. That takes minutes because there
- * are minutes of work in it, and every second of it is openable — the counters
- * move because calls are in flight, and any agent on screen can be opened to
- * read exactly what it was asked and what it said.
+ * officials as AI agents at the steps that mattered, and puts a panel of
+ * reviewers over the result. That takes minutes because there are minutes of
+ * work in it, and every second of it is openable — the counters move because
+ * calls are in flight, and any agent on screen can be opened to read exactly
+ * what it was asked and what it said.
  *
  * Nothing here is recomputed in the browser. Every number came off the stream.
  */
@@ -37,6 +37,12 @@ interface OpenAgent {
   title: string;
   subtitle: string;
 }
+
+const EVIDENCE_COPY: Record<string, string> = {
+  solved: "worked out by a real solver",
+  supplied: "taken from figures the evaluator supplied",
+  parametric: "an educated estimate, with no real-world solver behind it",
+};
 
 export function LiveRun() {
   const [packId, setPackId] = useState(MANIFEST.packs[0]!.id);
@@ -216,14 +222,14 @@ export function LiveRun() {
             </p>
           </Field>
 
-          <Field label="Defensive measure">
+          <Field label="Defense">
             <select
               className="w-full rounded-lg border border-line bg-surface px-3 py-2 text-[13px]"
               value={defenseKind}
               onChange={(event) => edited(setDefenseKind)(event.target.value)}
               disabled={running}
             >
-              <option value="">none — baseline run</option>
+              <option value="">none</option>
               {pack.defenses.map((defense) => (
                 <option key={defense.kind} value={defense.kind}>
                   {defense.label} ({defense.costPerTick}/{pack.tickUnit})
@@ -232,7 +238,8 @@ export function LiveRun() {
             </select>
             <p className="mt-2 text-[12.5px] leading-snug text-muted">
               {pack.defenses.find((entry) => entry.kind === defenseKind)
-                ?.statement ?? "Run with no mitigation, to measure against."}
+                ?.statement ??
+                "Run with no defense in place, as something to compare against."}
             </p>
           </Field>
         </div>
@@ -269,14 +276,14 @@ export function LiveRun() {
         </Field>
 
         <div className="mt-5 grid gap-5 sm:grid-cols-2">
-          <Field label="Third party that responds">
+          <Field label="Who else reacts">
             <select
               className="w-full rounded-lg border border-line bg-surface px-3 py-2 text-[13px]"
               value={respondentId}
               onChange={(event) => edited(setRespondentId)(event.target.value)}
               disabled={running}
             >
-              <option value="">nobody responds</option>
+              <option value="">nobody reacts</option>
               {MANIFEST.actors.map((actor) => (
                 <option key={actor.id} value={actor.id}>
                   {actor.label}
@@ -317,14 +324,12 @@ export function LiveRun() {
             />
             <span>
               <span className="text-[13px] font-semibold text-ink">
-                Deliberate for real
+                Bring in the real AI models
               </span>
               <span className="mt-1 block max-w-[70ch] text-[12.5px] leading-relaxed text-slate">
-                Replays several worlds, then convenes each actor&rsquo;s own
-                institutional gates as model agents at the steps that mattered
-                and puts a bench of analytic techniques over the result. This
-                costs money and takes minutes. Unticked, the arithmetic kernel
-                alone runs, which finishes in about a tenth of a second.
+                This costs money and takes minutes. Left unticked, only the
+                calculation runs — no AI — which finishes in about a tenth of a
+                second.
               </span>
             </span>
           </label>
@@ -348,7 +353,7 @@ export function LiveRun() {
                 disabled={running}
               />
               <Number
-                label="Adjudicators"
+                label="Reviewers"
                 value={judges}
                 min={0}
                 max={5}
@@ -357,10 +362,9 @@ export function LiveRun() {
               />
               <p className="text-[12px] leading-snug text-muted sm:col-span-3">
                 At most {estimateCalls(branches, councils, judges)} model calls
-                — usually fewer, since a world where fewer steps qualify
-                convenes fewer councils. Each council seats one agent per gate
-                plus a final authority, and every one of them is openable
-                afterwards.
+                — usually fewer, since a world where fewer steps qualify holds
+                fewer councils. Each council has one agent per official who has
+                to sign off, plus one who makes the final call.
               </p>
             </div>
           )}
@@ -453,14 +457,16 @@ export function LiveRun() {
           {state.finished && (
             <Card className="mt-12">
               <p className="max-w-[76ch] text-[12.5px] leading-relaxed text-slate">
-                Same seed, same worlds — the arithmetic in{" "}
+                Same seed, same worlds — the calculation in{" "}
                 <span className="tnum">
                   {state.finished.runId.slice(0, 12)}
                 </span>{" "}
-                reproduces exactly. The councils and the bench are
-                language-model judgement laid over it and will not reproduce
-                word for word; that is why they never change what the kernel
-                executed. Evidence class {state.finished.evidenceClass}.
+                comes out identical every time. The councils and the reviewers
+                over them are AI judgement laid on top, and they will not come
+                out word for word the same. How the harm numbers were produced:{" "}
+                {EVIDENCE_COPY[state.finished.evidenceClass] ??
+                  state.finished.evidenceClass}
+                .
               </p>
             </Card>
           )}
@@ -539,15 +545,15 @@ function Meters({
             ? "spent"
             : cost.priced
               ? "spent"
-              : "tokens — model not priced"
+              : "tokens — no price for this model"
         }
       />
-      {/* Only when a mitigation is actually running. A readout that says "—" on
+      {/* Only when a defense is actually running. A readout that says "—" on
           every baseline run is a column of nothing four times out of five. */}
       {state.defenseCost > 0 && (
         <Readout
           value={formatNumber(state.defenseCost)}
-          label="spent on defence, per world"
+          label="spent on defense, per world"
         />
       )}
     </div>
@@ -685,8 +691,9 @@ function estimateCalls(
   councils: number,
   judges: number,
 ): number {
-  // Each council seats one agent per documented gate, plus the chair that
-  // synthesises them. Seven gates is what the researched profiles carry.
+  // Each council has one agent per documented official who has to sign off,
+  // plus the one that makes the final call. Seven officials is what the
+  // researched profiles carry.
   const callsPerCouncil = 7 + 1;
   return branches * councils * callsPerCouncil + judges;
 }

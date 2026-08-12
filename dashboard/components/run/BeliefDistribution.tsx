@@ -51,7 +51,7 @@ export default function BeliefDistribution({
         viewBox={`0 0 ${W} ${H}`}
         className="w-full h-auto"
         role="img"
-        aria-label={`Belief distribution at tick ${tick.tick}. Mean ${tick.truth.meanBelief.toFixed(3)}, adoption rate ${(tick.truth.adoptionRate * 100).toFixed(1)} percent.`}
+        aria-label={`How strongly people agree with the false claim on day ${tick.tick}. Average agreement ${tick.truth.meanBelief.toFixed(3)}, ${(tick.truth.adoptionRate * 100).toFixed(1)} percent believe it.`}
       >
         {/* adopted region — everything at or above the threshold */}
         <rect
@@ -196,8 +196,8 @@ export default function BeliefDistribution({
         </text>
       </svg>
       <figcaption className="mt-1 text-[11px] text-muted">
-        Number of people at each level of agreement. The height scale stays
-        fixed as you scrub, so the shape is comparable day to day.
+        The height scale stays fixed as you move through the days, so the shape
+        is comparable day to day.
       </figcaption>
     </figure>
   );

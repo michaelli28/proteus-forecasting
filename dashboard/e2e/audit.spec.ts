@@ -266,7 +266,7 @@ test("the live run streams, updates, and completes", async ({ page }) => {
   // summary — so the assertion is on what BOTH paths report: the world's
   // outcome, and the reproducibility statement that closes a finished run.
   await expect(page.getByText(/\d+ acts?\b/).first()).toBeVisible();
-  await expect(page.getByText(/reproduces exactly/i)).toBeVisible();
+  await expect(page.getByText(/comes out identical every time/i)).toBeVisible();
 
   report("live run", problems);
 });
@@ -322,7 +322,7 @@ test("a run with a defensive measure charges for it", async ({ page }) => {
   // A defended run must report what the mitigation cost. The readout renders
   // only when a defence is active, so its absence here is the failure.
   await expect(
-    page.getByText(/spent on defence/i),
+    page.getByText(/spent on defense/i),
     "a defended run reported no spend",
   ).toBeVisible();
 

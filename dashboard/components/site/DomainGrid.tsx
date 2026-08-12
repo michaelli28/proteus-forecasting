@@ -22,37 +22,37 @@ interface Domain {
 const DOMAINS: Domain[] = [
   {
     name: "Water & critical infrastructure",
-    vector: "Cyber-physical sabotage",
+    vector: "Sabotage by hacking",
     blurb:
-      "When an intruder already inside a utility's controls decides to act — and what it does to the water. Solved with the same hydraulic engine the government co-wrote.",
+      "When an attacker already inside a utility's controls decides to act — and what that does to the water. The effects are worked out with the same public water-flow simulator the government co-wrote.",
     maturity: "live",
   },
   {
-    name: "Influence operations",
-    vector: "Disinformation & persuasion",
+    name: "Disinformation",
+    vector: "Spreading false claims",
     blurb:
-      "How far a coordinated narrative spreads through a population, and whether a defender watching only public activity could tell it was a campaign.",
+      "How far a false claim spreads through a population, and whether someone watching only public activity could tell it was an organized campaign.",
     maturity: "live",
   },
   {
     name: "Insider recruitment",
-    vector: "Human intelligence",
+    vector: "Spies and informants",
     blurb:
-      "How an adversary works a target pool from first contact to a placed insider, and where the funnel is most interruptible.",
+      "How an attacker gets from first contact to a recruited insider, and where that process is easiest to interrupt.",
     maturity: "live",
   },
   {
     name: "Economic coercion",
     vector: "Sanctions & supply chain",
     blurb:
-      "When pressure on a chokepoint industry changes a state's behaviour — and when it just reroutes around the measure.",
+      "When pressure on an industry a country depends on changes how it behaves — and when it just finds a way around the sanctions instead.",
     maturity: "designed",
   },
   {
     name: "Geopolitical escalation",
     vector: "Military signalling",
     blurb:
-      "Reading a coercion ladder — incursions, exercises, deployments — as steps with different meanings, not one undifferentiated threat level.",
+      "Reading a ladder of escalation — incursions, exercises, deployments — as separate moves with different meanings, not one blurred threat level.",
     maturity: "designed",
   },
 ];

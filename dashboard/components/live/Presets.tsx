@@ -34,9 +34,8 @@ export function Presets({
     <section>
       <h2 className="text-[15px]">Start from a question</h2>
       <p className="mt-1.5 max-w-[74ch] text-[13px] leading-relaxed text-slate">
-        Each of these sets the controls below to a configuration that answers
-        it. Everything stays editable afterwards — the point is somewhere to
-        stand, not a fixed tour.
+        Each one sets the controls below to a setup that answers it. You can
+        change anything afterwards — this is a place to start, not a fixed tour.
       </p>
 
       <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
@@ -85,8 +84,8 @@ export function Presets({
           </div>
           {active.needsDeliberation && (
             <p className="mt-3 text-[12.5px] leading-snug text-warn">
-              This one only makes its point with the councils convened, so
-              deliberation stays on below.
+              This one only makes its point when the councils actually meet, so
+              that option stays on below.
             </p>
           )}
         </div>

@@ -14,12 +14,10 @@ function Row({ label, value }: { label: string; value: string }) {
 
 function Pane({
   title,
-  subtitle,
   dot,
   children,
 }: {
   title: string;
-  subtitle: string;
   dot: string;
   children: React.ReactNode;
 }) {
@@ -32,9 +30,6 @@ function Pane({
             style={{ backgroundColor: dot }}
           />
           <div className="text-[13px] font-semibold text-navy">{title}</div>
-        </div>
-        <div className="mt-1 max-w-[36ch] text-[12px] leading-snug text-muted">
-          {subtitle}
         </div>
       </div>
       {children}
@@ -62,11 +57,7 @@ export default function TruthTelemetry({
 
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:gap-0">
-      <Pane
-        title="What really happened"
-        subtitle="The true state of the population. No defender can see any of this."
-        dot={ROLE_COLOR.truth}
-      >
+      <Pane title="What really happened" dot={ROLE_COLOR.truth}>
         <div className="pr-0 sm:pr-6">
           <Row
             label="Share who believe it"
@@ -102,11 +93,7 @@ export default function TruthTelemetry({
         </span>
       </div>
 
-      <Pane
-        title="What a defender could see"
-        subtitle="Only public activity — this is the entire input to the warning system."
-        dot={ROLE_COLOR.telemetry}
-      >
+      <Pane title="What a defender could see" dot={ROLE_COLOR.telemetry}>
         <div className="pl-0 sm:pl-6">
           <Row
             label="Activity volume"
@@ -125,11 +112,11 @@ export default function TruthTelemetry({
             value={shares.map((s) => s.toFixed(2)).join("  ")}
           />
           <Row
-            label="How bursty the activity is"
+            label="How much comes in sudden bursts"
             value={trace.detection.burstiness.toFixed(2)}
           />
           <Row
-            label="Concentration on big accounts"
+            label="How much runs through big accounts"
             value={trace.detection.hubConcentration.toFixed(2)}
           />
           <Row

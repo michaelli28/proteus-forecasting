@@ -77,18 +77,18 @@ export default function RunViewer({ trace }: { trace: RunTrace }) {
   return (
     <div className="flex flex-col gap-8">
       {/* ── transport ── */}
-      <div className="rounded border border-line bg-sunken px-4 py-3">
+      <div className="rounded-xl border border-line bg-sunken px-4 py-3">
         <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
           <button
             type="button"
             onClick={toggle}
-            className="rounded border border-line-strong px-3 py-1 font-mono text-[11px] uppercase tracking-wider text-ink hover:bg-sunken focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[--color-primary]"
+            className="rounded-lg border border-line-strong px-3 py-1 text-[12px] font-semibold text-ink hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
           >
             {playing ? "Pause" : tick >= last ? "Replay" : "Play"}
           </button>
 
           <label className="flex min-w-[14rem] flex-1 items-center gap-3">
-            <span className="sr-only">Tick</span>
+            <span className="sr-only">Day</span>
             <input
               type="range"
               min={0}
@@ -98,22 +98,24 @@ export default function RunViewer({ trace }: { trace: RunTrace }) {
                 setPlaying(false);
                 setTick(Number(e.target.value));
               }}
-              className="w-full accent-[--color-primary]"
+              className="w-full accent-accent"
             />
           </label>
 
-          <span className="font-mono text-[12px] tabular-nums text-ink">
-            tick {String(tick).padStart(3, " ")} / {last}
+          <span className="text-[12.5px] tabular-nums text-ink">
+            day {tick} / {last}
           </span>
 
           <span
-            className="rounded px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider"
+            className="rounded-full px-2.5 py-0.5 text-[11px] font-semibold"
             style={{
-              color: active ? ROLE_COLOR.adversary : "var(--color-text-muted)",
-              border: `1px solid ${active ? ROLE_COLOR.adversary : "transparent"}`,
+              color: active ? ROLE_COLOR.adversary : "var(--color-muted)",
+              backgroundColor: active
+                ? "var(--color-warn-soft)"
+                : "transparent",
             }}
           >
-            {active ? "campaign injecting" : "no injection"}
+            {active ? "fake accounts active" : "quiet"}
           </span>
         </div>
       </div>
@@ -121,39 +123,41 @@ export default function RunViewer({ trace }: { trace: RunTrace }) {
       {/* ── the hero: the population itself ── */}
       <section className="flex flex-col gap-3">
         <div>
-          <h2 className="font-mono text-[13px] uppercase tracking-wider text-ink">
-            The population at tick {tick}
+          <h2 className="text-[18px] leading-tight">
+            The population, day {tick}
           </h2>
-          <p className="mt-1 max-w-prose text-[13px] leading-relaxed text-slate">
-            Each bar is the number of agents holding a belief in that range.
-            Watch the ends empty and interior humps form — that is bounded
-            confidence doing its work, not an instruction the model was given.
+          <p className="mt-1.5 max-w-[68ch] text-[13.5px] leading-relaxed text-slate">
+            Each bar is how many people agree with the false claim to that
+            degree. Watch the ends fill and two humps form — the population
+            splitting into camps on its own, because people mostly listen to
+            others already close to their view. The model was never told to
+            polarize.
           </p>
         </div>
         <BeliefDistribution trace={trace} tick={current} />
-        <div className="flex flex-wrap gap-x-6 gap-y-1 font-mono text-[11px] text-slate">
+        <div className="flex flex-wrap gap-x-6 gap-y-1 text-[12.5px] text-slate">
           <span>
-            mean{" "}
-            <span className="tabular-nums text-ink">
-              {current.truth.meanBelief.toFixed(3)}
+            average agreement{" "}
+            <span className="tabular-nums font-semibold text-ink">
+              {current.truth.meanBelief.toFixed(2)}
             </span>
           </span>
           <span>
-            bimodality{" "}
-            <span className="tabular-nums text-ink">
-              {current.truth.bimodality.toFixed(3)}
+            split into camps{" "}
+            <span className="tabular-nums font-semibold text-ink">
+              {current.truth.bimodality.toFixed(2)}
             </span>
           </span>
           <span>
-            adopted{" "}
-            <span className="tabular-nums text-ink">
+            believe it{" "}
+            <span className="tabular-nums font-semibold text-ink">
               {percent(current.truth.adoptionRate)}
             </span>
           </span>
           <span>
-            cluster gap{" "}
-            <span className="tabular-nums text-ink">
-              {current.truth.clusterSeparation.toFixed(3)}
+            gap between groups{" "}
+            <span className="tabular-nums font-semibold text-ink">
+              {current.truth.clusterSeparation.toFixed(2)}
             </span>
           </span>
         </div>
@@ -162,14 +166,15 @@ export default function RunViewer({ trace }: { trace: RunTrace }) {
       {/* ── the boundary ── */}
       <section className="flex flex-col gap-3">
         <div>
-          <h2 className="font-mono text-[13px] uppercase tracking-wider text-ink">
-            Truth versus telemetry
+          <h2 className="text-[18px] leading-tight">
+            What really happened vs. what a defender could see
           </h2>
-          <p className="mt-1 max-w-prose text-[13px] leading-relaxed text-slate">
-            The same tick, twice. The left column is what the simulator knows;
-            the right is everything a platform could observe. Detection
-            precision is measurable here precisely because the detector only
-            ever reads the right column.
+          <p className="mt-1.5 max-w-[68ch] text-[13.5px] leading-relaxed text-slate">
+            The same day, shown twice. The left is the true state of the
+            population; the right is only the public activity a defender could
+            monitor. The warning system reads the right side only — which is
+            what makes &ldquo;how well would we have caught this?&rdquo; a real,
+            measurable number rather than a claim.
           </p>
         </div>
         <TruthTelemetry trace={trace} tick={current} />
@@ -178,33 +183,31 @@ export default function RunViewer({ trace }: { trace: RunTrace }) {
       {/* ── over time ── */}
       <section className="flex flex-col gap-6">
         <div>
-          <h2 className="font-mono text-[13px] uppercase tracking-wider text-ink">
-            Over the whole run
-          </h2>
-          <p className="mt-1 max-w-prose text-[13px] leading-relaxed text-slate">
-            The shaded band is the campaign window. The vertical line is where
-            you are scrubbed to.
+          <h2 className="text-[18px] leading-tight">Over the whole run</h2>
+          <p className="mt-1.5 max-w-[68ch] text-[13.5px] leading-relaxed text-slate">
+            The shaded band is the attack window. The vertical line marks the
+            day you&rsquo;re scrubbed to.
           </p>
         </div>
 
         <TimeSeries
           trace={trace}
           tick={tick}
-          title="Ground truth — belief and adoption"
+          title="What really happened — belief and agreement"
           series={[
             {
-              label: "adoption rate",
+              label: "share who believe it",
               color: ROLE_COLOR.truth,
               values: adoption,
             },
             {
-              label: "mean belief",
+              label: "average agreement",
               color: ROLE_COLOR.threshold,
               values: meanBelief,
             },
             {
-              label: "bimodality",
-              color: "#9b8cf0",
+              label: "split into camps",
+              color: "#8a6d1f",
               values: bimodality,
               reference: true,
             },
@@ -214,13 +217,17 @@ export default function RunViewer({ trace }: { trace: RunTrace }) {
         <TimeSeries
           trace={trace}
           tick={tick}
-          title="Ground truth — cascade, agents crossing the threshold each tick"
+          title="What really happened — people changing their minds each day"
           yMax={maxCascade}
           yFormat={(v) => String(Math.round(v))}
           series={[
-            { label: "adopted", color: ROLE_COLOR.truth, values: adoptions },
             {
-              label: "abandoned",
+              label: "started believing",
+              color: ROLE_COLOR.truth,
+              values: adoptions,
+            },
+            {
+              label: "stopped believing",
               color: ROLE_COLOR.adversary,
               values: abandonments,
             },
@@ -230,14 +237,14 @@ export default function RunViewer({ trace }: { trace: RunTrace }) {
         <TimeSeries
           trace={trace}
           tick={tick}
-          title="Telemetry — what the defender actually receives"
+          title="What a defender could see — activity volume"
           yMax={maxVolume}
           yFormat={(v) =>
             v >= 1000 ? `${Math.round(v / 1000)}k` : String(Math.round(v))
           }
           series={[
             {
-              label: "interaction volume",
+              label: "activity volume",
               color: ROLE_COLOR.telemetry,
               values: volume,
             },

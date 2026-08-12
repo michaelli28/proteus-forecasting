@@ -6,10 +6,8 @@ import type { RunTrace, TraceTick } from "../../lib/traces";
 function Row({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex items-baseline justify-between gap-3 border-b border-line/40 py-1.5 last:border-b-0">
-      <span className="font-mono text-[11px] text-muted">{label}</span>
-      <span className="font-mono text-[12px] tabular-nums text-ink">
-        {value}
-      </span>
+      <span className="text-[12px] text-muted">{label}</span>
+      <span className="text-[12.5px] tabular-nums text-ink">{value}</span>
     </div>
   );
 }
@@ -17,21 +15,25 @@ function Row({ label, value }: { label: string; value: string }) {
 function Pane({
   title,
   subtitle,
-  color,
+  dot,
   children,
 }: {
   title: string;
   subtitle: string;
-  color: string;
+  dot: string;
   children: React.ReactNode;
 }) {
   return (
     <div className="min-w-0 flex-1">
-      <div className="mb-2 border-l-2 pl-2" style={{ borderColor: color }}>
-        <div className="font-mono text-[10px] uppercase tracking-wider text-ink">
-          {title}
+      <div className="mb-3">
+        <div className="flex items-center gap-2">
+          <span
+            className="inline-block h-2.5 w-2.5 rounded-full"
+            style={{ backgroundColor: dot }}
+          />
+          <div className="text-[13px] font-semibold text-navy">{title}</div>
         </div>
-        <div className="mt-0.5 max-w-[34ch] text-[11px] leading-snug text-muted">
+        <div className="mt-1 max-w-[36ch] text-[12px] leading-snug text-muted">
           {subtitle}
         </div>
       </div>
@@ -41,12 +43,12 @@ function Pane({
 }
 
 /**
- * What is true beside what a defender could observe, at the same tick.
+ * What really happened, beside what a defender could observe — at the same day.
  *
- * Rendered as two panes with a hard divider rather than one table, because the
- * separation is the system's central claim: everything on the right is
- * computable from platform telemetry, and nothing on the right mentions belief.
- * A merged table would read as one dataset and quietly retract that.
+ * Two panes with a hard divider rather than one table, because the separation is
+ * the whole point: everything on the right can be worked out from public
+ * activity, and nothing on the right mentions what people actually believe. A
+ * merged table would read as one dataset and quietly erase that line.
  */
 export default function TruthTelemetry({
   trace,
@@ -61,69 +63,78 @@ export default function TruthTelemetry({
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:gap-0">
       <Pane
-        title="What is true"
-        subtitle="Ground truth from the simulator. No defender can observe any of it."
-        color={ROLE_COLOR.truth}
+        title="What really happened"
+        subtitle="The true state of the population. No defender can see any of this."
+        dot={ROLE_COLOR.truth}
       >
         <div className="pr-0 sm:pr-6">
-          <Row label="adoption rate" value={percent(truth.adoptionRate)} />
-          <Row label="mean belief" value={truth.meanBelief.toFixed(4)} />
-          <Row label="variance" value={truth.variance.toFixed(4)} />
-          <Row label="bimodality" value={truth.bimodality.toFixed(4)} />
           <Row
-            label="cluster separation"
-            value={truth.clusterSeparation.toFixed(4)}
+            label="Share who believe it"
+            value={percent(truth.adoptionRate)}
           />
-          <Row label="injections this tick" value={String(truth.injections)} />
+          <Row label="Average agreement" value={truth.meanBelief.toFixed(2)} />
+          <Row label="Spread of opinion" value={truth.variance.toFixed(2)} />
           <Row
-            label="adopted / abandoned"
+            label="Split into two camps"
+            value={truth.bimodality.toFixed(2)}
+          />
+          <Row
+            label="Gap between groups"
+            value={truth.clusterSeparation.toFixed(2)}
+          />
+          <Row
+            label="Posts by fake accounts today"
+            value={String(truth.injections)}
+          />
+          <Row
+            label="Started / stopped believing"
             value={`+${truth.adoptions} / −${truth.abandonments}`}
           />
         </div>
       </Pane>
 
       <div
-        className="relative shrink-0 sm:w-px sm:bg-border-green-bright"
+        className="relative shrink-0 sm:w-px sm:bg-line-strong"
         aria-hidden="true"
       >
-        <span className="hidden sm:block absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rotate-90 whitespace-nowrap bg-surface px-2 font-mono text-[9px] uppercase tracking-[0.18em] text-muted">
-          the detector cannot cross this line
+        <span className="hidden whitespace-nowrap rounded bg-surface px-2 text-[9px] uppercase tracking-[0.16em] text-muted sm:absolute sm:left-1/2 sm:top-1/2 sm:block sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rotate-90">
+          a defender can&rsquo;t see past this line
         </span>
       </div>
 
       <Pane
-        title="What a defender sees"
-        subtitle="Platform telemetry only. This is the entire input to the detection signal."
-        color={ROLE_COLOR.telemetry}
+        title="What a defender could see"
+        subtitle="Only public activity — this is the entire input to the warning system."
+        dot={ROLE_COLOR.telemetry}
       >
         <div className="pl-0 sm:pl-6">
           <Row
-            label="interaction volume"
+            label="Activity volume"
             value={telemetry.volume.toLocaleString()}
           />
           <Row
-            label="active accounts"
+            label="Accounts active"
             value={String(telemetry.activeAccounts)}
           />
           <Row
-            label="active degree ratio"
-            value={telemetry.activeDegreeRatio.toFixed(4)}
+            label="How connected those accounts are"
+            value={telemetry.activeDegreeRatio.toFixed(2)}
           />
           <Row
-            label="cluster activity"
+            label="Activity by group"
             value={shares.map((s) => s.toFixed(2)).join("  ")}
           />
           <Row
-            label="run burstiness"
-            value={trace.detection.burstiness.toFixed(3)}
+            label="How bursty the activity is"
+            value={trace.detection.burstiness.toFixed(2)}
           />
           <Row
-            label="hub concentration"
-            value={trace.detection.hubConcentration.toFixed(3)}
+            label="Concentration on big accounts"
+            value={trace.detection.hubConcentration.toFixed(2)}
           />
           <Row
-            label="detector score"
-            value={trace.detection.compositeScore.toFixed(3)}
+            label="Overall warning score"
+            value={percent(trace.detection.compositeScore)}
           />
         </div>
       </Pane>

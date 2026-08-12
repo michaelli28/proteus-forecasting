@@ -60,13 +60,11 @@ export default function TimeSeries({
   return (
     <figure className="m-0">
       <figcaption className="mb-1 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-        <span className="font-mono text-[10px] uppercase tracking-wider text-muted">
-          {title}
-        </span>
+        <span className="text-[12.5px] font-semibold text-ink">{title}</span>
         {series.map((s) => (
           <span
             key={s.label}
-            className="inline-flex items-center gap-1 font-mono text-[10px] text-slate"
+            className="inline-flex items-center gap-1 text-[11px] text-slate"
           >
             <span
               className="inline-block h-[2px] w-3"
@@ -166,19 +164,12 @@ export default function TimeSeries({
             y={H - 8}
             className="fill-muted"
             fontSize={9}
-            fontFamily="var(--font-mono)"
           >
-            campaign {campaign.startTick}–{campaign.endTick}
+            attack, day {campaign.startTick}–{campaign.endTick}
           </text>
         )}
-        <text
-          x={PAD.left}
-          y={H - 8}
-          className="fill-muted"
-          fontSize={9}
-          fontFamily="var(--font-mono)"
-        >
-          t0
+        <text x={PAD.left} y={H - 8} className="fill-muted" fontSize={9}>
+          day 0
         </text>
         <text
           x={PAD.left + plotW}
@@ -186,9 +177,8 @@ export default function TimeSeries({
           textAnchor="end"
           className="fill-muted"
           fontSize={9}
-          fontFamily="var(--font-mono)"
         >
-          t{total - 1}
+          day {total - 1}
         </text>
       </svg>
     </figure>

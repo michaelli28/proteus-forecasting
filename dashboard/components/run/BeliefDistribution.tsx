@@ -108,9 +108,8 @@ export default function BeliefDistribution({
           y={PAD.top + 8}
           className="fill-slate"
           fontSize={9}
-          fontFamily="var(--font-mono)"
         >
-          adopted →
+          believe it →
         </text>
 
         {/* where the adversary is pushing */}
@@ -129,9 +128,8 @@ export default function BeliefDistribution({
               y={PAD.top + 22}
               className="fill-slate"
               fontSize={9}
-              fontFamily="var(--font-mono)"
             >
-              campaign target
+              where the attack pushes
             </text>
           </>
         )}
@@ -172,9 +170,8 @@ export default function BeliefDistribution({
           textAnchor="middle"
           className="fill-muted"
           fontSize={9}
-          fontFamily="var(--font-mono)"
         >
-          belief on the targeted narrative
+          how strongly people agree with the false claim →
         </text>
 
         <text
@@ -198,8 +195,9 @@ export default function BeliefDistribution({
           0
         </text>
       </svg>
-      <figcaption className="mt-1 font-mono text-[10px] uppercase tracking-wider text-muted">
-        agents per belief bin · y-axis fixed across all ticks
+      <figcaption className="mt-1 text-[11px] text-muted">
+        Number of people at each level of agreement. The height scale stays
+        fixed as you scrub, so the shape is comparable day to day.
       </figcaption>
     </figure>
   );

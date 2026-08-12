@@ -17,8 +17,10 @@ const CELL = "px-4 py-3 text-[13px] text-slate whitespace-nowrap tnum";
  * first thing a reader quoted.
  */
 export default function ArmTable({ arms }: ArmTableProps) {
+  // Scrolls, never clips: overflow-hidden silently cut the right-hand columns
+  // off on a narrow screen with no way to reach them.
   return (
-    <div className="overflow-hidden rounded-xl border border-line bg-surface">
+    <div className="overflow-x-auto rounded-xl border border-line bg-surface">
       <table className="w-full border-collapse">
         <thead className="bg-sunken/50">
           <tr>

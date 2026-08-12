@@ -1,0 +1,277 @@
+{
+  "id": "russia",
+  "procedure": {
+    "authority": {
+      "statement": "Go/no-go authority on any act with strategic consequence sits with the presidency personally, and nowhere else. The Constitution makes the President head of state (Art. 80), Supreme Commander-in-Chief (Art. 87) and the office that forms and chairs the Security Council (Art. 83); Federal Law No. 390-FZ 'On Security' (28 Dec 2010) and Presidential Decree No. 590 of 6 May 2011 constitute that Council as a deliberative body which PREPARES decisions of the President rather than taking them, so its outputs acquire force only when signed. Nuclear-employment authority is placed in the same office by Presidential Decree No. 991 of 19 Nov 2024. No body in the chain holds a veto: cost, exposure and legality are traded at this one seat or not at all, which is the institutional fact the doctrine vector compresses into decisionCentralization 0.85.",
+      "basis": "Constitution of the Russian Federation, Arts. 80, 83(g)-(h), 87, 102(1)(g); Federal Law No. 390-FZ of 28 Dec 2010, 'On Security', Arts. 13-15 (Security Council: status, tasks, composition); Presidential Decree No. 590 of 6 May 2011, 'On the Security Council of the Russian Federation' (constitutional deliberative body preparing presidential decisions); Presidential Decree No. 991 of 19 Nov 2024, Fundamentals of State Policy in the Field of Nuclear Deterrence; Rumer & Sokolsky, 'Etched in Stone: Russian Strategic Culture and the Future of Transatlantic Security', Carnegie Endowment, Sep 2020 (Security Council members function as presidential advisers, not veto-holders). CONTRARY VIEW RETAINED: Frye, 'Weak Strongman: The Limits of Power in Putin's Russia', Princeton UP, 2021, argues the executive is meaningfully constrained by public opinion, elite management and a weak administrative apparatus; the statutory position above is not disputed by him, the behavioural reading of it is.",
+      "confidence": "high"
+    },
+    "steps": [
+      {
+        "order": 0,
+        "stage": "Tasking and target development",
+        "office": "Operational directorates of three security services working in parallel on overlapping mandates — the Main Directorate of the General Staff (GU/GRU, including the 161st Specialist Training Centre and the Main Centre for Special Technologies), the Foreign Intelligence Service, and the Federal Security Service's Fifth Service and Centre 16",
+        "gate": "Filters on fit with the current political line rather than on legality, deconfliction or interagency consensus. Because mandates overlap and no arbitration layer sits between the services, a proposal rejected or dropped in one service can be re-run by another; the practical effect is duplication and competitive risk-taking rather than screening.",
+        "basis": "Galeotti, 'Putin's Hydra: Inside Russia's Intelligence Services', ECFR Policy Brief 169, May 2016 — services replicate each other's work, compete for standing rather than share, and are played off against one another from above. Unit designations from FBI/CISA/NSA and international joint advisory AA24-249A, 'Russian Military Cyber Actors Target US and Global Critical Infrastructure', 5 Sep 2024 (Unit 29155 as the GRU 161st Specialist Training Centre, active since at least 2020 against Ukraine, NATO members, Latin America and Central Asia); DOJ indictment of six officers of GRU Unit 74455, 19 Oct 2020; DOJ, 'Four Russian Government Employees Charged in Two Historical Hacking Campaigns Targeting Critical Infrastructure Worldwide', 24 Mar 2022 (FSB Centre 16 energy-sector campaign 2012-2018). CAVEAT: the internal tasking paperwork is not in the open record; this stage is reconstructed from service structure plus the observed pattern of duplicated, poorly deconflicted operations.",
+        "confidence": "medium"
+      },
+      {
+        "order": 1,
+        "stage": "Consolidation inside the service and access to the decision seat",
+        "office": "The central apparatus of the originating service, and the staff channel of the Presidential Administration",
+        "gate": "Decides whether a proposal reaches the decision-maker at all, and in what form. This is where adverse assessment is lost: the documented incentive is to deliver results and shape reporting to suit the expectation above, so the filter runs on political acceptability rather than on feasibility. A model that assumes an honest feasibility review before authorisation will systematically over-predict caution.",
+        "basis": "Galeotti, ECFR Policy Brief 169, May 2016 — 'the need to please the Kremlin and deliver quick results leads to shoddy information gathering and analysis'; intelligence chiefs shape and sugarcoat the facts. Corroborated for the 2022 case by Dörfler, 'Prospect Theory, Groupthink, and Amplified Frames of Loss: Making Sense of Russia's Decision to Invade Ukraine', Foreign Policy Analysis 21(3), 2025, which finds a closed circle in which disconfirming assessment did not circulate. Also relevant: Galeotti, M., 'Russia's Security Council: Where Policy, Personality, and Process Meet', George C. Marshall European Center for Security Studies, Security Insights No. 41, Oct 2019 (item page located and citation confirmed; the earlier UNVERIFIED flag on this reference is withdrawn).",
+        "confidence": "medium"
+      },
+      {
+        "order": 2,
+        "stage": "Deliberation by the Security Council permanent members",
+        "office": "Security Council of the Russian Federation (Sovet Bezopasnosti), permanent members, in the weekly operational-meeting format chaired by the President",
+        "gate": "None that binds. The Council's own statute defines it as preparatory: it drafts, coordinates and recommends, and its decisions take effect only when the President signs the corresponding act. It can reshape a proposal and it can widen the circle that hears it; nothing in its constituting instruments lets it stop one. Model it as a deliberating circle — which is why decisionCentralization is 0.85 rather than 0.9 — not as an approval body.",
+        "basis": "Federal Law No. 390-FZ of 28 Dec 2010, 'On Security', Arts. 13-15; Presidential Decree No. 590 of 6 May 2011 (Art. 1: a constitutional deliberative body preparing decisions of the President on state and national security). Rumer & Sokolsky, Carnegie, Sep 2020, on a small circle of like-minded elites advising rather than constraining. CAVEAT: what the permanent members actually discuss is not published; the weekly cadence and the statutory role are documented, the deliberation is not, and inferences about who influenced what are ASSUMED, not confirmed.",
+        "confidence": "high"
+      },
+      {
+        "order": 3,
+        "stage": "Go/no-go decision",
+        "office": "The presidency",
+        "gate": "The single binding gate in the chain, and the only point at which cost, exposure and legality are actually traded against the objective. Everything upstream shapes the option set; everything downstream implements or justifies. For nuclear employment the same office holds sole authority under the 2024 Fundamentals, whose declared trigger for response to conventional aggression is a 'critical threat to the sovereignty and/or territorial integrity' of the state — a lower stated bar than the 2020 formula's 'very existence of the state'.",
+        "basis": "Constitution of the Russian Federation, Arts. 80, 83, 87; Presidential Decree No. 991 of 19 Nov 2024, superseding Decree No. 355 of 2 Jun 2020; Arms Control Association, 'Russia Revises Nuclear Use Doctrine', Arms Control Today, Dec 2024, confirming both wordings verbatim; Rumer & Sokolsky, Carnegie, Sep 2020.",
+        "confidence": "high"
+      },
+      {
+        "order": 4,
+        "stage": "Constitutional consent for use of the armed forces outside national territory",
+        "office": "The Federation Council of the Federal Assembly",
+        "gate": "Formally required by Art. 102(1)(g) and observed in practice — but as ratification, not veto. Consent was requested and granted the same day on 1 Mar 2014 (Crimea) and again on 22 Feb 2022, with no recorded dissent on either occasion, and the 2014 authorisation was revoked on request on 25 Jun 2014. Two modelling consequences: this gate imposes delay measured in hours, not weeks; and covert or sub-threshold action never enters it at all, which is one concrete reason the sub-threshold lane is preferred (proxyPreference 0.75 is scoped to exactly that lane).",
+        "basis": "Constitution of the Russian Federation, Art. 102(1)(g); Office of the President of Russia, record of the appeal to the Federation Council on the use of the Armed Forces on the territory of Ukraine, 1 Mar 2014, and record of the proposal to approve a resolution authorising use of the Armed Forces abroad, 22 Feb 2022 (en.kremlin.ru); Federation Council record, 'Federation Council gives consent to use the Russian Armed Forces outside of the Russian Federation', 22 Feb 2022 (council.gov.ru). Vote tallies reported as unanimous in both cases; the tallies themselves were not re-verified against the chamber's stenographic record in this pass.",
+        "confidence": "high"
+      },
+      {
+        "order": 5,
+        "stage": "Legal-cover assembly and filing",
+        "office": "Ministry of Foreign Affairs, its Permanent Mission to the United Nations, and the ministries handling treaty and constitutional instruments",
+        "gate": "Cannot stop an act. It supplies justification on the same clock as the act or after it: the Art. 51 self-defence letter was filed with the UN Secretary-General on the day of the 2022 invasion, friendship-and-mutual-assistance treaties with the two 'republics' were ratified two days before, and the annexation referenda and constitutional incorporation followed the seizure rather than preceding it. Legitimacy is treated here as an output worth real expenditure, not as an input constraint — the split the profile carries as a blended legitimacyWeight of 0.30.",
+        "basis": "Russian Federation letter to the UN Secretary-General invoking Art. 51, UN Doc. S/2022/154, 24 Feb 2022; ratification of the treaties with the 'DNR' and 'LNR', 22 Feb 2022; Chatham House, 'Ukraine: Debunking Russia's Legal Justifications', Feb 2022, finding the jus ad bellum case fails on its own terms; Cormac & Aldrich, 'Grey is the new black: covert action and implausible deniability', International Affairs 94(3), 2018, 477-494.",
+        "confidence": "high"
+      },
+      {
+        "order": 6,
+        "stage": "Non-acknowledgment maintenance",
+        "office": "The Foreign Ministry spokesperson channel and the services' own press offices",
+        "gate": "Fixes the denial line and does not reopen it on attribution. What this stage defends is the formal availability of a denial, not a believed one — which is why near-total public attribution raises reputational cost without changing the acknowledgment decision, and why attributionAversion (0.35, aversion to BEING attributed) must not be double-counted against the separate hard refusal to acknowledge. Acknowledgment is dropped only when the act has already become irreversible and denial has no further use, as in the 2014-15 admission of the Crimea deployment.",
+        "basis": "Cormac & Aldrich, International Affairs 94(3), 2018 (the objective is a formally available denial, not a credible one); Riehle, 'Ignorance, indifference, or incompetence: why are Russian covert actions so easily unmasked?', Intelligence and National Security 39(5), 2024, 864-878; CISA/DOJ and international joint advisory on GRU Unit 29155, AA24-249A, 5 Sep 2024; Jones, 'Russia's Shadow War Against the West', CSIS Brief, 18 Mar 2025.",
+        "confidence": "high"
+      }
+    ],
+    "tempo": {
+      "statement": "Two clocks run at once, and conflating them is the main tempo error a planner can make. The strategic clock can compress to days: because there is one binding gate and no interagency staffing requirement, a decision of the scale of Feb 2022 can be taken inside a closed circle and executed with the constitutional consent act granted the same day it is requested. The campaign clock is measured in years: access-to-effect in the cyber domain ran from at least 2012 to 2018 in the FSB Centre 16 energy-sector campaign, and months of established access preceded the Dec 2015 Ukrainian grid effect. Sub-threshold volume in Europe is rising rather than steady — CSIS counts attributed incidents at 3 (2022), 12 (2023), 34 (2024) — so a defender modelling a fixed arrival rate will under-forecast.",
+      "basis": "Jones, 'Russia's Shadow War Against the West', CSIS Brief, 18 Mar 2025 (incident counts 3/12/34); IISS (Edwards & Seidenstein), 'The Scale of Russian Sabotage Operations Against Europe's Critical Infrastructure', Aug 2025; E-ISAC and SANS ICS, 'Analysis of the Cyber Attack on the Ukrainian Power Grid', Defense Use Case, 18 Mar 2016 (reconnaissance and access well ahead of the 23 Dec 2015 effect); DOJ, 24 Mar 2022, on a 2012-2018 energy-sector intrusion campaign against targets in approximately 135 countries; Dörfler, Foreign Policy Analysis 21(3), 2025, on the compressed 2022 decision; Rumer & Sokolsky, Carnegie, Sep 2020, on patience in campaign maintenance. The two counts (CSIS incident tallies, DOJ campaign spans) come from different collection methods and should not be arithmetically combined.",
+      "confidence": "medium"
+    },
+    "preconditions": [
+      {
+        "statement": "A permissive political signal from the top that the line has changed, rather than a written tasking order. Services act entrepreneurially inside that signal and compete to deliver against it, which means the observable trigger for a wave of sub-threshold activity is a shift in declared posture, not an identifiable authorisation document.",
+        "basis": "Galeotti, 'Putin's Hydra', ECFR Policy Brief 169, May 2016 (services subordinated to the Kremlin but not centrally coordinated; solidarity dissolves in competition for standing); consistent with the post-2022 rise in attributed European incidents documented by Jones, CSIS, 18 Mar 2025, and IISS, Aug 2025. This is an inference from structure and observed correlation; no open document establishes the signalling mechanism directly.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "For anything in the sub-threshold lane, a formally available denial must survive the act. The standard is formal availability, not credibility: operations proceed with tradecraft that is demonstrably easy to unmask, provided the state can decline to acknowledge afterwards.",
+        "basis": "Cormac & Aldrich, International Affairs 94(3), 2018, 477-494; Riehle, Intelligence and National Security 39(5), 2024, 864-878, documenting unusually poor attribution hygiene across the record; Jones, CSIS, 18 Mar 2025, on visible criminal subcontracting and 'disposable agents'.",
+        "confidence": "high"
+      },
+      {
+        "statement": "For overt use of the armed forces abroad, a legal predicate is assembled in advance or on the same day — a consent act under Art. 102(1)(g), a treaty basis, and a filing at the UN — but its absence delays rather than prevents, because the same office that decides also controls the timing of the instruments.",
+        "basis": "Constitution Art. 102(1)(g); Federation Council consent 1 Mar 2014 and 22 Feb 2022; treaties with the 'DNR'/'LNR' ratified 22 Feb 2022; UN Doc. S/2022/154, 24 Feb 2022; Chatham House, Feb 2022.",
+        "confidence": "high"
+      },
+      {
+        "statement": "An assessment that the counterpart's response will stay under a threshold judged tolerable. This is the precondition the record shows failing: the Feb 2022 decision was predicated on rapid capitulation and a divided Western response, and both assumptions were wrong, which is the strongest available caution against treating escalationControlBelief as a well-calibrated capability rather than a belief.",
+        "basis": "Dörfler, Foreign Policy Analysis 21(3), 2025; Kofman, Fink & Edmonds, 'Russian Strategy for Escalation Management: Evolution of Key Concepts', CNA DRM-2019-U-022455-1Rev, Apr 2020, whose own hedge is decisive — 'We do not know Russian confidence levels in such strategies'; Chatham House, 'Myths and Misconceptions Around Russian Military Intent', Jul 2022, Myth 9.",
+        "confidence": "low"
+      },
+      {
+        "statement": "Since Sept 2022, containment of where domestic cost lands. The observed constraint is distributional rather than quantitative: very large aggregate cost is accepted, while cost falling on politically salient domestic constituencies is avoided by substituting paid contract recruitment and regionally skewed enlistment for a second general call-up.",
+        "basis": "Presidential Decree No. 647 of 21 Sept 2022 on partial mobilisation (never rescinded, so no fresh authority would be needed for a second wave) and the subsequent absence of one; CSIS, 'Russia's Grinding War in Ukraine' (Jones & McCabe, 27 Jan 2026), on aggregate casualty cost absorbed; Chatham House, 'The Fortress Russia economy has adapted well to pressure', Sep 2025, and Bruegel, 'How resilient is Russia's economy after four years of war?', 2025. The causal link from backlash to restraint is ASSUMED — the deliberation is not observable; what is observed is the decree, its non-repetition, and the substitution.",
+        "confidence": "medium"
+      }
+    ],
+    "afterAction": {
+      "statement": "Exposure has not reduced tempo, and there is no open evidence of a corrective loop. Operations conducted with tradecraft that gets unmasked have been followed by more operations by the same units using recognisably similar methods, years after indictments and coordinated state attribution; attributed European incidents rose after the exposures rather than falling. Model this institution as one that absorbs exposure and rotates personnel rather than revising the concept — and note the honest limit: the absence of an internal review is inferred from behaviour, because no open source documents the review process either way.",
+      "basis": "Riehle, Intelligence and National Security 39(5), 2024, 864-878, which argues the plausible explanations for repeated unmasking are indifference or structural incentive rather than a correctable error; FBI/CISA/NSA joint advisory AA24-249A, 5 Sep 2024, describing continuing Unit 29155 activity years after prior attributions and indictments; Jones, CSIS, 18 Mar 2025 (3 → 12 → 34 attributed incidents, 2022-2024); IISS, Aug 2025.",
+      "confidence": "medium"
+    }
+  },
+  "worldview": {
+    "declaredEnds": [
+      {
+        "statement": "A multipolar order in which the state is one of the sovereign centres of world development, with what its own foreign-policy doctrine calls the vestiges of the dominance of the United States and other unfriendly states removed from international affairs.",
+        "basis": "Concept of the Foreign Policy of the Russian Federation, approved by Presidential Decree No. 229, 31 Mar 2023, paras. 4-5 and Section III (strategic goals). This is a declared end taken from the issuing document, not an inferred motive.",
+        "confidence": "high"
+      },
+      {
+        "statement": "A revised European security architecture: no further NATO enlargement, no allied military infrastructure on the territory of states that joined after 1997, and a negotiated rollback of deployed capability — demands published as two draft treaties rather than left implicit.",
+        "basis": "Russian MFA, draft treaty between the Russian Federation and the United States on security guarantees and draft agreement on measures to ensure the security of the Russian Federation and NATO member states, both published 17 Dec 2021.",
+        "confidence": "high"
+      },
+      {
+        "statement": "Permanent alteration of Ukraine's security status and of the territorial question, with the annexed oblasts written into domestic constitutional law specifically to place the claim outside negotiation — while the de facto line of control remains demonstrably tradeable.",
+        "basis": "UN Doc. S/2022/154, 24 Feb 2022 (stated objectives); domestic constitutional incorporation of Crimea and the four oblasts, ratified Oct 2022; withdrawal from Kherson city in Nov 2022, six weeks after that incorporation, as behavioural evidence that claim and control are separate objects. Carried forward from the profile's third redline, which makes the same distinction.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "Preservation of strategic parity and of the deterrence relationship with the United States as the guarantor of great-power standing — an end pursued through declaratory instruments as much as through force posture.",
+        "basis": "National Security Strategy of the Russian Federation, Presidential Decree No. 400, 2 Jul 2021; Presidential Decree No. 991, 19 Nov 2024, Fundamentals of State Policy in the Field of Nuclear Deterrence; Ven Bruusgaard, 'Russian nuclear strategy and conventional inferiority', Journal of Strategic Studies 44(1), 2021.",
+        "confidence": "high"
+      }
+    ],
+    "selfImage": {
+      "statement": "The state describes itself, in the doctrine it issued, as 'an original state-civilisation' and 'a vast Eurasian and Euro-Pacific power' whose role is to maintain global balance and to act as a counterweight to what the same document calls the neocolonial order — a self-description, recorded here because it is what the institution publishes about itself, not an assessment of whether the description is accurate.",
+      "basis": "Concept of the Foreign Policy of the Russian Federation, Presidential Decree No. 229, 31 Mar 2023, para. 4. Read as legitimation rather than as an operative programme by Baev, P. K., 'New Decree on Foreign Policy Fails to Hide Russia's Falsity', PRIO Blog (Peace Research Institute Oslo), 4 Apr 2023.",
+      "confidence": "high"
+    },
+    "threatModel": [
+      {
+        "statement": "Alliance enlargement and allied military infrastructure approaching national territory, named as the leading external military danger in the standing military doctrine and restated in the 2021 National Security Strategy. FLAG FOR THE MODELLER: the declared ranking and the behavioural one diverge — Finnish and Swedish accession in 2023-24 drew a rhetorical and force-posture response only, which is why the profile's uncertainty section refuses to encode alliance enlargement as a redline.",
+        "basis": "Military Doctrine of the Russian Federation, 25 Dec 2014, para. 12(a); National Security Strategy, Presidential Decree No. 400, 2 Jul 2021; MFA draft treaties, 17 Dec 2021; the divergence is stated in the existing profile's own uncertainty section and is not novel here.",
+        "confidence": "high"
+      },
+      {
+        "statement": "Externally sponsored political change directed at the constitutional order — 'colour revolution' as a category — treated as a security threat on the same footing as external military danger, which fuses regime security with state security in the threat register itself.",
+        "basis": "Military Doctrine, 25 Dec 2014, para. 13 (internal military dangers, including activity aimed at forcible change of the constitutional order); National Security Strategy, Decree No. 400, 2 Jul 2021; Rumer & Sokolsky, Carnegie, Sep 2020.",
+        "confidence": "high"
+      },
+      {
+        "statement": "Long-range precision conventional strike and missile defence, assessed as capable of eroding the deterrence relationship — which is why the 2024 Fundamentals list massed air and space attack among the conditions for consideration of nuclear response, and why conventional inferiority arguments do explanatory work in this actor's nuclear doctrine.",
+        "basis": "Presidential Decree No. 991, 19 Nov 2024; Ven Bruusgaard, Journal of Strategic Studies 44(1), 2021, and 'Deterrence asymmetry and strategic stability in Europe', Journal of Strategic Studies, 2024; Kaushal, S. & Dolzikova, D., 'The Evolution of Russian Nuclear Doctrine', RUSI Occasional Paper, 2025.",
+        "confidence": "high"
+      },
+      {
+        "statement": "The information and values space treated as a declared security domain, with a presidential decree making a specified list of 'traditional values' an object of state policy and naming 'destructive ideology' as a threat to be countered. Recorded as a state policy instrument that exists and says this; how much it drives operational decisions is contested and is not established here.",
+        "basis": "Presidential Decree No. 809 of 9 Nov 2022, Fundamentals of State Policy for the Preservation and Strengthening of Traditional Russian Spiritual and Moral Values; National Security Strategy, Decree No. 400, 2 Jul 2021 (information security and 'protection of traditional values' sections). Operational weight contested — Frye, Weak Strongman, Princeton UP, 2021, reads such instruments as regime-maintenance tools rather than as drivers.",
+        "confidence": "medium"
+      }
+    ],
+    "adversaryModel": {
+      "statement": "Acts as though the counterpart's decisions can be shaped by managing the information on which those decisions rest — the reflexive-control idea of transmitting to an adversary the bases for making its own choices — and as though Western coalitions are casualty-averse, bound to election cycles, and separable under pressure, so that damage 'dosed' below the level that would consolidate them will deter rather than unite. THIS IS THE WEAKEST CLAIM IN THE DOSSIER and is graded accordingly: the doctrinal and analytical writing evidences an institutional concept, not a leadership belief, the CNA study that documents the concept states plainly that Russian confidence levels in it are unknown, and Feb 2022 is direct evidence that the model of Western cohesion was wrong in at least one high-stakes application.",
+      "basis": "Thomas, 'Russia's Reflexive Control Theory and the Military', Journal of Slavic Military Studies 17(2), 2004, 237-256; Kofman, Fink & Edmonds, CNA DRM-2019-U-022455-1Rev, Apr 2020 (calibrated/'dosed' damage; deterrent damage set above the adversary's expected gain; explicit disclaimer 'We do not know Russian confidence levels in such strategies'); Chatham House, 'Myths and Misconceptions Around Russian Military Intent', Jul 2022, Myth 9, arguing the Western 'escalate to de-escalate' label misreads a high-threshold escalation-management concept; Dörfler, Foreign Policy Analysis 21(3), 2025, on the 2022 misjudgement.",
+      "confidence": "low"
+    },
+    "declaredIdeology": {
+      "statement": "Two instruments the state issued about itself carry whatever declared programme this actor has, and neither is a claim about any population: the 2023 Foreign Policy Concept, which declares the 'state-civilisation' self-conception and a mission of maintaining global balance in a multipolar order; and Decree No. 809 of 9 Nov 2022, which enumerates a list of 'traditional values' and constitutes their preservation as state policy with a named ideological adversary. Recorded strictly as published programme. Whether either document constrains a decision is contested, and the profile's own legitimacyWeight split — legitimacy as input constraint very low, legitimacy as valued output high — is the operative modelling answer.",
+      "basis": "Concept of the Foreign Policy of the Russian Federation, Presidential Decree No. 229, 31 Mar 2023, paras. 4-5; Presidential Decree No. 809 of 9 Nov 2022, Fundamentals of State Policy for the Preservation and Strengthening of Traditional Russian Spiritual and Moral Values. Contested operative weight: Frye, Weak Strongman, Princeton UP, 2021; PRIO commentary, Apr 2023.",
+      "confidence": "high"
+    }
+  },
+  "history": [
+    {
+      "date": "2024-11-21",
+      "episode": "First combat employment of the 'Oreshnik' intermediate-range ballistic missile against an industrial target in Dnipro, pre-notified to the United States and announced the same evening",
+      "choice": "Escalated demonstratively, then advertised it. A missile of a class associated with nuclear delivery was fired conventionally with multiple reentry vehicles; the launch was notified in advance to the United States through nuclear risk-reduction channels, and claimed publicly by the head of state hours later as a response to Western-supplied long-range strikes on Russian territory.",
+      "bearsOn": [
+        "signalingPreference",
+        "escalationControlBelief",
+        "reciprocityProportion"
+      ],
+      "lesson": "Escalated in a form engineered to be seen and to be safe to see: maximum visibility, immediate claim of authorship, and a pre-notification that removed exactly the ambiguity a surprise strategic-system launch would have created. The response was also out-of-kind and displaced — the cited injury was allied long-range strike, the answer was a strategic-system demonstration — which is what reciprocityProportion 0.35 means under the 'in proportion and in kind' reading. FLAG: 'intended as a signal' is an interpretation of the act, strongly consistent with the pre-notification and the same-day announcement, but not a documented intent.",
+      "basis": "US Department of Defense press briefing, 21 Nov 2024 (deputy press secretary), confirming an experimental IRBM launch and advance notification through nuclear risk-reduction channels; CSIS Missile Threat, 'Oreshnik' system profile; Kofman, Fink & Edmonds, CNA DRM-2019-U-022455-1Rev, Apr 2020, on demonstration and fear inducement (ustrashenie) as the opening move of the escalation-management repertoire; Horovitz, L., Smetana, M., et al., 'Russia's Nuclear Signaling in the War Against Ukraine', SWP Berlin and Peace Research Center Prague working paper and chronology dataset, Dec 2025. Reported flight profile and warhead count come from open technical assessment and are not officially confirmed.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2022-09-21",
+      "episode": "Partial mobilisation declared by Presidential Decree No. 647, followed by a sustained refusal to order a second general wave",
+      "choice": "Acted once, then held. The decree was issued by presidential act with no legislative gate, with an announced ceiling of 300,000 and one paragraph withheld from publication. It has never been rescinded — so a second wave would require no new authority — and none has been ordered; manpower has since been raised through paid contract recruitment with regionally differentiated bonuses.",
+      "bearsOn": [
+        "ownCostTolerance",
+        "legitimacyWeight",
+        "decisionCentralization"
+      ],
+      "lesson": "Held on the one cost this institution appears to price steeply: cost that lands on politically salient domestic constituencies. It is the empirical basis for scoping ownCostTolerance — roughly 0.85 for cost borne by forces and the economy, materially lower for cost distributed to the domestic population — and it shows the constraint is about WHERE cost falls, not how large it is. The instrument itself is a decisionCentralization datum: a measure of this magnitude entered force on one signature.",
+      "basis": "Presidential Decree No. 647 of 21 Sept 2022, 'On declaring partial mobilisation in the Russian Federation' (en.kremlin.ru; paragraph 7 published as for-official-use only, and the decree remains in force, never formally terminated); Ministry of Defence statement of the 300,000 figure, 21 Sept 2022; CSIS, 'Russia's Grinding War in Ukraine' (Jones & McCabe, 27 Jan 2026), on aggregate casualties absorbed over the same period. CAUSAL CAVEAT: that domestic backlash produced the restraint is ASSUMED — the deliberation is not observable. What is observed is the decree, its non-repetition, and the substitution of paid recruitment.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2022-03-24",
+      "episode": "Multi-year pre-positioning in Western energy-sector networks without disruptive employment, documented when the Department of Justice unsealed two indictments on 24 Mar 2022",
+      "choice": "Held. FSB Centre 16 operators compromised energy-sector targets in approximately 135 countries between 2012 and 2018, including the business network of a US nuclear operating company, and the access was not used for disruption. A separate charge, returned in the District of Columbia in June 2021 against an employee of a Ministry of Defence research institute, concerns the 2017 intrusion into a foreign refinery's safety instrumented system.",
+      "bearsOn": [
+        "timeHorizon",
+        "escalationControlBelief",
+        "counterpartHarmRestraint"
+      ],
+      "lesson": "Held an operational advantage unspent for years inside a nuclear-armed counterpart's critical infrastructure — the behaviour timeHorizon 0.70 is meant to capture, and a restraint datum a record of actions alone would miss entirely. It is not clean restraint, and the dossier should not present it as such: the safety-system case shows the same state accepting an intrusion of a far more dangerous class elsewhere. The defensible reading is that the identity of the counterpart, not the sensitivity of the sector, is what moves the threshold — which argues for splitting counterpartHarmRestraint by counterpart rather than raising the scalar.",
+      "basis": "DOJ, 'Four Russian Government Employees Charged in Two Historical Hacking Campaigns Targeting Critical Infrastructure Worldwide', 24 Mar 2022 (indictment in the District of Kansas covering the 2012-2018 FSB Centre 16 campaign; June 2021 indictment in the District of Columbia covering the safety-system intrusion); CISA advisory AA22-083A, 'Tactics, Techniques, and Procedures of Indicted State-Sponsored Russian Cyber Actors Targeting the Energy Sector', 24 Mar 2022; DHS/FBI alert TA18-074A, 'Russian Government Cyber Activity Targeting Energy and Other Critical Infrastructure Sectors', 15 Mar 2018; US Treasury designation of the Russian state research institute connected to the safety-system malware, 23 Oct 2020. EVIDENCE-CLASS CAVEAT: non-use is inferred from the absence of reported disruptive incidents, which is materially weaker than a documented decision to refrain; no open source records the deliberation.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2022-02-24",
+      "episode": "Full-scale invasion of Ukraine, decided in a closed circle on a rapid-victory assumption",
+      "choice": "Escalated to open interstate war, with the constitutional and legal instruments moving on the same clock as the decision: Federation Council consent granted 22 Feb, treaties with the two 'republics' ratified 22 Feb, Art. 51 letter filed at the UN on 24 Feb.",
+      "bearsOn": [
+        "lossFrameRiskAcceptance",
+        "decisionCentralization",
+        "timeHorizon"
+      ],
+      "lesson": "Chose a high-variance option under an institutionally amplified loss frame, with every formal gate functioning as ratification rather than review — the clearest single demonstration that the chain in `procedure` has one binding seat. It is also the case that forces timeHorizon to be modelled as bimodal: a short-horizon strategic bet sits inside a long-horizon campaign posture. WEIGHT WARNING: this is the ONE case the lossFrameRiskAcceptance value rests on, and generalising a single decision into a standing disposition is this profile's principal inference risk — the reason that parameter is held at medium confidence rather than high.",
+      "basis": "Dörfler, 'Prospect Theory, Groupthink, and Amplified Frames of Loss: Making Sense of Russia's Decision to Invade Ukraine', Foreign Policy Analysis 21(3), 2025 (single-authored); UN Doc. S/2022/154, 24 Feb 2022; Office of the President of Russia record of the 22 Feb 2022 appeal to the Federation Council, and the Federation Council's same-day consent under Art. 102(1)(g); Chatham House, 'Ukraine: Debunking Russia's Legal Justifications', Feb 2022; Rumer & Sokolsky, Carnegie, Sep 2020.",
+      "confidence": "high"
+    },
+    {
+      "date": "2018-02-07",
+      "episode": "Battle of Khasham: US strikes on a pro-regime column including personnel of the Wagner structure near Deir ez-Zor",
+      "choice": "Absorbed, and did not respond. Contacted on the deconfliction line during the engagement, the Russian command disclaimed the advancing force as not its personnel; open estimates of the dead run into the low hundreds. There was no retaliation, no acknowledgment, no published toll, and no change to the deconfliction arrangement.",
+      "bearsOn": ["proxyPreference", "ownCostTolerance", "attributionAversion"],
+      "lesson": "Held, and paid for deniability in the lives of its own nationals. The semi-state structure exists so that a loss of this scale can be disowned rather than answered, and on the day the institution chose to preserve both the denial and the working channel with the counterpart rather than respond in kind. Sharp asymmetry with the Turkey case one domain over: a loss inflicted on regular forces produced a large out-of-kind response; a loss inflicted on disownable forces produced none — so proxy status changes not only the attribution ledger but the retaliation obligation. COST CAVEAT: casualty estimates are contested and no official figure exists; the size of the absorbed cost is uncertain, the decision not to respond is not.",
+      "basis": "Marten, 'Russia's use of semi-state security forces: the case of the Wagner Group', Post-Soviet Affairs 35(3), 2019, 181-204 (definitive case study using primarily Russian sources, covering Syria 2012-2018); US Department of Defense statements of Feb 2018 describing the deconfliction-line exchange and the assurance that the force was not Russian; Russian MFA and Ministry of Defence statements denying the presence of Russian servicemen in the district; US Treasury designations of the Wagner Group as a Russian MoD-linked proxy force.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2017-06-27",
+      "episode": "NotPetya: destructive malware seeded through a Ukrainian tax-accounting software update, propagating worldwide",
+      "choice": "Escalated, and lost control of the effect. The instrument was self-propagating and its spread was not bounded to the intended theatre; damage fell on third-country firms including logistics, pharmaceutical and shipping companies. After coordinated state attribution in Feb 2018 and a US indictment in Oct 2020, the act was never acknowledged.",
+      "bearsOn": [
+        "escalationControlBelief",
+        "counterpartHarmRestraint",
+        "attributionAversion"
+      ],
+      "lesson": "Escalated with an uncontrollable instrument, absorbed the diplomatic cost of worldwide third-party damage, and held the denial line through attribution and indictment. This is the clearest available counter-evidence to a high escalationControlBelief: the institution's own documented concept of calibrated, 'dosed' damage was not matched by control of the weapon in this case. Read it as a reason to keep that parameter's confidence LOW and to model it as a distribution rather than as a reason to raise or lower the point value.",
+      "basis": "White House Press Secretary statement, 15 Feb 2018, attributing NotPetya to the Russian military and calling it 'the most destructive and costly cyber-attack in history'; UK Foreign Office and NCSC attribution to the GRU, 15 Feb 2018; DOJ indictment of six officers of GRU Unit 74455 (Main Centre for Special Technologies), 19 Oct 2020, charging the NotPetya campaign; Kofman, Fink & Edmonds, CNA DRM-2019-U-022455-1Rev, Apr 2020, for the calibrated-damage concept this episode strains. Aggregate damage figures circulating in open reporting derive from insurer and corporate disclosures and vary widely; treat any single total as an estimate.",
+      "confidence": "high"
+    },
+    {
+      "date": "2015-12-23",
+      "episode": "Remote de-energisation of three Ukrainian regional distribution companies, repeated at transmission level in Kyiv on 17 Dec 2016",
+      "choice": "Acted, and bounded the effect. Breakers were opened remotely at three oblenergos, roughly 225,000 customers lost supply for between one and six hours in midwinter, and operators restored service by reverting to manual control; the follow-on Kyiv attack a year later lasted about an hour.",
+      "bearsOn": [
+        "signalingPreference",
+        "counterpartHarmRestraint",
+        "timeHorizon"
+      ],
+      "lesson": "Acted with an effect that was reversible, short, and legible as a capability statement rather than as an attempt at sustained denial — the demonstrative end of the repertoire applied to civilian infrastructure. The gap between establishing access and producing effect is direct evidence for a long campaign clock. HONEST COMPLICATION: the same operation wiped operator workstations and jammed utility call centres, both of which lengthen restoration and cut against a purely demonstrative reading; whether the short outage reflects intent or the limits of the access achieved is not resolvable from the open record.",
+      "basis": "E-ISAC and SANS ICS, 'Analysis of the Cyber Attack on the Ukrainian Power Grid', Defense Use Case, 18 Mar 2016 (three distribution companies, ~225,000 customers, manual restoration, KillDisk against workstations, telephony denial-of-service against call centres); ESET, 'Industroyer', 12 Jun 2017, and Dragos, 'CRASHOVERRIDE', 2017, on the Dec 2016 transmission-level attack; DOJ indictment of six GRU Unit 74455 officers, 19 Oct 2020, charging both grid attacks.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2015-11-24",
+      "episode": "Turkish F-16s destroy a Russian Su-24 over the Syria-Turkey border; the pilot is killed",
+      "choice": "Held. A NATO member inflicted a direct, attributable, lethal loss on regular forces. The response was economic and out-of-kind — Presidential Decree No. 583 of 28 Nov 2015 imposed import bans, suspended visa-free entry from 1 Jan 2016, and halted charter flights and tour packages — with no kinetic retaliation.",
+      "bearsOn": [
+        "reciprocityProportion",
+        "escalationControlBelief",
+        "ownCostTolerance"
+      ],
+      "lesson": "Held against a NATO counterpart under maximum provocation, and answered in a different currency rather than not at all. Two things follow for the model. First, this is the strongest single datum against applying counterpartHarmRestraint 0.20 to NATO counterparts, and supports the profile's recommendation to split that parameter by counterpart. Second, it shows what 'disproportionate but out-of-kind' looks like when the ledger runs the other way: the response was not smaller than the injury, it was displaced across domain — the same signature reciprocityProportion 0.35 encodes.",
+      "basis": "Presidential Decree No. 583 of 28 Nov 2015, 'On measures to ensure the state security of the Russian Federation and the protection of citizens of the Russian Federation from criminal and other unlawful acts, and on the application of special economic measures in relation to the Republic of Turkey' (import bans, suspension of visa-free travel from 1 Jan 2016, charter-flight and tour-package prohibitions) — cited to the decree itself as the primary instrument. Claims about an accompanying S-400 deployment to Hmeimim and about a mid-2016 normalisation were carried here on unnamed contemporaneous reporting and have been removed rather than softened. What remains is the decree and the absence of any kinetic Russian response in the open record.",
+      "confidence": "high"
+    },
+    {
+      "date": "2014-03-01",
+      "episode": "Seizure of Crimea by unmarked forces, followed by referendum, accession treaty and constitutional incorporation",
+      "choice": "Acted covertly while the outcome was in doubt, denied state involvement for six weeks, then acknowledged it once the result was irreversible — and spent heavily on formal legitimacy machinery in parallel: Federation Council consent on 1 Mar, referendum on 16 Mar, accession treaty on 18 Mar, constitutional incorporation thereafter, and revocation of the consent act on 25 Jun once it was no longer needed.",
+      "bearsOn": ["proxyPreference", "attributionAversion", "legitimacyWeight"],
+      "lesson": "Acted in the sub-threshold lane while reversal was possible and converted to open action only when it was not. The denial was held as a formal option rather than a credible one, and was dropped without visible cost the moment it stopped being useful — which is exactly why attributionAversion (aversion to being attributed) must be modelled separately from the hard refusal to acknowledge. The legitimacy apparatus was assembled to FOLLOW the decision, not to gate it: legitimacy here is expenditure on a valued output, the distinction the blended legitimacyWeight of 0.30 exists to carry.",
+      "basis": "Constitution Art. 102(1)(g) consent requested and granted on 1 Mar 2014 and revoked on request 25 Jun 2014 (Office of the President of Russia and Federation Council records); public acknowledgment of the participation of Russian servicemen in the presidential 'Direct Line' of 17 Apr 2014 and in the state documentary broadcast in Mar 2015; Marten, Post-Soviet Affairs 35(3), 2019, 181-204, on the semi-state structures used in Crimea and eastern Ukraine; Cormac & Aldrich, International Affairs 94(3), 2018, on formally available rather than credible denial; Chatham House, 'Ukraine: Debunking Russia's Legal Justifications', Feb 2022, on the legal instruments.",
+      "confidence": "high"
+    }
+  ]
+}

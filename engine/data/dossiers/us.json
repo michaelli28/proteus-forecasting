@@ -1,0 +1,267 @@
+{
+  "id": "us",
+  "procedure": {
+    "authority": {
+      "statement": "Go/no-go on the initiation of force sits with the President alone and travels to the executing commander through the Secretary of Defense; every other office in the chain supplies options, estimates or authority, and none holds a veto. Authority is materially less concentrated for sustained campaigns than for single strikes, because appropriations, host-nation basing and overflight consent, and delegated approval tiers all bind a campaign and none of them bind a first strike.",
+      "basis": "10 U.S.C. 162(b) places the operational chain of command from the President to the Secretary of Defense to the combatant commander, with the Chairman of the Joint Chiefs transmitting orders but outside the chain. NSPM-1, 'Organization of the National Security Council and Subcommittees', 20 Jan 2025, assigns the Principals and Deputies Committees the task of developing 'options and recommendations for the President' rather than decision authority (text at The American Presidency Project). DOJ Office of Legal Counsel, 'Presidential Power to Use the Armed Forces Abroad Without Statutory Authorization', supplies the Article II theory. Observed: the 2 Jan 2020 Soleimani strike and the 21-22 Jun 2025 Iran strikes were both executed without prior congressional authorisation, with congressional leadership notified in the 2025 case only once aircraft were clear of Iranian airspace (Secretary of Defense and Press Secretary statements as reported 22 Jun 2025).",
+      "confidence": "high"
+    },
+    "steps": [
+      {
+        "order": 0,
+        "stage": "Target development and validation",
+        "office": "Combatant command joint staff targeting cell (J2/J3), inside the joint targeting cycle",
+        "gate": "A candidate must survive validation against the no-strike list and the restricted target list and meet positive-identification standards before it enters the joint integrated prioritised target list. A target that fails validation never reaches an approving authority, so this stage screens by category rather than by cost.",
+        "basis": "Joint Chiefs of Staff, Joint Publication 3-60, 'Joint Targeting', 31 Jan 2013 (public copy hosted by Just Security), chapter on the six-phase targeting cycle and target validation; CJCSI 3160.01, 'No-Strike and the Collateral Damage Estimation Methodology', partially declassified copy released in ACLU drone-FOIA litigation. Cited to the instruction series, not to a revision letter: the parent profile flags revision 'D' as unverified.",
+        "confidence": "high"
+      },
+      {
+        "order": 1,
+        "stage": "Collateral damage estimation and weaponeering",
+        "office": "Command targeting/CDE cell applying the collateral damage estimation methodology",
+        "gate": "The CDE level, not the target's military value, sets how senior the approving officer must be. Estimates above a commander's delegated threshold route the target upward; targets that exceed national-level thresholds go to the Sensitive Target Approval and Review process for approval at national level. This is the mechanism that converts expected civilian harm into a bureaucratic cost rather than a prohibition.",
+        "basis": "CJCSI 3160.01 series, 'No-Strike and the Collateral Damage Estimation Methodology'; CJCSI 3122.06, 'Sensitive Target Approval and Review (STAR) Process', both described in the Joint Staff targeting/CDE briefing released in ACLU drone-FOIA litigation ('Joint Targeting Cycle and Collateral Damage Estimation', Joint Staff/OGC slides, 10 Nov 2009). The mechanism is well established; the numeric CDE thresholds are classified and known publicly only through redacted releases, so the shape of the gate is high confidence and its calibration is not.",
+        "confidence": "medium"
+      },
+      {
+        "order": 2,
+        "stage": "Law-of-war review",
+        "office": "Command judge advocate / staff legal advisor, with the DoD Office of General Counsel above them",
+        "gate": "Applies distinction, proportionality and precautions from the DoD Law of War Manual plus the operative rules of engagement, and can mark a target unlawful. Observed limit: this gate reliably screens the categorical rule (attacks directed at the civilian population) and screens execution error poorly — the post-strike review of the 29 Aug 2021 Kabul strike, which killed ten civilians and no combatants, found no violation of the law of war.",
+        "basis": "DoD Law of War Manual, Office of General Counsel, Department of Defense, 2015 (rev. 2016/2023), on distinction, proportionality and precautions in attack. Disconfirming evidence: the Air Force Inspector General's review of the 29 Aug 2021 Kabul strike, briefed 3 Nov 2021 — 'I didn't find violations of law or of the law of war' — reported in Al Jazeera, 'No misconduct in deadly US drone attack in Kabul: Pentagon review', 3 Nov 2021, and CBS News, 'Pentagon probe found no negligence in botched Kabul airstrike', Nov 2021.",
+        "confidence": "medium"
+      },
+      {
+        "order": 3,
+        "stage": "Interagency policy vetting",
+        "office": "National Security Council subcommittee chain: Policy Coordination Committee (chaired by NSC staff), then Deputies Committee (chaired by the Principal Deputy National Security Advisor), then Principals Committee (chaired by the National Security Advisor)",
+        "gate": "Surfaces State, ODNI, Treasury and DOJ equities and frames the option set. It can slow, reshape or reframe a proposal but does not hold go/no-go: the charter assigns it option development, not decision. In compressed crises the chain can be run in a single session or bypassed for the Principals level.",
+        "basis": "NSPM-1, 'Organization of the National Security Council and Subcommittees', 20 Jan 2025 — verbatim: 'The PC shall be convened and chaired by the National Security Advisor'; 'The DC shall be convened and chaired by the Principal Deputy National Security Advisor'; 'Members of the NSC staff will chair the PCCs'; 'PCCs shall develop and provide policy options and analyses for consideration by higher echelon committees of the national security system'. It supersedes National Security Memorandum-2 of 4 Feb 2021, which it 'hereby revoked'. Structural background: CRS R44828, 'The National Security Council: Background and Issues for Congress'.",
+        "confidence": "high"
+      },
+      {
+        "order": 4,
+        "stage": "Domestic legal authority",
+        "office": "DOJ Office of Legal Counsel with the White House Counsel, for action not covered by an existing authorisation for use of military force",
+        "gate": "Applies a two-part test: whether the President could reasonably determine the action serves sufficiently important national interests, and whether the anticipated 'nature, scope, and duration' fall short of 'war' in the constitutional sense requiring prior congressional authorisation. In every publicly known modern instance the test has been satisfied rather than failed — the 2011 Libya intervention, the January 2020 Baghdad airport strike, the June 2025 Iran strikes — so it should be modelled as a permission-generating stage, not a filter.",
+        "basis": "DOJ Office of Legal Counsel, 'Presidential Power to Use the Armed Forces Abroad Without Statutory Authorization' (justice.gov/olc); Brookings, 'Presidential War Powers' reference sheet, Dec 2020; War Powers Resolution Reporting Project, Reiss Center on Law and Security, NYU School of Law, which catalogues the reports filed and the authorities claimed. The 'zero publicly known failures' claim is bounded by what is public: internal OLC advice that stopped an option would not surface.",
+        "confidence": "high"
+      },
+      {
+        "order": 5,
+        "stage": "Presidential decision and execute order",
+        "office": "The President as commander in chief, with the order issued by the Secretary of Defense to the combatant commander",
+        "gate": "The only unconditional go/no-go in the chain, and the only stage documented to have reversed a prepared strike: the 20 Jun 2019 Iran strike was ordered and cancelled on a stated collateral estimate, and the Aug-Sep 2013 Syria strike was prepared and referred to Congress instead. Both reversals came from the same office that had ordered the action, not from a subordinate gate.",
+        "basis": "10 U.S.C. 162(b) for the chain of command. For the 2019 reversal: contemporaneous presidential account, 21 Jun 2019 ('We were cocked & loaded to retaliate last night on 3 different sites when I asked, how many will die'), and Military.com, 'Iran Makes Show of Drone Wreckage After Trump Calls Off Retaliatory Strike', 21 Jun 2019. For 2013: The White House, 'Statement by the President on Syria', 31 Aug 2013 (Obama White House archive).",
+        "confidence": "high"
+      },
+      {
+        "order": 6,
+        "stage": "Post-execution reporting and justification",
+        "office": "Executive-branch legal and legislative-affairs offices, plus the US Permanent Representative to the United Nations",
+        "gate": "None — this stage cannot stop anything. It produces the War Powers Resolution report to Congress within 48 hours, the Article 51 letter to the UN Security Council, and the public acknowledgment. Its timing is the measurement that matters: the Article 51 letter for the 22 Jun 2025 Iran strikes is dated 27 Jun 2025, five days after execution.",
+        "basis": "50 U.S.C. 1543(a) (48-hour report). Letter dated 27 Jun 2025 from the Permanent Representative of the United States to the United Nations addressed to the President of the Security Council, text hosted by Just Security; Lawfare, 'U.S. and U.K. Submit Article 51 Letters to the U.N. Security Council on Middle East Operations', 2025; Security Council Report, 'In Hindsight: The Increasing Use of Article 51 of the UN Charter and the Security Council', Oct 2025.",
+        "confidence": "high"
+      }
+    ],
+    "tempo": {
+      "statement": "Bimodal, and the two modes differ by three orders of magnitude. Inside an authorised campaign, deliberate targeting runs on the air tasking order cycle — roughly 72 hours from guidance to execution — and dynamic targeting on minutes. Strike initiation outside a campaign compresses to days: the 28 Jan 2024 Tower 22 attack that killed three US soldiers produced the retaliation package on 2 Feb 2024, five days later and publicly telegraphed throughout the interval. Campaign termination is by far the slowest decision the institution makes.",
+      "basis": "Joint Chiefs of Staff, JP 3-60, 'Joint Targeting', 31 Jan 2013, on the deliberate and dynamic targeting cycles. For the 2024 interval: US Central Command, 'CENTCOM Statement on U.S. Strikes in Iraq and Syria', press release 20240202-01, 2 Feb 2024 (strikes on more than 85 targets across seven locations in Iraq and Syria, five days after the 28 Jan 2024 Tower 22 attack in Jordan that killed three US soldiers). The 72-hour ATO figure is a doctrinal planning norm rather than a measured mean and should not be treated as an observed distribution.",
+      "confidence": "medium"
+    },
+    "preconditions": [
+      {
+        "statement": "Positive identification and clearance against the no-strike and restricted target lists before a target enters the approval chain at all.",
+        "basis": "Joint Chiefs of Staff, JP 3-60, 'Joint Targeting', 31 Jan 2013, target validation; CJCSI 3160.01 series, 'No-Strike and the Collateral Damage Estimation Methodology'.",
+        "confidence": "high"
+      },
+      {
+        "statement": "An articulable legal theory must exist at the moment of decision, though the filings that publicise it follow execution. For military force this is either an existing authorisation for use of military force or an Article II determination; for covert action it is a written presidential Finding, with notification to the two congressional intelligence committees, narrowable in 'extraordinary circumstances affecting vital interests of the United States' to eight congressional leaders.",
+        "basis": "50 U.S.C. 3093 (presidential approval and reporting of covert actions): findings must be in writing unless immediate action is required, in which case a written record is made contemporaneously and reduced to a written finding within 48 hours. CRS R45191, 'Covert Action and Clandestine Activities of the Intelligence Community: Selected Congressional Notification Requirements'. DOJ OLC, 'Presidential Power to Use the Armed Forces Abroad Without Statutory Authorization', for the Article II branch.",
+        "confidence": "high"
+      },
+      {
+        "statement": "For anything sustained rather than single-round, appropriated funds plus host-nation basing and overflight consent — the constraints that make campaign authority materially less centralised than strike authority.",
+        "basis": "The parent profile's decisionCentralization basis makes exactly this scope distinction (0.55 is a blend of high strike-initiation centralisation and materially lower campaign centralisation). Corroborated by the 2025 National Security Strategy's burden-shifting sections, which make partner willingness an explicit input to sustained regional presence (SIV.3.B, SIV.3.C, SIV.3.D).",
+        "confidence": "medium"
+      }
+    ],
+    "afterAction": {
+      "statement": "The institution reliably produces procedural learning and reliably declines individual accountability. It investigates, publishes, and reforms process; it almost never attributes a bad outcome to a person. A model should therefore expect US civilian-harm failures to generate new policy machinery and no personnel consequences, and should not treat the machinery's existence as evidence that outcomes improved.",
+      "basis": "After the 29 Aug 2021 Kabul strike the Air Force Inspector General's review found 'execution errors', confirmation bias and communication breakdowns but no law-of-war violation and no criminal negligence (briefed 3 Nov 2021), and the Secretary of Defense approved no disciplinary action (Dec 2021). The process reforms from the same period are real and documented: Civilian Harm Mitigation and Response Action Plan, Secretary of Defense, 25 Aug 2022, and DoD Instruction 3000.17, 'Civilian Harm Mitigation and Response', 21 Dec 2023. The limit on that reform is also documented: GAO-24-106257, 'Civilian Harm: DOD Should Take Actions to Enhance Its Plan for Mitigation and Response Efforts', 14 Mar 2024, found the plan incompletely resourced and tracked.",
+      "confidence": "high"
+    }
+  },
+  "worldview": {
+    "declaredEnds": [
+      {
+        "statement": "Survival and sovereign independence of the United States as the first-order interest, expressed as a denial condition on adversary capability rather than as a positive order-building goal.",
+        "basis": "2025 National Security Strategy (cover date November 2025), SII.1, verbatim: 'the continued survival and safety of the United States as an independent, sovereign republic', and 'No adversary or danger should be able to hold America at risk'. Both quotations were verified verbatim against the primary PDF in this profile's challenge pass. Release coverage: Pompilio, K., 'Trump Administration Releases 2025 National Security Strategy', Lawfare, 5 Dec 2025.",
+        "confidence": "high"
+      },
+      {
+        "statement": "Winning the long-term economic and technological competition, stated as the durable end that outlasts any single campaign.",
+        "basis": "2025 National Security Strategy, SIV.3.B, verbatim: 'winning the economic and technological competition over the long term' (verified verbatim in this profile's challenge pass). This is the passage that carries the institutional half of the bimodal timeHorizon.",
+        "confidence": "high"
+      },
+      {
+        "statement": "Shifting the cost of regional security onto allies and partners, stated as a programme rather than as a preference.",
+        "basis": "2025 National Security Strategy: Europe to take 'primary responsibility for its own defense' (SIV.3.C); the section heading 'D. The Middle East: Shift Burdens'; allies who 'must step up and spend - and more importantly do - much more for collective defense' (SIV.3.B). All verbatim from the extracted primary text per this profile's challenge pass.",
+        "confidence": "high"
+      },
+      {
+        "statement": "Wars won 'quickly and decisively, with the lowest possible casualties to our forces', with 'forever global burdens' rejected — a declared end the observed twenty-year record does not match.",
+        "basis": "2025 National Security Strategy, SII.1 (both phrases verbatim, verified against the primary PDF). Recorded here as a DECLARED end only: the parent profile's ownCostTolerance basis sets the observed record against it (~20 years and ~2,400 US military deaths in Afghanistan, ~4,500 in Iraq, sustained across four administrations), which is why that parameter is 0.45 at low confidence rather than low and confident.",
+        "confidence": "high"
+      }
+    ],
+    "selfImage": {
+      "statement": "The current declared self-description is of a power stepping out of the system-maintenance role rather than one underwriting it, and hostile to the intermediaries that role ran through. That is a change of self-description within one electoral cycle, and the discontinuity — not either endpoint — is the modellable fact.",
+      "basis": "2025 National Security Strategy, SIV.1, verbatim: opposition to 'the sovereignty-sapping incursions of the most intrusive transnational organizations' (verified in this profile's challenge pass). The framing quotation 'the days of the United States propping up the entire world order like Atlas are over' is reproduced in Pompilio, K., 'Trump Administration Releases 2025 National Security Strategy', Lawfare, 5 Dec 2025. Baseline for the discontinuity: National Security Strategy, The White House, October 2022, which frames the United States as convenor of allies and international institutions. Confidence is medium rather than high because the declared self-image has roughly a two-month observation window against conduct that has not yet moved with it.",
+      "confidence": "medium"
+    },
+    "threatModel": [
+      {
+        "statement": "Any adversary capability that can hold the US homeland at risk — stated as the threat the strategy is organised against, and the one commitment with long observed enforcement behind it.",
+        "basis": "2025 National Security Strategy, SII.1, verbatim: 'No adversary or danger should be able to hold America at risk' (verified). Behavioural backing is the post-2001 response record rather than the document, as recorded in this profile's homeland-defence redline.",
+        "confidence": "high"
+      },
+      {
+        "statement": "Long-term economic and technological displacement, with China as the pacing case.",
+        "basis": "The 'pacing challenge' formulation belongs to the 2022 National Defense Strategy (DoD fact sheet, Mar 2022) and must not be attributed to the current document; the 2025 National Security Strategy frames the same competition as economic and technological, to be won 'over the long term' (SIV.3.B, verbatim). Confidence is medium because the threat is assembled from two documents issued under different administrations.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "Erosion of the Western Hemisphere as a secure rear area — asserted as a denial interest by a document that concedes the condition is already breached.",
+        "basis": "2025 National Security Strategy, SIV.3.A, verbatim: 'Non-Hemispheric competitors have made major inroads into our Hemisphere'. This profile's challenge pass demoted the corresponding commitment from redline to weighted interest on exactly this ground: a commitment the issuing document admits is being violated without automatic response is an aspiration, not a constraint.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "Transnational institutions treated as a threat to sovereignty rather than as a support to order — a reversal of the prior document's premise.",
+        "basis": "2025 National Security Strategy, SIV.1, verbatim: 'the sovereignty-sapping incursions of the most intrusive transnational organizations' (verified). Baseline: National Security Strategy, The White House, October 2022. Recorded as a declared threat; it is the doctrinal statement most directly downstream of legitimacyWeight 0.35.",
+        "confidence": "high"
+      }
+    ],
+    "adversaryModel": {
+      "statement": "The declared model is that adversaries are cost-responsive and deterrable by demonstrated capability, and that the unreliable variable in the system is allied rather than adversary behaviour: the 2025 strategy doubts allied reliability at length while containing zero occurrences of 'Article 5', 'Article V', 'mutual defense' or 'collective self-defense'. Observed practice adds a distinction the text does not make — the institution treats non-nuclear adversaries as controllable through single-round terminable strikes and nuclear-armed adversaries as not.",
+      "basis": "2025 National Security Strategy, SIV.1, verbatim: 'Peace Through Strength - Strength is the best deterrent'. The zero-occurrence count for Article 5 and its synonyms was established by string search of the extracted primary text in this profile's challenge pass; the reasoning the document offers for doubting allied reliability is quoted in full, with its framing, in the parent profile's uncertainty section and is deliberately not partially quoted here. Behavioural evidence for the nuclear/non-nuclear split: the Soleimani strike of 2 Jan 2020 and Operation Midnight Hammer of 21-22 Jun 2025 versus the refusal of a no-fly zone over Ukraine in March 2022. Counterweight on how far escalation management can be trusted: Morgan et al., 'Dangerous Thresholds: Managing Escalation in the 21st Century', RAND MG-614, 2008.",
+      "confidence": "medium"
+    },
+    "declaredIdeology": {
+      "statement": "The organisation publishes an explicit strategic concept and names it in the document: 'Peace Through Strength', with deterrence resting on demonstrated capability rather than on institutional or legal intermediaries. Its predecessor document declared a different concept, which is why this field is dated rather than treated as a standing property of the actor.",
+      "basis": "2025 National Security Strategy (cover date November 2025), SIV.1, verbatim: 'Peace Through Strength - Strength is the best deterrent' (verified against the primary PDF in this profile's challenge pass). Pompilio, K., Lawfare, 5 Dec 2025, summarises the document's organising framing as 'America First' — recorded here as that article's characterisation, not as the document's own words. Prior declared concept, for the discontinuity: 'integrated deterrence' and 'campaigning', 2022 National Defense Strategy (DoD fact sheet, Mar 2022). Confidence is medium because the current concept has a very short observation window against conduct.",
+      "confidence": "medium"
+    }
+  },
+  "history": [
+    {
+      "date": "2001-09-18",
+      "episode": "Congress enacted the Authorization for Use of Military Force three days after the 11 September attacks, authorising force against those who 'planned, authorized, committed, or aided' the attacks or 'harbored such organizations or persons', with no geographic or temporal limit; combat operations in Afghanistan opened on 7 October 2001.",
+      "choice": "escalated — the institution converted a mass-casualty attack on US territory into an open-ended standing authority in under a week, on votes of 98-0 and 420-1.",
+      "bearsOn": [
+        "lossFrameRiskAcceptance",
+        "ownCostTolerance",
+        "decisionCentralization"
+      ],
+      "lesson": "A homeland loss frame collapses the institution's normal deliberation, and the branch designed to constrain force delegated instead — faster than any target-development or legal-review cycle runs. The parameter implication is a threshold, not a slope: lossFrameRiskAcceptance should jump on a mass-casualty attack on US territory rather than rise smoothly with accumulated loss, which is precisely why 0.5 is carried at low confidence.",
+      "basis": "Public Law 107-40, 115 Stat. 224, 18 Sept 2001 (statutory text, congress.gov); CRS RS22357, 'Authorization for Use of Military Force in Response to the 9/11 Attacks (P.L. 107-40): Legislative History', for the roll-call votes of 98-0 in the Senate and 420-1 in the House on 14 Sept 2001.",
+      "confidence": "high"
+    },
+    {
+      "date": "2013-08-31",
+      "episode": "After the 21 August 2013 Ghouta chemical attack, with strike forces in position and a public administration finding of regime responsibility, the President referred the decision to Congress rather than executing, then let the vote lapse in favour of the Russian-brokered removal of Syria's declared chemical stockpile.",
+      "choice": "held — a prepared strike was not executed, and the authority to execute it was voluntarily shared.",
+      "bearsOn": [
+        "legitimacyWeight",
+        "decisionCentralization",
+        "signalingPreference"
+      ],
+      "lesson": "The clearest case in the modern record of legitimacy binding a US strike decision BEFORE rather than after execution — the exception that keeps legitimacyWeight above zero while the 2025 record keeps it low. It also shows that decisionCentralization is partly a choice the office makes rather than a structural limit imposed on it: nothing in the chain compelled the referral to Congress.",
+      "basis": "The White House, 'Statement by the President on Syria', 31 Aug 2013 (Obama White House archive); CRS R42848, 'Syria's Chemical Weapons: Issues for Congress'; CNN, 'Obama's last-minute decision to seek congressional approval for Syria strike', 31 Aug 2013. Contested in the literature: whether this reads as legitimacy-driven restraint or as an exit from a commitment the administration had come to regret. Both readings are live and the episode should not be scored as decisive for either.",
+      "confidence": "high"
+    },
+    {
+      "date": "2016-12-29",
+      "episode": "In response to Russian interference in the 2016 election, the United States issued Executive Order 13757, sanctioned the GRU and FSB along with named officers and support companies, expelled 35 Russian officials and closed two Russian compounds. The response was deferred until after the election and contained no in-kind action.",
+      "choice": "held below in-kind — an attributed, non-kinetic, law-enforcement-and-economic package delivered on a political rather than an operational clock.",
+      "bearsOn": [
+        "reciprocityProportion",
+        "attributionAversion",
+        "signalingPreference"
+      ],
+      "lesson": "The institution answers non-lethal harm with attributed instruments rather than in-kind action, and prices the timing politically. This asymmetry is what reciprocityProportion 0.6 encodes: reciprocity fires readily on US deaths and reluctantly on equivalent-magnitude non-lethal harm. It also shows attributionAversion running near zero on the response side — the US names the actor as part of the instrument.",
+      "basis": "Executive Order 13757, 'Taking Additional Steps to Address the National Emergency With Respect to Significant Malicious Cyber-Enabled Activities', signed 28 Dec 2016 and effective 29 Dec 2016; The White House, 'The Administration's Response to Russia: What You Need to Know', 29 Dec 2016 (Obama White House archive); Washington Post, 'Obama administration announces measures to punish Russia for 2016 election interference', 29 Dec 2016. General pattern: Egloff, F. J., 'Public Attribution of Cyber Intrusions', Journal of Cybersecurity 6(1), 2020, tyaa012.",
+      "confidence": "high"
+    },
+    {
+      "date": "2019-06-20",
+      "episode": "After Iranian air defences shot down an unmanned RQ-4A over the Strait of Hormuz, a strike on three Iranian radar and missile sites was ordered and then reversed before execution, on a stated collateral estimate of roughly 150 deaths judged disproportionate to the loss of an unmanned aircraft.",
+      "choice": "refused — an ordered strike was cancelled at the presidential stage on a proportionality judgement.",
+      "bearsOn": [
+        "reciprocityProportion",
+        "counterpartHarmRestraint",
+        "decisionCentralization"
+      ],
+      "lesson": "Proportionality operated as a live constraint at the top of the chain, not only inside the targeting cell, and it operated on a number produced late and disputed within the government. The episode also fixes where the veto lives: the only stage that stopped this strike was the same one that had ordered it.",
+      "basis": "Contemporaneous presidential account, 21 Jun 2019 ('We were cocked & loaded to retaliate last night on 3 different sites when I asked, how many will die'); Military.com, 'Iran Makes Show of Drone Wreckage After Trump Calls Off Retaliatory Strike', 21 Jun 2019. CONTESTED, and flagged rather than smoothed: reporting attributes the ~150 figure to the White House rather than to a Pentagon collateral-damage estimate, with lower military figures cited, and the timing of the reversal is variously reported as pre-launch or with aircraft airborne. The decision is well established; the number that drove it is not.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2020-01-03",
+      "episode": "The United States killed the commander of Iran's Quds Force by air strike at Baghdad International Airport (2 January US time), acknowledged the strike publicly within hours, filed a War Powers Resolution report two days later, and framed the action as a completed deterrent act rather than the opening of a campaign. It was conducted without prior congressional authorisation on Article II grounds.",
+      "choice": "acted — overt, acknowledged, single-round and terminable by design.",
+      "bearsOn": [
+        "decisionCentralization",
+        "escalationControlBelief",
+        "attributionAversion"
+      ],
+      "lesson": "The template for US organic strike against a non-nuclear adversary: a small authorising circle, immediate acknowledgment instead of deniability, and an explicit expectation that the exchange ends after one round. It is the strongest single case for escalationControlBelief being high against non-nuclear counterparties and for attributionAversion sitting near zero for acknowledged military operations — which is why 0.35 must be read as a mixture across action types, not a behaviour.",
+      "basis": "Department of Defense statement acknowledging the strike on the day it occurred, 2 Jan 2020; the War Powers Resolution report to Congress of 4 Jan 2020, catalogued by the War Powers Resolution Reporting Project, Reiss Center on Law and Security, NYU School of Law; DOJ Office of Legal Counsel, 'Presidential Power to Use the Armed Forces Abroad Without Statutory Authorization', for the Article II theory relied upon.",
+      "confidence": "high"
+    },
+    {
+      "date": "2021-04-14",
+      "episode": "The President announced that all US forces would leave Afghanistan beginning 1 May and concluding by 11 September 2021, ending a twenty-year commitment and substituting an 'over-the-horizon' counterterrorism posture.",
+      "choice": "held — the institution terminated a campaign it had sustained across four administrations rather than continue absorbing its cost.",
+      "bearsOn": ["timeHorizon", "ownCostTolerance", "proxyPreference"],
+      "lesson": "The institutional horizon and the political horizon are different quantities and the political one wins at the moment of decision: a twenty-year commitment ended on a date chosen for its symbolism. This is exactly why timeHorizon 0.45 is a midpoint the actor never actually holds and should be carried as two regime-conditional values rather than averaged.",
+      "basis": "The White House, 'Remarks by President Biden on the Way Forward in Afghanistan', 14 Apr 2021; DoD News, 'Biden Announces Full U.S. Troop Withdrawal From Afghanistan by Sept. 11', 14 Apr 2021; Council on Foreign Relations, 'Biden's 9/11 Withdrawal From Afghanistan: What to Know', Apr 2021. The frequently repeated claim that the decision ran against uniformed military advice rests on later congressional testimony and journalistic accounts rather than a contemporaneous primary document, and is the weakest element of this entry.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2021-08-29",
+      "episode": "A US strike in Kabul during the evacuation, taken under an imminent-threat assessment, killed ten civilians including seven children and no ISIS-K personnel. The strike was publicly acknowledged as a mistake on 17 September 2021; the subsequent review found execution errors, confirmation bias and communication breakdowns but no violation of the law of war and no criminal negligence, and no personnel were disciplined.",
+      "choice": "acted, then absorbed the error publicly without attributing it to anyone.",
+      "bearsOn": ["counterpartHarmRestraint", "attributionAversion"],
+      "lesson": "The restraint machinery is real and its failure mode is not concealment but non-accountability: the institution publishes its errors and then declines to attach them to a person. For the model this means counterpartHarmRestraint describes a targeting PROCESS rather than an outcome distribution, and it caps how high that parameter can honestly go — 0.7 at medium confidence, not 0.85.",
+      "basis": "US Central Command statement, 17 Sept 2021, acknowledging the strike as a 'tragic mistake'; the Air Force Inspector General's review briefed 3 Nov 2021 ('I didn't find violations of law or of the law of war'), reported in Al Jazeera, 'No misconduct in deadly US drone attack in Kabul: Pentagon review', 3 Nov 2021, and CBS News, 'Pentagon probe found no negligence in botched Kabul airstrike that killed 10 civilians', Nov 2021; Secretary of Defense decision, Dec 2021, that no personnel would be punished.",
+      "confidence": "high"
+    },
+    {
+      "date": "2022-03",
+      "episode": "Facing sustained public and allied pressure after Russia's February 2022 invasion of Ukraine, the United States refused a no-fly zone and refused the transfer of combat aircraft through Poland, stating publicly that enforcing a no-fly zone would mean US and Russian aircraft firing on each other, and substituted large-scale weapons transfer and intelligence support.",
+      "choice": "refused direct engagement with a nuclear peer; escalated the partner-force instrument instead.",
+      "bearsOn": [
+        "escalationControlBelief",
+        "proxyPreference",
+        "ownCostTolerance"
+      ],
+      "lesson": "Escalation-control belief is counterparty-conditional and the conditioning variable is the adversary's nuclear status, not the stakes. The same institution that treats a strike on Iran as a terminable single round declines even an air-denial mission against Russia and routes the entire effort through a partner force. Any single scalar for escalationControlBelief will misprice one of the two cases; 0.6 is the compromise.",
+      "basis": "Presidential remarks, 11 Mar 2022 ('that's called World War III ... We will not fight the third world war in Ukraine'); White House press briefings of 6 and 15 Mar 2022 on the no-fly zone ('essentially means us shooting down Russian planes and them potentially shooting us'); USNews, 'Biden Stands Firm Against No-Fly Zone as Zelenskyy Prepares to Address Congress', 15 Mar 2022, which also records the rejection of the Polish aircraft transfer alongside the additional $800M security assistance package.",
+      "confidence": "high"
+    },
+    {
+      "date": "2025-06-22",
+      "episode": "US aircraft and submarines struck the Iranian nuclear facilities at Fordow, Natanz and Isfahan overnight on 21-22 June 2025. The operation was named and publicly acknowledged the same day; congressional leadership was notified once aircraft were clear of Iranian airspace rather than beforehand; the Article 51 letter to the UN Security Council is dated 27 June 2025.",
+      "choice": "acted — overt, unilateral, and framed as a completed single-round action rather than a campaign.",
+      "bearsOn": [
+        "decisionCentralization",
+        "legitimacyWeight",
+        "escalationControlBelief"
+      ],
+      "lesson": "The cleanest available measurement of where legitimacy sits in the sequence: the international legal filing followed execution by five days and the congressional notification followed the aircraft. Legitimacy shapes the FORM of the justification, not the SELECTION of the action — the observation legitimacyWeight 0.35 encodes, and the reason that number sits below what the filing record on its own would suggest.",
+      "basis": "Letter dated 27 Jun 2025 from the Permanent Representative of the United States to the United Nations addressed to the President of the Security Council ('necessary and proportionate action - directed solely against the Iranian nuclear program'), text hosted by Just Security; CRS Insight IN12571 on the strikes; Department of Defense briefing, 22 Jun 2025, naming the operation; Lawfare, 'U.S. and U.K. Submit Article 51 Letters to the U.N. Security Council on Middle East Operations', 2025; Just Security, 'Assessing the U.S. Article 51 Letter for the Attack on Iran', 2025. The claim that leadership was notified only after aircraft were clear rests on statements by the Secretary of Defense and the White House Press Secretary as reported on 22 Jun 2025, not on a released notification record.",
+      "confidence": "high"
+    }
+  ]
+}

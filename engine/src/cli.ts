@@ -22,6 +22,7 @@ import {
   writeConsequenceTables,
 } from "./consequence/table.js";
 import { formatSweep, runVulnerabilitySweep } from "./vulnerability.js";
+import { PACK_IDS, runSimulate } from "./simulate.js";
 import "dotenv/config";
 
 const forecast = new Command("forecast")
@@ -283,6 +284,238 @@ const vulnerability = new Command("vulnerability")
     }
   });
 
+const simulate = new Command("simulate")
+  .description(
+    "Run one contested-system scenario and stream every decision as it is made",
+  )
+  .option(
+    "-p, --pack <id>",
+    `Scenario pack: ${PACK_IDS.join(", ")}`,
+    "regional-grid",
+  )
+  .option(
+    "-a, --actors <ids>",
+    "Comma-separated doctrine profile ids to place in the scenario",
+    "russia",
+  )
+  .option(
+    "-r, --respondents <ids>",
+    "Comma-separated profile ids that react to attributable acts",
+    "",
+  )
+  .option(
+    "-s, --seed <seed>",
+    "Root seed; the same seed reproduces the run exactly",
+    "proteus",
+  )
+  .option("-d, --defense <kind>", "Mitigation to run this arm with", "")
+  .option(
+    "--delay <ms>",
+    "Wall-clock pause per tick, for watching. Does not affect results.",
+    "0",
+  )
+  .option(
+    "--stream",
+    "Emit newline-delimited JSON instead of the terminal view",
+  )
+  .option("--profiles <path>", "Doctrine profile library to load")
+  .option(
+    "--deep",
+    "Replay many worlds, convene the actors' own institutional gates as model agents, and adjudicate. Costs money and minutes.",
+  )
+  .option("--branches <n>", "Worlds to replay in deep mode", "6")
+  .option(
+    "--councils <n>",
+    "Cap on councils per world; what it drops is reported, never silent",
+    "6",
+  )
+  .option("--concurrency <n>", "Councils deliberating at once", "3")
+  .option("--judges <n>", "Adjudicators over the ensemble, 0 to skip", "5")
+  .option("--model <id>", "Model backing the councils and judges")
+  .action(async (opts) => {
+    try {
+      const result = await runSimulate({
+        pack: opts.pack,
+        actors: splitIds(opts.actors),
+        respondents: splitIds(opts.respondents),
+        seed: opts.seed,
+        defense: opts.defense || null,
+        tickDelayMs: Number(opts.delay),
+        stream: Boolean(opts.stream),
+        profilePath: opts.profiles,
+        deep: Boolean(opts.deep),
+        branches: Number(opts.branches),
+        maxCouncilsPerBranch: Number(opts.councils),
+        councilConcurrency: Number(opts.concurrency),
+        judges: Number(opts.judges),
+        model: opts.model,
+      });
+      if (opts.stream) return;
+      if (result.deep) {
+        console.error(
+          `run ${result.runId.slice(0, 12)} · ${result.deep.branches} worlds · ` +
+            `${result.deep.councils} councils (${result.deep.disagreements} disagreed with the arithmetic) · ` +
+            `${result.deep.judgements} adjudicators · ${result.deep.modelCalls} model calls · ` +
+            (result.deep.modelCalls === 0
+              ? "no model backend configured"
+              : result.deep.costUsd > 0
+                ? `$${result.deep.costUsd.toFixed(2)}`
+                : "cost not priced for this model"),
+        );
+        return;
+      }
+      console.error(
+        `run ${result.runId.slice(0, 12)} · ${result.activations} acts · ${Math.round(result.totalHarm).toLocaleString()} ${result.harmUnit}`,
+      );
+    } catch (error) {
+      console.error((error as Error).message);
+      process.exit(1);
+    }
+  });
+
+function splitIds(raw: string): string[] {
+  return raw
+    .split(",")
+    .map((id) => id.trim())
+    .filter(Boolean);
+}
+
+const compile = new Command("compile")
+  .description(
+    "Compile a plain-language description of a situation into a runnable scenario",
+  )
+  .argument("<request>", "The situation, in your own words")
+  .option("--out <file>", "Where to write the compiled spec", "./scenario.json")
+  .option("--as-of <date>", "Information cutoff for retrieval", "2026-08-01")
+  .option("--retrieve", "Ground the scenario in live public-web sources")
+  .option("--profiles <path>", "Doctrine profile library to read")
+  .action(async (request: string, opts) => {
+    try {
+      const [
+        { compileScenario },
+        { loadDoctrineLibrary },
+        { createAnthropicClient },
+      ] = await Promise.all([
+        import("./scenario/compile.js"),
+        import("./actors/library.js"),
+        import("./llm/anthropic.js"),
+      ]);
+
+      const library = await loadDoctrineLibrary(opts.profiles);
+      const client = createAnthropicClient();
+
+      let evidence;
+      if (opts.retrieve) {
+        const { createWebConnector } = await import("./retrieval/web.js");
+        const connector = createWebConnector();
+        process.stderr.write("retrieving public sources…\n");
+        const result = await connector.retrieve({
+          question: request,
+          asOf: opts.asOf,
+          maxResults: 10,
+        });
+        process.stderr.write(
+          `  ${result.documents.length} cited passages from ${result.queriesIssued.length} searches` +
+            (result.excludedByCutoff > 0
+              ? `; ${result.excludedByCutoff} excluded as undated or post-cutoff\n`
+              : "\n"),
+        );
+        evidence = result.documents.map((document) => ({
+          sourceId: document.sourceId,
+          documentId: document.id,
+          publishedAt: document.publishedAt,
+          credibility: 0.7,
+          excerpt: document.excerpt,
+        }));
+      }
+
+      process.stderr.write("compiling…\n");
+      const result = await compileScenario({
+        client,
+        library,
+        request,
+        evidence,
+        onRetry: (attempt, reason) =>
+          process.stderr.write(
+            `  repair ${attempt}: ${reason.slice(0, 120)}\n`,
+          ),
+      });
+
+      const out = resolve(process.cwd(), opts.out);
+      await mkdir(dirname(out), { recursive: true });
+      await writeFile(out, JSON.stringify(result.compiled, null, 2));
+
+      const { situation, suggestedActors, assumptions, limitations } =
+        result.compiled;
+      console.error(`\n${situation.statement}`);
+      console.error(
+        `  ${situation.assets.length} assets · ${situation.ladder.length - 1} escalation rungs · ${situation.defenses.length} candidate mitigations`,
+      );
+      console.error(`\nwho would contest this:`);
+      for (const actor of suggestedActors) {
+        console.error(`  ${actor.profileId} — ${actor.reasoning}`);
+      }
+      if (assumptions.length > 0) {
+        console.error(`\nassumed, because the request did not say:`);
+        for (const line of assumptions) console.error(`  · ${line}`);
+      }
+      if (limitations.length > 0) {
+        console.error(`\nnot modelled:`);
+        for (const line of limitations) console.error(`  · ${line}`);
+      }
+      if (result.repairs.length > 0) {
+        console.error(`\nrepaired during compilation:`);
+        for (const line of result.repairs) console.error(`  · ${line}`);
+      }
+      console.error(`\nwrote ${out}`);
+    } catch (error) {
+      console.error((error as Error).message);
+      process.exit(1);
+    }
+  });
+
+const manifest = new Command("manifest")
+  .description(
+    "Publish the scenario and actor catalogue the dashboard renders its controls from",
+  )
+  .option(
+    "--out <file>",
+    "Where to write it",
+    "../dashboard/data/scenario-manifest.json",
+  )
+  .option(
+    "--dossiers <file>",
+    "Where to write the full sourced profiles the dossier pages read",
+    "../dashboard/data/actor-dossiers.json",
+  )
+  .option("--profiles <path>", "Doctrine profile library to read")
+  .action(async (opts) => {
+    try {
+      const { buildManifest, buildDossiers } =
+        await import("./scenario/manifest.js");
+      const built = await buildManifest(opts.profiles);
+      const out = resolve(process.cwd(), opts.out);
+      await mkdir(dirname(out), { recursive: true });
+      await writeFile(out, JSON.stringify(built, null, 2));
+
+      const dossiers = await buildDossiers(opts.profiles);
+      const dossierOut = resolve(process.cwd(), opts.dossiers);
+      await mkdir(dirname(dossierOut), { recursive: true });
+      await writeFile(dossierOut, JSON.stringify(dossiers, null, 2));
+
+      const documented = dossiers.profiles.filter(
+        (profile) => profile.procedure || profile.worldview || profile.history,
+      ).length;
+      console.log(
+        `${built.packs.length} packs, ${built.actors.length} actors → ${out}\n` +
+          `${dossiers.profiles.length} dossiers (${documented} carrying procedure, worldview or decision record) → ${dossierOut}`,
+      );
+    } catch (error) {
+      console.error((error as Error).message);
+      process.exit(1);
+    }
+  });
+
 const program = new Command()
   .name("proteus")
   .description(
@@ -293,5 +526,8 @@ program.addCommand(forecast);
 program.addCommand(trace);
 program.addCommand(consequence);
 program.addCommand(vulnerability);
+program.addCommand(simulate);
+program.addCommand(manifest);
+program.addCommand(compile);
 
 program.parse();

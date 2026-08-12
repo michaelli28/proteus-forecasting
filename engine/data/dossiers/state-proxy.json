@@ -1,0 +1,246 @@
+{
+  "id": "state-proxy",
+  "procedure": {
+    "authority": {
+      "statement": "Go/no-go on a specific operation sits inside the armed organisation itself — a small commander circle, a military or jihad council subordinate to a governing shura, or a contractor's command staff — not with the sponsor. The sponsor supplies money, weapons, training, access and general intent through a liaison channel, and in the tightly-coupled sub-type also holds a seat or a ratification right inside the agent's governing body; what it does not reliably hold is command and control over particular operations. The archetype therefore has TWO authority nodes that must be scored separately, and the scenario must state which one a parameter refers to.",
+      "basis": "Byman, Daniel & Kreps, Sarah E., 'Agents of Destruction? Applying Principal-Agent Analysis to State-Sponsored Terrorism,' International Studies Perspectives 11(1), 2010, 1-18, on why states delegate and which control instruments they retain; Krieg, Andreas & Rickli, Jean-Marc, Surrogate Warfare (Georgetown UP, 2019), for the substitution/control trade-off stated explicitly. The decisive contemporary evidence for the C2 gap is Clausen, Maria-Louise (DIIS), 'Reassessing Principal-Agent Theory: The Houthis' evolving relationship with Iran,' POMEPS Studies 58, March 2026, which finds the patron lacked command and control over the post-October-2023 maritime campaign while the actions were nonetheless ascribed to it. The tightly-coupled counter-case is institutionalised rather than notional: CRS In Focus IF10703, 'Lebanese Hezbollah,' updated 4 December 2024, records that Iran supplies most of the organisation's funding, training, weapons and explosives, and that the seven-member Shura Council selected a successor secretary-general in October 2024; press reporting on that council's composition and on the binding authority of the wali al-faqih (Asharq Al-Awsat, 'What We Know About Hezbollah's Shura Council,' 2024) is journalistic, not documentary, and is carried at low weight.",
+      "confidence": "medium"
+    },
+    "steps": [
+      {
+        "order": 0,
+        "stage": "Standing intent, resourcing and access",
+        "office": "Sponsor's expeditionary or external-operations directorate — an intelligence service's external branch, a defence ministry contracting office, or a state cyber command's tasking desk",
+        "gate": "Can withhold money, weapons, training and access, which sets the feasible option space. It does NOT approve individual operations and is routinely presented with a fait accompli. Termination of support, not veto of a plan, is the instrument this office actually holds.",
+        "basis": "Salehyan, Idean, 'The Delegation of War to Rebel Organizations,' Journal of Conflict Resolution 54(3), 2010, 493-515, on adverse selection and the loss of foreign-policy autonomy as the price of cost-shifting; Karlen, Niklas, 'Turning off the Taps: The Termination of State Sponsorship,' Terrorism and Political Violence 31(4), 2019, 733-758, for termination as the operative lever. The fait-accompli characterisation is supported by Clausen, POMEPS Studies 58, March 2026, and by the January 2024 Iraqi case in which a suspension of operations was announced two days AFTER the operation that provoked it (CNN, 30 January 2024).",
+        "confidence": "medium"
+      },
+      {
+        "order": 1,
+        "stage": "Proposal origin — initiative inside standing intent",
+        "office": "Front, brigade or cell commander; in the concealed sub-type, a contracted front company or a persona-operating team under a state cyber unit",
+        "gate": "Filters on feasibility and available means only. This stage almost never stops a proposal, because there is nothing here for it to fail: no legal adviser, no collateral-estimate cell, no interagency staffing.",
+        "basis": "The absence is the finding, and it is an inference from institutional structure rather than a measured fact — no cited study inventories legal-review bodies across proxy organisations. The supporting evidence is that armed groups hold no treaty-party status and build compliance machinery only when pursuing recognition (Jo, Hyeran, Compliant Rebels: Rebel Groups and International Law in World Politics, Cambridge UP, 2015), and that the concealed sub-type is structured as commercial employment rather than command (U.S. Department of Justice, 'Seven Iranians Working for Islamic Revolutionary Guard Corps-Affiliated Entities Charged...', 24 March 2016, describing defendants employed by ITSecTeam and Mersad Company, firms performing work on behalf of the Iranian government including the IRGC). Flagged low: an absence is the hardest thing in this dossier to source positively.",
+        "confidence": "low"
+      },
+      {
+        "order": 2,
+        "stage": "Organisational go/no-go",
+        "office": "The armed organisation's military council or commander circle — a jihad/military council reporting to a governing shura, a militia's leadership office, or a contractor's command staff",
+        "gate": "Approves or refuses on three tests: expected effect on the organisation's own constituency, expected effect on the patron relationship, and organisational survivability. Legal exposure and harm to the counterpart's noncombatants are not tests at this gate, which is the structural reason counterpartHarmRestraint sits low in the profile rather than a claim about anyone's character.",
+        "basis": "The constituency test and its conditionality are from Jo 2015 (legitimacy-seeking, territory-governing groups comply materially more) and Salehyan, Idean; Siroky, David; Wood, Reed M., 'External Rebel Sponsorship and Civilian Abuse: A Principal-Agent Analysis of Wartime Atrocities,' International Organization 68(3), 2014, 633-661 — externally funded groups do not need to extract from, and therefore do not need to court, the population. The survivability test is from Popovic, Milos, 'Fragile Proxies: Explaining Rebel Defection Against Their State Sponsors,' Terrorism and Political Violence 29(5), 2017, 922-942. Note the out-of-sample risk the profile already flags: the 2014 estimate is drawn from civil-war rebel organisations and is being extended to contractor and cyber sub-types where it has never been tested.",
+        "confidence": "medium"
+      },
+      {
+        "order": 3,
+        "stage": "Patron consultation or ratification — institutionalised in the tightly-coupled sub-type, absent in the loosely-coupled one",
+        "office": "Resident patron liaison element, or a patron seat / ratification right inside the agent's governing council",
+        "gate": "Can delay or veto where the relationship institutionalises it. Where it does not, it is bypassed, informed in parallel, or told afterwards. The failure of this gate is the archetype's characteristic failure mode and the single most consequential source of variance in its behaviour.",
+        "basis": "Byman & Kreps 2010 on the control dilemma; Popovic 2017 on decentralised and factionalised agents defecting most. The clearest documented failure is Clausen, POMEPS Studies 58, March 2026, finding the patron lacked command and control over a campaign that escalated counter to its preferences. The clearest documented success of a POLITICAL rather than patron gate is the Iraqi case of 30 January 2024, where the stated reason for suspending operations was avoiding embarrassment to the host government (Al Jazeera, 'Kataib Hezbollah announces halt of attacks on US forces,' 31 January 2024) — and even there the gate operated after execution, not before it.",
+        "confidence": "medium"
+      },
+      {
+        "order": 4,
+        "stage": "Attribution and claiming decision",
+        "office": "The organisation's military media office (claiming sub-type) or the persona/front handler (concealed sub-type)",
+        "gate": "Decides whether the act is claimed openly, claimed under a persona, or left unclaimed. This is the one stage that consistently and deliberately shapes political effect, and it can reverse the sign of attributionAversion: the same archetype that hides its operators will broadcast the operation.",
+        "basis": "Clausen, POMEPS Studies 58, March 2026, documents open claiming and the deliberate internationalisation of a campaign; the joint advisory of CISA, FBI, NSA, EPA, Israel INCD, Canada CCCS and UK NCSC, AA23-335A, 'IRGC-Affiliated Cyber Actors Exploit PLCs in Multiple Sectors, Including U.S. Water and Wastewater Systems Facilities,' first published 1 December 2023 and later updated, records a persona defacement banner claiming targets while the operators stayed concealed. Cormac, Rory & Aldrich, Richard J., 'Grey is the new black: covert action and implausible deniability,' International Affairs 94(3), 2018, 477-494, establishes that non-acknowledgement is the SPONSOR's asset — the two nodes want different things at this gate, which is why the profile's single 0.35 describes neither.",
+        "confidence": "medium"
+      },
+      {
+        "order": 5,
+        "stage": "Execution, then sponsor-side denial",
+        "office": "Executing cell or unit; separately, the sponsor's public-affairs and diplomatic apparatus",
+        "gate": "Stops nothing. The sponsor's only remaining instrument is denial, and denial is a sponsor-side move that changes the agent's conduct not at all — modelling it as a brake on the agent is a level-of-analysis error.",
+        "basis": "Cormac & Aldrich 2018 on non-acknowledgement operating even where deniability is implausible. The observed case is the 7-8 February 2018 engagement near Khasham, Deir ez-Zor, where a force including Russian private military contractors was destroyed by U.S. air and artillery strikes and the Russian government never acknowledged participation in the ground operation (Middle East Institute, 'Syria is where the conflict between Wagner and the Russian government began'; CSIS, 'Band of Brothers: The Wagner Group and the Russian State').",
+        "confidence": "medium"
+      }
+    ],
+    "tempo": {
+      "statement": "Short and highly variable: hours to days from proposal to execution for a prepared option, because the path carries no legal review, no interagency staffing and no legislative notification. What compresses it is the size of the go/no-go circle; what stalls it is materiel resupply through the patron's channel and, in the tightly-coupled sub-type only, waiting on a ratification the loosely-coupled sub-type does not wait on. The corollary matters more than the number: the brake, when it appears, appears AFTER execution as a public announcement rather than before it as a gate.",
+      "basis": "ASSUMED, not measured — no located study times the decision cycle of proxy organisations, and this is an inference from the step structure above. The post-hoc-brake observation is the sourced part: the Iraqi suspension announcement of 30 January 2024 followed the 28 January Tower 22 strike by two days (CNN, 30 January 2024; Al Jazeera, 31 January 2024), and the Houthi narrowing of 19-20 January 2025 followed fourteen months of campaign (Raydan, Noam & Nadimi, Farzin, 'Despite the Houthi Pledge to Limit Attacks, the Red Sea Remains Highly Volatile,' The Washington Institute for Near East Policy, 27 January 2025). Popovic 2017 supports independent action by decentralised agents but estimates no timing.",
+      "confidence": "low"
+    },
+    "preconditions": [
+      {
+        "statement": "A patron relationship supplying money, weapons, training or access that the organisation does not have to raise from the population it operates among. This is the archetype's definitional condition and the mechanism behind most of its other parameters.",
+        "basis": "Salehyan, Siroky & Wood, International Organization 68(3), 2014, 633-661 — external funding removes the need to extract resources from, and therefore to court, a local population, which is the estimated pathway to higher one-sided violence. Salehyan, Journal of Conflict Resolution 54(3), 2010, supplies the principal-side logic. This is the best-estimated claim in the dossier; the qualifier is that it is estimated on civil-war rebel organisations.",
+        "confidence": "high"
+      },
+      {
+        "statement": "A grievance or constituency claim the operation can be publicly attached to. The organisation is reluctant to act where it cannot narrate the act to its own base, which is why campaigns are declared as linkage to a larger cause rather than as local opportunism.",
+        "basis": "Jo 2015 on constituency- and recognition-facing legitimacy as the thing that moves armed-group behaviour; Clausen, POMEPS Studies 58, March 2026, on the deliberate declaration of a Gaza linkage and the internationalisation it bought. ASSERTED at mechanism level — no study estimates a narratability precondition, and the counter-example class (unclaimed operations by concealed sub-types) is real, which is why this is low rather than medium.",
+        "confidence": "low"
+      },
+      {
+        "statement": "Survivable organisational exposure. The operation must not put the organisation's existence, its command, or its armed autonomy at risk — a far tighter constraint than loss of personnel or materiel, which the archetype absorbs readily.",
+        "basis": "Popovic 2017 (TPV 29:5, 922-942): coercive discipline aimed at the organisation itself produces defection rather than compliance, so organisational risk and personnel risk are priced differently. This is the precondition that generates the profile's first redline and the gap between its ownCostTolerance value (0.62) and the higher figure a casualty-only reading would give.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "For the concealed sub-type, a usable cover layer standing BEFORE the operation, not improvised after it: a front company, a contracted team, or a claimed persona with its own presence.",
+        "basis": "U.S. Department of Justice, Office of Public Affairs, 'Seven Iranians Working for Islamic Revolutionary Guard Corps-Affiliated Entities Charged for Conducting Coordinated Campaign of Cyber Attacks Against U.S. Financial Sector,' 24 March 2016 (SDNY indictment returned 21 January 2016), describing two Iran-based computer companies performing work on behalf of the Iranian government including the IRGC; Maurer, Tim, Cyber Mercenaries: The State, Hackers, and Power (Cambridge UP, 2018) for the delegation/orchestration/sanctioning taxonomy; Chatham House (Hakmeh, Joyce; Moynihan, Harriet, et al.), 'Holding state-sponsored hackers and other cyber proxies to account,' research paper published 25 March 2026 (ISBN 978 1 78413 677 2), on front companies and deliberately messy attribution as design features. NOTE ON SCOPE: that paper's empirical base is Russia's cyber-proxy ecosystem, so its use here is an archetype-level extension beyond the case it studies.",
+        "confidence": "medium"
+      }
+    ],
+    "afterAction": {
+      "statement": "Weak, and public rather than institutional. No standing lessons-learned body appears anywhere in the open record for any sub-type. What is observable instead is post-hoc leadership statements conceding miscalibration and adjusting the boundaries of the next campaign — and the adjustment is visible in conduct for the centralised, territorially-governing sub-type while the decentralised sub-types show no such trace at all. Treat learning in this archetype as leadership-circle memory, not institutional process, which also means it is destroyed by decapitation in a way a state's after-action process is not.",
+      "basis": "The strongest single instance is the organisation's own secretary-general stating publicly, in an Al-Jadeed television interview on 27 August 2006, that the 12 July cross-border raid would not have been ordered had the resulting war been foreseen and that such a response had been considered inconceivable (Haaretz, 'Nasrallah: We Wouldn't Have Snatched Soldiers if We Thought It Would Spark War,' 27-28 August 2006; Al Jazeera, 'Nasrallah says he did not want war,' 27 August 2006; MEMRI TV archival clip of the same interview - MEMRI is an advocacy translation organisation reporting on an adversary and is carried here only as a second locator for a broadcast the two press accounts independently report). CAVEATS, both material: the statement is self-serving (it doubles as a claim of non-culpability for the war), and one leadership statement is thin evidence for an institutional property. No study of after-action process in proxy organisations was located.",
+      "confidence": "low"
+    }
+  },
+  "worldview": {
+    "declaredEnds": [
+      {
+        "statement": "Ending an occupation or an external military presence, stated as the organisation's founding purpose and as the condition on which its own continued existence rests. The declaration is load-bearing: it is what makes disarmament unofferable rather than merely expensive.",
+        "basis": "Stated in organisation-issued documents across the governing/insurgent sub-type — Hezbollah's 1985 Open Letter and its 2009 Political Document both frame resistance to occupation and foreign tutelage as constitutive — and repeated in operational statements, e.g. the 30 January 2024 Iraqi announcement framing operations as against 'the occupation forces' (CNN, 30 January 2024; Al Jazeera, 31 January 2024). ARCHETYPE-LEVEL CAUTION: this is the modal declared end across governing and insurgent sub-types, not a universal — contractor sub-types declare a commercial and state-service purpose instead, and cyber front organisations declare nothing at all beyond a persona's banner text.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "Linkage — acting in declared support of an allied campaign elsewhere, and saying so, so that the operation reads to its own base and to third parties as solidarity rather than local opportunism. The declared linkage doubles as a declared termination condition, which is one of the few places this archetype publishes something falsifiable about its own stopping rule.",
+        "basis": "Clausen, Maria-Louise (DIIS), 'Reassessing Principal-Agent Theory: The Houthis' evolving relationship with Iran,' POMEPS Studies 58, March 2026, on the declared Gaza linkage and its deliberate internationalisation. The falsifiable part was tested and largely held: after the Gaza ceasefire the movement notified shipping on 19-20 January 2025 that attacks would be limited to Israeli-flagged or wholly Israeli-owned vessels (Al Jazeera, 'Yemen's Houthis to only target Israel-linked ships following Gaza ceasefire,' 20 January 2025) and released the Galaxy Leader's crew on 22 January 2025 (Raydan & Nadimi, The Washington Institute, 27 January 2025) — the same analysis cautions that the pledge left U.S. and U.K. shipping explicitly exposed.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "Recognition and legal standing for the organisation as a legitimate armed formation — pursued through the host state's own law where that route exists, and pursued in a form that confers status and salary without dissolving the organisation's separate chain of command.",
+        "basis": "Iraq's Law No. 40 of 2016 (Law of the Popular Mobilization Authority), enacted 26 November 2016, recognised the Popular Mobilization Commission as part of the state's armed forces under the commander-in-chief while constituent formations retained their own commands (contemporary reporting: RFE/RL, 26 November 2016; analysis: The Washington Institute for Near East Policy, 'Iraq's PMF Law Is No Substitute for Real Security Reform'; RAND Corporation, RR-A722-1, 'The Future of the Iraqi Popular Mobilization Forces: Lessons from Historical Disarmament, Demobilization, and Reintegration Efforts'). Jo 2015 supplies the general mechanism by which recognition-seeking changes conduct. The law's text and later amendments are contested in translation; the behavioural outcome — legal status taken, command retained — is not.",
+        "confidence": "medium"
+      }
+    ],
+    "selfImage": {
+      "statement": "A resistance or defence organisation with an independent mandate, not an instrument: the self-description is 'we decide, the patron supports.' The claim is asserted in both directions because it serves both parties — the patron's denial and the agent's autonomy claim are the same product. The contractor sub-type inverts the surface (a private commercial firm performing lawful services) while making the identical functional claim of separation from the state.",
+      "basis": "The profile's own declaredVsObserved section already establishes that the mutual independence claims are strategically produced by both sides and carry near-zero evidentiary weight in either direction; Cormac & Aldrich 2018 explains why the sponsor half is produced. The one piece of evidence that the agent's half is not purely theatre is behavioural, not declaratory: Clausen, POMEPS Studies 58, March 2026, documents the agent escalating counter to the patron's preferences. DELIBERATE OMISSION, recorded here because an absent field is otherwise invisible to a reader: `declaredIdeology` is left unset. This profile is an archetype prior over a family of organisations, and no charter, programme or strategic concept was ever issued by 'the state-aligned proxy' — writing one would mean generalising a single exemplar's founding document to a class, which is the exact inference the schema's structural refusal exists to block. Sub-type exemplars do issue such documents (the 1985 Open Letter and 2009 Political Document above are examples), and they belong at the scenario level when a specific organisation is instantiated, not here.",
+      "confidence": "medium"
+    },
+    "threatModel": [
+      {
+        "statement": "Disarmament, dissolution, or absorption into a state's regular forces — named as existential and treated as existential regardless of which direction it comes from, including from its own patron.",
+        "basis": "Popovic 2017 (TPV 29:5, 922-942) supplies the mechanism: coercive sponsor discipline produces defection rather than compliance. The observed case is documentary and dated: the Russian Ministry of Defence's order of 10 June 2023 requiring all volunteer formations to sign contracts with it by 1 July, the contractor's public refusal on 11 June (RFE/RL, 'Wagner Chief Refuses To Obey Decree In Latest Spat With Russian Defense Minister,' 11 June 2023; CNN, 11 June 2023), and the armed mutiny that followed on 23-24 June (Congressional Research Service, Insight IN12186, 'Wagner Group Mutiny in Russia,' 28 June 2023). This is the best-evidenced item in the dossier.",
+        "confidence": "high"
+      },
+      {
+        "statement": "Termination or diversion of patron support — the instrument the patron actually holds, and the archetype's principal material vulnerability. Note that this is a vulnerability the archetype will nonetheless accept rather than submit, which is why it is a threat and not a redline.",
+        "basis": "Karlen, Niklas, 'Turning off the Taps: The Termination of State Sponsorship,' Terrorism and Political Violence 31(4), 2019, 733-758. The 'accepts it rather than submits' qualifier comes from Popovic 2017's defecting agents and from the June 2023 contractor case above, and is the reason the profile's uncertainty section dropped patron-retention from the redline list.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "Decapitation of the leadership circle and the intelligence penetration that enables it. Because go/no-go authority is concentrated in a small circle and after-action learning is that circle's memory, decapitation costs this archetype disproportionately more than it costs a state.",
+        "basis": "Inferred from response rather than from declaration — no located source states this threat in the archetype's own terms. The observable trace is that CRS In Focus IF10703, 'Lebanese Hezbollah,' updated 4 December 2024, records the Shura Council selecting a successor secretary-general in October 2024 following the incumbent's death, i.e. the succession machinery existed and functioned, which cuts against the strongest version of this claim. Carried at low confidence and flagged as the weakest item in this section.",
+        "confidence": "low"
+      },
+      {
+        "statement": "Attribution that is credible enough to move the patron — not attribution as such. The archetype fears the consequence of linkage (support withdrawn, patron sanctioned into retreat) rather than exposure, which is why it will claim its own operations while resisting proof of sponsorship.",
+        "basis": "Cormac & Aldrich 2018 on non-acknowledgement surviving implausible deniability; RAND Corporation, RR-A307-1, Proxy Warfare in Strategic Competition: Overarching Findings and Recommendations (March 2023, sponsored by U.S. Army G-3/5/7), which recommends investment in attribution precisely as the counter-lever. The complication is documented: Clausen, POMEPS Studies 58, March 2026, finds that after October 2023 attribution ran ahead of command — actions were ascribed to a patron assessed to lack command and control — so attribution is decoupling from the thing it is supposed to prove.",
+        "confidence": "medium"
+      }
+    ],
+    "adversaryModel": {
+      "statement": "Expects the adversary to respond, and to respond disproportionately, but to stop short of moves that would end the organisation — a belief that has been repeatedly wrong at the top of the ladder and repeatedly confirmed below it. Sub-threshold action is read as tolerated because it has in fact been tolerated, and the belief updates only after an unexpectedly large response. The archetype also expects the adversary to be constrained by third parties — host-government politics, allied opinion, escalation-aversion — in ways it does not believe itself to be constrained.",
+      "basis": "INFERRED FROM BEHAVIOUR, not from any declared assessment; no located source states this archetype's adversary model in its own words, which is why this is low confidence. The two anchors are the 2006 admission that a war-scale response had been considered inconceivable (Haaretz and Al Jazeera, 27-28 August 2006, reporting the 27 August Al-Jadeed interview) and the post-October-2023 pattern in which the speed and degree of attribution and response outran the actors' expectations (Clausen, POMEPS Studies 58, March 2026). Carson, Austin, Secret Wars: Covert Conflict in International Politics (Princeton UP, 2018) is the strongest support for covertness genuinely limiting escalation, but it is a STATE-level finding and importing it to the agent node repeats the level-of-analysis error the profile's escalationControlBelief basis warns about; it is cited here as adjacent, not as support.",
+      "confidence": "low"
+    }
+  },
+  "history": [
+    {
+      "date": "2006-07-12",
+      "episode": "A Lebanese armed organisation conducted a cross-border raid that killed three and captured two Israeli soldiers, triggering a 34-day war. Six weeks later the organisation's secretary-general stated on Lebanese television that the raid would not have been ordered had the resulting war been foreseen, and that a response on that scale had been considered inconceivable.",
+      "choice": "Acted at a rung it judged to be tit-for-tat, absorbed the resulting war rather than capitulating, and then publicly conceded the escalation estimate had been wrong.",
+      "bearsOn": [
+        "escalationControlBelief",
+        "reciprocityProportion",
+        "ownCostTolerance"
+      ],
+      "lesson": "Acted, then absorbed. The organisation believed it controlled the rung it was stepping onto and did not; it did not fold when the response came. This is the archetype's clearest single case of high escalation-control BELIEF paired with poor escalation-control CALIBRATION — the distinction the profile deliberately preserves by keeping escalationControlBelief a belief parameter rather than a behaviour.",
+      "basis": "Contemporaneous reporting of the 27 August 2006 Al-Jadeed interview: Haaretz, 'Nasrallah: We Wouldn't Have Snatched Soldiers if We Thought It Would Spark War,' 27-28 August 2006; Al Jazeera, 'Nasrallah says he did not want war,' 27 August 2006; MEMRI TV archival clip of the same broadcast, carried as a locator only and read as an interested source. Two caveats: the admission is self-serving, doubling as a disclaimer of responsibility for the war, and a leadership statement is evidence about a declared estimate, not about the internal process that produced it.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2013",
+      "episode": "A contractor employed by one of two Iran-based computer companies performing work on behalf of the Iranian government, including the IRGC, obtained unauthorised access to the SCADA systems of the Bowman Avenue Dam in Rye Brook, New York, in August and September 2013. The conduct was charged in a Southern District of New York indictment returned 21 January 2016 and unsealed 24 March 2016, alongside a DDoS campaign against 46 U.S. financial-sector and other targets running from late 2011 to mid-2013.",
+      "choice": "Acted through commercial cover rather than organically, and stopped at access.",
+      "bearsOn": ["proxyPreference", "attributionAversion"],
+      "lesson": "Acted through a delegated corporate layer — the concealed sub-type's default, and the strongest documentary instance of it, because the employment relationship is stated in a charging document rather than inferred from tradecraft. This episode is deliberately NOT offered as evidence about counterpartHarmRestraint: contemporaneous reporting indicates the dam's sluice gate had been manually disconnected for maintenance during the intrusion, so restraint and incapacity are observationally identical here and scoring it either way would be inventing a finding.",
+      "basis": "U.S. Department of Justice, Office of Public Affairs, 'Seven Iranians Working for Islamic Revolutionary Guard Corps-Affiliated Entities Charged for Conducting Coordinated Campaign of Cyber Attacks Against U.S. Financial Sector,' 24 March 2016; FBI Cyber Most Wanted, 'Iranian DDoS Attacks.' The DOJ page returned HTTP 403 to direct retrieval during this research pass, so the sluice-gate detail is carried from contemporaneous reporting of the department's statement (Help Net Security, 24 March 2016) and was NOT verified against the primary text in this review — treat that specific detail as unverified.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2016-11-26",
+      "episode": "Iraq's parliament enacted Law No. 40 of 2016, the Law of the Popular Mobilization Authority, recognising the Popular Mobilization Commission as part of the state's armed forces under the commander-in-chief. Constituent armed formations took the legal status, the payroll and the state cover; they retained their own chains of command, and successive integration and dissolution initiatives in the years since have not produced disarmament.",
+      "choice": "Accepted state legal cover; declined dissolution of its own command.",
+      "bearsOn": ["legitimacyWeight", "decisionCentralization", "timeHorizon"],
+      "lesson": "Held the line that mattered and took everything else. The archetype's legitimacy behaviour in its purest observable form: legitimacy is instrumented, not internalised, and the parts of it that cost armed autonomy are refused at any price. This is the cleanest behavioural backing for the profile's survival redline, because the offer on the table — legal standing plus a state salary — was substantial and moved the commitment not at all.",
+      "basis": "Law No. 40 of 2016 as enacted 26 November 2016 (contemporary reporting: RFE/RL, 26 November 2016); The Washington Institute for Near East Policy, 'Iraq's PMF Law Is No Substitute for Real Security Reform'; RAND Corporation, RR-A722-1, 'The Future of the Iraqi Popular Mobilization Forces: Lessons from Historical Disarmament, Demobilization, and Reintegration Efforts.' The law's text and its later amendments are contested in translation and in what they actually require of constituent formations; the behavioural outcome is not contested.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2018-02-07",
+      "episode": "A pro-regime force including Russian private military contractors advanced on a U.S.-partnered position near the Conoco gas facility at Khasham, east of the Euphrates in Deir ez-Zor province, and was destroyed by U.S. air and artillery strikes over 7-8 February 2018. The Russian government has never acknowledged participation in the ground operation.",
+      "choice": "Acted, absorbed heavy loss, and was publicly disowned by its sponsor.",
+      "bearsOn": ["ownCostTolerance", "attributionAversion", "proxyPreference"],
+      "lesson": "Acted and absorbed. Personnel loss on a scale a state force would treat as a strategic defeat did not end the organisation's operations or its relationship with the sponsor — this is the case behind the high half of the profile's bimodal ownCostTolerance, and it sits alongside the June 2023 case that shows the low half (costs threatening the organisation itself). The denial that followed was the sponsor's move, not the agent's, and changed nothing about the agent's conduct.",
+      "basis": "Middle East Institute, 'Syria is where the conflict between Wagner and the Russian government began'; CSIS, 'Band of Brothers: The Wagner Group and the Russian State' and 'Putin's Proxies: Examining Russia's Use of Private Military Companies.' CONTESTED NUMBER, and the contest is itself informative: open estimates of contractor dead range from roughly a dozen to over two hundred, with no authoritative count, because neither the sponsor nor the organisation published one. Do not carry any specific casualty figure from this episode into a parameter.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2023-06-23",
+      "episode": "After the Russian Ministry of Defence ordered all volunteer formations to sign contracts with it by 1 July (order of 10 June 2023) and the contractor force publicly refused on 11 June, the organisation on 23-24 June seized the Southern Military District headquarters at Rostov-on-Don and advanced a column toward Moscow, standing down that evening under a negotiated arrangement.",
+      "choice": "Refused subordination, escalated against its own principal, then held short of the capital once survival terms were on offer.",
+      "bearsOn": [
+        "lossFrameRiskAcceptance",
+        "decisionCentralization",
+        "escalationControlBelief"
+      ],
+      "lesson": "Refused, escalated, held — the sequence Popovic's mechanism predicts, run to its extreme. Coercive formalisation by the patron produced armed defection rather than compliance, which is why the profile treats raising the price of subordination as moving the commitment the wrong way. The halt is the load-bearing half: the escalation stopped the moment organisational survival was addressed, which shows it was instrumental to survival rather than to any wider objective, and shows the archetype will stop when the thing it was defending is secured.",
+      "basis": "Congressional Research Service, Insight IN12186, 'Wagner Group Mutiny in Russia,' 28 June 2023; RFE/RL, 'Wagner Chief Refuses To Obey Decree In Latest Spat With Russian Defense Minister,' 11 June 2023; CNN, 'Wagner chief says he won't sign contracts with Russia's Defense Ministry,' 11 June 2023. Mechanism: Popovic, Milos, 'Fragile Proxies,' Terrorism and Political Violence 29(5), 2017, 922-942. The sequence of events is well documented; the terms of the stand-down and who brokered them remain opaque, so the reasoning attributed to the halt is inference.",
+      "confidence": "high"
+    },
+    {
+      "date": "2023-11-19",
+      "episode": "A Yemeni armed movement seized the vehicle carrier Galaxy Leader in the southern Red Sea on 19 November 2023 and opened a publicly claimed, branded maritime campaign, announced operation by operation through its own military spokesman and declared as conditional on the war in Gaza. After the January 2025 Gaza ceasefire, its Humanitarian Operations Coordination Center notified shipping on 19-20 January 2025 that attacks would be limited to Israeli-flagged or wholly Israeli-owned vessels, and the twenty-five-member Galaxy Leader crew was released on 22 January 2025.",
+      "choice": "Acted and claimed, against its patron's assessed preference; later narrowed the target set and released the crew when the condition it had itself declared was met.",
+      "bearsOn": [
+        "signalingPreference",
+        "attributionAversion",
+        "reciprocityProportion"
+      ],
+      "lesson": "Acted, claimed, then held to its own published terms. The concealed-proxy intuition inverts here: the organisation wanted the credit, because claiming is what converts a local movement into a regional actor and demonstrates value to a patron. The narrowing matters more than the campaign for modelling purposes — it is the rare case where this archetype published a stopping rule and then followed it, which is why reciprocityProportion should not be read as uniformly disproportionate.",
+      "basis": "Clausen, Maria-Louise (DIIS), 'Reassessing Principal-Agent Theory: The Houthis' evolving relationship with Iran,' POMEPS Studies 58, March 2026, which finds the patron lacked command and control over the campaign while the actions were ascribed to it; Al Jazeera, 'Yemen's Houthis to only target Israel-linked ships following Gaza ceasefire,' 20 January 2025; Raydan, Noam & Nadimi, Farzin, 'Despite the Houthi Pledge to Limit Attacks, the Red Sea Remains Highly Volatile,' The Washington Institute for Near East Policy, 27 January 2025, which records the 22 January crew release and cautions that the pledge left U.S. and U.K. shipping explicitly exposed and that targeting had repeatedly rested on inaccurate vessel-ownership information; CRS In Focus IF12581, 'Yemen: Conflict, Red Sea Security, and U.S. Policy,' for chronology. The 'followed its own rule' reading is contested by the same Washington Institute analysis and should be carried as a qualified finding.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2023-11-25",
+      "episode": "A persona-operating team affiliated with Iran's IRGC Cyber-Electronic Command compromised internet-exposed Unitronics Vision-series PLC/HMI devices by authenticating over default credentials on TCP port 20256 — at least 75 devices, including at least 34 in the U.S. water and wastewater sector, among them the Municipal Water Authority of Aliquippa, Pennsylvania on 25 November 2023 — and left a defacement banner claiming the devices as targets because they were Israeli-made.",
+      "choice": "Acted at defacement grade against a lifeline service, claimed the act loudly under a persona, and kept its operators and its state unit concealed.",
+      "bearsOn": ["attributionAversion", "signalingPreference"],
+      "lesson": "Acted and claimed while hiding — the two halves of attribution that the profile's single 0.35 cannot hold at once. The persona claimed immediately; the state unit behind it was named roughly two months later by sanctions, not by the claim. Whether stopping short of manipulating process control was restraint or simply the ceiling of a default-credential operation is not established, so this episode is deliberately not offered as evidence about counterpartHarmRestraint.",
+      "basis": "Joint cybersecurity advisory of CISA, FBI, NSA, EPA, Israel's National Cyber Directorate, Canada's CCCS and the UK NCSC, AA23-335A, 'IRGC-Affiliated Cyber Actors Exploit PLCs in Multiple Sectors, Including U.S. Water and Wastewater Systems Facilities,' first published 1 December 2023 and subsequently updated, for device counts, access method and banner text; U.S. Department of the Treasury press release JY2072, 'Treasury Sanctions Actors Responsible for Malicious Cyber Activities on Critical Infrastructure,' 2 February 2024, designating six officials of the IRGC Cyber-Electronic Command for directing the activity. Facts of the operation are high-confidence government reporting; the inference about intent is not.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2024-01-30",
+      "episode": "Two days after a one-way drone strike on the Tower 22 logistics outpost in northeast Jordan killed three U.S. soldiers and wounded dozens on 28 January 2024, an Iran-backed Iraqi armed group announced the suspension of its military operations against U.S. forces, giving as the reason the avoidance of embarrassment to the Iraqi government, instructing its fighters to adopt 'passive defence' temporarily, and stating it would continue to support Gaza by other means.",
+      "choice": "Held — announced a unilateral suspension after an operation whose consequences it had not sought.",
+      "bearsOn": [
+        "escalationControlBelief",
+        "legitimacyWeight",
+        "ownCostTolerance"
+      ],
+      "lesson": "Held, and held for a host-government political reason rather than a military one. This is the clearest documented pull-back in the set, and it locates the brake precisely: not in a pre-execution gate but in a post-hoc announcement two days after the effect, which is exactly what a decision path with no legal or interagency review predicts. It also shows the archetype's legitimacy weight is real but narrow — the constituency and host-government relationship bind where international law does not.",
+      "basis": "CNN, 'Kataib Hezbollah: Powerful Iran-backed militia in Iraq to suspend military ops against US forces in region,' 30 January 2024; Al Jazeera, 'Kataib Hezbollah announces halt of attacks on US forces,' 31 January 2024; The Washington Institute for Near East Policy, 'Kataib Hezbollah Secretary-General Tries to Forestall U.S. Strikes,' 2024. TWO LIMITS ON THIS EVIDENCE: attribution of the Tower 22 strike to this specific group is a U.S. assessment and was not claimed in those terms by the group, and attacks on U.S. positions resumed within months — this is a tactical hold, not a durable restraint, and should not be scored as one.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2023-10-08",
+      "episode": "From 8 October 2023 an armed organisation on Israel's northern border opened a deliberately bounded attrition campaign — anti-tank fire, drones and short-range rockets held to a narrow band along the Blue Line — declining for roughly eleven months to open the general war its declared arsenal allowed, before the front expanded sharply in September 2024 and the organisation's senior leadership was killed.",
+      "choice": "Held at a self-imposed geographic and target ceiling for eleven months, then absorbed a decapitating campaign rather than capitulating.",
+      "bearsOn": [
+        "reciprocityProportion",
+        "escalationControlBelief",
+        "ownCostTolerance"
+      ],
+      "lesson": "Held, then absorbed. The longest-running restraint case in the set, and the reason reciprocityProportion sits near the middle rather than high: when both organisational survival and domestic standing are at stake, this archetype calibrates rather than answers in kind, and it deliberately underuses capability it has publicly claimed. The ceiling was its own and it did not hold — the same organisation then chose absorption over terms.",
+      "basis": "Byman, Daniel; Jones, Seth G.; Palmer, Alexander, 'Escalating to War between Israel, Hezbollah, and Iran,' Center for Strategic and International Studies, Warfare, Irregular Threats, and Terrorism Program, 4 October 2024: between 7 October 2023 and 31 August 2024 the average Israeli strike fell about 4 km into Lebanon and the average Hezbollah strike about 3 km into Israel, while during the week of 22 September 2024 those averages were 27 km and 28 km respectively; the same analysis records that the organisation 'kept its rocket attacks small relative to its total launch capacity' against a claimed inventory of as many as 200,000 standoff weapons, and attributes the earlier limits to a combination of Hezbollah restraint and Israeli deterrence. The Washington Institute for Near East Policy, 'Hezbollah's Escalation Ladder,' for the rung structure. CAVEAT: the strike-depth figures are one analytic dataset rather than an agreed measurement, and the organisation never published rules of engagement — the ceiling is inferred from observed conduct, and the split between self-restraint and deterrence cannot be resolved from the outside.",
+      "confidence": "medium"
+    }
+  ]
+}

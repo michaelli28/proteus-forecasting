@@ -1,0 +1,261 @@
+{
+  "id": "dprk",
+  "procedure": {
+    "authority": {
+      "statement": "Go/no-go on strategic action sits in a single office at the apex of both party and state — designated in law since September 2022 as the President of the State Affairs, who holds all decisive powers over the nuclear forces, and who since the January 2021 Rules revision chairs the Party Central Military Commission as General Secretary. No subordinate body has been observed reversing a decision taken in that office; the bodies below it prepare, ratify and codify.",
+      "basis": "DECLARED and OBSERVED, converging. The 2013 Law on Consolidating the Position of a Nuclear Weapons State (1 Apr 2013) vested release authority in the 'Supreme Commander of the KPA'; the 2022 Law on the State Policy on the Nuclear Forces (7th Session of the 14th Supreme People's Assembly, 8 Sep 2022) moved it to the 'President of State Affairs' — Jun Bong-geun, 'Comparing North Korea's Law on Nuclear Forces Policy (2022) with the Law on Consolidating the Position of Nuclear Weapons State (2013)', Asia-Pacific Leadership Network commentary, 21 Nov 2022. The chairmanship link is clause-level: Hisashi Hirai (Kyodo News), 'On the Revisions to the Rules of the Workers' Party of Korea', Japan Institute of International Affairs Research Report, 9 Sep 2021, records that the revised Rules make the General Secretary chairman of the Party Central Military Commission and strengthen that Commission's authority. DIA, North Korea Military Power (DIA-02-1801-056, 2021), assesses assertive, personally held national and nuclear command and control. CAVEAT ON THE DIA CITE: the parent profile records that the DIA PDF returned 403 in its challenge session, and it could not be retrieved in this review either; specific page references carried in an earlier draft have been removed rather than repeated unverified, and the report is cited here at document level only.",
+      "confidence": "high"
+    },
+    "steps": [
+      {
+        "order": 0,
+        "stage": "Line-setting and resourcing — the strategic programme against which every later proposal is justified",
+        "office": "Congress of the Workers' Party of Korea and the plenary meetings of its Central Committee",
+        "gate": "Stops what nobody has resourced, not what the leadership has willed. A proposal that cannot be attached to the announced line has no budget line and no bureaucratic sponsor; a proposal the apex office wants proceeds whether or not the line anticipated it. Model this as a filter on the routine choice set and not as a veto.",
+        "basis": "The Eighth Congress (5-12 Jan 2021) adopted a five-year national defence development plan enumerating specific systems — tactical nuclear warheads, solid-propellant ICBMs, a military reconnaissance satellite, multiple warheads, a nuclear-powered submarine. 38 North, 'Assessing North Korea's Five-Year Effort to Develop 13 New Nuclear and Missile Systems' (Jan 2026), tracks delivery against that list system by system. The April 2018 'new strategic line' plenum is the same mechanism running in the restraint direction (see history). Hirai/JIIA (9 Sep 2021) records the Rules change fixing Congresses at five-year intervals.",
+        "confidence": "medium"
+      },
+      {
+        "order": 1,
+        "stage": "Staff plan development — operational planning and technical readiness, by lane",
+        "office": "KPA General Staff Department (conventional and border action); Reconnaissance General Bureau (clandestine, foreign and cyber operations); Munitions Industry Department of the WPK Central Committee, with the Missile Administration, Nuclear Weapons Institute, Academy of Defence Sciences and Second Academy of Natural Sciences subordinate to it (systems development)",
+        "gate": "Technical feasibility and readiness only. This stage demonstrably does not gate permission: in June 2020 the General Staff announced a four-point action plan and preparations for at least part of it had begun before the ratifying body met. Treat this as constraining timing and options, not authorisation.",
+        "basis": "June 2020 sequence: 38 North, 'Kim Jong Un Puts Anti-South Korea Military Operation on Hold. What Now?' (25 Jun 2020), notes the plan was 'reported as subject to ratification by the CMC' while 'preparations had already begun for at least the leaflet campaign before this CMC preliminary meeting was held.' RGB subordination of cyber operations: CISA/State/Treasury/FBI Alert AA20-106A, 'Guidance on the North Korean Cyber Threat' (rev. 23 Jun 2020); DOJ, '3 North Korean Military Hackers Indicted…' (C.D. Cal., unsealed 17 Feb 2021), which charges the defendants as members of RGB units. Munitions Industry Department subordination of the Nuclear Weapons Institute and Academy of Defence Sciences: North Korea Leadership Watch (M. Madden), 'MID-le Managers', 13 Sep 2024. CAVEAT: the internal reporting lines of the MID complex rest on sanctions listings, defector-derived reporting and analyst reconstruction, not on published DPRK organisational documents.",
+        "confidence": "medium"
+      },
+      {
+        "order": 2,
+        "stage": "Party political vetting — loyalty and cadre control over the officers who would execute",
+        "office": "Organization and Guidance Department of the WPK Central Committee, working through the General Political Bureau of the Korean People's Army and its commissar network",
+        "gate": "Removes people, not plans. General-officer appointments require Organization and Guidance Department sign-off before the supreme commander's appointment order issues, and political officers are seated in KPA units down to company level. Its practical effect on the model is that proposals rarely reach the apex office carrying institutional dissent — so an engine should not expect bureaucratic friction to attenuate a decision here.",
+        "basis": "North Korea Leadership Watch, 'KPA General Political Bureau' entity file, and GlobalSecurity.org, 'General Political Bureau — North Korea', both describing the Bureau as operating under the Central Military Commission's direction while its activities are directed by the Organization and Guidance Department, and describing OGD approval as a precondition for appointments above brigadier general. Michael Madden, 'North Korea Reiterates Party's Precedence Over the Military, Conducts Sweeping Changes in KPA Leadership', 38 North, 31 Jul 2025, records a Central Military Commission meeting on 'exercising tight control and guidance so that all military and political activities of the DPRK armed forces are thoroughly conducted as required by the Party's military line', and the dispatch of political commissars afterwards. General authoritarian-control toolkit: D. Byman & J. Lind, 'Pyongyang's Survival Strategy', International Security 35(1), 2010. CAVEAT: the rank threshold and the surveillance-reporting mechanics come from defector-derived accounts relayed through secondary compilations; the existence and direction of the control relationship is much better attested than its procedural detail.",
+        "confidence": "low"
+      },
+      {
+        "order": 3,
+        "stage": "Ratification of a prepared military action, or formal legitimation of one already ordered",
+        "office": "Central Military Commission of the WPK Central Committee",
+        "gate": "The only institutional body observed stopping a prepared DPRK military action. On 23 June 2020 a preliminary meeting for the Fifth Meeting of the Seventh Central Military Commission suspended — deferred, explicitly not cancelled — the General Staff's four-point plan against the ROK. The same body also issues after-the-fact legitimation: the Kursk deployment entered the domestic record through an unusual Central Military Commission 'written stand' on 28 April 2025. Because the apex office chairs this Commission, 'ratification' here should not be scored as an independent check.",
+        "basis": "KCNA report of 24 Jun 2020 on the 23 Jun preliminary CMC meeting, as reported by AP/Washington Post ('N. Korea: Kim suspended military retaliation against South', 23-24 Jun 2020) and analysed in 38 North (25 Jun 2020). April 2025: 38 North, 'North Korea's Acknowledgement of War Participation' (Apr 2025), which describes the 'written stand' of the Central Military Commission as a highly unusual instrument chosen for a sensitive military issue. Chairmanship: Hirai/JIIA (9 Sep 2021). NOTE ON DIRECTION OF EVIDENCE: one documented stop is one data point. It shows the gate exists; it does not establish how often it is used.",
+        "confidence": "medium"
+      },
+      {
+        "order": 4,
+        "stage": "Release decision — the irreversible go/no-go on strategic use",
+        "office": "Office of the President of the State Affairs and Supreme Commander of the armed forces, nominally assisted by the 'state nuclear forces command organisation' created by the 2022 law",
+        "gate": "Sole authority, with no observed reversal from below. The supporting command organisation the 2022 law creates is assessed in the open literature as nominal, so the engine should not model it as a second signature. This is the step that produces `decisionCentralization` at 0.94 and the high behavioural variance that goes with a single decider.",
+        "basis": "2013 and 2022 nuclear laws as analysed in Jun Bong-geun, APLN, 21 Nov 2022, which describes the 2022 law's supporting body as 'very nominal' and notes that command still belongs to one office; and in A. Barannikova, 'Nuclear Strategy of the DPRK: Doctrine Evolution and Future Prospects', NAPSNet Special Report, Nautilus Institute, 15 Mar 2024. DIA, North Korea Military Power (2021), cited at document level only — see the caveat on `authority`. DECLARATORY TENSION TO CARRY, not resolve: the 2022 law's 'automatic and immediate' retaliation clause for an attack on the leadership or on the nuclear command organisation sits against sole personal release authority. One of the two is theatre; the parent profile judges the automaticity the more likely candidate, and this dossier does not improve on that.",
+        "confidence": "high"
+      },
+      {
+        "order": 5,
+        "stage": "Legal and constitutional formalisation — codifying a decision already taken",
+        "office": "Supreme People's Assembly and its Presidium",
+        "gate": "None in practice. This body has not been observed amending or refusing a leadership-originated measure; it converts decisions into law, and the act of codification is itself part of the signal. An engine that credits this stage with delay or veto probability will mispredict tempo.",
+        "basis": "The nuclear-use law was adopted at the 7th Session of the 14th Supreme People's Assembly on 8 Sep 2022 (Jun Bong-geun, APLN, 21 Nov 2022; Japan Institute of International Affairs, 'North Korea's Supreme People's Assembly Adopts Nuclear Use Law', research report, Jan 2023). The Law on Rejecting Reactionary Thought and Culture was adopted by the SPA Presidium on 4 Dec 2020 and revised 19 Aug 2022; the state never published the text, which was obtained and analysed outside the country (Daily NK, 'Daily NK acquires full text of the anti-reactionary thought law'). The same non-publication pattern applies to the October 2024 constitutional revision, per 38 North, 'Paving the Way for Hostile Coexistence? What North Korea's Constitutional Revisions Mean for Inter-Korean Ties' (May 2026). That pattern is itself the finding: codification is real, publication is selective, and analysts work from excerpts and obtained copies.",
+        "confidence": "medium"
+      },
+      {
+        "order": 6,
+        "stage": "Execution and the attribution decision — whether the act is claimed",
+        "office": "State media apparatus of the WPK Central Committee - KCNA and Rodong Sinmun - in the overt lane; no acknowledging office at all in the covert revenue and intelligence lane",
+        "gate": "Decides only whether the institution's hand is shown, and it is the stage that manufactures the profile's bimodality. Missile launches, artillery action and force deployments are announced, photographed and dated; cryptocurrency theft and IT-worker placement have never been acknowledged and run behind front companies and laundered identities. A single `attributionAversion` scalar averages across this gate and therefore describes no behaviour the institution has actually shown.",
+        "basis": "OVERT LANE: state-media announcement is the norm — e.g. the KPA Strategic Force's published Guam plan (Aug 2017) and the Central Military Commission's written acknowledgement of the Kursk deployment (28 Apr 2025, per 38 North). COVERT LANE: the FBI attributed roughly $1.5B stolen from Bybit on or about 21 Feb 2025 to DPRK activity it tracks as 'TraderTraitor' (FBI Public Service Announcement, 26 Feb 2025); the Multilateral Sanctions Monitoring Team's report of 22 Oct 2025 documents front-company use and identity laundering. The DPRK has acknowledged none of it. CAVEAT: an earlier draft named the Propaganda and Agitation Department of the WPK Central Committee as the office owning this decision; no source consulted documents that attribution, so it has been removed and the office named here is restricted to the publication channels the sources actually show (KCNA and Rodong Sinmun). The lane split is well evidenced; which body inside the Central Committee decides the claim is not.",
+        "confidence": "low"
+      }
+    ],
+    "tempo": {
+      "statement": "Two clocks that must not be averaged. Programme decisions run on multi-decade continuity punctuated by five-year plans; crisis decisions run on days. In the two best-documented crisis sequences the interval from a staff proposal becoming public to a decision being announced was five to six days.",
+      "basis": "CRISIS CLOCK: Aug 2017 — KPA Strategic Force statement 9-10 Aug, decision to hold announced 15 Aug (five to six days). Jun 2020 — General Staff four-point plan announced 17 Jun, Central Military Commission suspension 23 Jun, reported 24 Jun (six to seven days). PROGRAMME CLOCK: the Eighth Congress five-year defence development plan of Jan 2021, tracked against thirteen systems by 38 North (Jan 2026); nuclear effort sustained from the 1950s to declared irreversible status in 2022-23. COMPRESSING PRESSURE: Ju Hyung Kim, 'North Korea's Emerging Limited Nuclear-Use Strategy', Global Security Review, 2026, argues that ROK Three-Axis/Kill Chain posture creates incentives to shorten decision times further. LOAD-BEARING CAVEAT: both crisis cases with a clean public timeline are cases where the institution chose to HOLD. There is no comparably documented proposal-to-execution interval for a case where it chose to act, so this figure measures deliberation under scrutiny, not reaction speed, and an engine should not use it as a strike-timeline estimate.",
+      "confidence": "low"
+    },
+    "preconditions": [
+      {
+        "statement": "The action can be attached to the strategic line announced at the last Congress or Central Committee plenum. Routine capability development is justified against that list; deviations require the apex office to sponsor them directly.",
+        "basis": "The Eighth Congress (Jan 2021) five-year defence development plan enumerated the systems subsequently pursued, tracked item by item in 38 North, 'Assessing North Korea's Five-Year Effort to Develop 13 New Nuclear and Missile Systems' (Jan 2026). The mechanism runs in the restraint direction too: the Third Plenary Meeting of the Seventh Central Committee (20 Apr 2018) announced a 'new strategic line' and the test suspension in the same report (KCNA text as republished by the National Committee on North Korea).",
+        "confidence": "medium"
+      },
+      {
+        "statement": "A capability is demonstrated before it is used as leverage. Declaratory claims follow tests and displays rather than preceding them, so a demand backed by an undemonstrated capability is off-pattern for this institution.",
+        "basis": "OBSERVED PATTERN, not a stated rule. The 2006 test was preceded by a public statement of intent six days earlier; the 'completion of the state nuclear force' declaration followed the November 2017 Hwasong-15 flight rather than anticipating it; systems named in the 2021 five-year plan were tested and paraded before appearing in declaratory framing (38 North, Jan 2026). CAVEAT: this is an inference from sequence across a modest number of cases and no DPRK document states it.",
+        "confidence": "low"
+      },
+      {
+        "statement": "Covert-lane action presupposes standing laundering and identity infrastructure. Front companies, stolen and fabricated identities, and placed IT workers are maintained as persistent capacity, so the covert lane's lead time sits in the infrastructure rather than in the operation.",
+        "basis": "Multilateral Sanctions Monitoring Team (11 nations), 'The DPRK's Violation and Evasion of UN Sanctions through Cyber and Information Technology Worker Activities', 22 Oct 2025, documenting identity laundering and front-company use at scale. The pattern is older than the report: the DOJ complaint unsealed 6 Sep 2018 describes a programmer operating through a DPRK government front company across the 2014 Sony intrusion, the 2016 Bangladesh Bank theft and the 2017 WannaCry outbreak.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "Enforcement cover from a Security Council patron lowers the expected cost of overt action, and the institution has moved at higher tempo when that cover was in place.",
+        "basis": "ASSUMED, NOT DEMONSTRATED — flagged because it is tempting and thin. The UN 1718 Panel of Experts mandate lapsed in April 2024 on a Russian veto and the Multilateral Sanctions Monitoring Team was stood up outside the UN as a substitute (MSMT, 22 Oct 2025). The Russia treaty, the troop deployment and the 2024-25 escalation in cryptocurrency theft all follow. That is a correlation across a single period with an obvious confound (the same partnership supplies both the veto and the demand for troops), and no source consulted establishes the causal direction. Do not let an engine treat this as a trigger condition.",
+        "confidence": "low"
+      }
+    ],
+    "afterAction": {
+      "statement": "The institution acknowledges and rapidly re-attempts technical failure in the overt lane, adapts tactically to costly outcomes without treating cost as grounds to stop, and acknowledges nothing at all in the covert lane. Learning is visible; reversal is not.",
+      "basis": "OVERT TECHNICAL FAILURE: state media announced the failure of the 31 May 2023 Chollima-1 satellite launch within hours, naming low reliability of the new engine system and unstable fuel, and the programme re-attempted in August and November 2023 (CNBC and SpaceNews, 31 May 2023; CSIS Beyond Parallel, 'Another Failed Satellite Launch at the Sohae Satellite Launching Station'). COSTLY OPERATIONS: 38 North, 'North Korea's Military Intervention in Kursk: A High Casualty Learning Curve' (Feb 2025), documents tactical adaptation after heavy infantry losses, followed by further rotations rather than withdrawal; UK Defence Intelligence assessed roughly 6,000 casualties from about 11,000 deployed by June 2025 (Bloomberg, 16 Jun 2025) while ROK assessments earlier in 2025 put the figure nearer 4,000 with roughly 3,000 reinforcements sent in January-February — a spread the model should carry rather than resolve. COVERT: no DPRK acknowledgement of any attributed cyber operation, including the Bybit theft (FBI PSA, 26 Feb 2025). GAP TO STATE PLAINLY: no open source consulted documents an internal review process, a lessons-learned mechanism, or an accountability outcome; what is observable is the behaviour after failure, not the procedure that produced it.",
+      "confidence": "medium"
+    }
+  },
+  "worldview": {
+    "declaredEnds": [
+      {
+        "statement": "Continuity of the governing authority as a sovereign, independent state under the existing leadership is the first-order objective, ahead of economic, diplomatic and territorial goals.",
+        "basis": "DIA, North Korea Military Power (DIA-02-1801-056, 2021), states the first objective of national security strategy as ensuring the regime's long-term security, defined as remaining a sovereign, independent country under the existing leadership. This is the declared end that underwrites the `regime-continuity` redline in the parent profile. CAVEAT: the source PDF returned 403 in the parent profile's challenge session and could not be retrieved in this review either; the page cite carried in an earlier draft has been removed and the report is cited at document level only.",
+        "confidence": "high"
+      },
+      {
+        "statement": "The Party's stated immediate goal is building a wealthy and civilised socialist society in the northern half of the Republic, with a communist society as the final goal; the clause on carrying out a 'National Liberation Democratic Revolution' was deleted in the January 2021 Rules revision.",
+        "basis": "Hisashi Hirai, 'On the Revisions to the Rules of the Workers' Party of Korea', JIIA Research Report, 9 Sep 2021 — a clause-level reading of the Rules as revised at the Eighth Congress (5-12 Jan 2021). The deletion matters for modelling because it removes a declared revolutionary claim on the counterpart Korean state's territory from the Party's own statement of purpose, three years before the 'two hostile states' turn made the same move at state level. CAVEAT: the DPRK does not publish the full Rules text; clause-level analyses rest on state-media excerpts and copies obtained abroad.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "Retention of nuclear weapons is declared an accomplished and irreversible condition of the state rather than an objective still being negotiated toward.",
+        "basis": "DECLARED: the 2022 Law on the State Policy on the Nuclear Forces (8 Sep 2022) and the September 2023 constitutional amendment enshrining nuclear force policy, framed by the leadership as making the status irreversible; the 2022 law also deleted the 2013 law's disarmament and international-cooperation clauses (Jun Bong-geun, APLN, 21 Nov 2022; A. Barannikova, NAPSNet Special Report, Nautilus Institute, 15 Mar 2024). OBSERVED: consistent with the 2019 Hanoi refusal recorded below.",
+        "confidence": "high"
+      },
+      {
+        "statement": "A five-year national defence development programme with enumerated deliverables — tactical nuclear warheads, solid-propellant ICBMs, multiple warheads, a military reconnaissance satellite, a nuclear-powered submarine — adopted as a published plan rather than an aspiration.",
+        "basis": "Eighth Congress of the Workers' Party of Korea, 5-12 Jan 2021. Delivery tracked system by system in 38 North, 'Assessing North Korea's Five-Year Effort to Develop 13 New Nuclear and Missile Systems' (Jan 2026); corroborating survey in the CRS In Focus product on North Korea's nuclear weapons and missile programs (IF10472) and SIPRI Yearbook chapter on North Korean nuclear forces.",
+        "confidence": "high"
+      },
+      {
+        "statement": "Since December 2023 unification is no longer a declared end: the counterpart Korean state is officially characterised as a separate and hostile state rather than as a part of one nation to be reunified.",
+        "basis": "December 2023 Central Committee plenum 'two hostile states' formulation and the October 2024 constitutional revision reportedly removing reunification and 'northern half' formulations, analysed in Columbia Korean Legal Studies, 'The Order to \"Erase\" Unification and the \"Hostile State\" Revision'. CAVEAT carried from the parent profile: 38 North, 'Paving the Way for Hostile Coexistence? What North Korea's Constitutional Revisions Mean for Inter-Korean Ties' (May 2026), records that the full constitutional text was never published, so the direction of travel is well supported and the clause-level detail is not.",
+        "confidence": "medium"
+      }
+    ],
+    "selfImage": {
+      "statement": "The institution presents itself as a full-fledged and 'responsible' nuclear weapons state exercising lawful self-defence as a sovereign equal — legally entitled to the capability, procedurally correct in acquiring it, and wronged rather than delinquent in being sanctioned for it.",
+      "basis": "DECLARED, and legible in the form of its own documents rather than only their content. The 2013 statute is titled a Law on Consolidating the Position of a Nuclear Weapons State; the 2003 withdrawal from the NPT was executed through formal Article X notice and framed in the accompanying government statement (KCNA, 10 Jan 2003) as a legitimate self-defensive measure; Article 4 of the 2024 treaty with Russia invokes UN Charter Article 51 by name (CRS In Focus IF12760, 'Russia-North Korea Relations'). The parent profile's `legitimacyWeight` of 0.28 should be read against this: the discount is on external APPROVAL, not on external LEGITIMATION, which the institution invests in consistently.",
+      "confidence": "medium"
+    },
+    "threatModel": [
+      {
+        "statement": "United States 'hostile policy', extended-deterrence assets, and US-ROK combined exercises, which it characterises as offensive and confrontational irrespective of their declared defensive framing.",
+        "basis": "DECLARED, and stated with high consistency across years. KCNA year-end characterisation of US military activity in the region as 'gravely threatening' to strategic stability (reported in Stars and Stripes, 28 Nov 2025). Two further items carried in an earlier draft - a KCNA commentary quoted as saying exercises 'cannot conceal their inherently offensive and confrontational nature', and a DPRK objection to eleven-nation UN Command participation in Freedom Shield - carried no date, outlet or document identifier and could not be located in this review; they have been removed rather than repeated. Confidence is high that this is the DECLARED threat model; it carries no claim about whether the institution's internal assessment matches its declaratory one.",
+        "confidence": "high"
+      },
+      {
+        "statement": "Decapitation of the leadership or of the nuclear command organisation, which it has written into statute as a categorical trigger rather than treating as one contingency among many.",
+        "basis": "DECLARED: the 2022 Law on the State Policy on the Nuclear Forces names attack on the state leadership and on the command organisation of the nuclear forces as conditions for automatic and immediate nuclear response (Jun Bong-geun, APLN, 21 Nov 2022; Barannikova, Nautilus, 15 Mar 2024). Driver on the other side: Ju Hyung Kim, 'North Korea's Emerging Limited Nuclear-Use Strategy', Global Security Review, 2026, on ROK Three-Axis/Kill Chain posture. NEVER TESTED — this is the single most consequential untested declaration in the profile, and the parent profile marks the corresponding redline low-confidence for that reason.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "Internal ideological and informational penetration, treated as a security threat serious enough to legislate against with criminal penalties, not merely as a propaganda problem.",
+        "basis": "DECLARED via statute: the Law on Rejecting Reactionary Thought and Culture, adopted by the Supreme People's Assembly Presidium on 4 Dec 2020 and revised 19 Aug 2022, four chapters and 41 articles, with graduated penalties for consuming and for distributing foreign — principally ROK — cultural material. The state never published the text; the analysis rests on a copy obtained outside the country (Daily NK, 'Daily NK acquires full text of the anti-reactionary thought law', and Daily NK's October 2024 study of the law's social effect). Broader survival-toolkit framing: Byman & Lind, International Security 35(1), 2010. CAVEAT: penalty ranges reported in secondary sources vary and derive from the obtained text plus defector testimony; confidence is low on specifics and higher on the existence and direction of the measure.",
+        "confidence": "low"
+      },
+      {
+        "statement": "Trilateral US-Japan-ROK military alignment, treated as consolidation of encirclement rather than as three separate bilateral relationships.",
+        "basis": "DECLARED: DPRK statements condemning trilateral US-Japan-ROK drills as dangerous and as a bloc-forming move (reported in Al Jazeera, 14 Sep 2025). CAVEAT: this rests on state-media reaction reported in press summaries rather than on a doctrinal document, and reaction rhetoric is a weak proxy for an assessed threat ranking.",
+        "confidence": "low"
+      }
+    ],
+    "adversaryModel": {
+      "statement": "It appears to expect that the counterpart will absorb violence pitched below the threshold that would trigger general war and will prefer restoring the status quo to escalating — and, symmetrically, that conceding to an overwhelming demonstration of force is cheap when the leadership core itself is not the object of it.",
+      "basis": "INFERRED FROM AN OBSERVED PATTERN — this is the least document-anchored claim in the dossier and should be read as an analyst's reading, not as a statement the institution has made. Supporting record: after the August 1976 Panmunjom killings and the US-ROK show of force in Operation Paul Bunyan, the DPRK conveyed a statement of regret rather than escalating; the November 2010 Yeonpyeong shelling drew limited counter-battery fire and no wider response; the September 2020 killing of a South Korean official at sea was followed within days by a leadership-attributed apology transmitted through the United Front Department rather than by escalation on either side (Washington Post and RFA, 25 Sep 2020). Interpretive dispute is live and unresolved: V. Jackson, Rival Reputations: Coercion and Credibility in US-North Korea Relations (Cambridge UP, 2016), argues against the mechanical 'provocation cycle' framing in favour of a sustained rivalry in which both sides continually re-read each other's credibility; V. Cha & D. Kang, Nuclear North Korea: A Debate on Engagement Strategies (Columbia UP), stage exactly this inference as the point of disagreement. An engine should treat the belief as a distribution, not a constant.",
+      "confidence": "low"
+    },
+    "declaredIdeology": {
+      "statement": "The organisation's own published programme is the Rules (Charter) of the Workers' Party of Korea as revised at the Eighth Congress, 5-12 January 2021: immediate goal, building a wealthy and civilised socialist society in the northern half of the Republic; final goal, a communist society. The revision deleted the 'National Liberation Democratic Revolution' clause and the Songun and pyongjin (byungjin) lines, cut most proper-noun references to past leaders, replaced 'the Party' with 'the Party Central Committee' throughout, strengthened the authority of the Party Central Military Commission and made the General Secretary its chairman, and fixed Congresses at five-year intervals.",
+      "basis": "Hisashi Hirai (Kyodo News), 'On the Revisions to the Rules of the Workers' Party of Korea', Japan Institute of International Affairs Research Report, 9 Sep 2021 — a nine-point, clause-level account of the revision. CAVEAT, and it is the reason this is not marked high: the DPRK does not publish the Rules in full, so every clause-level reading including this one is reconstructed from state-media excerpts and copies obtained outside the country. The direction of the revision — more Party Central Committee, less Songun, less leader-name, stronger Central Military Commission — is corroborated across independent analyses; individual wordings are not independently verifiable. Recorded here strictly as what the organisation says about itself, with no inference drawn from it about any population.",
+      "confidence": "medium"
+    }
+  },
+  "history": [
+    {
+      "date": "1987-11-29",
+      "episode": "Bombing of Korean Air Flight 858 in flight between Abu Dhabi and Bangkok, killing all 115 aboard, by two agents who planted the device during the Abu Dhabi stopover and disembarked",
+      "choice": "acted — a covert mass-casualty attack on a counterpart state's civil aviation, executed with a deniable method and denied at the time and since",
+      "bearsOn": ["counterpartHarmRestraint", "attributionAversion"],
+      "lesson": "Acted at the top of the harm range while paying for deniability — and this remains the last mass-casualty attack the institution has carried out against a counterpart state. `counterpartHarmRestraint` at 0.30 is therefore a floor read off an absence of repetition over nearly four decades, not off any documented targeting-restraint practice, and an engine should treat it as weakly supported in exactly that way.",
+      "basis": "ROK investigation and the confession of the surviving agent; the US State Department concluded in January 1988 that the evidence of DPRK culpability was compelling and designated the DPRK a state sponsor of terrorism on that basis, a designation that stood until 2008 (Association for Diplomatic Studies and Training, 'North Korea Blows up South Korean Airliner', 2016, oral-history account). An earlier draft also cited a contemporaneous statement by the Assistant Secretary of State for Public Affairs in January 1988 with no name, title or document identifier; that citation was not checkable and has been removed. CAVEAT: a minority of ROK researchers dispute the investigation's findings, and the DPRK has never acknowledged the act; the international designation rests on the ROK investigation.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2006-10-09",
+      "episode": "First nuclear test at the Punggye-ri site near Kilju, announced as an intention six days beforehand and notified to its principal patron roughly twenty minutes in advance",
+      "choice": "acted — proceeded over the stated objection of the only state supplying it with substantial economic support, and did so overtly",
+      "bearsOn": [
+        "decisionCentralization",
+        "ownCostTolerance",
+        "signalingPreference"
+      ],
+      "lesson": "Acted without coalition and without concealment. The decision was not negotiated with the patron whose support it depended on, and the intent was announced rather than hidden — the earliest clean instance of the demonstration lane in which visibility is the product, and of a decision structure with no external or internal veto to route around.",
+      "basis": "DPRK Foreign Ministry statement of intent, 3 Oct 2006; test conducted 9 Oct 2006 at 10:36 local time near Kilju. Advance notice to China of roughly twenty minutes, with a stated expected yield of about 4 kt against a measured yield widely assessed below 1 kt — Hui Zhang, 'North Korea's Oct. 9 Nuclear Test: Successful or Failed?', Belfer Center / INMM proceedings, 2007. UN Security Council Resolution 1718 followed on 14 Oct 2006. CAVEAT: the twenty-minute figure originates in contemporaneous US and ROK official briefings relayed through press reporting, not in any released primary document, and should be treated as approximately right rather than exact.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2010-11-23",
+      "episode": "Artillery shelling of Yeonpyeong Island — roughly 170 rounds onto an inhabited garrison island following an ROK live-fire drill conducted during the Hoguk exercise into waters the DPRK claims — killing two ROK marines and two civilian workers and wounding about nineteen",
+      "choice": "acted, then stopped — struck above the level of the provocation against an inhabited target and halted without being compelled to",
+      "bearsOn": [
+        "counterpartHarmRestraint",
+        "reciprocityProportion",
+        "escalationControlBelief"
+      ],
+      "lesson": "Escalated above the provoking act and then terminated. This is the clearest single observation of harm being calibrated rather than maximised, and it is the main OBSERVED support for `reciprocityProportion` at 0.68 under the parent profile's stated convention that higher means responding at or above the provocation level — a convention the profile itself flags as the largest interpretive risk it carries.",
+      "basis": "38 North, 'The Yeonpyeong Island Incident, November 23, 2010' (Jan 2011). The DPRK had warned in advance against the drill; the exchange followed. CAVEAT: whether the halt reflects a decision to stop or the effect of ROK counter-battery fire, weather and ammunition is not established in open sources, and both readings remain live — which is why this episode is offered as evidence of calibration, not of confident escalation control.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2017-08-15",
+      "episode": "Announced plan for 'enveloping fire' around Guam — four Hwasong-12 intermediate-range missiles overflying three named Japanese prefectures to land 30-40 km from the island — reviewed at the Strategic Force command and then not executed",
+      "choice": "held — published a specific, numerically detailed strike plan, then declined to carry it out while explicitly keeping it available and ordering the force to stand ready",
+      "bearsOn": ["signalingPreference", "escalationControlBelief"],
+      "lesson": "Held. The institution treated the announced plan as the instrument and the launch as optional, which is the demonstration lane operating at its purest: the product was the signal. It is also the cleanest evidence that the institution believes it can stop a sequence it has publicly started — belief, not demonstrated capability, and the parent profile's 0.55 on `escalationControlBelief` sits inside a live scholarly dispute for that reason.",
+      "basis": "KPA Strategic Force commander's statement of 9-10 Aug 2017 setting out the plan in operational detail (North Korea Leadership Watch, 'KPA Strategic Force Issues Statement', 9 Aug 2017; BBC, 10 Aug 2017). KCNA report of 15 Aug 2017 that the leadership had examined the plan and would watch the counterpart's conduct further before deciding, with the force ordered ready should the decision be taken (BBC, 'N Korea leader briefed on Guam plan but opts to wait', 15 Aug 2017; Reuters and Al Jazeera, 15 Aug 2017). The plan was never executed; an unrelated Hwasong-12 overflight of Japan followed on 29 Aug 2017 on a different azimuth.",
+      "confidence": "high"
+    },
+    {
+      "date": "2018-04-20",
+      "episode": "Third Plenary Meeting of the Seventh Central Committee of the Workers' Party of Korea, which adopted a 'new strategic line', decided to suspend nuclear tests and ICBM launches, and announced dismantlement of the northern nuclear test ground",
+      "choice": "held — restraint taken as a formal decision of a party organ, sustained for more than four years",
+      "bearsOn": ["timeHorizon", "legitimacyWeight", "signalingPreference"],
+      "lesson": "Held, and held long. The institution can convert restraint into a resourced, announced line rather than an ad hoc pause, can hold an unspent capability for years, and will trade tempo for standing at head-of-state level. `legitimacyWeight` at 0.28 should be read as a discount on external approval rather than indifference to status — this decision was staged for an audience the institution wanted something from.",
+      "basis": "Report on the Third Plenary Meeting of the Seventh Central Committee of the WPK, 20 Apr 2018 (KCNA text as republished by the National Committee on North Korea). The Punggye-ri test ground was demolished on 24 May 2018 in the presence of invited foreign journalists and with no technical verification. Duration: no nuclear test has followed to date and ICBM launches resumed in March 2022. CAVEAT: the freeze covered tests, not fissile-material production or shorter-range systems, dismantlement was unverified, and the site was assessed as partly restored from 2022 — the restraint is real and its scope was narrow.",
+      "confidence": "high"
+    },
+    {
+      "date": "2019-02-28",
+      "episode": "Second US-DPRK head-of-state summit in Hanoi, which ended abruptly with no agreement over the scope of a Yongbyon-for-sanctions-relief exchange",
+      "choice": "refused — left a summit it had invested heavily in rather than accept terms that priced the retained capability, and absorbed continued sanctions as the cost",
+      "bearsOn": ["lossFrameRiskAcceptance", "timeHorizon", "ownCostTolerance"],
+      "lesson": "Refused and paid. The institution offered a facility and declined to go further, accepting a known and continuing economic cost over a deal touching the capability it had already declared settled. This is the observed behaviour behind the parent profile's `nuclear-capability-retention` redline — a case where the price of refusal was explicit, quantified by the counterpart, and paid anyway.",
+      "basis": "The summit ended on 28 Feb 2019 with no joint agreement. Accounts of the terms conflict irreconcilably in open sources: the US side stated the DPRK sought relief from sanctions 'in their entirety'; the DPRK foreign minister's post-summit press conference in Hanoi stated the request was for partial relief in exchange for verifiable dismantlement of Yongbyon (CNN, 28 Feb 2019). Arms Control Association, 'Hanoi Summit Ends Abruptly: What's Next?', North Korean Denuclearization Digest, 6 Mar 2019; United States Institute of Peace, 'U.S.-North Korea Negotiations: What Happened in Hanoi?', Feb 2019. What is not in dispute: no agreement was signed, and the DPRK walked.",
+      "confidence": "high"
+    },
+    {
+      "date": "2020-06-23",
+      "episode": "Preliminary meeting for the Fifth Meeting of the Seventh Central Military Commission, which suspended the KPA General Staff's four-point military action plan against the ROK announced six days earlier",
+      "choice": "held — a prepared and partly pre-positioned military action was deferred, explicitly not cancelled, by the ratifying body above the staff that proposed it",
+      "bearsOn": ["decisionCentralization", "escalationControlBelief"],
+      "lesson": "Held at the ratification gate. This is the only well-documented instance of a prepared DPRK military action being stopped by a named institutional body, and it demonstrates both halves of `decisionCentralization` at 0.94: staff can develop and begin pre-positioning without authorisation, and the authority to stop them sits in one place above them. It also shows the institution reserving a suspended plan rather than abandoning it.",
+      "basis": "The KPA General Staff announced the four-point plan on 17 Jun 2020 (border force build-up and support for a leaflet operation). The Central Military Commission preliminary meeting of 23 Jun 2020 deferred it, reported by KCNA the following day (AP / Washington Post, 'N. Korea: Kim suspended military retaliation against South', 23-24 Jun 2020; Al Jazeera and Korea Times, 24 Jun 2020). 38 North, 'Kim Jong Un Puts Anti-South Korea Military Operation on Hold. What Now?' (25 Jun 2020), records that preparations for at least the leaflet campaign had begun before the meeting, and that the ROK military stayed on alert because the plans were suspended rather than cancelled. KCNA gave no reason. CONTEXT THAT CUTS AGAINST OVER-READING THIS: the hold came a week after the inter-Korean liaison office at Kaesong was demolished on 16 Jun 2020, so the institution had already acted destructively and then declined to go further — restraint at the margin, not instead of action.",
+      "confidence": "high"
+    },
+    {
+      "date": "2025-02-21",
+      "episode": "Theft of approximately $1.5 billion in virtual assets from the Bybit cryptocurrency exchange — the largest single cryptocurrency theft on record — followed by rapid conversion and dispersal across thousands of addresses on multiple blockchains",
+      "choice": "acted — executed in the lane where effect without acknowledgement is the objective, and never claimed",
+      "bearsOn": ["attributionAversion", "timeHorizon", "proxyPreference"],
+      "lesson": "Acted covertly, at a scale that would be a strategic act if it were claimed, and said nothing. The institution that publishes signed launch orders has never acknowledged a single attributed cyber operation. This is the observation that makes `attributionAversion` at 0.45 describe no behaviour the actor has shown: the honest encoding is roughly 0.8 in this lane and roughly 0.1 in the demonstration lane, and an engine that averages them will predict a middle behaviour that has never occurred.",
+      "basis": "FBI Public Service Announcement, 26 Feb 2025 (IC3 PSA 250226), attributing the theft of approximately $1.5B from Bybit on or about 21 Feb 2025 to DPRK cyber activity the Bureau tracks as 'TraderTraitor', and describing rapid conversion to Bitcoin and dispersal across thousands of addresses. INSTITUTIONAL ATTRIBUTION rests on the prior chain, not on this PSA: CISA/State/Treasury/FBI Alert AA20-106A (rev. 23 Jun 2020) placing DPRK cyber actors under the Reconnaissance General Bureau; DOJ, '3 North Korean Military Hackers Indicted…' (C.D. Cal., unsealed 17 Feb 2021), charging three members of RGB units with a scheme to steal and extort more than $1.3 billion, building on the complaint unsealed 6 Sep 2018 against a programmer operating through a DPRK front company (Sony 2014, Bangladesh Bank 2016, WannaCry 2017). Scale context: MSMT (11 nations), 22 Oct 2025, assessing at least $1.65B stolen January-September 2025 and at least $1.19B in 2024. NOTE ON `proxyPreference`: what appears here is facilitation — front companies, laundering intermediaries, fabricated and stolen identities — not delegated decision authority, which is why 0.28 rather than a high value.",
+      "confidence": "high"
+    },
+    {
+      "date": "2025-04-28",
+      "episode": "Deployment of DPRK ground forces to Russia's Kursk region from October 2024, and the Central Military Commission's written acknowledgement of that deployment on 28 April 2025, two days after the partner state disclosed it",
+      "choice": "acted, absorbed casualties assessed at up to half the deployed force, rotated replacements in, and only then claimed the deployment publicly",
+      "bearsOn": [
+        "ownCostTolerance",
+        "decisionCentralization",
+        "legitimacyWeight"
+      ],
+      "lesson": "Acted and absorbed. Losses on that scale did not reverse the commitment; reinforcements followed. It also separates the attribution decision from the action decision inside the same institution — the deployment ran roughly six months unacknowledged and was then claimed through a Central Military Commission written statement framing it as a treaty obligation the apex office had determined was triggered, which is legitimation being harvested from a cost already paid.",
+      "basis": "Treaty on Comprehensive Strategic Partnership signed at the Pyongyang summit of 18-19 June 2024 (sources differ on the signing date), ratified by both parties in November 2024 and in force from 4 Dec 2024; Article 4 commits each party to immediate military and other assistance by all available means, invoking UN Charter Article 51, if the other is subjected to armed aggression (CRS In Focus IF12760, 'Russia-North Korea Relations'; E. Howell, 'North Korea and Russia's dangerous partnership', Chatham House research paper, Dec 2024; CSIS, 'The New Russia-North Korea Security Alliance'). Acknowledgement: 38 North, 'North Korea's Acknowledgement of War Participation' (Apr 2025), describing the unusual Central Military Commission 'written stand' and the framing that the leadership determined the Kursk situation met the Article 4 criteria. CASUALTY FIGURES ARE CONTESTED AND SHOULD NOT BE STATED AS ONE NUMBER: UK Defence Intelligence assessed roughly 6,000 casualties from about 11,000 deployed by June 2025 (Bloomberg, 16 Jun 2025), while ROK assessments earlier in 2025 put the figure nearer 4,000 with roughly 3,000 reinforcements sent in January-February 2025; 38 North, 'North Korea's Military Intervention in Kursk: A High Casualty Learning Curve' (Feb 2025), documents tactical adaptation under those losses. Only the direction — continued rotation after heavy losses — is reliable.",
+      "confidence": "medium"
+    }
+  ]
+}

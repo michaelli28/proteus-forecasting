@@ -1,0 +1,266 @@
+{
+  "id": "ideological-nonstate",
+  "procedure": {
+    "authority": {
+      "statement": "Go/no-go authority is bimodal, matching the profile's decisionCentralization note. In the hierarchical mode a standing leadership council - an army council, a general command, a central consultative body, or in one documented case a cabinet of ministries - authorises target CLASSES, campaign direction and the recognition of affiliates, while time, place and means are delegated downward to the unit that will execute. In the leaderless mode there is no authorising body at all: authority sits with whoever is willing to act, and the movement supplies a template rather than an order. A profile that describes only the first mode will over-predict the deterrability of the second.",
+      "basis": "Self-issued documents on the hierarchical side: the IRA 'Green Book' induction manual (full text, CAIN Web Service, Ulster University) vests authority in the Army Council and instructs volunteers that the Army is the lawful government descended from the 1918 Dail; al-Qaeda's General Command statement of 2 February 2014 asserts that 'the branches of al-Qaeda are the ones that the General Command of the group announces and recognizes' (translated and analysed in Joscelyn, T., 'Al Qaeda's general command disowns the Islamic State of Iraq and the Sham', FDD's Long War Journal, 3 February 2014; Zelin, A., Washington Institute PolicyWatch, February 2014); US Senate Committee on Governmental Affairs, Permanent Subcommittee on Investigations, 'Global Proliferation of Weapons of Mass Destruction: A Case Study on the Aum Shinrikyo', staff statement, 31 October 1995, documents a ministerial cabinet in which leadership approval preceded delegation to a named ministry for execution. On the leaderless side the same authority chain is simply absent: RAND, 'A Dangerous Web: Mapping Racially and Ethnically Motivated Violent Extremism', RBA1841-1 (2022); GNET, 'Ideological Leaderless Resistance in the Digital Age' (2022). Coded medium rather than high because no source measures the two modes' relative frequency, so the split is documented but not weighted.",
+      "confidence": "medium"
+    },
+    "steps": [
+      {
+        "order": 0,
+        "stage": "Strategic direction and target-class authorisation",
+        "office": "Leadership council / general command (army council, central consultative body, or equivalent standing leadership organ)",
+        "gate": "Sets which categories of target are open and which are closed, and can order a subordinate command to stop an entire category of attack. It rarely selects individual targets. This gate is exercised in writing and is observably ignored downstream often enough that it should be modelled as guidance with variable compliance, not as a hard filter.",
+        "basis": "Two primary documents show the gate being used and being disobeyed. Letter from al-Zawahiri to al-Zarqawi, 9 July 2005, released in translation by the Office of the Director of National Intelligence, 11 October 2005: central leadership instructs the Iraq affiliate to stop filmed beheadings and attacks on Shia mosques. Confidential letter from AQIM's amir to the leadership of its Mali branch, dated 20 July 2012, recovered by the Associated Press in Timbuktu in January 2013, analysed in 'AQIM's Playbook in Mali', Combating Terrorism Center at West Point (2013): central command orders the affiliate to slow the imposition of its programme and to stop destroying shrines. On the self-issued side, the IRA 'Green Book' (CAIN Web Service, Ulster University) sets out the Army Council's authority over the campaign. Both letters were substantially ignored, which is the finding.",
+        "confidence": "medium"
+      },
+      {
+        "order": 1,
+        "stage": "Affiliate recognition and operational proposal",
+        "office": "Regional command, brigade staff, or recognised affiliate leadership",
+        "gate": "Two distinct refusals live here. First, recognition itself is revocable: the general command decides who is and is not a branch, and has publicly expelled an affiliate that expanded and rebranded without authorisation. Second, proposals from below compete for scarce vetted personnel, money and travel documents, and are cut down or refused on feasibility rather than on doctrine or harm.",
+        "basis": "Recognition as a gate: al-Qaeda General Command statement, 2 February 2014, disavowing the Islamic State of Iraq and al-Sham - the first public disaffiliation in the organisation's history (Long War Journal, 3 February 2014; Brookings, 'Al Qaeda disavows ISIS', February 2014; on the Syria split, Hassan, H., 'Two Houses Divided: How Conflict in Syria Shaped the Future of Jihadism', CTC Sentinel 11(9), October 2018). Feasibility refusal: National Commission on Terrorist Attacks Upon the United States, 'The 9/11 Commission Report' (2004), ch. 5, and Staff Statement No. 16, 'Outline of the 9/11 Plot' (16 June 2004) - the planner's larger original proposal was scaled back, and the Southeast Asian half of the approved operation was cancelled in spring 2000 as too difficult to synchronise with the US half.",
+        "confidence": "medium"
+      },
+      {
+        "order": 2,
+        "stage": "Personnel vetting and counterintelligence screen",
+        "office": "Internal security / counterintelligence function",
+        "gate": "Holds or rejects volunteers who cannot be vouched for, and hunts suspected informers inside the organisation. This is the gate that most often stops an operation, and the one that most often stops the wrong thing: the same suspicion that protects the organisation from penetration also throttles its throughput, which is the covert organisation's structural dilemma rather than a policy choice.",
+        "basis": "Shapiro, J. N., 'The Terrorist's Dilemma: Managing Violent Covert Organizations' (Princeton UP, 2013) on the security-versus-control tradeoff. Combating Terrorism Center at West Point, 'Harmony and Disharmony: Exploiting al-Qa'ida's Organizational Vulnerabilities' (14 February 2006), which publishes captured internal by-laws, membership application material and personnel correspondence from the Department of Defense Harmony database. IRA 'Green Book' (CAIN) on recruitment vetting and the volunteer's undertaking. Jones, S. G. and Libicki, M. C., 'How Terrorist Groups End', RAND MG-741-1 (2008): policing and intelligence pressure, not military force, is the most common cause of group death (about 40 per cent versus about 7 per cent), which is why this office exists.",
+        "confidence": "medium"
+      },
+      {
+        "order": 3,
+        "stage": "Justification review",
+        "office": "The movement's doctrinal authority - variously a juridical committee, a political bureau, or the leadership council acting in that capacity",
+        "gate": "Tests whether the act can be explained to the constituency the organisation depends on for recruits, money and cover. The test is comprehensibility to supporters, not legality. Flagged honestly: the open record shows this gate producing post-hoc justification far more often than it shows it producing a veto, so it should be modelled as a weak, reversible brake rather than as a refusal.",
+        "basis": "The clearest statement of the test in the actor's own words is the 9 July 2005 ODNI-released letter: the criticised conduct 'won't be acceptable to the Muslim populace however much you have tried to explain it'. Busher, J., Holbrook, D. and Macklin, G., 'The internal brakes on violent escalation: a typology' (CREST full report, 2019; Behavioral Sciences of Terrorism and Political Aggression, 2019) catalogues moral, out-group-definition and organisational restraint logics and is explicit that they bear on the forms and thresholds of violence, not on the legitimacy of armed action, and that they are contested and reversible. Counter-evidence that the gate frequently fails: the 9 November 2005 Amman hotel bombings, which the affiliate claimed and defended rather than withdrew. Confidence low because the open literature observes the output of this gate (justifications) more reliably than its operation (vetoes).",
+        "confidence": "low"
+      },
+      {
+        "order": 4,
+        "stage": "Resource release",
+        "office": "Finance, procurement and logistics function",
+        "gate": "Releases money, weapons, documents and safe movement, and is the last stage at which an authorised operation quietly does not happen. Covert organisations of this type keep receipts, ledgers and expense claims precisely because they must control agents they cannot supervise - the paperwork is an artefact of the principal-agent problem, and it is also the archetype's most reliable intelligence vulnerability.",
+        "basis": "Shapiro, 'The Terrorist's Dilemma' (Princeton UP, 2013), on why violent covert organisations bureaucratise against their own security interest, drawing on captured financial records. Combating Terrorism Center, 'Harmony and Disharmony' (2006), publishing captured al-Qa'ida administrative and financial documents. The AQIM Timbuktu material recovered in January 2013 included the same genre of internal administrative correspondence (Associated Press, January-February 2013; CTC, 'AQIM's Playbook in Mali', 2013).",
+        "confidence": "medium"
+      },
+      {
+        "order": 5,
+        "stage": "Execution with delegated discretion",
+        "office": "Cell or operational commander; for a self-directed supporter, a remote handler with no command authority",
+        "gate": "The last real veto belongs to the executing cell. Leadership approves the class and the cell picks the day, the place and the means - which is why an actor whose declared restraint is set at the top can produce conduct at the bottom that the top did not authorise and cannot recall.",
+        "basis": "Shapiro (2013) on delegation under security pressure. Hughes, S. and Meleagrou-Hitchens, A., 'The Threat to the United States from the Islamic State's Virtual Entrepreneurs', CTC Sentinel 10(3), 2017, on remote direction of sympathisers, where the handler supplies encouragement and targeting suggestions but holds no authority to stop the act. Watkins, A., 'Losing Territory and Lashing Out', CTC Sentinel (2016), on bottom-up momentum that leadership 'cannot fully control'.",
+        "confidence": "medium"
+      },
+      {
+        "order": 6,
+        "stage": "Claim or denial",
+        "office": "Media / propaganda office",
+        "gate": "Decides after the fact whether the organisation attributes the act to itself, denies it, or says nothing. This is a separate decision from execution and frequently goes the other way from what the act's visibility would suggest, which is the mechanism behind this profile's low attributionAversion coexisting with high movement-level signalling.",
+        "basis": "Abrahms, M. and Conrad, J., 'The Strategic Logic of Credit Claiming: A New Theory for Anonymous Terrorist Attacks', Security Studies 26(2), 2017: roughly one attack in seven is claimed, and leaders sometimes actively deny involvement. Milton, D., 'Pulling Back the Curtain: An Inside Look at the Islamic State's Media Organization', Combating Terrorism Center at West Point (2018), built on internal documents, shows a Central Media Diwan issuing policy to provincial media offices and running a wire service as the claiming channel - i.e. claiming is an office with procedures, not a reflex. Cross-family caveat: Provisional IRA and ETA claimed as a matter of routine, so the one-in-seven pooled rate should not be applied uniformly across families.",
+        "confidence": "medium"
+      }
+    ],
+    "tempo": {
+      "statement": "Two clocks run at once. Signature operations take eighteen months to three years from authorisation to execution, and the schedule is set by vetting, documents and money rather than by opportunity. Routine attacks and self-directed action run days to weeks and are effectively unschedulable from outside. Compressors: territorial or leadership attrition, competition from a rival claiming the same constituency, a political process that threatens to make the armed apparatus redundant, and symbolic anniversaries. Stalls: the counterintelligence screen, travel documents, and the security cost of communicating at all.",
+      "basis": "'The 9/11 Commission Report' (2004), ch. 5, and Staff Statement No. 16 (2004): the planes operation was authorised in spring 1999 and executed in September 2001, with delays driven by visas, documents and operative attrition rather than by target availability. Shapiro (2013) on communication as the binding constraint. Hughes and Meleagrou-Hitchens, CTC Sentinel 10(3), 2017, on the days-to-weeks tempo of remotely directed plots. Dolnik, A., 'Understanding Terrorist Innovation' (Routledge, 2007), on innovation being rare and conservative, which is part of why the long clock is long.",
+      "confidence": "medium"
+    },
+    "preconditions": [
+      {
+        "statement": "The act must be explicable to the constituency that supplies recruits, money and cover. The binding test is supporter acceptance, not legality and not international opinion.",
+        "basis": "ODNI-released letter of 9 July 2005, which argues the case entirely in terms of what supporters will accept. AQIM Timbuktu letter of 20 July 2012, which orders the affiliate to go slowly with the local population. Measured consequence of failing the test, stated strictly as a dated survey answer to a specific question and not as a characterisation of any population: the Pew Global Attitudes surveys record the share of respondents in Jordan answering that suicide bombing in defence of Islam can often or sometimes be justified at 57 per cent in the May 2005 survey (Pew Research Center, 'Where Terrorism Finds Support in the Muslim World', 23 May 2006) and at 29 per cent in the 2006 survey, fielded March-May 2006 (figure recorded in Pew Research Center, 'Lebanon's Muslims: Relatively Secular and Pro-Christian', 26 July 2006, note 1). The interval between the two surveys contains the 9 November 2005 Amman hotel bombings. Note the citation limit: the 23 May 2006 report carries only the 2005 figure and expressly defers the post-Amman question to later research, so it cannot be cited for the fall.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "Personnel who can be vouched for. Operations wait on vetted people far more often than on materiel, and an organisation under penetration pressure will hold an approved operation rather than staff it with an unverified volunteer.",
+        "basis": "Shapiro (2013); CTC 'Harmony and Disharmony' (2006) on captured membership and personnel documentation; IRA 'Green Book' (CAIN) on vetting; Jones and Libicki, RAND MG-741-1 (2008), on policing and intelligence as the dominant cause of group death.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "A survivable command core. Courses of action that would expend the leadership organ are not authorised by that organ, even where losses among operational personnel are accepted at very high rates.",
+        "basis": "Jones and Libicki, RAND MG-741-1 (2008); Hafez, M. M., 'Manufacturing Human Bombs' (USIP Press, 2006) on operative expenditure as an organisationally produced and rationed resource. Explicitly contested: the Red Army Faction's autumn 1977 escalation spent the organisation's remaining freedom of action attempting to recover imprisoned cadre, i.e. treated the command core as an objective worth escalating for rather than as a constraint. The profile's own leadership-continuity redline is coded low-confidence for the same reason.",
+        "confidence": "low"
+      },
+      {
+        "statement": "A settled attribution posture before execution - claim, deny, or stay silent. The decision is prepared in advance even though it is published afterwards.",
+        "basis": "Inferred, and flagged as such. Abrahms and Conrad (2017) establish that claiming is strategic and varies with expected backlash; Milton (CTC, 2018) establishes that a media organ exists with written policy. Neither source observes a pre-execution attribution decision directly, so this precondition is a reasonable reading of the claiming pattern rather than a documented gate.",
+        "confidence": "low"
+      }
+    ],
+    "afterAction": {
+      "statement": "Learning is real, slow, tacit and asymmetric. Adaptation after operational or technical failure is well documented. Adaptation after constituency backlash is not: the archetype more often issues a justification than changes its target set, and where the target set does change, the change is ordered from above and resisted below. An adversary model that assumes this actor updates on the political consequences of its own violence will over-predict its correction.",
+      "basis": "Jackson, B. A. and others, 'Aptitude for Destruction', RAND MG-331 and MG-332 (2005): organisational learning is genuine but slow and constrained by the same secrecy that keeps the group alive. Dolnik (2007) on conservative innovation. Concrete negative case: after the 9 November 2005 Amman hotel bombings the affiliate claimed and publicly defended the operation rather than withdrawing it, while the Pew Global Attitudes 2005 and 2006 surveys record the share of respondents in Jordan endorsing the tactic falling by roughly half across the interval containing the bombings. Both surviving central-leadership correction letters - 9 July 2005 and 20 July 2012 - were sent from above and substantially ignored.",
+      "confidence": "medium"
+    }
+  },
+  "worldview": {
+    "declaredEnds": [
+      {
+        "statement": "Displace or expel a political authority it declares illegitimate, and install an order derived from its constitutive claim. The claim is territorial, jurisdictional or status-based depending on the organisation, and in every documented case it is stated by the organisation in a document of its own.",
+        "basis": "Read from self-issued texts across four movement families rather than inferred: IRA 'Green Book' (CAIN Web Service, Ulster University), which instructs volunteers that the Army Council is the lawful government of the Republic; 'World Islamic Front Statement Urging Jihad Against Jews and Crusaders', published in al-Quds al-Arabi, 23 February 1998 (English text, Federation of American Scientists document archive); Rote Armee Fraktion, 'Das Konzept Stadtguerilla' (1971), which states the aim as the destruction of the state apparatus; ETA's statement of 20 October 2011 announcing a definitive cessation while restating the political claim unchanged. Coded high as a description of DECLARED ends only - whether declared ends predict conduct is exactly what the profile's declaredVsObserved section says they do not.",
+        "confidence": "high"
+      },
+      {
+        "statement": "Raise the adversary's cost until it withdraws or concedes, on the belief that a democratic adversary's tolerance for cost is lower than the organisation's and that the organisation only has to succeed occasionally.",
+        "basis": "Stated by the actor: the Provisional IRA's claim statement of 12 October 1984 - 'Today we were unlucky, but remember we only have to be lucky once. You will have to be lucky always.' Theorised in Kydd, A. and Walter, B., 'The Strategies of Terrorism', International Security 31(1), 2006 (attrition and intimidation). Pape, R., 'The Strategic Logic of Suicide Terrorism', American Political Science Review 97(3), 2003, argues coercive withdrawal is the operative aim; flagged as contested, since Ashworth, Clinton, Meirowitz and Ramsay, APSR 102(2), 2008, argue Pape's inference rests on sampling on the dependent variable. The BELIEF is well evidenced; its accuracy is not.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "Mobilise a constituency and monopolise its representation against rival claimants, including rival armed organisations.",
+        "basis": "Kydd and Walter (2006) on outbidding and spoiling. Documented in the actor's own conduct by the al-Qaeda General Command statement of 2 February 2014 expelling a rival that claimed the same constituency. Important qualification carried from the profile: Polo, S. and Welsh, B., 'Violent Competition and Terrorist Restraint', International Organization 78(3), 2024 (290 organisations, 1970-2018; note the published corrigendum at IO 78(3):625) find that extreme competition produces restraint rather than escalation, so this declared end must not be read as a rule that rivalry mechanically increases violence.",
+        "confidence": "medium"
+      }
+    ],
+    "selfImage": {
+      "statement": "A vanguard acting on behalf of a constituency that has not elected it, claiming either the authority of a legitimate government the world refuses to recognise or the authority of historical necessity. It describes itself as an army or a state organ rather than as a movement, and it builds the organisational furniture - councils, ministries, ranks, courts, media offices - that the claim implies.",
+      "basis": "Self-issued and captured documents, not inference: IRA 'Green Book' (CAIN), which grounds the Army Council's authority in the 1918 Dail and instructs volunteers accordingly; Rote Armee Fraktion, 'Das Konzept Stadtguerilla' (1971), which frames the group as the armed vanguard of a movement that does not yet exist; US Senate Permanent Subcommittee on Investigations, Aum Shinrikyo case study (31 October 1995), which documents a shadow cabinet of ministries inside a religious organisation; Milton, CTC (2018), on an internal media bureaucracy with written policy and performance evaluation. Coded medium because the shadow-state form is well documented for large organisations and absent by construction in the leaderless mode.",
+      "confidence": "medium"
+    },
+    "threatModel": [
+      {
+        "statement": "Penetration by informers and by signals collection is the primary existential threat - ahead of military force, and ahead of the loss of any particular operative or facility.",
+        "basis": "Jones and Libicki, 'How Terrorist Groups End', RAND MG-741-1 (2008): about 40 per cent of groups end through policing and intelligence, about 7 per cent through military force, and about 43 per cent through entry into a political process. Shapiro (2013) on the security-versus-control tradeoff as the organising problem of the covert organisation.",
+        "confidence": "high"
+      },
+      {
+        "statement": "Loss of the constituency's tolerance - the population that supplies cover, money, recruits and silence. This is treated as a survival threat and not as a reputational cost, which is why restraint orders when they appear are argued in constituency terms.",
+        "basis": "ODNI-released letter of 9 July 2005; AQIM Timbuktu letter of 20 July 2012; the Pew Global Attitudes 2005 and 2006 surveys, cited in full at the first precondition above, recording the fall in the share of respondents in Jordan endorsing the tactic across the interval containing the November 2005 Amman bombings. Jo, H., 'Compliant Rebels' (Cambridge UP, 2015), on legitimacy-seeking as the mechanism behind restraint in armed groups that want recognition - a channel this archetype uses selectively and domestically.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "Rival organisations competing for the same constituency, and internal fracture or spoiling by factions that reject a negotiated path.",
+        "basis": "al-Qaeda General Command statement, 2 February 2014, disavowing a rival that had taken its name. Kydd and Walter (2006) on spoiling. Documented in the ethno-nationalist family by the continuation of armed action by dissident factions after the Provisional IRA's July 2005 stand-down. Direction contested by Polo and Welsh, IO 78(3), 2024.",
+        "confidence": "medium"
+      }
+    ],
+    "adversaryModel": {
+      "statement": "Expects the state to over-react, and treats over-reaction as the mechanism that converts a small clandestine organisation into a mass movement - so state escalation is priced as a benefit rather than as a deterrent. Expects the adversary's cost tolerance to be shorter than its own, and expects negotiation offers to be tactical. The important modelling consequence is that a defender's proportionate, visible, punitive response is the response this actor is trying to elicit.",
+      "basis": "Kydd and Walter, International Security 31(1), 2006, on provocation as a distinct strategy; Lake, D., 'Rational Extremism: Understanding Terrorism in the Twenty-First Century', Dialogue-IO 1(1), 2002. In the actor's own words, the Provisional IRA's 12 October 1984 statement frames the attack as a response to state conduct and invites reciprocity. FLAGGED: the belief is well evidenced in the organisations' own texts; the empirical proposition that provocation works is weakly supported - Jones and Libicki (2008) find few groups achieve their stated aims, and no source cited here measures leadership belief directly, which is also why the profile codes escalationControlBelief at low confidence.",
+      "confidence": "medium"
+    },
+    "declaredIdeology": {
+      "statement": "This archetype has no single declared ideology, and asserting one would be an invention. What it does have, consistently across movement families, is a self-issued constitutive document: a text the organisation itself publishes that names its claim, declares the existing authority illegitimate, and authorises armed action in the claim's name. That documentary form - not any inference about a belief system, a population, or a place - is what this profile treats as the actor's declared programme, and it is the artefact an analyst should demand before running this actor at all.",
+      "basis": "Four organisation-issued documents from four different movement families, each publicly retrievable: the IRA 'Green Book', Books I and II (full text, CAIN Web Service, Ulster University); 'World Islamic Front Statement Urging Jihad Against Jews and Crusaders', al-Quds al-Arabi, 23 February 1998 (English text in the Federation of American Scientists document archive); Rote Armee Fraktion, 'Das Konzept Stadtguerilla' (1971); al-Qaeda General Command statement of 2 February 2014 defining which organisations count as branches. Coded medium, and deliberately narrow: the claim is about the existence and function of such documents, which is checkable, and says nothing about their contents' merits. The schema's structural refusal is the reason this field is written as a form rather than as a creed - see the header of engine/src/actors/doctrine.ts.",
+      "confidence": "medium"
+    }
+  },
+  "history": [
+    {
+      "date": "1977-09-05",
+      "episode": "The German Autumn. With its founding cadre imprisoned, the Red Army Faction kidnapped the president of the West German employers' federation to force their release, killing his driver and escort; an allied hijacking of a Lufthansa aircraft followed on 13 October. When the aircraft was stormed at Mogadishu on 18 October and the imprisoned leadership was found dead the same night, the organisation killed the hostage.",
+      "choice": "escalated",
+      "bearsOn": [
+        "lossFrameRiskAcceptance",
+        "ownCostTolerance",
+        "escalationControlBelief"
+      ],
+      "lesson": "Escalated from a losing position, spending the organisation's remaining freedom of action on recovering its command core rather than on its declared political programme - and could not stop the ladder it had climbed. The state refused the exchange, the hostage was killed, and the sympathising milieu the organisation depended on largely withdrew. Evidence for a high lossFrameRiskAcceptance, and evidence AGAINST reading the leadership-continuity floor as a constraint that prevents escalation: here the command core was the objective that escalation was spent on.",
+      "basis": "Chronology of 5 September to 19 October 1977 as recorded in the standard accounts: Aust, S., 'Der Baader-Meinhof Komplex' (Hoffmann und Campe, 1985; English edition, The Bodley Head, 2008); Hanshew, K., 'Terror and Democracy in West Germany' (Cambridge UP, 2012) on the state's response and the milieu's reaction; Bundeszentrale fuer politische Bildung RAF dossier for dates. Sources differ on whether the ransom demand named ten or eleven prisoners; the discrepancy does not bear on the finding. Confidence medium because the organisation left no internal decision record of the kind the two jihadist letters below provide, so the reasoning is reconstructed from conduct and from its public communiques.",
+      "confidence": "medium"
+    },
+    {
+      "date": "1984-10-12",
+      "episode": "The Provisional IRA bombed the hotel housing the British cabinet during the governing party's annual conference in Brighton, killing five, and then issued a claim in its own name framing the attack as an answer to state conduct in Northern Ireland.",
+      "choice": "acted, and claimed",
+      "bearsOn": [
+        "attributionAversion",
+        "timeHorizon",
+        "reciprocityProportion"
+      ],
+      "lesson": "Acted against the adversary's political leadership and immediately attributed the act to itself - it wanted the act traced to it, and said so in the same breath as its terms for stopping. Two consequences for the numbers: an attributionAversion of 0.25 is a pooled cross-family average that badly describes the ethno-nationalist family, where claiming is routine; and the declared horizon in the statement ('you will have to be lucky always') is longer than a timeHorizon of 0.45 implies. The statement also frames a strike on a head of government as reciprocity for state conduct - reciprocity in the actor's own framing, disproportion in target level.",
+      "basis": "IRA statement of 12 October 1984, widely reproduced in contemporaneous reporting and in the UK National Archives' Brighton bomb commentary: 'Mrs Thatcher will now realise that Britain cannot occupy our country and torture our prisoners and shoot our people in their own streets and get away with it. Today we were unlucky, but remember we only have to be lucky once. You will have to be lucky always.' Read against Abrahms and Conrad, Security Studies 26(2), 2017, whose roughly one-in-seven claiming rate this case cuts against by family.",
+      "confidence": "high"
+    },
+    {
+      "date": "1995-03-20",
+      "episode": "Aum Shinrikyo released sarin from containers placed on five Tokyo subway trains timed to converge on the government district at rush hour, and then publicly denied responsibility, its leadership claiming the organisation had itself been gassed and that its chemical stocks were for legitimate manufacturing.",
+      "choice": "acted, then refused attribution",
+      "bearsOn": [
+        "counterpartHarmRestraint",
+        "attributionAversion",
+        "ownCostTolerance"
+      ],
+      "lesson": "Acted at the floor of harm restraint against an undifferentiated civilian target set, and then declined to claim. This is the cleanest available demonstration that mass-casualty intent and attribution-seeking are separable channels: a low counterpartHarmRestraint does not imply a high claiming propensity, which is exactly the reconciliation the profile's signalingPreference basis is forced into. The organisation's own ministerial structure shows the operation was approved at the top and delegated for execution rather than improvised, so this is a hierarchical-mode data point.",
+      "basis": "US Senate Committee on Governmental Affairs, Permanent Subcommittee on Investigations, staff statement 'Global Proliferation of Weapons of Mass Destruction: A Case Study on the Aum Shinrikyo', 31 October 1995: attack description; the ministerial structure and the sequence in which leadership approval preceded delegation for execution; the 24 March 1995 public denial and the assessment by chemical experts that the explanation offered was 'not believable'. Casualty figures vary across sources - the Senate report states twelve killed and about 5,500 injured; later summaries give thirteen or fourteen as further victims died. Family caveat: this is the only apocalyptic/new-religious-movement case in the dossier and the profile's parameters were not calibrated on it.",
+      "confidence": "high"
+    },
+    {
+      "date": "2000",
+      "episode": "Al-Qaeda's leadership cancelled the Southeast Asian half of an already-approved simultaneous-hijacking operation in spring 2000, having earlier cut down the operation planner's larger original proposal.",
+      "choice": "declined",
+      "bearsOn": ["escalationControlBelief", "decisionCentralization"],
+      "lesson": "Refused an approved operation on synchronisation grounds - a top-level veto exercised on feasibility, not on harm and not on legitimacy. Evidence that in the hierarchical mode authority over scope genuinely sits at the top and is used to shrink operations as well as to launch them, and evidence that leadership BELIEVES it controls the shape of what it launches. It is not evidence that the belief is accurate, which is the distinction the profile's escalationControlBelief basis turns on.",
+      "basis": "National Commission on Terrorist Attacks Upon the United States, 'The 9/11 Commission Report' (2004), ch. 5; Staff Statement No. 16, 'Outline of the 9/11 Plot' (16 June 2004): the Southeast Asia portion was cancelled in spring 2000 because it would be too difficult to coordinate with the US portion, and the planner's original, larger proposal had already been scaled back. Material qualification: the Commission's reconstruction of the planning sequence rests substantially on detainee reporting whose reliability the Commission itself qualifies in its notes, so 'high' here means well-documented in the public record, not independently corroborated.",
+      "confidence": "high"
+    },
+    {
+      "date": "2005-07-09",
+      "episode": "Al-Qaeda's central leadership sent written instructions to its Iraq affiliate to stop filmed beheadings of hostages and attacks on Shia mosques, arguing explicitly that supporters could not be brought to accept them however they were explained.",
+      "choice": "held - ordered restraint on a target class",
+      "bearsOn": [
+        "counterpartHarmRestraint",
+        "legitimacyWeight",
+        "escalationControlBelief"
+      ],
+      "lesson": "Ordered restraint in writing, on a target class, for constituency-legitimacy reasons rather than moral ones - and was substantially ignored: the affiliate continued and four months later bombed three hotels in Amman. Two findings. First, a restraint gate exists in this archetype and it is a legitimacy calculation. Second, the legitimacy channel that binds this actor is constituency acceptance, not the international-legal legitimacy that the 0.15 legitimacyWeight scalar measures - a simulation reading that scalar as global legitimacy indifference will miss the only restraint lever the record shows being pulled.",
+      "basis": "Letter from al-Zawahiri to al-Zarqawi, dated 9 July 2005, released in English translation by the Office of the Director of National Intelligence on 11 October 2005 (text mirrored at the Federation of American Scientists and GlobalSecurity document archives): 'this matter won't be acceptable to the Muslim populace however much you have tried to explain it, and aversion to this will continue.' Load-bearing caveat: authenticity was publicly disputed at the time - see Jamestown Foundation, 'Is al-Zawahiri's Letter to al-Zarqawi a Fake?', Terrorism Focus (2005) - and the affiliate denied the letter existed. Confidence is medium for that reason, not because the content is ambiguous.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2005-07-28",
+      "episode": "The Provisional IRA's Army Council ordered all units to dump arms and end the armed campaign after thirty-six years, following an internal consultation of units and volunteers, and authorised its representative to put the arsenal verifiably beyond use; an independent commission reported the decommissioning complete on 26 September 2005.",
+      "choice": "stood down, and disarmed",
+      "bearsOn": [
+        "timeHorizon",
+        "decisionCentralization",
+        "lossFrameRiskAcceptance"
+      ],
+      "lesson": "Held, and then surrendered the armed apparatus, under sustained attrition and infiltration rather than escalating - a direct counter-case to the loss-frame escalation reading that anchors lossFrameRiskAcceptance at 0.75, and consistent instead with the competition-produces-restraint finding. It is also the counter-case the profile's own 'armed capability is never surrendered' redline names, which is why that redline is scoped to a months-to-few-years horizon rather than asserted absolutely. The order was issued centrally and obeyed, which is what high decisionCentralization in the hierarchical mode is supposed to predict. Scope limit: the Army Council's writ, not the movement's - dissident factions continued armed action.",
+      "basis": "'Irish Republican Army (IRA) Statement on the Ending of the Armed Campaign', 28 July 2005, full text in the CAIN Web Service archive, Ulster University: 'All IRA units have been ordered to dump arms', with volunteers instructed to pursue the political programme by exclusively peaceful means and the decision taken after an internal consultation process. Independent International Commission on Decommissioning, statement read at a press conference in Belfast, 26 September 2005 (transcript, CAIN): the commission concluded with confidence that the arms decommissioned represented the totality of the arsenal.",
+      "confidence": "high"
+    },
+    {
+      "date": "2006-12-30",
+      "episode": "ETA detonated a van bomb in a car park at Madrid-Barajas airport during the ceasefire it had itself declared in March 2006, having telephoned warnings to three recipients about an hour beforehand. Two people asleep in the car park were killed, the negotiation track collapsed, and the organisation claimed the attack on 9 January 2007 and declared the ceasefire over on 5 June 2007.",
+      "choice": "escalated, with its own harm-limiting procedure failing",
+      "bearsOn": [
+        "counterpartHarmRestraint",
+        "escalationControlBelief",
+        "signalingPreference"
+      ],
+      "lesson": "Acted while formally in ceasefire, using a warning-call procedure designed to produce property damage and political signal without deaths. Two findings the flat 0.2 counterpartHarmRestraint cannot carry: this archetype does operate documented internal harm-limiting procedures, and those procedures fail, so restraint here is a real but unreliable mechanism rather than an absent trait. It also shows a ceasefire being treated as tactical and reversible, which is the half of the profile's armed-capability redline that holds even in the family that supplies the redline's main counter-case.",
+      "basis": "ETA declared a ceasefire in March 2006; the Terminal 4 car park bombing at Madrid-Barajas on 30 December 2006 killed two Ecuadorian nationals and injured dozens despite warning calls made roughly an hour before detonation; ETA claimed the attack on 9 January 2007 and announced the ceasefire over on 5 June 2007 (contemporaneous BBC News reporting, 30 December 2006 and 5 June 2007; Spanish court convictions of three members, 2010). Context and the negotiation track: Whitfield, T., 'The Basque Conflict and ETA: The Difficulties of an Ending', United States Institute of Peace Special Report 384 (2016). Confidence medium: the intent behind the warning calls is inferred from the procedure and from the organisation's subsequent statements, not from an internal document.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2012-07-20",
+      "episode": "AQIM's central command sent written guidance to the leadership of its Mali branch ordering it to slow the imposition of its programme, to stop destroying shrines and applying corporal punishment to the local population, and to avoid provoking foreign military intervention. The branch did not comply; France intervened in January 2013.",
+      "choice": "ordered restraint; control failed",
+      "bearsOn": [
+        "escalationControlBelief",
+        "decisionCentralization",
+        "proxyPreference"
+      ],
+      "lesson": "Held at the centre and acted at the edge. The leadership's own document shows it believed it could time and throttle an affiliate's conduct; the affiliate's behaviour shows it could not. This is the clearest open-source case for the profile's central reading that DECLARED escalation control exceeds DEMONSTRATED control - and for reading proxyPreference as reach rather than deniability, since the affiliate was never plausibly deniable, only distant and unbiddable.",
+      "basis": "Confidential letter from AQIM's amir to the leadership of its Mali branch, dated 20 July 2012, recovered by Associated Press journalists in a house in Timbuktu in January 2013 and published in translation; analysed in 'AQIM's Playbook in Mali', Combating Terrorism Center at West Point (2013), and revisited in 'Revisiting the Mali al-Qa'ida Playbook: How the Group is Advancing on its Goals in the Sahel', CTC (2019). See also Guidere, M., 'The Timbuktu Letters: New Insights about AQIM', Res Militaris 4(1), 2014 (open-access deposit hal-01081769), for provenance discussion. Provenance caveat driving the medium confidence: this is a leave-behind document recovered by journalists, not a chain-of-custody exhibit, and the corpus's completeness is unknown.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2019-03-15",
+      "episode": "An individual with no organisational chain of command attacked two mosques in Christchurch, New Zealand, killing 51, livestreaming the attack and publishing a document immediately beforehand. The national inquiry concluded he acted alone and examined his radicalisation through online material rather than through any organisation.",
+      "choice": "acted, with no institution to authorise it",
+      "bearsOn": [
+        "decisionCentralization",
+        "attributionAversion",
+        "signalingPreference"
+      ],
+      "lesson": "Demonstrates the archetype's second mode, in which none of the gates above exist: no council authorised the target class, no security function vetted the actor, no finance office released resources, and no media office decided the claim - the actor self-attributed in real time. Evidence that decisionCentralization is genuinely bimodal and that a mid value describes no real organisation; in this mode attribution aversion is effectively zero while signalling is maximal, the opposite corner from the 1995 case above. This is also the movement family the profile flags as informing no parameter at all, so the episode is offered as the gap rather than as a calibration.",
+      "basis": "Royal Commission of Inquiry into the terrorist attack on Christchurch masjidain on 15 March 2019, 'Ko to tatou kainga tenei', report presented 26 November 2020 and publicly released 8 December 2020 (Government of New Zealand), which found the individual acted alone and reviewed his use of online platforms; RAND, 'A Dangerous Web: Mapping Racially and Ethnically Motivated Violent Extremism', RBA1841-1 (2022), and GNET, 'Ideological Leaderless Resistance in the Digital Age' (2022), on movement structures with no authorising body. Contested detail, disclosed: later archival research by a University of Auckland team identified extensive prior imageboard posting by the attacker that the Commission's account under-weighted - 'Christchurch terrorist discussed attacks online a year before carrying them out, new research reveals', The Conversation, 20 February 2024, and 'Christchurch attacks 5 years on: terrorist's online history gives clues to preventing future atrocities', The Conversation, 13 March 2024; peer-reviewed version, 'The Role of Ideology in Motivating Lone Actor Terrorism: An Analysis of the Online Record of the Christchurch Terrorist' (University of Auckland research deposit, 2025) - so the inquiry's radicalisation findings are the best public record but not the last word. The perpetrator is deliberately not named and no method detail is recorded here.",
+      "confidence": "medium"
+    }
+  ]
+}

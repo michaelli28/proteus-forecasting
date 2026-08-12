@@ -1,0 +1,264 @@
+{
+  "id": "iran",
+  "procedure": {
+    "authority": {
+      "statement": "Go/no-go on the use of force sits with the office of the Supreme Leader, not with any council. Article 110 of the Constitution vests command of the armed forces, the declaration of war and peace, mobilisation, and the appointment and dismissal of the Armed Forces General Staff chief and the IRGC commander in that office; Article 176 makes Supreme National Security Council decisions operative only on the Leader's confirmation. The gate is a property of the office and not of its incumbent: after the office-holder was killed on 28 February 2026 an Interim Leadership Council assumed its functions under Article 111, the Assembly of Experts refilled it by 9 March 2026, and the 17 June 2026 Islamabad Memorandum still required a written endorsement issued by that office before Iran signed.",
+      "basis": "Constitution of the Islamic Republic of Iran (1979, amended 1989), Articles 110, 111 and 176 (primary text, Chapter 8 and Chapter 13). Institutional readings of the Article 176 confirmation requirement: USIP Iran Primer, 'Supreme National Security Council of Iran'; INSS, 'Changes in Iran's Supreme National Security Council: Systemic Overhaul or Cosmetic Adjustment?' (Tel Aviv, 2025). Continuity across the 2026 vacancy: the reconstituted office's written endorsement of the 17 June 2026 memorandum 'despite misgivings', and the composition of the Interim Leadership Council convened 1 March 2026 (President, Chief Justice, and a Guardian Council jurist), from Wikipedia, 'Islamabad Memorandum' and 'Assassination of Ali Khamenei' (encyclopaedic compilations, consulted 12 August 2026), and CNBC, 'Iran after Khamenei: What's next and what it means for the country?', 1 March 2026. The constitutional articles are high-confidence primary text; the 2026 continuity claim rests on fast-moving press and encyclopaedic compilation rather than an Iranian primary document, and the compilations are named here rather than left as 'contemporaneous reporting' so the reader can weigh them.",
+      "confidence": "high"
+    },
+    "steps": [
+      {
+        "order": 0,
+        "stage": "Option generation and military feasibility",
+        "office": "Armed Forces General Staff, with joint operational planning at Khatam al-Anbiya Central Headquarters",
+        "gate": "Kills options for which no executable military course exists at an acceptable exposure of Iranian national personnel and scarce platforms. This stage screens on force preservation before it screens on effect, which is the mechanism behind the profile's bimodal ownCostTolerance.",
+        "basis": "Khatam al-Anbiya Central Headquarters is the unified combatant command under the Armed Forces General Staff, established 1988 and made a standing independent command-and-control body in 2016 rather than a body stood up only in wartime (United Against Nuclear Iran institution profile, 'Armed Forces General Staff and Khatam al-Anbiya Central Headquarters'; corroborated by the Iranian Defence Council's own membership list, which seats the KCHQ commander alongside the AFGS chief). Force-preservation screening: Alfoneh and Eisenstadt, Washington Institute PolicyWatch 2585, 11 March 2016. UANI is an advocacy organisation, not a neutral assessor, and is used here only for uncontested organisational structure.",
+        "confidence": "medium"
+      },
+      {
+        "order": 1,
+        "stage": "Channel selection - partner action versus direct state action",
+        "office": "IRGC Quds Force regional corps and functional units for the partner channel; IRGC Aerospace Force and IRGC Navy for the direct state channel",
+        "gate": "Stops a partner-channel option when no partner organisation exists with sufficient capability and sufficient control. This gate has tightened sharply: the partner network was degraded in 2024-25 and senior Quds Force command was killed in June 2025, which is why the institution acted directly and in its own name three times in fifteen months.",
+        "basis": "Structure of the partner channel: Dvir Peri, 'Special Report - Revolutionary Guards, Quds Force', Alma Research and Education Center, 18 June 2026, describing a hierarchical-networked structure of regional corps (a Lebanon Corps responsible for Hezbollah's military build-up), functional units, and Corps 8000 as the force-development centre for Iran and its partners. Control failure and degradation: Simsek (H. F. Simsek), 'Iran's proxy war paradox: strategic gains, control issues, and operational constraints', Small Wars and Insurgencies 36:6 (2025), pp. 997-1024, doi:10.1080/09592318.2025.2512807; Reisinezhad, 'The rise and decline of Iran's Forward Defense Strategy', British Journal of Middle Eastern Studies (2026), doi:10.1080/13530194.2026.2627252. Alma is an Israeli research centre reporting on an adversary and should be read as an interested source; it is used for organisational architecture only, and no operational detail from it is carried here.",
+        "confidence": "medium"
+      },
+      {
+        "order": 2,
+        "stage": "Cover and intermediary structuring, covert channel only",
+        "office": "Front commercial entities and non-state intermediaries contracted outside the state chain",
+        "gate": "Passes an option only if the act can be executed without a provable state hand. The step buys deniability at a measurable price in control: the FBI assesses that the ransomware activity of a group it associates with the Government of Iran is 'likely not sanctioned' by that government, and that the group conceals its Iranian origin from its own affiliate contacts.",
+        "basis": "FBI, CISA and DoD Cyber Crime Center, Joint Cybersecurity Advisory AA24-241A, 'Iran-based Cyber Actors Enabling Ransomware Attacks on US Organizations', 28 August 2024 - which names Danesh Novin Sahand (registration 14007585836) as a likely cover IT entity, assesses the group is 'associated with the Government of Iran' for espionage while its ransomware activity is 'likely not sanctioned by the GOI', and states the actors 'do not disclose their Iran-based location to their ransomware affiliate contacts'. Human-channel analogue: US Department of Justice, Office of Public Affairs, 'Two Men Charged in Alleged Plot to Assassinate Saudi Arabian Ambassador to the United States', 11 October 2011, charging a Quds Force officer and a dual national who solicited a person he believed to be a Mexican drug-cartel associate. No tradecraft is recorded here and none should be inferred; the modelled fact is the existence of the vetting step, not how it is performed.",
+        "confidence": "medium"
+      },
+      {
+        "order": 3,
+        "stage": "Staffed interagency consensus",
+        "office": "Supreme National Security Council under Article 176, chaired by the President, seating the Armed Forces General Staff chief, the IRGC and Army commanders, the ministers of intelligence, foreign affairs and interior, the Speaker and the Chief Justice, and two personal representatives of the Supreme Leader; since 3 August 2025 military questions are pre-staffed in its Defence Council sub-council",
+        "gate": "Can stop an option for want of consensus but cannot authorise one. This is the stage that makes decisionCentralization 0.70 rather than 0.90: the Council supplies staffed agreement beneath a gate it does not itself hold.",
+        "basis": "Constitution, Article 176 (composition and the requirement that decisions become effective on the Leader's confirmation). Defence Council: announced by the SNSC on 3 August 2025 as an Article 176 sub-council chaired by the President and seating the heads of the three branches, the two representatives of the Leader, the intelligence minister, the AFGS chief, and the IRGC, Army and Khatam al-Anbiya commanders (Iran International, 'What is Iran's new defence council - and why does it matter?', 5 August 2025; Tehran Times, '7 things to know about Iran's new Defense Council', August 2025 - an Iranian state-aligned outlet, used here only for the composition it publishes about itself, which matches the non-Iranian accounts). Consensus-building beneath the gate: Sadjadpour, 'Reading Khamenei', Carnegie Endowment, 2008.",
+        "confidence": "high"
+      },
+      {
+        "order": 4,
+        "stage": "Confirmation",
+        "office": "The office of the Supreme Leader",
+        "gate": "The operative go/no-go. Nothing below executes without it and nothing below can override it. The gate concentrated further in August 2026, when the Leader's office announced the SNSC secretary directly - a post the President had appointed in May 2023 - alongside the IRGC commander-in-chief and the armed forces chief of staff.",
+        "basis": "Constitution, Articles 110 and 176. Prior appointment practice: USIP Iran Primer, 25 May 2023, on the President's appointment of the SNSC secretary and the Leader's separate designation of him as a personal representative. August 2026 change: Al Jazeera, 'Iran hierarchy consolidation as IRGC veteran tapped for key security role', 10 August 2026, reporting that the Leader's office announced the SNSC secretaryship and six further senior military appointments, with Sina Azodi (George Washington University) reading the move as intended to 'reinforce the leadership's control'. The 2026 appointment reporting is days old at the time of writing and has not been corroborated by an Iranian primary instrument; treat the direction as better supported than the permanence.",
+        "confidence": "high"
+      },
+      {
+        "order": 5,
+        "stage": "Declaratory packaging",
+        "office": "Permanent Mission of the Islamic Republic of Iran to the United Nations",
+        "gate": "Stops nothing. The Article 51 letter asserting 'proportionate defensive actions' against 'only military targets' is filed after the decision, not before it - which is the observed basis for legitimacyWeight 0.35 and for the profile's instruction that declared restraint must not be encoded as a constraint.",
+        "basis": "Permanent Mission of Iran to the UN, Article 51 letters to the Security Council, 13 April 2024 and 1 October 2024 (searchable by date in the UN Digital Library; a specific record number carried in an earlier draft could not be verified in this review and has been removed rather than repeated). The same instrument was reused in 2026: Iran's Permanent Representative invoked Article 51 for the strikes on US bases following the 28 February 2026 attacks and told the Council Iran would continue to exercise that right (Press TV, 'At UN, Iran defends retaliation, urges Security Council to end US aggression', 24 July 2026 - an Iranian state broadcaster, cited here as the actor's own declaratory position and for nothing else). The claim that this stage constrains nothing is an inference from the gap between the letters and the observed conduct documented under counterpartHarmRestraint, not a direct finding.",
+        "confidence": "medium"
+      },
+      {
+        "order": 6,
+        "stage": "Warning and notification, overt channel only",
+        "office": "Foreign ministry and IRGC operational command, acting through the host state of the target",
+        "gate": "Determines whether the exchange is meant to close or continue. When the object is closure, notice is given hours ahead: Qatar and the United States were warned before the 23 June 2025 al-Udeid strike, sheltering orders followed, and no personnel were hurt. When the object is not closure the step is omitted - no comparable warning preceded the sustained 2026 salvos into Gulf states.",
+        "basis": "Advance warning at al-Udeid: contemporaneous US presidential confirmation of prior notice (Fox News, 23 June 2025) and CNN, 'How Qatar defused Iran's attack on the largest US-run base in the region', 28 June 2025; read as deliberate escalation management by Eisenstadt, 'Iran's Retaliation: Choreography, Escalation Management, and the Mirage of All-Out War', Washington Institute, 25 June 2025. Absence of the step in 2026 is an argument from silence in the available reporting and is the weaker half of this claim; accounts of the UAE strikes compiled in Wikipedia, '2026 Iranian strikes on the United Arab Emirates' (consulted 12 August 2026), describe alerts issued to residents by local authorities, which is not evidence of Iranian notification.",
+        "confidence": "medium"
+      }
+    ],
+    "tempo": {
+      "statement": "There is no characteristic response interval. Measured from triggering event to overt retaliation the observed range spans same-day to roughly two months: same-day on 28 February 2026, one day after the strikes on nuclear sites for al-Udeid on 23 June 2025, twelve to thirteen days after the 1 April 2024 Damascus consular strike, and about sixty-two days after the 31 July 2024 Tehran killing before the 1 October 2024 salvo. What compresses the cycle is an attack on Iranian soil or on the leadership; what stalls it is an unfavourable correlation of forces. The cycle is also asymmetric across gates - after 28 February 2026 the military gates compressed to hours while the legislative gate froze, with parliament not meeting in person and the triple-urgency NPT withdrawal bill left unvoted.",
+      "basis": "Interval arithmetic over dated events already sourced in this profile (13 April 2024; 1 October 2024; 23 June 2025) plus the 28 February 2026 same-day retaliation. Legislative freeze: Libby Flatoff, 'Iran Threatens to Withdraw from the NPT', Arms Control Today (Arms Control Association), May 2026 - 'since Israel and the United States began strikes against Iran Feb. 28, the parliament has not met in person and there is no clarity on when sessions may resume'. The compressor/staller mechanism is an inference from four intervals; four observations do not establish a distribution, and an engine should treat tempo as a wide range rather than a parameter.",
+      "confidence": "medium"
+    },
+    "preconditions": [
+      {
+        "statement": "An executable option that does not require committing Iranian national personnel in numbers the leadership is unwilling to lose. Where a partner or a stand-off system can carry the act, it does; where neither can, the option is more likely to be deferred than to be run with Iranian ground forces.",
+        "basis": "Alfoneh and Eisenstadt, Washington Institute PolicyWatch 2585, 11 March 2016, finding Iranian nationals were 342 of 1,530 Shia-coalition combat deaths in Syria (22 per cent) over January 2012 - March 2016 only. The mechanism recorded there is a leadership allocation choice made for domestic-political reasons, at a cost to military effectiveness. It is not a claim about how a population values life and must not be restated as one. The window predates the 2024-26 period and the underlying share is roughly a quarter of coalition dead, which is substantial rather than negligible.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "Confirmation issued by the office of the Supreme Leader before execution. No lower body can substitute for it, and the requirement survived a vacancy in that office in March 2026.",
+        "basis": "Constitution, Articles 110 and 176. Survival across the vacancy is inferred from the Interim Leadership Council convened under Article 111 on 1 March 2026 and from the written endorsement issued by the office before Iran signed the 17 June 2026 Islamabad Memorandum. No Iranian primary instrument documenting decision-making during the 1-9 March 2026 interregnum is available in the open literature; that period is the least documented in this dossier.",
+        "confidence": "high"
+      },
+      {
+        "statement": "A framing under which the act can be filed as Article 51 self-defence. This is a precondition on packaging and not on conduct: the framing has been produced for strikes that killed and injured civilians and for strikes assessed as not aiming to miss.",
+        "basis": "Iran's Article 51 letters of 13 April 2024 and 1 October 2024 and the equivalent 2026 filings, set against Ian Williams, 'Uncomfortable Lessons: Reassessing Iran's Missile Attack', CSIS (on al-Asad, January 2020, with at least 64 US personnel treated for traumatic brain injury), and against the 2026 Gulf strike record compiled in Wikipedia, '2026 Iranian strikes on the United Arab Emirates' (consulted 12 August 2026). Encoding this as a behavioural constraint would be the single most consequential error available in this profile; it is recorded as a required output of the process, not as a filter on it.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "For the covert channel only, an intermediary or commercial cover that breaks the evidentiary chain back to a state office. The institution has repeatedly accepted a lower-quality executor in exchange for deniability, and has repeatedly paid for it in control.",
+        "basis": "FBI/CISA/DC3 Joint Advisory AA24-241A, 28 August 2024 (cover entity named; ransomware activity assessed as likely unsanctioned by the government the actors are associated with). US Department of Justice press release, 11 October 2011, on the solicitation of a person believed to be a Mexican cartel associate for a Quds Force plot; Arbabsiar pleaded guilty in October 2012 and was sentenced to 25 years in May 2013. Iran denied the plot, and the height of the approval chain inside the Quds Force rests on US charging documents and a defendant's post-arrest statements rather than on any independent record.",
+        "confidence": "medium"
+      }
+    ],
+    "afterAction": {
+      "statement": "The institution's demonstrated response to military failure is organisational consolidation, not revision of ends. After the June 2025 twelve-day war it created a Defence Council under Article 176 (3 August 2025) to centralise wartime military decisions. After the February-July 2026 war and the succession, the Leader's office in August 2026 announced the SNSC secretary, the IRGC commander-in-chief, the armed forces chief of staff and six further senior appointments, and ordered completion of the integration of the Armed Forces General Staff with Khatam al-Anbiya Central Headquarters. Two consecutive wars produced tighter authority and merged commands; no open source records a corresponding change to declared ends.",
+      "basis": "Defence Council formation: SNSC announcement of 3 August 2025 as reported by Iran International (5 August 2025) and Tehran Times (August 2025); read as post-war recalibration by INSS, 'Changes in Iran's Supreme National Security Council' (2025). August 2026 appointments and the AFGS/KCHQ integration order: Al Jazeera, 10 and 11 August 2026; Iran International, 10 August 2026; RFE/RL via GlobalSecurity, 'Iran's Security Reshuffle Exposes Rift Dating Back To Cease-Fire Deal', 10 August 2026, which also reports the reshuffle exposing an internal rift over the ceasefire - evidence that the consolidation is contested inside the system rather than uniform. This is a think-tank-and-press evidence base days old at the time of writing, with no peer-reviewed treatment; the pattern is better supported than any claim about its durability.",
+      "confidence": "medium"
+    }
+  },
+  "worldview": {
+    "declaredEnds": [
+      {
+        "statement": "Survival of the governing structure first, and preservation of territorial integrity. Every other declared end has been subordinated to this one when the two collided.",
+        "basis": "US Defense Intelligence Agency, 'Iran Military Power: Ensuring Regime Survival and Securing Regional Dominance' (2019), which names regime survival the first of the two strategic goals the armed forces exist to serve. The subordination claim is evidenced by the 1988 acceptance of UNSCR 598 (Murray and Woods, 'The Iran-Iraq War: A Military and Strategic History', Cambridge University Press, 2014). DIA is an adversary intelligence service assessing Iran; it is corroborated here by the actor's own revealed choice rather than taken alone.",
+        "confidence": "high"
+      },
+      {
+        "statement": "Rejection of domination in both directions - neither exercising it nor submitting to it - alongside independence, territorial integrity, non-alignment with hegemonic powers, and defence of the rights of all Muslims. These are the state's own constitutionally declared foreign-policy ends, and they are declaratory: the dossier records what the document says, not that conduct conforms to it.",
+        "basis": "Constitution of the Islamic Republic of Iran, Article 152 (primary text). High confidence attaches to the text alone. The gap between this text and observed conduct - strikes on the civilian infrastructure of non-belligerent Gulf states in 2026, against Article 152's clause on 'mutually peaceful relations with all non-belligerent states' - is itself the finding, and is recorded under declaredVsObserved in the parent profile.",
+        "confidence": "high"
+      },
+      {
+        "statement": "Retention of uranium enrichment on Iranian soil as a sovereign right, distinguished sharply from weaponisation, which the state has repeatedly and formally disclaimed. The distinction is the actor's negotiating architecture: caps, monitoring, stockpile disposition and duration have all been conceded at various times; the principle has not.",
+        "basis": "Arms Control Association record of the JCPOA's nuclear limits (enrichment preserved on Iranian soil while capped). Reaffirmed under maximum duress in 2026: the Islamabad Memorandum of 17 June 2026 contains a non-weaponisation pledge and agreement to downblend highly enriched uranium to reactor grade under IAEA supervision, while deferring the underlying programme questions - and Iran's foreign ministry restated on 28 March 2026 that it 'has never sought, and does not seek, nuclear weapons' (Flatoff, Arms Control Today, May 2026). The disclaimer is a declaratory position from the modelled actor and is not evidence of intent.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "Removal of the United States military presence from the region as a coercive objective rather than a rhetorical one. The 2026 target set - US bases and facilities in Qatar, Bahrain, Kuwait, Jordan and the UAE, and the US Fifth Fleet - is the strongest evidence that this end is operationalised rather than declaimed.",
+        "basis": "Target-set evidence from the 2026 campaign: Al Jazeera, 11 June 2026, reporting IRGC drone attack on the US Fifth Fleet in Bahrain and Aerospace Force missiles at an airbase in Jordan, with Jordanian and Kuwaiti interception claims; UAE strike record including Al Dhafra Air Base and the US Consulate in Dubai, from Wikipedia, '2026 Iranian strikes on the United Arab Emirates' (encyclopaedic compilation of host-state and claimant statements, consulted 12 August 2026) and Time, 'Iran's Retaliatory Strikes Challenge Image of Gulf Stability' (2026). This is an inference from targeting to intent, not a declared end taken from an Iranian document, and no Iranian strategy paper stating it in these terms is available in the open literature. Rated low accordingly.",
+        "confidence": "low"
+      }
+    ],
+    "selfImage": {
+      "statement": "Presents itself as the leading state of a 'resistance' alignment practising forward defence - holding the defensive perimeter outside its own borders through partner organisations so that a war is fought elsewhere. The self-image outlived the capability: the perimeter was substantially dismantled between 2024 and 2026, and the institution has since fought from its own territory in its own name.",
+      "basis": "Forward defence as a declared concept: Geneva Centre for Security Policy, 'The Concept of Forward Defence'; DIA, 'Iran Military Power' (2019), on partners and proxies as central to its regional influence and deterrent strategy. Decline: Reisinezhad, 'The rise and decline of Iran's Forward Defense Strategy', British Journal of Middle Eastern Studies (2026), doi:10.1080/13530194.2026.2627252; Simsek, 'Iran's proxy war paradox', Small Wars and Insurgencies 36:6 (2025), pp. 997-1024. The judgement that self-image outran capability is this dossier's reading of those two sources, not a claim either makes in those words.",
+      "confidence": "medium"
+    },
+    "threatModel": [
+      {
+        "statement": "Decapitation of the leadership is now treated as a realised threat class rather than a hypothetical one. The office of the Supreme Leader was struck and its holder killed on 28 February 2026; the institution's own continuity machinery - Article 111 interim council, then an Assembly of Experts vote conducted online and finally by hand-carried ballot while its Qom premises were bombed - was exercised under fire.",
+        "basis": "Reported sequence: death confirmed by the SNSC 1 March 2026; Interim Leadership Council of the President, the Chief Justice and a Guardian Council jurist; first electoral session held online 3 March after repeated in-person attempts failed on security grounds; final session 8 March with ballots carried by courier; announcement 9 March 2026. Sourcing is contemporaneous press and encyclopaedic compilation: Wikipedia, '2026 Iranian Supreme Leader election' and 'Assassination of Ali Khamenei' (consulted 12 August 2026), which compile Al Jazeera reporting of 8-9 March 2026 and New York Times and Iran International vote counts that disagree - 59 votes of 88 members versus roughly 50 of about 59 attendees. The event is well attested; the deliberative detail, the reported IRGC pressure on Assembly members, and the reported eight boycotts are contested and single-sourced.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "Internal challenge is weighted as a survival threat co-equal with external attack, and the two are treated as one problem. Lethal suppression of protest in January 2026 immediately preceded the February strikes, and the post-June-2025 period is assessed as one of intensified repression and institutional restructuring rather than external adjustment.",
+        "basis": "Golkar, 'Humiliation and Transformation: The Islamic Republic After the 12-Day War', Foreign Policy Research Institute, 30 October 2025, on increased repression and loss of strategic coherence. January 2026 protest suppression: Human Rights Watch, 'Iran: Growing Evidence of Countrywide Massacres', 16 January 2026, documenting large-scale lethal force by security forces after protests escalated on 8 January 2026; Reuters, 'About 2,000 killed in Iran protests, official says', 13 January 2026; Associated Press, 'Iran offers first government-issued death toll from protests', 21 January 2026, reporting an Interior Ministry and Foundation of Martyrs figure of 3,117 dead; New York Times, 'How Iran Crushed a Citizen Uprising With Lethal Force', 25 January 2026. The death toll is heavily contested - a state figure, a higher HRANA activist count, and an HRW assessment that communications shutdowns concealed the true scale all coexist - so the fact of a lethal internal crackdown immediately before the February strikes is well attested while no single casualty number is.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "Economic strangulation is treated as a chronic survival-adjacent pressure to be absorbed rather than a trigger. Pre-2015 UN sanctions were reimposed through the JCPOA snapback mechanism on 27 September 2025 after the E3 triggered it in August 2025; the institution did not treat reimposition as a casus belli and did not leave the NPT in response.",
+        "basis": "Congressional Research Service, 'Iran's Nuclear Program' (IF11583), on the August 2025 snapback trigger and the 27 September 2025 reimposition; International Crisis Group, 'The Failure of U.S. Maximum Pressure against Iran', on a decade of absorbed sanctions without policy capitulation. The absorption reading is well supported for the 2018-2025 window; whether it holds after the 2026 war and the destruction of energy-export infrastructure is untested.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "Loss of the partner network is understood as loss of the defensive perimeter itself, which converts a partner-degradation campaign from an attrition problem into a threat to the defence concept. The institution's observed answer was to substitute direct national action rather than to accept a reduced perimeter.",
+        "basis": "Reisinezhad (British Journal of Middle Eastern Studies, 2026, doi:10.1080/13530194.2026.2627252); Simsek (Small Wars and Insurgencies 36:6, 2025, pp. 997-1024), which also documents principal-agent control failure in 2006 and on 7 October 2023. The substitution claim is read off the behavioural record - three overt, self-claimed direct actions in the fifteen months from April 2024, then a sustained direct campaign in 2026 - rather than from a statement of intent.",
+        "confidence": "medium"
+      }
+    ],
+    "adversaryModel": {
+      "statement": "The institution has acted as though its principal adversaries are casualty-sensitive and can be induced to close an exchange by a response that is visible, countable and survivable - the al-Udeid pattern of a count-matched salvo with hours of advance warning and no deaths. The 2026 record is the strongest available disconfirmation of that model: the same institution answered a decapitating strike with weeks of salvos and a closure of the Strait of Hormuz, and the exchange did not close - it ran to a ceasefire on 8 April, a memorandum on 17 June, and a collapse by 8 July 2026. Whether the belief has been revised or merely overridden is not visible in open sources.",
+      "basis": "The pre-2026 reading is Eisenstadt, 'Iran's Retaliation: Choreography, Escalation Management, and the Mirage of All-Out War', Washington Institute, 25 June 2025 - one author's reading of one event, and the source the parent profile flags for over-concentration. The disconfirming record is the 2026 campaign as compiled in Wikipedia, '2026 Iranian strikes on the United Arab Emirates' and '2026 Iran war ceasefire' (consulted 12 August 2026), with the collapse by 8 July 2026 recorded there. The contrary contemporary judgement is Elijah Magnier, quoted in Al Jazeera, 11 June 2026: 'The most dangerous thing is that each side believes they can control the escalation.' This is a BELIEF claim inferred entirely from BEHAVIOUR, with no Iranian document behind it, and it is the weakest item in this dossier. An engine that continues to assume this actor plays to close exchanges will under-predict escalation spirals, which is the same warning the parent profile attaches to escalationControlBelief 0.72.",
+      "confidence": "low"
+    },
+    "declaredIdeology": {
+      "statement": "The organisation's own founding instrument states its programme. Article 152 of the Constitution founds foreign policy on 'the rejection of all forms of domination, both the exertion of it and submission to it', preservation of independence and territorial integrity, defence of the rights of all Muslims, non-alignment with hegemonic superpowers, and peaceful relations with non-belligerent states. Article 154 declares support for 'the righteous struggle of the oppressed against the oppressors in any part of the world' while simultaneously professing complete abstention from interference in other states' internal affairs. Article 150 constitutes the IRGC to guard the Revolution and its achievements. The internal contradiction between Article 154's support clause and its non-interference clause is in the text itself, and the institution has resolved it in practice toward the support clause.",
+      "basis": "Constitution of the Islamic Republic of Iran (1979, amended 1989), Articles 150, 152 and 154 - primary text issued by the state itself, verifiable in the official English text. This entry records what the document says and is checkable against it. It makes no claim about a religion, an ethnicity, or the character of any population, and no such claim can be derived from it: the modelled object is a constitutional programme an organisation published, and the observed divergence from that programme is recorded separately and treated as the finding.",
+      "confidence": "high"
+    }
+  },
+  "history": [
+    {
+      "date": "1988-07-18",
+      "episode": "Acceptance of UN Security Council Resolution 598, ending the Iran-Iraq war after nearly eight years, against a publicly staked commitment to fight until Iraq's defeat.",
+      "choice": "Held - abandoned the most publicly staked commitment it had rather than continue absorbing a cost that had begun to threaten the governing structure itself.",
+      "bearsOn": ["ownCostTolerance", "lossFrameRiskAcceptance", "timeHorizon"],
+      "lesson": "The institution's cost tolerance is high but bounded, and the bound is drawn at risk to the governing structure rather than at any level of casualties or economic pain. It will reverse a declared commitment - publicly, and at severe legitimacy cost - rather than run that risk. This is the only one of the profile's four redlines with a demonstrated price test.",
+      "basis": "Murray and Woods, 'The Iran-Iraq War: A Military and Strategic History', Cambridge University Press, 2014, as the neutral academic account; Meir Amit Intelligence and Terrorism Information Center, 'Why did Ayatollah Khomeini agree to drink from the poisoned chalice?', as the secondary account (an Israeli intelligence-affiliated centre; the parent profile flags the risk of sole-sourcing this decision to it).",
+      "confidence": "high"
+    },
+    {
+      "date": "2011-10-11",
+      "episode": "US Department of Justice charges a Quds Force officer and a US-Iranian dual national over a plot to kill the Saudi ambassador in Washington, in which the dual national solicited a person he believed to be an associate of a Mexican drug cartel.",
+      "choice": "Acted - selected a covert channel routed through a criminal intermediary outside the state chain, in a third country, against a diplomatic target.",
+      "bearsOn": [
+        "attributionAversion",
+        "counterpartHarmRestraint",
+        "proxyPreference"
+      ],
+      "lesson": "On the covert channel the institution buys deniability at the cost of executor quality and control, and the harm ceiling it observes on the overt channel does not transfer: the plot as charged contemplated a bombing in a US capital restaurant. This is the episode that keeps attributionAversion high on the covert channel while the overt channel runs near zero.",
+      "basis": "US Department of Justice, Office of Public Affairs, 'Two Men Charged in Alleged Plot to Assassinate Saudi Arabian Ambassador to the United States', 11 October 2011; guilty plea October 2012; 25-year sentence, Southern District of New York, May 2013. Iran denied the plot. The judicial record is strong on the conduct charged; the height of the approval chain inside the Quds Force rests on US charging documents and a defendant's post-arrest statements. Pattern corroboration: Levitt et al., 'Trends in Iranian External Assassination, Surveillance, and Abduction Plots', CTC Sentinel, covering 98 plots 1979-2021.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2015-07-14",
+      "episode": "Conclusion of the Joint Comprehensive Plan of Action: accepted enrichment caps, stockpile ceilings, centrifuge limits and intrusive monitoring for defined durations, in exchange for sanctions relief.",
+      "choice": "Traded scope, held principle - conceded almost every measurable attribute of the nuclear programme while preserving enrichment on Iranian soil as a right.",
+      "bearsOn": ["timeHorizon", "legitimacyWeight", "ownCostTolerance"],
+      "lesson": "The institution negotiates on quantities and refuses on categories. Raising the price buys caps, monitoring and duration; it has never bought the principle. Any model that treats its redlines as steep cost curves rather than as removed options will predict a concession that has never occurred.",
+      "basis": "Arms Control Association record of the JCPOA's nuclear limits, which preserved enrichment on Iranian territory while capping it. Absorption of the alternative price is documented by International Crisis Group, 'The Failure of U.S. Maximum Pressure against Iran'.",
+      "confidence": "high"
+    },
+    {
+      "date": "2019-05-08",
+      "episode": "Announcement of a staged ladder of JCPOA commitment reductions in sixty-day increments following the US withdrawal, each step pre-announced, reversible, and paced to a published clock.",
+      "choice": "Escalated in calibrated, self-announced increments rather than in one move, holding each rung open for reversal.",
+      "bearsOn": [
+        "signalingPreference",
+        "timeHorizon",
+        "reciprocityProportion"
+      ],
+      "lesson": "When the institution wants leverage rather than effect, visibility is the product: the act is announced, dated and made explicitly reversible so the adversary is told the price of continuing. This is the clearest evidence for a high signalingPreference on the overt channel, and it is a different mechanism from the count-matched military salvo.",
+      "basis": "Arms Control Association record of the sequence of Iranian JCPOA-reduction steps from May 2019; Tabatabai, 'No Conquest, No Defeat: Iran's National Security Strategy' (Hurst/Oxford University Press, 2020), for the continuity-and-pragmatism reading of staged pressure. The sixty-day laddering is uncontested; the inference that reversibility was designed as a signal rather than as a hedge is this dossier's reading.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2024-10-26",
+      "episode": "Israel struck Iranian military sites - including air-defence and missile-production facilities - in response to Iran's 1 October ballistic-missile salvo. Iran did not answer militarily.",
+      "choice": "Declined - absorbed a direct strike on its own territory without retaliation, having retaliated three weeks earlier for a lesser provocation.",
+      "bearsOn": [
+        "lossFrameRiskAcceptance",
+        "reciprocityProportion",
+        "escalationControlBelief"
+      ],
+      "lesson": "Retaliation is discretionary and priced, not compelled. Facing an unfavourable correlation of forces the institution held, at visible cost to the deterrent reputation it had just spent a salvo building. This is the restraint case that keeps reciprocityProportion at 0.45 with a range spanning zero, and it is why no compels_response redline appears in this profile.",
+      "basis": "Israel Defense Forces public statement of 26 October 2024 announcing strikes on Iranian military targets, and same-day wire reporting (Reuters, Associated Press, 26 October 2024); the absence of an Iranian military answer is an absence in that same reporting. An earlier draft wrongly recorded October 2024 retaliation as forgone - Iran did fire roughly 180 ballistic missiles on 1 October 2024 and defended that strike at the Security Council in the Article 51 letter cited elsewhere in this dossier. It is the 26 October strikes it declined to answer. The non-response is well attested; Iranian deliberation behind it is not documented in any open source.",
+      "confidence": "high"
+    },
+    {
+      "date": "2025-06-23",
+      "episode": "Strike on al-Udeid Air Base in Qatar: roughly fourteen short- and medium-range ballistic missiles, hours of advance warning to Qatar and the United States, shelter-in-place orders issued, no casualties, and the exchange closed.",
+      "choice": "Acted to close - selected the most visible possible act with the harm deliberately engineered out of it.",
+      "bearsOn": [
+        "signalingPreference",
+        "escalationControlBelief",
+        "counterpartHarmRestraint"
+      ],
+      "lesson": "On the overt state channel the institution will spend a strike purely as a signal, and will warn the target to guarantee the signal is not mistaken for an attempt at effect. It behaves as though it can escalate and then stop where it chooses - a belief the following year's record puts in serious doubt.",
+      "basis": "Contemporaneous reporting of the strike and of the advance warning, including US presidential confirmation of prior notice (Fox News, 23 June 2025) and CNN, 'How Qatar defused Iran's attack on the largest US-run base in the region', 28 June 2025. The count-match reading - fourteen missiles answering fourteen bombs dropped two days earlier - is Eisenstadt's (Washington Institute, 25 June 2025) and rests on one author's interpretation of one event; the missile count and the warning are independently attested, the deliberate matching is not.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2026-02-28",
+      "episode": "Answering coordinated US-Israeli strikes that killed the Supreme Leader and senior commanders, Iran opened a sustained multi-week campaign against US bases and against civilian, port and energy infrastructure in Gulf states, and moved to close the Strait of Hormuz. Against the UAE alone, UAE air defences reported engaging 537 ballistic missiles, 2,256 drones and 26 cruise missiles by 9 April, with strikes or attempted strikes on Dubai International Airport, Jebel Ali Port, the Ruwais refinery complex, the US Consulate in Dubai, Al Dhafra Air Base, and residential and hotel sites; fifteen people were killed and 246 of 31 nationalities injured.",
+      "choice": "Escalated and absorbed - abandoned the count-matched closing salvo for an open-ended campaign against non-belligerent third states, sustained under heavy attrition.",
+      "bearsOn": [
+        "counterpartHarmRestraint",
+        "escalationControlBelief",
+        "reciprocityProportion"
+      ],
+      "lesson": "Under a decapitating loss frame the choreography does not hold. The institution selected repeated, unbounded, third-state civilian-infrastructure targeting - conduct that is squarely inconsistent with its own Article 152 clause on peaceful relations with non-belligerent states and with the Article 51 letters it continued to file. This is the single strongest piece of evidence that counterpartHarmRestraint should be set from observed conduct rather than declared policy, and the strongest disconfirmation available of escalationControlBelief 0.72.",
+      "basis": "Wikipedia, '2026 Iranian strikes on the United Arab Emirates' (encyclopaedic compilation of UAE Ministry of Defence daily interception statements and press reporting, consulted 12 August 2026), for the cumulative interception counts as of 1, 4 and 9 April 2026, the target list and the casualty and nationality breakdown; corroborating press on the target set, Time, 'Iran's Retaliatory Strikes Challenge Image of Gulf Stability' (2026), Gulf News daily interception reports (1 and 3 April 2026) and The National, 31 March 2026. The counts are of munitions ENGAGED by UAE air defences, not of munitions fired, and the two are not interchangeable. Casualty and munition figures in an ongoing war are provisional and drawn from claimant and host-state statements; the target categories are better attested than the totals, and the underlying compilation is an encyclopaedic aggregation rather than a primary or peer-reviewed source, which is why this episode carries medium confidence. No Iranian primary document explaining the target selection is available, and the strike-authorisation record for the 1-9 March interregnum is entirely absent.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2026-03-09",
+      "episode": "Succession filled nine days after the office-holder was killed: an Interim Leadership Council under Article 111 on 1 March, an Assembly of Experts session held online on 3 March after repeated in-person attempts failed on security grounds, its Qom premises bombed during voting, ballots finally hand-carried on 8 March, and the result announced on 9 March.",
+      "choice": "Acted to preserve the office - prioritised speed and continuity of the confirmation gate over the deliberative form, curtailing debate and, on contested reports, applying pressure to secure the required two-thirds.",
+      "bearsOn": ["decisionCentralization", "legitimacyWeight", "timeHorizon"],
+      "lesson": "The system's first reflex under existential shock is to reconstitute the single authority gate, not to distribute authority. Procedural legitimacy - in-person deliberation, full debate - was spent to buy nine-day continuity, which is consistent with legitimacyWeight 0.35 and argues that decisionCentralization 0.70 is a floor rather than a ceiling for the post-2026 configuration.",
+      "basis": "Constitution, Article 111 (primary text on the provisional Leadership Council). Sequence and contested detail from Wikipedia, '2026 Iranian Supreme Leader election' (encyclopaedic compilation, consulted 12 August 2026), which aggregates Al Jazeera reporting of 8-9 March 2026, New York Times reporting of 59 of 88 votes and Iran International's roughly 50 of about 59 attendees; within that compilation the reports of IRGC pressure on Assembly members and of eight boycotts are single-sourced and disputed, as is the claim that the late office-holder's written will opposed the outcome. The date and the outcome are firm; the deliberative account is not.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2026-06-17",
+      "episode": "Signature of the Islamabad Memorandum, a fourteen-point framework mediated by Pakistan with Saudi, Turkish, Qatari and Egyptian involvement: a non-weaponisation pledge, agreement to downblend highly enriched uranium under IAEA supervision, a sixty-day toll-free reopening of the Strait of Hormuz, and a sixty-day ceasefire extension - while refusing to place the ballistic-missile programme or the partner network on the agenda. In parallel, a triple-urgency NPT withdrawal bill submitted on 28 March was never voted.",
+      "choice": "Held the categories, conceded the quantities - and declined to spend its legal status, keeping NPT membership and IAEA supervision rather than following the 2003 DPRK precedent.",
+      "bearsOn": ["legitimacyWeight", "timeHorizon", "decisionCentralization"],
+      "lesson": "Even after a decapitating strike and under a total naval blockade, the same negotiating architecture held: measurable attributes are tradeable, categories are not, and the legal status is kept in reserve rather than played. The memorandum required a written endorsement from the office of the Supreme Leader, issued 'despite misgivings' - direct evidence that the confirmation gate is real and that the reconstituted office exercised it against its own stated preference. The memorandum collapsed within three weeks, which is evidence about the durability of the deal and not about the decision procedure that produced it.",
+      "basis": "Signature, mediation and terms: Al Jazeera, 'Read the US account of unreleased 14-point Iran ceasefire memorandum', 17 June 2026, and CNN's publication of the official fourteen-point text, 17 June 2026, both as compiled in Wikipedia, 'Islamabad Memorandum' (consulted 12 August 2026), which reproduces point 8 (no procurement or development of nuclear weapons; enriched material to be resolved by on-site downblending under IAEA supervision), the sixty-day toll-free reopening of the Strait of Hormuz and the sixty-day ceasefire extension. The same compilation records that neither the ballistic-missile programme nor the network of non-state allies appears in the framework, and that the reconstituted office of the Supreme Leader issued a written statement endorsing the memorandum 'despite misgivings'. Two citations carried in an earlier draft - an NPR full-text publication of 18 June 2026 and a Euronews text of the fourteen points - could not be verified in this review and have been removed. NPT bill: Libby Flatoff, 'Iran Threatens to Withdraw from the NPT', Arms Control Today, May 2026 - bill introduced 28 March 2026 with triple urgency, parliament not meeting in person since 28 February, Guardian Council veto still pending even if passed, and Iran submitting five working papers to the 2026 NPT Review Conference after the war began. Collapse by 8 July 2026 is separately reported. The 'declined to spend it' reading is contested by an alternative account in which the bill simply could not be voted because parliament could not convene; both readings are consistent with the record and the parent profile's low confidence on lossFrameRiskAcceptance should be preserved here.",
+      "confidence": "medium"
+    }
+  ]
+}

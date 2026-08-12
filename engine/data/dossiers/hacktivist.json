@@ -1,0 +1,263 @@
+{
+  "id": "hacktivist",
+  "procedure": {
+    "authority": {
+      "statement": "Go/no-go authority sits with the small administrator core of the banner's primary Telegram channel, which alone converts a circulating suggestion into an operation by publishing it as tasking. There is no external authorisation, no legal or proportionality review, and no stage in the documented path at which a proposal can be stopped on grounds of harm. In the state-originated subpopulation the same seat is occupied by sponsor personnel: the authority is structurally identical, but the occupant is an institution of the sponsoring state.",
+      "basis": "CISA/FBI/NSA and 22 international partners, 'Pro-Russia Hacktivists Conduct Opportunistic Attacks Against US and Global Critical Infrastructure', joint advisory AA25-343A, 9 Dec 2025 (primary PDF retrieved and read this session), which assesses that the Center for the Study and Network Monitoring of the Youth Environment (CISM), 'established on behalf of the Kremlin, created NoName057(16) as a covert project within the organization', and that CISM 'senior executives and employees ... developed and customized the ... DDoS tool DDoSia, paid for the group's network infrastructure, served as administrators on NoName057(16) Telegram channels, and selected DDoS targets'. For the organically formed case, Romagna, M. & Leukfeldt, R. E., 'Hacktivism: From Loners to Formal Organizations? Assessing the Social Organization of Hacktivist Networks', Deviant Behavior 46(9): 1104-24, 2024 (32 interviews across 23 networks; doi 10.1080/01639625.2024.2431066) find leaders and core members holding 'central authority and decision-making powers', assigning targets and verifying results. NOTE the citation correction carried in the profile's uncertainty field: this is a journal article by Romagna and Leukfeldt, not an edited volume by Holt et al.",
+      "confidence": "medium"
+    },
+    "steps": [
+      {
+        "order": 0,
+        "stage": "Target proposal",
+        "office": "Open membership tier — the banner's public chat and the constellation of downstream affiliate channels that rebroadcast its tasking",
+        "gate": "No formal gate. A proposal is not adopted, rejected, or ruled on; it either fails to propagate and dies in a small cluster of channels, or it accumulates enough repetition to be noticed by the core. The filter is circulation, not merit.",
+        "basis": "Soesanto, S., 'The IT Army of Ukraine: Structure, Tasking, and Ecosystem', Cyberdefense Report, Center for Security Studies (CSS), ETH Zurich, June 2022 (doi 10.3929/ethz-b-000552293; primary PDF retrieved and read this session), pp. 8-11, which names and documents four distinct flows — simple tasking, target enrichment, external clustering, and ad hoc prioritisation. Under external clustering, mvideo[.]ru was raised on 28 Feb and 3 Mar 2022 in two peripheral chats and was not adopted by the core channel until 7 May 2022; QIWI circulated in peripheral channels from 4 Mar 2022 and was designated a priority target by the IT Army channel only on 29 Mar 2022; EGAIS was argued for by a single chat participant on 4 Apr 2022 and adopted on 2 May 2022.",
+        "confidence": "medium"
+      },
+      {
+        "order": 1,
+        "stage": "Sponsor tasking — state-originated subpopulation only",
+        "office": "Sponsoring state institution's staff seated as channel administrators, plus the sponsor's funding line for tooling and infrastructure",
+        "gate": "Can insert, prioritise, or withhold targets and can starve the front by withdrawing funding. This stage is absent in organically formed collectives, and its presence or absence is the single largest structural difference inside the archetype.",
+        "basis": "AA25-343A, 9 Dec 2025: CISM personnel 'served as administrators on NoName057(16) Telegram channels, and selected DDoS targets'; GRU Main Center for Special Technologies military unit 74455 is assessed 'likely responsible for supporting the creation of CARR' in late Feb or early Mar 2022 and to have 'likely funded the tools CARR threat actors used to conduct ... DDoS attacks through at least September 2024'. The same advisory records the gate operating in reverse: 'by late September 2024, CARR channel administrators became dissatisfied with the level of support and funding provided by the GRU', and those administrators, together with an administrator of NoName057(16), created Z-Pentest using identical TTPs 'but separate from GRU involvement'. Corroborated by Mandiant/Google Cloud, 'APT44: Unearthing Sandworm', Apr 2024, assessing CARR, XAKNET and Solntsepek as GRU-controlled personas. Hedged language ('likely', 'suspected') is the advisory's own and is preserved here.",
+        "confidence": "medium"
+      },
+      {
+        "order": 2,
+        "stage": "Ratification and publication of tasking",
+        "office": "Core administrator group of the banner's primary channel (the 'coordination team')",
+        "gate": "The only real gate in the procedure. A target becomes an operation when the administrator channel publishes it with concrete parameters — IP addresses, ports, protocols, tool invocations. The stated grounds are availability and existing exposure rather than the target's function or value, so this gate filters for reachability, not for consequence.",
+        "basis": "AA25-343A, 9 Dec 2025, verbatim: 'pro-Russia hacktivists use an opportunistic targeting methodology. They leverage superficial criteria, such as victim availability and existing vulnerabilities, rather than focusing on strategically significant entities. Their lack of strategic focus can lead to a broad array of targets, ranging from water treatment facilities to oil well systems', and 'these groups can indiscriminately compromise critical infrastructure entities'. Mechanics of the published tasking from Soesanto, CSS ETH Zurich, June 2022, p. 9: the IT Army channel posted 91.106.207.34 with four ports at 15:50 CET on 18 Mar 2022, and the identical string appeared in the 'DDoS Joint Group' chat three minutes later. Romagna & Leukfeldt, Deviant Behavior 2024, find that in the team-level networks that dominate their sample 'leaders and more experienced members assigned targets and coordinated the network'.",
+        "confidence": "high"
+      },
+      {
+        "order": 3,
+        "stage": "Affiliate enrolment and tool distribution",
+        "office": "The project's automated enrolment bot and tooling channel (for the DDoSia project, the @DDosiaBot Telegram bot and the client distribution it fronts)",
+        "gate": "Effectively no vetting. Registration through the bot and declaration of a cryptocurrency wallet are the only requirements; the bot issues a hashed client identifier and an instruction file. No identity check, no capability check, no exclusion criteria are documented in the open literature. This is the stage where a state actor would place counter-intelligence screening and this archetype places a payout address.",
+        "basis": "Garcon, A.-J., Meslay, C. & the TDR Team, 'Following NoName057(16) DDoSia Project's Targets', Sekoia.io blog, updated 29 June 2023: enrolment via the Telegram bot requires a TON wallet created through @CryptoBot; the bot 'transmits two files: client_id.txt ... and help.txt'; the client authenticates to the C2 at /client/login and pulls an AES-GCM-encrypted target list from /client/get_targets, averaging roughly 15 victims per day. Europol, 'Global operation targets NoName057(16) pro-Russian cybercrime network', 16 Jul 2025, records the scale of this open tier: 1,100 participants and 17 administrators were sent Telegram notifications of criminal liability. The absence of vetting is a negative finding — no source in this bibliography documents a screening stage — and is graded medium, not high, on that basis.",
+        "confidence": "medium"
+      },
+      {
+        "order": 4,
+        "stage": "Execution by the self-selecting periphery",
+        "office": "Volunteer executor tier — participants running the distributed client, alongside, in some banners, a separate small in-house team that executes the operations the open tier is never told about",
+        "gate": "None. Participation is elective per task and per day; a volunteer who declines simply does not run the client, and there is no mechanism to compel, and none to restrain, any individual execution.",
+        "basis": "Soesanto, CSS ETH Zurich, June 2022, p. 4, describes the IT Army as consisting of '(1) a continuous global call to action that mobilizes anyone willing to participate in coordinated DDoS attacks against designated - primarily civilian - Russian infrastructure targets; and (2) an in-house team likely consisting of Ukrainian defense and intelligence personnel that have been experimenting with and conducting ever-more complex cyber operations', and documents (pp. 19-20) that the in-house tier's defacements and its use of facial recognition to contact the families of dead soldiers were 'never mentioned in the IT Army channel or chat'. Vu, A. V., Thomas, D. R., Collier, B., Hutchings, A., Clayton, R. & Anderson, R., 'Getting Bored of Cyberwar: Exploring the Role of Low-level Cybercrime Actors in the Russia-Ukraine Conflict', ACM WWW 2024 (358k defacements, 1.7M DDoS events), find participation 'short-lived and fleeting'.",
+        "confidence": "high"
+      },
+      {
+        "order": 5,
+        "stage": "Claim and publication",
+        "office": "The banner's claiming desk — in practice the same administrator group, operating the main channel and its media output",
+        "gate": "This stage never withholds. It can amplify a real effect, inflate a marginal one, or publish a claim with no operation behind it, but nothing in the documented record shows it suppressing a claim to protect an operation, a source, or a sponsor relationship. Publication is the deliverable, not the report of one.",
+        "basis": "AA25-343A, 9 Dec 2025, verbatim: 'These groups are primarily seeking notoriety with their actions. While they have caused damage in some instances, they regularly make false or exaggerated claims about their attacks on critical infrastructure to garner more attention. They frequently misrepresent their capabilities and the impacts of their actions, portraying minor incursions as significant breaches'. Graphika, 'Keeping Up With The Hacktivists: Examining How International Hacktivist Groups Pursue Attention, Select Targets, and Interact in an Evolving Online Landscape', 16 Jul 2025 (close to 700 groups tracked since 2022), describes 'a form of perception hacking, often claiming without sufficient evidence that they have attacked high-profile targets or caused significant disruptions'.",
+        "confidence": "high"
+      },
+      {
+        "order": 6,
+        "stage": "Reward accounting and monetisation",
+        "office": "The project's leaderboard and payout function, and the banner's commercial channel for tools, services and training",
+        "gate": "Retains contributors and ranks them; imposes no constraint on targeting. Its practical effect is to make participation transactional, which is why the tier survives the decay of ideological interest that the peer-reviewed measurement finds.",
+        "basis": "Sekoia.io, 29 Jun 2023: payment in cryptocurrency to 'users who declare a valid TON wallet based on their contribution to the DDoS attacks', with account and aggregate statistics exposed through the bot; from late Nov 2023 the group issued its own dCoin token pegged at 1 dCoin to 1 rouble and convertible to TON. Graphika, 16 Jul 2025: groups 'attempt to monetize their online activities, using the publicity around their attacks to promote and sell external or self-made tools, services, and hacking courses'. Vu et al., ACM WWW 2024, supply the countervailing finding that individual involvement decays within weeks, which is what the reward tier exists to slow.",
+        "confidence": "medium"
+      }
+    ],
+    "tempo": {
+      "statement": "Two clocks, and confusing them is the main modelling error. Once the administrator core ratifies a target, propagation to the executing periphery is measured in minutes and execution follows the same day. Getting a target ratified is measured in weeks, or never, because no one is obliged to consider it. Nothing in the cycle is compressed or stalled by staffing, legal review, or higher authorisation, because none of those stages exists; the cycle is stalled only by inattention and compressed only by news salience.",
+      "basis": "Soesanto, CSS ETH Zurich, June 2022, p. 9: an IT Army channel post at 15:50 CET on 18 Mar 2022 reappeared verbatim in the 'DDoS Joint Group' chat at 15:53, in the 'Hacker Forces' channel at 16:13, and in four further channels and chats by 19:59 the same evening. Against that, the ad hoc prioritisation cases on pp. 10-11 show 25 days between a target's first peripheral circulation and its adoption by the core (QIWI, 4 Mar to 29 Mar 2022) and roughly four weeks for EGAIS (4 Apr to 2 May 2022). Post-disruption tempo from Naer, S., 'Operation Eastwood: Measuring the Real Impact on NoName057(16)', Imperva, 12 Sep 2025: claims stopped 18-22 Jul 2025 and resumed 23 Jul 2025.",
+      "confidence": "medium"
+    },
+    "preconditions": [
+      {
+        "statement": "A publicly legible trigger the intended audience already knows about. Action tracks the news cycle rather than a campaign plan, and the mobilising event is the precondition, not the target.",
+        "basis": "Vu et al., ACM WWW 2024, find campaign activity tracking the news cycle with participation decaying 'after just a few weeks'. Graphika, 16 Jul 2025, finds groups 'regularly pick high-profile targets to attack or disrupt, such as banks, social media platforms, and government agencies' and promote them with hashtags and logos. Sekoia.io, 29 Jun 2023, observed DDoSia target sets shifting reactively to political announcements — including French targets following presidential statements of support for Ukraine.",
+        "confidence": "medium"
+      },
+      {
+        "statement": "An already-exposed, weakly secured access path. The archetype does not build access to reach a chosen target; it chooses among targets to which access already exists.",
+        "basis": "AA25-343A, 9 Dec 2025: attacks 'use minimally secured, internet-facing virtual network computing (VNC) connections to infiltrate ... OT control devices'; targeting rests on 'superficial criteria, such as victim availability and existing vulnerabilities'. CISA and partners, 'Defending OT Operations Against Ongoing Pro-Russia Hacktivist Activity', fact sheet, 1 May 2024, records the same pattern against water and wastewater, dams, energy, and food and agriculture. The Aliquippa case is the concrete instance: an internet-exposed Unitronics Vision-series PLC running default credentials (CISA advisory on Unitronics PLC exploitation, 28 Nov 2023).",
+        "confidence": "high"
+      },
+      {
+        "statement": "A channel able to carry the claim. An operation that could not be published is not proposed, which is why access is spent rather than held and why unpublishable but higher-value options are absent from the observed record.",
+        "basis": "AA25-343A, 9 Dec 2025 ('primarily seeking notoriety'); Graphika, 16 Jul 2025 (perception hacking, monetised notoriety). The proof-of-access video posted from a compromised water utility HMI, cited in CISA's OT fact sheet of 1 May 2024 and in Mandiant's APT44 report of Apr 2024, is the clearest instance of publication being the point of the access.",
+        "confidence": "high"
+      },
+      {
+        "statement": "NOT required at any documented stage: legal review, proportionality assessment, civilian-harm estimate, or authorisation from any body outside the banner. This is a negative finding and is stated as one.",
+        "basis": "No source in this bibliography documents such a stage. The strongest positive evidence for the absence is that the ICRC found it necessary to publish 'Eight rules for civilian hackers during war, and four obligations for states to restrain them' (Macak, K. & Rodenhauser, T., ICRC Humanitarian Law & Policy Blog, 4 Oct 2023) as an external substitute, and that the Lieber Institute, West Point, 'One Year On: Are the ICRC's Principles for Civilian Hackers Shaping the Laws of War?', 25 Feb 2025, assesses that reposting those rules 'does not translate to their internalization or application'. Absence of evidence is weaker than evidence of absence; graded medium for that reason.",
+        "confidence": "medium"
+      }
+    ],
+    "afterAction": {
+      "statement": "There is no documented after-action review that changes targeting. The institution's response to disruption is declaratory and quantitative rather than corrective: it republishes its programme, raises tempo, and rebrands, while technique change arrives laterally — TTPs diffuse between banners by copying rather than being revised inside one. The countervailing case is dissolution: where a banner is small and has no sponsor, the same pressure ends the organisation instead of adjusting it.",
+      "basis": "Naer, S., Imperva, 12 Sep 2025, measures NoName057(16) at roughly 10 targeted sites per day from 24 Jun to 13 Jul 2025 and roughly 18 per day from 24 Jul to 13 Aug 2025 — an 80 percent increase after Operation Eastwood, alongside a manifesto and a newly named campaign rather than any change in target class. AA25-343A, 9 Dec 2025, describes the lateral mechanism: groups 'employ easily disseminated and replicated TTPs across various entities, increasing the likelihood of widespread adoption and escalating the frequency of intrusions'. The dissolution case: SiegedSec's Telegram announcement of 10 Jul 2024 (Musgrave, S., The Intercept, 10 Jul 2024; Lyons, J., The Register, 12 Jul 2024). A single measured campaign is a thin base for a general claim about learning; graded medium.",
+      "confidence": "medium"
+    }
+  },
+  "worldview": {
+    "declaredEnds": [
+      {
+        "statement": "To impose visible cost on states, institutions and companies identified with a named policy position, and to be seen imposing it. The declared end is punitive and expressive at once, and the archetype does not distinguish the two.",
+        "basis": "Europol, 'Global operation targets NoName057(16) pro-Russian cybercrime network', 16 Jul 2025, characterises the group's target set as Ukraine and the states supporting it, struck through crowdsourced DDoS via the DDoSia project. AA25-343A, 9 Dec 2025, records CARR presenting itself as supporting Russia's position on the conflict and claiming DDoS attacks 'against the U.S. and Europe for supporting Ukraine'.",
+        "confidence": "high"
+      },
+      {
+        "statement": "Notoriety as an end in itself, not merely as a means. Attention is pursued through claims whose truth value is optional, which is only coherent if the audience reaction rather than the operational effect is the product.",
+        "basis": "AA25-343A, 9 Dec 2025: 'These groups are primarily seeking notoriety with their actions ... they regularly make false or exaggerated claims about their attacks on critical infrastructure to garner more attention.' Graphika, 16 Jul 2025, documents the same behaviour as 'perception hacking' across close to 700 tracked groups, together with feuds between aligned groups generating further content for attention.",
+        "confidence": "high"
+      },
+      {
+        "statement": "Forced disclosure — publishing an institution's internal records so that an audience can see who stands behind it. This is the declared end of the leak-oriented wing of the archetype, distinct from the disruption-oriented wing.",
+        "basis": "SiegedSec's stated purpose for the 2 Jul 2024 release of roughly 2GB of Heritage Foundation material was to give 'transparency to the public regarding who exactly is supporting Heritage' (spokesperson to CyberScoop, Jul 2024; incident and framing also reported by Musgrave, S., The Intercept, 10 Jul 2024, and Lyons, J., The Register, 12 Jul 2024).",
+        "confidence": "medium"
+      },
+      {
+        "statement": "For the state-originated subpopulation the declared end is instrumental to the sponsor rather than descriptive of the front: the banner exists to place activity below the threshold at which a state is held responsible for it.",
+        "basis": "AA25-343A, 9 Dec 2025, verbatim on CARR: 'The channel creators recruited actors to use CARR as an unattributable platform for conducting cyber activities beneath the level of an APT, aimed at deterring anti-Russia rhetoric.' Mandiant/Google Cloud, 'APT44: Unearthing Sandworm', Apr 2024, reaches the same conclusion for CARR, XAKNET and Solntsepek. Maurer, T., 'Cyber Mercenaries: The State, Hackers, and Power', Cambridge University Press, 2018, supplies the delegation/orchestration/sanctioning typology this sits in.",
+        "confidence": "medium"
+      }
+    ],
+    "selfImage": {
+      "statement": "A volunteer army fighting on behalf of a wronged constituency, whose legitimacy comes from its own audience rather than from law, and whose door is open to anyone regardless of skill. The self-description is martial and the entry requirement is belief plus a wallet address.",
+      "basis": "NoName057(16)'s manifesto, published in Russian and English on its Telegram channels on 23 Jul 2025, describes the group as a cyber army fighting for truth and asserts that Operation Eastwood failed (Naer, S., Imperva, 12 Sep 2025; content also summarised by INCYBER NEWS, Jul 2025). The open-door premise is documented mechanically by Sekoia.io, 29 Jun 2023 — enrolment is a bot registration and a TON wallet — and Europol's 16 Jul 2025 release records 1,100 participants alongside only 17 administrators. Soesanto, CSS ETH Zurich, June 2022, p. 4, notes the same construct is 'neither civilian nor military, neither public nor private ... neither lawful nor unlawful' on the Ukrainian side.",
+      "confidence": "medium"
+    },
+    "threatModel": [
+      {
+        "statement": "Law enforcement and platform action is the only external pressure that has visibly changed behaviour, and it changes it in two opposite directions depending on whether the banner has a sponsor: the sponsored banner absorbs it and gets louder, the unsponsored small banner dissolves.",
+        "basis": "Europol/Eurojust Operation Eastwood, 14-17 Jul 2025, with over 100 servers disrupted, two arrests (France, Spain), seven European arrest warrants, and criminal-liability notifications to 1,100 participants and 17 administrators (Europol, 16 Jul 2025). Absorption measured by Naer, S., Imperva, 12 Sep 2025 (roughly 10 to roughly 18 targeted sites per day). Dissolution: SiegedSec, 10 Jul 2024, citing 'the stress of mass publicity, and to avoid the eye of the FBI' (Musgrave, S., The Intercept, 10 Jul 2024).",
+        "confidence": "high"
+      },
+      {
+        "statement": "Loss of audience attention is treated as an existential threat, because the participation base is elective and decays quickly without novelty. The archetype's tempo is defended, not its capability.",
+        "basis": "Soesanto, CSS ETH Zurich, June 2022, pp. 7-8, records the IT Army Telegram channel peaking at 307,165 subscribers on 26 Mar 2022 and falling by 47,940 (15.6 percent) over the following eight weeks to 259,225 on 10 Jun 2022, attributing the decline to loss of novelty and repetitive tasking. Vu et al., ACM WWW 2024, find 'a clear loss of interest ... after just a few weeks'. Note the causal limit flagged in the profile: the measured mechanism is boredom, not fear of cost.",
+        "confidence": "high"
+      },
+      {
+        "statement": "For the state-fronted banner, two threats the organic collective does not have: exposure of sponsor direction, and withdrawal of sponsor support. The second is documented producing an institutional split.",
+        "basis": "AA25-343A, 9 Dec 2025: 'by late September 2024, CARR channel administrators became dissatisfied with the level of support and funding provided by the GRU. This dissatisfaction led CARR administrators and an administrator from another hacktivist group, NoName057(16), to create the Z-Pentest group, employing the same tactics, techniques, and procedures (TTPs) as CARR but separate from GRU involvement.' Exposure risk from Mandiant/Google Cloud, APT44, Apr 2024, and from the profile's 'sponsor-direction-never-conceded' redline.",
+        "confidence": "medium"
+      }
+    ],
+    "adversaryModel": {
+      "statement": "It expects the defender to be unprepared and expects its own effect to be whatever it announces. It does not model the target's process, does not forecast physical consequence, and does not anticipate a response beyond the news cycle — so it can neither calibrate escalation nor recognise when it has crossed a line the defender treats as serious.",
+      "basis": "AA25-343A, 9 Dec 2025, verbatim: 'These groups have limited capabilities, frequently misunderstanding the processes they aim to disrupt. Their apparent low level of technical knowledge results in haphazard attacks where actors intend to cause physical damage but cannot accurately anticipate actual impact. Despite these limitations, the authoring organizations have observed these groups willfully cause actual harm to vulnerable critical infrastructure.' CISA and partners, OT fact sheet, 1 May 2024, assess observed activity as mostly unsophisticated nuisance-level technique while noting the physical-threat potential of the same access. This is the empirical basis for the profile's warning to split willingness-to-initiate from belief-in-stopping rather than trusting a single escalationControlBelief scalar.",
+      "confidence": "high"
+    },
+    "declaredIdeology": {
+      "statement": "The archetype issues no common charter, and none should be inferred for it as a class. Individual banners do issue programmatic texts, and the best-documented current example is NoName057(16)'s manifesto of 23 Jul 2025, published in Russian and English on the group's own Telegram channels, which frames the group as a cyber army fighting for truth, declares Operation Eastwood a failure, announces a named follow-on campaign, and casts its adversary as Western political elites. Read it as a group-specific and post-hoc document issued under law-enforcement pressure, not as doctrine for the archetype.",
+      "basis": "NoName057(16) Telegram manifesto, 23 Jul 2025, as reported and dated by Naer, S., 'Operation Eastwood: Measuring the Real Impact on NoName057(16)', Imperva, 12 Sep 2025, and summarised by INCYBER NEWS, 'Europol Dismantles Infrastructure of Pro-Russian Hacktivist Group NoName057(16)', Jul 2025. The manifesto text itself was not retrieved in the original this session; both readings are secondary, which is why this is graded low. There is no equivalent archetype-level document: Graphika, 16 Jul 2025, tracks close to 700 groups with no shared programme, and the one attempt at a common code of conduct was external (ICRC, 4 Oct 2023) and was not internalised (Lieber Institute, West Point, 25 Feb 2025).",
+      "confidence": "low"
+    }
+  },
+  "history": [
+    {
+      "date": "2010-12",
+      "episode": "Operation Payback / #OpAvengeAssange — after PayPal, MasterCard and Visa cut off donation processing for WikiLeaks, participants under the Anonymous banner ran coordinated DDoS attacks against the payment processors using a freely distributed tool.",
+      "choice": "Acted, and chose the most publicly legible target rather than the one whose disruption would reverse the underlying decision.",
+      "bearsOn": [
+        "reciprocityProportion",
+        "signalingPreference",
+        "ownCostTolerance"
+      ],
+      "lesson": "Acted. Retaliation was selected for audience recognition, not for effect on the decision that triggered it: the payment brands were household names, the outage was hours long, and the financial blockade of the cause was unaffected. The banner then absorbed the legal consequence without abandoning the tactic, which is the first clear instance of the archetype's split between very low individual cost tolerance and much higher banner-level persistence.",
+      "basis": "U.S. Department of Justice, 'Sixteen Individuals Arrested in the United States for Alleged Roles in Cyber Attacks', press release, 19 Jul 2011: an indictment unsealed in the Northern District of California (San Jose) charged fourteen defendants with conspiracy and intentional damage to a protected computer, alleging that 'in retribution for PayPal's termination of WikiLeaks' donation account' the group coordinated DDoS attacks it 'referred to ... as Operation Avenge Assange'. Outcome: U.S. Attorney's Office, N.D. Cal., 6 Dec 2013, thirteen guilty pleas to conspiring to disrupt access to PayPal.",
+      "confidence": "high"
+    },
+    {
+      "date": "2011-11-04",
+      "episode": "#OpCartel — participants under the Anonymous Iberoamerica banner announced they would publish the names of officials and businesses alleged to collaborate with the Zetas criminal organisation on 5 Nov 2011, after claiming a participant had been abducted. The Zetas answered that they would kill ten people for every name published. The operation was cancelled before the publication date.",
+      "choice": "Refused. The planned publication was withdrawn from the choice set, and the cancellation was itself announced publicly.",
+      "bearsOn": [
+        "counterpartHarmRestraint",
+        "ownCostTolerance",
+        "escalationControlBelief"
+      ],
+      "lesson": "Refused — the single best-documented case in the open record of this archetype removing its own planned action on harm grounds. The restraint is narrow and instructive: it appeared only when a specific, credible third party converted publication directly into named deaths, and it operated through open argument among participants rather than through any review stage. It is evidence that harm restraint exists at the deliberative margin, not evidence that it is a standing constraint on targeting, and it should not be read across to operations whose harm is diffuse or delayed.",
+      "basis": "Leyden, J., 'Anonymous calls off Zetas cartel protest op', The Register, 7 Nov 2011: Anonymous Iberoamerica issued a formal cancellation statement after internal debate that the operation 'could place innocent people at risk from reprisal attacks', against a cartel threat to 'kill 10 people for every member of the cartel named'. Olson, P., Forbes, 2 Nov 2011, reports the retreat; The Washington Post, 4 Nov 2011, reports the cancellation alongside the claim that the abducted participant had been released. CONTESTED: The Register expressly doubts the abduction narrative, noting the absence of dates and of any police report, so the trigger is less well established than the decision.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2022",
+      "episode": "The IT Army of Ukraine was stood up in the days after 24 Feb 2022 and settled into a two-tier construct: a public Telegram channel issuing daily DDoS tasking to a global open membership, and a separate non-public in-house team, likely staffed by Ukrainian defence and intelligence personnel, running defacements and information operations whose existence was never mentioned in the public channel.",
+      "choice": "Acted, and chose an organisational form that keeps the loud tier and the effective tier structurally separate.",
+      "bearsOn": [
+        "decisionCentralization",
+        "proxyPreference",
+        "legitimacyWeight"
+      ],
+      "lesson": "Acted. The archetype's centralisation is not one number: the same institution ran an unvetted mass tier whose tasking was published to anyone and a small covert tier whose operations were concealed from that same audience. A model that fits one scalar to this actor will describe neither tier. It also shows the state relationship running in the opposite direction from the Russian-aligned cases — here a government stood the front up openly rather than disowning it — while still leaving it, in the author's words, 'neither lawful nor unlawful'.",
+      "basis": "Soesanto, S., 'The IT Army of Ukraine: Structure, Tasking, and Ecosystem', Cyberdefense Report, CSS, ETH Zurich, June 2022 (doi 10.3929/ethz-b-000552293), pp. 4, 8-11, 19-20: the two-part construct; the tasking flows (simple tasking, target enrichment, external clustering, ad hoc prioritisation); the in-house tier's defacements of miranda-media[.]ru, sukhoi[.]ru and gazprom[.]ru in Mar-Apr 2022; and the finding that the tier's use of facial recognition to contact dead soldiers' families was 'never mentioned in the IT Army channel or chat'. Membership peak of 307,165 subscribers on 26 Mar 2022 (p. 8).",
+      "confidence": "high"
+    },
+    {
+      "date": "2022-06-27",
+      "episode": "The Predatory Sparrow / Gonjeshke Darande persona compromised industrial control systems at Iranian steel producers and triggered a physical event at Khouzestan Steel Company, releasing its own CCTV footage of molten metal spilling onto the plant floor together with a statement that the operation had been conducted so as to protect innocent people.",
+      "choice": "Acted, and published a claim of restraint as part of the operation rather than demonstrating restraint in the effect.",
+      "bearsOn": [
+        "counterpartHarmRestraint",
+        "signalingPreference",
+        "escalationControlBelief"
+      ],
+      "lesson": "Acted. The declared restraint is an output of the claiming stage, not a constraint applied at the targeting stage: the same released footage that carried the statement shows people in the immediate path of the hazard. For the engine this is the decisive case against reading a low observed casualty count back into the model as intent — the archetype will state a harm limit and simultaneously produce an effect it did not model.",
+      "basis": "The persona's own video statement of 27 Jun 2022 that the attacks were 'carried out carefully so to protect innocent individuals' and were 'in response to the aggression of the Islamic Republic'. Greenberg, A., 'How a Group of Israel-Linked Hackers Has Pushed the Limits of Cyberwar', Wired, 25 Jan 2024, reports that the group's own released video of the steel-mill fire shows two workers narrowly escaping. Legal-analytic treatment in the NATO CCDCOE Cyber Law Toolkit entry 'Predatory Sparrow operation against Iranian steel maker (2022)' — that page returned HTTP 403 to retrieval this session and is cited from its indexed record, not from a read of the original. No state has claimed the persona and no official attribution of it to a state has been made; no source in this bibliography establishes a sponsor, so the sponsor layer is left unattributed rather than assessed.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2023-10-04",
+      "episode": "The ICRC published eight rules for civilian hackers in armed conflict. Within days the IT Army of Ukraine committed to make best efforts to follow them while noting the disadvantage; Anonymous, Anonymous Sudan and KillNet told the BBC they would not; KillNet's founder then announced compliance on Telegram on 6 Oct 2023, days after refusing.",
+      "choice": "Refused in substance while trading in the appearance of acceptance — and the acceptance, where given, produced no observed change of target class.",
+      "bearsOn": ["legitimacyWeight", "signalingPreference"],
+      "lesson": "Refused. The episode is the cleanest available measurement of how this institution treats an external legal authority: as a message to position against, adopt, or reverse within a news cycle, at no cost either way. Declaratory commitments from this actor carry near-zero predictive weight, and a defender who buys restraint with a public pledge has bought a post, not a constraint.",
+      "basis": "Macak, K. & Rodenhauser, T., 'Eight rules for civilian hackers during war, and four obligations for states to restrain them', ICRC Humanitarian Law & Policy Blog, 4 Oct 2023. Tidy, J., BBC News, 4 Oct 2023, reporting the IT Army's commitment to 'make best efforts to follow the rules' even at a disadvantage, and Anonymous, Anonymous Sudan and KillNet stating they had no intention of complying. Lieber Institute, West Point, 'One Year On: Are the ICRC's Principles for Civilian Hackers Shaping the Laws of War?', 25 Feb 2025, on KillMilk's reversal and the assessment that reposting the rules 'does not translate to their internalization or application', with targeting of energy, hospitals and aid organisations continuing regardless.",
+      "confidence": "high"
+    },
+    {
+      "date": "2023-11-25",
+      "episode": "The CyberAv3ngers persona compromised an internet-exposed Unitronics Vision-series programmable logic controller at the Municipal Water Authority of Aliquippa, Pennsylvania, renamed the device and defaced its operator interface with an anti-Israel message declaring Israeli-made equipment a target; the same campaign hit further US water utilities and unrelated small businesses.",
+      "choice": "Acted, selecting targets by the nationality of the equipment vendor rather than by the function or value of the system that equipment controlled.",
+      "bearsOn": [
+        "counterpartHarmRestraint",
+        "reciprocityProportion",
+        "proxyPreference"
+      ],
+      "lesson": "Acted. The declared frame was retaliation in an ongoing war; the delivered effect was a defaced screen on a drinking-water booster station, taken offline and run manually. That gap is the archetype's characteristic mismatch between grandiose declared reciprocity and undershooting delivered effect. It also shows the targeting rule an operator most needs to plan against: the selection criterion was a property of the controller's label, so a utility can be chosen for a reason that has nothing to do with what it does.",
+      "basis": "Municipal Water Authority of Aliquippa incident of 25 Nov 2023; WaterISAC, 'Water Utility Control System Cyber Incident Advisory: ICS/SCADA Incident at Municipal Water Authority of Aliquippa', updated 30 Nov 2023. CISA advisory on exploitation of Unitronics Vision-series PLCs, 28 Nov 2023 (internet-exposed devices with default credentials on the well-documented programming port). Sponsor layer: U.S. Department of the Treasury, sanctions on six IRGC Cyber-Electronic Command officials for the CyberAv3ngers-branded Unitronics campaign, 2 Feb 2024.",
+      "confidence": "high"
+    },
+    {
+      "date": "2024-01-18",
+      "episode": "The Cyber Army of Russia Reborn persona manipulated water-system controls at Muleshoe, Texas, causing a tank to overflow, and posted video of the intrusion to its Telegram channel shortly afterwards; Mandiant subsequently assessed the persona as affiliated with APT44 (GRU), and the December 2025 joint advisory assessed GRU unit 74455 as likely having supported the persona's creation and funded its DDoS tooling.",
+      "choice": "Acted and published immediately, spending the access for the claim rather than holding it.",
+      "bearsOn": ["timeHorizon", "signalingPreference", "attributionAversion"],
+      "lesson": "Acted. Access to a live control surface was converted into a claim video within hours, which is the behaviour a short time horizon predicts and a patient actor would never choose. The episode also shows the archetype's inverted attribution posture in one frame: the persona maximised attribution to itself while the sponsor's hand stayed unclaimed and had to be assessed by others — one scalar cannot hold both, which is why this profile carries the sponsor as a separate redline rather than a lower attribution number.",
+      "basis": "Mandiant/Google Cloud, 'APT44: Unearthing Sandworm', Apr 2024, linking CARR to APT44 and describing the posted proof-of-access material; reporting of the Muleshoe overflow and municipal confirmation, CNN and CyberScoop, 17 Apr 2024. CISA and partners, 'Defending OT Operations Against Ongoing Pro-Russia Hacktivist Activity', 1 May 2024, on HMI manipulation at water and wastewater, dams, energy, and food and agriculture. CISA/FBI/NSA, AA25-343A, 9 Dec 2025, on GRU unit 74455's likely role in CARR's creation and in funding its DDoS tooling through at least Sep 2024, and on CARR's earlier ICS claims (a European wastewater facility in Oct 2023; two US dairy farms in Nov 2023). The GRU link is an assessment carrying the sources' own hedges.",
+      "confidence": "medium"
+    },
+    {
+      "date": "2024-07-10",
+      "episode": "SiegedSec announced its dissolution eight days after publishing roughly two gigabytes of Heritage Foundation material, stating the reasons as its members' mental health, the stress of mass publicity, and avoiding the attention of the FBI — having first published private messages in which a Heritage executive said he was working to identify its members.",
+      "choice": "Held — the organisation stood itself down at the peak of its visibility rather than continue under the expected consequence.",
+      "bearsOn": ["ownCostTolerance", "timeHorizon", "signalingPreference"],
+      "lesson": "Held. Where a banner has no sponsor and a small identifiable core, anticipated law-enforcement attention ends the organisation rather than adjusting it — the reverse of what the same pressure produced against a state-supported banner a year later. This is the concrete case behind the profile's warning that a single ownCostTolerance value averages two different objects, and the dissolution was itself published, so even the exit was routed through the claiming stage.",
+      "basis": "SiegedSec Telegram announcement, 10 Jul 2024, giving the reasons as 'our own mental health, the stress of mass publicity, and to avoid the eye of the FBI'. Musgrave, S., 'Gay Furry Hackers Feud With Heritage Foundation Exec', The Intercept, 10 Jul 2024, which published the Signal exchange in which the Heritage executive said he was 'in the process of identifying and outting [sic] members of your group'. Lyons, J., The Register, 12 Jul 2024, on the disbandment following the 2 Jul 2024 Heritage leak.",
+      "confidence": "high"
+    },
+    {
+      "date": "2025-07-14",
+      "episode": "Operation Eastwood, coordinated by Europol and Eurojust across thirteen countries from 14 to 17 Jul 2025, took more than 100 servers offline, produced arrests in France and Spain and seven European arrest warrants, and delivered criminal-liability notifications to 1,100 NoName057(16) participants and 17 administrators. Claims stopped for five days, then resumed on 23 Jul 2025 alongside a published manifesto and a newly named campaign.",
+      "choice": "Absorbed the cost and escalated tempo, choosing a louder declaratory response over either restraint or a shift to more dangerous methods.",
+      "bearsOn": [
+        "ownCostTolerance",
+        "lossFrameRiskAcceptance",
+        "legitimacyWeight"
+      ],
+      "lesson": "Absorbed cost. Under the heaviest law-enforcement pressure ever applied to this archetype, the sponsored banner did not moderate, did not go quiet, and did not move up the ladder — it republished its programme and roughly doubled its measured daily target count within a fortnight. The loss frame here produced more signalling and more volume, not more danger, which is why lossFrameRiskAcceptance should not be raised on the strength of this episode and why a deterrence strategy aimed at the banner's legal exposure has no purchase.",
+      "basis": "Europol, 'Global operation targets NoName057(16) pro-Russian cybercrime network', 16 Jul 2025 (13 countries; over 100 servers disrupted or taken offline; one preliminary arrest in France and one arrest in Spain; seven European arrest warrants, six issued by Germany; 1,100 participants and 17 administrators notified). Naer, S., 'Operation Eastwood: Measuring the Real Impact on NoName057(16)', Imperva, 12 Sep 2025: no claims 18-22 Jul 2025; resumption and manifesto on 23 Jul 2025; roughly 10 targeted sites per day from 24 Jun to 13 Jul 2025 versus roughly 18 per day from 24 Jul to 13 Aug 2025. The volume figures are one vendor's measurement of one banner over three weeks and have not been independently replicated.",
+      "confidence": "medium"
+    }
+  ]
+}

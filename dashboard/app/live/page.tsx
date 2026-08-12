@@ -1,3 +1,4 @@
+import { ArmComparison } from "../../components/live/ArmComparison";
 import { LiveRun } from "../../components/live/LiveRun";
 import { MANIFEST } from "../../lib/live";
 import { Eyebrow, Page } from "../../components/site/ui";
@@ -30,6 +31,8 @@ export default function LivePage() {
       </p>
 
       <LiveRun />
+
+      <ArmComparison />
 
       <section className="mt-16 border-t border-line pt-8">
         <h2 className="text-[17px]">Where the actor profiles come from</h2>

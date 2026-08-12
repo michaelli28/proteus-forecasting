@@ -539,10 +539,15 @@ const manifest = new Command("manifest")
     "Where to write the full sourced profiles the dossier pages read",
     "../dashboard/data/actor-dossiers.json",
   )
+  .option(
+    "--comparisons <file>",
+    "Where to write the measured mitigation comparison each pack's page reads",
+    "../dashboard/data/arm-comparisons.json",
+  )
   .option("--profiles <path>", "Doctrine profile library to read")
   .action(async (opts) => {
     try {
-      const { buildManifest, buildDossiers } =
+      const { buildManifest, buildDossiers, buildComparisons } =
         await import("./scenario/manifest.js");
       const built = await buildManifest(opts.profiles);
       const out = resolve(process.cwd(), opts.out);
@@ -557,13 +562,27 @@ const manifest = new Command("manifest")
       const documented = dossiers.profiles.filter(
         (profile) => profile.procedure || profile.worldview || profile.history,
       ).length;
+      // Replays every arm of every pack, so it is the slow half of this
+      // command. Reported separately rather than folded into a single line, so
+      // a wait of half a minute has something on screen explaining itself.
+      console.error("measuring mitigations across six seeds per pack…");
+      const comparisons = await buildComparisons(opts.profiles);
+      const comparisonOut = resolve(process.cwd(), opts.comparisons);
+      await mkdir(dirname(comparisonOut), { recursive: true });
+      await writeFile(comparisonOut, JSON.stringify(comparisons, null, 2));
+
       const inert = dossiers.constraintReach.filter(
         (reach) => reach.reachedIn.length === 0,
+      ).length;
+      const unreliable = comparisons.flatMap((entry) =>
+        entry.defended.filter((arm) => arm.beatBaseline < entry.seeds.length),
       ).length;
       console.log(
         `${built.packs.length} packs, ${built.actors.length} actors, ${built.presets.length} presets → ${out}\n` +
           `${dossiers.profiles.length} dossiers (${documented} carrying procedure, worldview or decision record) → ${dossierOut}\n` +
-          `${dossiers.constraintReach.length} enforceable commitments, ${inert} of which no shipped scenario can trip`,
+          `${dossiers.constraintReach.length} enforceable commitments, ${inert} of which no shipped scenario can trip\n` +
+          `${comparisons.length} mitigation comparisons → ${comparisonOut}\n` +
+          `${unreliable} mitigations do not beat the undefended arm on every seed`,
       );
     } catch (error) {
       console.error((error as Error).message);

@@ -1,0 +1,403 @@
+<title>PROTEUS — Government landscape and platform redesign</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+:root{
+  --ground:#F6F7F5; --surface:#FFFFFF; --raise:#EDF0ED;
+  --ink:#191E20; --muted:#5C6A66; --faint:#8B9793;
+  --rule:#D8DEDA; --rule-soft:#E7EBE8;
+  --accent:#2C6E5B; --accent-soft:#E4EFEA;
+  --warn:#8A5F10; --warn-soft:#F6EEDC;
+  --crit:#9E4038;
+  --measure:70ch;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#131719; --surface:#181D1F; --raise:#1F2528;
+    --ink:#DFE5E3; --muted:#9AA8A3; --faint:#788682;
+    --rule:#2C3437; --rule-soft:#232A2C;
+    --accent:#5FA891; --accent-soft:#1B2B26;
+    --warn:#D3A34A; --warn-soft:#2A2418;
+    --crit:#E08A80;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#131719; --surface:#181D1F; --raise:#1F2528;
+  --ink:#DFE5E3; --muted:#9AA8A3; --faint:#788682;
+  --rule:#2C3437; --rule-soft:#232A2C;
+  --accent:#5FA891; --accent-soft:#1B2B26;
+  --warn:#D3A34A; --warn-soft:#2A2418;
+  --crit:#E08A80;
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;scroll-padding-top:2rem;}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto;}}
+
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:Charter,"Bitstream Charter","Sitka Text",Cambria,Georgia,serif;
+  font-size:17px; line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+
+.shell{display:grid; grid-template-columns:1fr; gap:0; max-width:1220px; margin:0 auto; padding:0 1.5rem;}
+@media (min-width:1040px){
+  .shell{grid-template-columns:230px minmax(0,1fr); gap:3.5rem; padding:0 2rem;}
+}
+
+/* masthead */
+.masthead{padding:4rem 0 2rem; border-bottom:1px solid var(--rule); margin-bottom:2.5rem;}
+@media (min-width:1040px){.masthead{grid-column:1 / -1;}}
+.kicker{
+  font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  font-size:.7rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--accent); margin:0 0 1rem;
+}
+.masthead h1{
+  font-family:"Helvetica Neue",Helvetica,"Segoe UI",system-ui,sans-serif;
+  font-weight:700; letter-spacing:-.022em; line-height:1.08;
+  font-size:clamp(2rem,4.6vw,3.1rem); margin:0 0 1.1rem; text-wrap:balance; max-width:22ch;
+}
+.standfirst{color:var(--muted); font-size:1.06rem; max-width:62ch; margin:0 0 1.6rem;}
+.meta{
+  display:flex; flex-wrap:wrap; gap:.5rem 1.75rem;
+  font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  font-size:.74rem; letter-spacing:.04em; color:var(--faint);
+}
+.meta b{color:var(--muted); font-weight:600;}
+
+/* nav rail */
+.rail{display:none;}
+@media (min-width:1040px){
+  .rail{
+    display:block; position:sticky; top:2rem; align-self:start;
+    max-height:calc(100vh - 4rem); overflow-y:auto; padding-bottom:3rem;
+  }
+}
+.rail .railhead{
+  font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  font-size:.66rem; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--faint); padding-bottom:.7rem; margin-bottom:.7rem;
+  border-bottom:1px solid var(--rule-soft);
+}
+.rail a{
+  display:block; padding:.34rem 0; font-size:.83rem; line-height:1.35;
+  color:var(--muted); text-decoration:none; border-left:2px solid transparent; padding-left:.7rem;
+  font-family:"Helvetica Neue",Helvetica,system-ui,sans-serif;
+}
+.rail a:hover{color:var(--accent); border-left-color:var(--accent);}
+.rail a:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+
+/* content */
+main{min-width:0; padding-bottom:6rem;}
+main > :first-child{margin-top:0;}
+
+h2,h3,h4{
+  font-family:"Helvetica Neue",Helvetica,"Segoe UI",system-ui,sans-serif;
+  letter-spacing:-.014em; text-wrap:balance; scroll-margin-top:2rem;
+}
+h2{
+  font-size:1.62rem; font-weight:700; line-height:1.2;
+  margin:3.4rem 0 1.1rem; padding-top:1.6rem; border-top:1px solid var(--rule);
+  display:flex; gap:.85rem; align-items:baseline;
+}
+h3{font-size:1.14rem; font-weight:660; margin:2.3rem 0 .7rem; display:flex; gap:.7rem; align-items:baseline;}
+h4{font-size:.98rem; font-weight:660; margin:1.7rem 0 .5rem; color:var(--muted);}
+.eyebrow{
+  font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  font-size:.72em; font-weight:500; color:var(--accent);
+  letter-spacing:.02em; flex:none; font-variant-numeric:tabular-nums;
+}
+h2 > span:last-child, h3 > span:last-child{min-width:0;}
+
+p{margin:0 0 1.05rem; max-width:var(--measure);}
+ul,ol{margin:0 0 1.15rem; padding-left:1.3rem; max-width:var(--measure);}
+li{margin:0 0 .5rem;}
+li::marker{color:var(--faint);}
+strong{font-weight:700;}
+a{color:var(--accent); text-underline-offset:2px; text-decoration-thickness:1px;}
+a:focus-visible{outline:2px solid var(--accent); outline-offset:2px; border-radius:2px;}
+hr{border:0; border-top:1px solid var(--rule-soft); margin:2.6rem 0;}
+
+code{
+  font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  font-size:.85em; background:var(--raise); padding:.1em .34em;
+  border-radius:3px; color:var(--ink); word-break:break-word;
+}
+pre{
+  margin:0; padding:1rem 1.15rem; background:var(--raise);
+  border:1px solid var(--rule-soft); border-radius:4px; line-height:1.5;
+}
+pre code{background:none; padding:0; font-size:.82rem;}
+
+/* tables */
+.scroll{overflow-x:auto; margin:0 0 1.6rem; border:1px solid var(--rule); border-radius:4px; background:var(--surface);}
+.scroll:has(pre){border:0; background:none;}
+table{border-collapse:collapse; width:100%; font-size:.86rem; line-height:1.5;}
+thead th{
+  font-family:"Helvetica Neue",Helvetica,system-ui,sans-serif;
+  font-size:.72rem; letter-spacing:.06em; text-transform:uppercase;
+  font-weight:660; color:var(--muted); text-align:left;
+  padding:.72rem .85rem; border-bottom:1px solid var(--rule); background:var(--raise);
+  white-space:nowrap; position:sticky; top:0;
+}
+td{padding:.62rem .85rem; border-bottom:1px solid var(--rule-soft); vertical-align:top;}
+tbody tr:last-child td{border-bottom:0;}
+td.num{
+  font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  font-variant-numeric:tabular-nums; text-align:right; white-space:nowrap; color:var(--muted);
+}
+table.ledger{font-size:.8rem;}
+table.ledger td{padding:.42rem .7rem;}
+table.ledger tbody tr:hover{background:var(--raise);}
+
+/* callouts */
+blockquote{margin:0 0 1.6rem; padding:1.05rem 1.3rem; border-radius:4px; max-width:var(--measure);}
+blockquote > :last-child{margin-bottom:0;}
+blockquote.note{background:var(--accent-soft); border-left:3px solid var(--accent);}
+blockquote.warn{background:var(--warn-soft); border-left:3px solid var(--warn);}
+blockquote.warn h3{color:var(--warn); margin-top:0; font-size:1rem;}
+blockquote.warn strong{color:var(--warn);}
+blockquote p{max-width:none;}
+blockquote code{background:rgba(128,128,128,.16);}
+
+footer{
+  margin-top:4rem; padding:2rem 0 4rem; border-top:1px solid var(--rule);
+  font-family:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  font-size:.72rem; color:var(--faint); line-height:1.7;
+}
+</style>
+<div class="shell">
+  <header class="masthead">
+    <p class="kicker">Landscape &amp; redesign · internal</p>
+    <h1>Many simulants, many judges, everything config</h1>
+    <p class="standfirst">Taking the treemux principle — N independent runs, an auto-designed
+    adjudication panel, bias-corrected scoring — and redesigning it for classified
+    socio-political analysis. Sixty candidate capabilities, scored by three independent
+    panels; six taken to concept-of-operations depth; and the architecture that would
+    carry them.</p>
+    <div class="meta">
+      <span><b>Compiled</b> 2026-08-10</span>
+      <span><b>Buyer</b> CIA-originated, IC/DoD/civil adjacent</span>
+      <span><b>Coverage</b> 25/25 agents, none lost</span>
+      <span><b>Evidence</b> claims marked verified vs. reported</span>
+    </div>
+  </header>
+  <nav class="rail" aria-label="Sections">
+    <div class="railhead">Contents</div>
+    <a href="#in-plain-english">🧑 In Plain English</a>
+<a href="#0-how-this-was-produced-and-what-that-is-worth">0 How this was produced, and what that is worth</a>
+<a href="#1-the-principle-formalized">1 The principle, formalized</a>
+<a href="#2-the-buyer">2 The buyer</a>
+<a href="#3-the-landscape-60-candidates-scored">3 The landscape — 60 candidates, scored</a>
+<a href="#4-what-to-claim-and-what-to-cut">4 What to claim, and what to cut</a>
+<a href="#5-the-procurement-risk-that-has-to-be-fixed-first">5 The procurement risk that has to be fixed first</a>
+<a href="#6-the-acquisition-path">6 The acquisition path</a>
+<a href="#7-the-six-capabilities-taken-to-depth">7 The six capabilities, taken to depth</a>
+<a href="#8-the-redesign">8 The redesign</a>
+<a href="#9-what-to-do-next-in-order">9 What to do next, in order</a>
+<a href="#10-evidence-base">10 Evidence base</a>
+<a href="#appendix-all-60-candidates-scored">Appendix all 60 candidates, scored</a>
+  </nav>
+  <main>
+<p><strong>What this is:</strong> the deliverable for "take the treemux principle — many agents simulate, many judges adjudicate, everything driven by config — and redesign it for classified socio-political analysis." It contains the opportunity landscape, scored; six capabilities taken to concept-of-operations depth; and the architecture redesign.</p>
+<p><strong>Date:</strong> 2026-08-10. <strong>Buyer:</strong> CIA-originated solicitation, adjacent IC/DoD/civil buyers covered.</p>
+<hr />
+<h2 id="in-plain-english"><span>🧑 In Plain English</span></h2>
+<p><strong>The idea we started from.</strong> Treemux ran one problem past many independent AI workers, then had a panel of AI judges score the results — correcting for the fact that some judges are harsh and some are generous, and flagging the entries that were <em>unusual</em> rather than merely good. PROTEUS already repointed that machine from building websites to forecasting futures.</p>
+<p><strong>What this document adds.</strong> We surveyed what the US government has already paid for in this space, who already sells something like it, what the CIA specifically has said it wants, and what it is legally and practically able to buy. Then we generated 60 candidate products, had three independent panels score every one, and took the survivors apart.</p>
+<p><strong>The short version.</strong> Sixty ideas turn out to be about twelve underlying machines wearing different costumes — and saying that out loud is the strongest argument for the platform, not an embarrassment. The capabilities that win are not the exciting ones. A simulation of Iranian decision-making wins the demo; a tool that tells a reviewer "you believed fourteen sources but you actually have 2.3 independent ones" is what still gets used in year three.</p>
+<p><strong>The one thing that changed the plan.</strong> In February 2026 the federal government ordered agencies to stop using Anthropic's technology. Our only working model backend is Anthropic's. That sounds fatal and isn't — the fix is two lines — but it has to be fixed <em>before</em> anything is submitted, not after.</p>
+<hr />
+<h2 id="0-how-this-was-produced-and-what-that-is-worth"><span class="eyebrow">0</span><span>How this was produced, and what that is worth</span></h2>
+<p>15 research agents across program archaeology, buyer mapping, competitive analysis, compliance, and acquisition; 6 candidate-generation agents across distinct mission lenses; 3 independent judging panels scoring all 60 candidates; then 6 concept-of-operations deep dives and 3 architecture agents. <strong>Coverage: 15/15 and 10/10, zero agents lost.</strong></p>
+<p>Three things about the evidence, stated before any claim rests on them:</p>
+<ul>
+<li><strong>Agent reports are research, not verification.</strong> Where this document makes a load-bearing claim, it says whether <em>I</em> checked it this session or whether it comes from an agent's citation. Agent findings are marked with their own <code>CONFIRMED</code> / <code>REPORTED</code> / <code>UNVERIFIED</code> labels where they carried them.</li>
+<li><strong>The session's 200-search web budget was exhausted by the landscape sweep.</strong> The deep-dive agents that ran afterwards worked from supplied context rather than fresh research. Their <em>designs</em> are sound; their <em>citations</em> are thinner and are marked.</li>
+<li><strong>Two judges independently reached several of the same conclusions from different starting points.</strong> Where that happened it is noted, because independent convergence is worth more than either report alone.</li>
+</ul>
+<p>The full agent reports (≈1.9 MB, 25 documents) are in <code>docs/landscape/</code>, indexed in §10.</p>
+<hr />
+<h2 id="1-the-principle-formalized"><span class="eyebrow">1</span><span>The principle, formalized</span></h2>
+<p>Read from <code>TreeHacksFINAL/treemux/eval/src/</code> this session. The reusable core is four files, and three of them contain <strong>zero</strong> domain references:</p>
+<div class="scroll"><table><thead><tr><th>#</th><th>Mechanism</th><th>Where</th><th>Why it generalizes</th></tr></thead><tbody><tr><td class="num">1</td><td>One context document designs the whole panel</td><td><code>agents/planner.ts:59</code></td><td>The scenario is <em>data</em>. Swap the document, get a different panel. This is the "custom prompts/settings" requirement in its rawest form.</td></tr><tr><td class="num">2</td><td>Judge system prompts are generated, not written</td><td><code>types.ts:88-96</code> <code>JudgeSpec.systemPrompt</code></td><td>The panel adapts to the question with no code change.</td></tr><tr><td class="num">3</td><td>Human-authored judges coexist with generated ones</td><td><code>types.ts:61,94</code> <code>custom_judges</code>, <code>source: "auto"|"persona"</code></td><td>Analyst-authored techniques merge with auto-designed ones.</td></tr><tr><td class="num">4</td><td>Per-judge weighting is external config</td><td><code>types.ts:66</code> <code>judgeWeights</code></td><td>Panel composition tunes without touching scoring math.</td></tr><tr><td class="num">5</td><td>Judge severity-bias correction</td><td><code>scoring/normalize.ts:18-38</code> — z per judge, rescale, clamp</td><td>Domain-free. Works on <strong>sources</strong> as readily as on judges.</td></tr><tr><td class="num">6</td><td>Dimensional outlier = the underweighted axis</td><td><code>scoring/outliers.ts:52-86</code> — z per (judge × category)</td><td>The <em>surprise</em> detector: the case consensus underrates on exactly one axis.</td></tr><tr><td class="num">7</td><td>Unique-profile = ensemble diversity</td><td><code>scoring/outliers.ts:88-134</code> — cosine distance from centroid</td><td>Measures whether N runs actually differ.</td></tr><tr><td class="num">8</td><td>Every threshold injectable</td><td><code>types.ts:20-27</code> <code>OutlierConfig</code></td><td>No magic numbers in the math.</td></tr></tbody></table></div>
+<p>Items 5–8 operate on <code>Record&lt;string, number[]&gt;</code> and a score matrix. That is the asset.</p>
+<p><strong>This ranking was produced with items 5–7.</strong> The 60 candidates below were scored by three panels, then z-normalized per panel to strip severity bias, composited, and checked for dimensional outliers — the method, applied to its own opportunity set.</p>
+<blockquote class="warn"><h3 id="correction-items-5-6-and-8-are-not-in-proteus"><span>⚠️ CORRECTION — items 5, 6 and 8 are <strong>not in PROTEUS</strong></span></h3>
+<p>They are in <strong>treemux</strong>. <code>find engine/src -iname "normalize*" -o -iname "outlier*" -o -iname "compute*" -o -type d -name scoring</code> returns <strong>nothing</strong>. Only <code>cosineSimilarity</code> survived the pivot, into <code>util/vector.ts:9</code>, where <code>metrics/ensemble.ts:137</code> uses it for diversity.</p>
+<p><code>docs/ARCHITECTURE-PROTEUS.md:175-176</code> records both files as <strong>"KEPT — ZERO CODE CHANGE."</strong> <code>evidence/contradiction.ts:209</code> still says it <em>"extends the existing z-score disagreement math from judges to sources."</em> Both describe the predecessor repo. <strong>The record and the code disagree, and the code wins.</strong></p>
+<p><strong>Consequences.</strong> (1) Do not claim per-judge severity correction or three-way outlier detection as shipped capability — they are NEW work. (2) The z-normalization behind the ranking below was written <em>this session in a scoring script</em>, not run through PROTEUS. (3) There is a live correctness issue: with an ungraded panel <strong>and</strong> no cross-judge normalization, a single severe adjudicator currently moves the aggregate more than it should. (4) Delete the stale rows from <code>ARCHITECTURE-PROTEUS.md</code> — leaving them there invites exactly the claim we must not make.</p></blockquote>
+<h3 id="what-had-to-change-and-what-is-still-open"><span>What had to change, and what is still open</span></h3>
+<p>PROTEUS closed five of the eight gaps between a hackathon judge and an intelligence product: ordinal ranking → probability distribution over a resolvable partition; no abstention → measured gate; no provenance → dated claims with counted unsupported assertions; judge-sees-truth → oracle separation; <code>Math.random()</code> → seeded byte-identical artifacts.</p>
+<p>Three remain, all <strong>confirmed in the code this session</strong>:</p>
+<div class="scroll"><table><thead><tr><th>Gap</th><th>Evidence</th><th>Why it matters to this buyer</th></tr></thead><tbody><tr><td><strong>The rubric that judged a run is not in the artifact.</strong> <code>PanelPlan</code> carries an LLM-generated <code>systemPrompt</code> per adjudicator; never persisted, never hashed. Two runs judged by different rubrics share a <code>runId</code>.</td><td><code>grep -rni panelplan src/</code> matches only <code>agents/panel.ts</code>; <code>src/artifact/</code> and <code>src/pipeline/types.ts</code> hold no <code>panel*</code> reference; <code>runId = computeRunId(identity)</code> (<code>artifact/store.ts:137</code>) and identity has no panel field.</td><td>This is the gap between <strong>configurable</strong> and <strong>auditable</strong>. To an accreditation authority, the first without the second reads as a defect.</td></tr><tr><td><strong>k-of-N panel loss is a boolean, not a grade.</strong> One surviving adjudicator of <strong>three</strong> yields the same confidence driver as a full panel.</td><td><code>run-question.ts:680</code> <code>available: results.length &gt; 0</code> → <code>analysis.ts:240</code> <code>level: adjudicationAvailable ? "high" : "moderate"</code>. Shipped panel is <code>DEFAULT_PANEL_SIZE = 3</code> (<code>run-question.ts:78</code>); <code>planPanel(count = 4)</code>; 5 techniques exist.</td><td>Not hypothetical — a live run measured <strong>2 of 3 declining</strong>, i.e. exactly one survivor of the shipped panel, scored identically to a full one. The graceful-degradation metric is measuring a boolean.</td></tr><tr><td><strong>The mandatory evaluation-regime tag is not mandatory on the code path that produced every headline number.</strong></td><td><code>benchmark.ts:83</code> <code>readonly regime?: EvaluationRegime</code> and <code>:241</code> <code>const regime = options.regime ?? "synthetic_oracle"</code> — while <code>score.ts:42</code> states <em>"<code>regime</code> is required and never inferred."</em></td><td><strong>The most refutable claim in the submission, refutable by reading two lines of our own source.</strong> No published number is mislabelled — the default is the correct value — but the guard is a default, not a type. See §7.1.</td></tr><tr><td><strong>Two knobs do not fit every domain.</strong></td><td>Four of six mission lenses re-bound or bypassed <code>riskTolerance</code>/<code>escalationPropensity</code>.</td><td>Fixable by naming it: a generic two-knob actor profile <strong>plus</strong> a declared free-form ensemble dimension. Presented right, this is reach, not weakness.</td></tr></tbody></table></div>
+<p>One concern that turned out to be a non-issue, recorded so it does not get carried into a submission as a gap: treemux's planner ran with <code>bypassPermissions</code> / <code>allowDangerouslySkipPermissions</code>. <code>grep -rn "bypassPermissions\|allowDangerouslySkipPermissions\|claude-agent-sdk" src/</code> returns <strong>nothing</strong> — the Agent SDK backend was deleted. Not a PROTEUS problem.</p>
+<hr />
+<h2 id="2-the-buyer"><span class="eyebrow">2</span><span>The buyer</span></h2>
+<p>The single most useful thing established by the sweep: <strong>the CIA reorganized its technology and acquisition organization between October 2025 and June 2026, and cia.gov is only partly caught up.</strong> A buyer map written from the public org chart is stale.</p>
+<div class="scroll"><table><thead><tr><th>Change</th><th>Date</th></tr></thead><tbody><tr><td>Center for Cyber Intelligence elevated to a full Mission Center reporting to the Director</td><td>Oct 2025</td></tr><tr><td>New CIA Acquisition Framework — centralized vendor vetting, streamlined IT authorization, pathways to "rapidly onboard breakthrough technology prototypes"</td><td>9 Feb 2026</td></tr><tr><td>Directorate of Digital Innovation renamed <strong>Directorate of Mission Systems</strong>; open source and offensive cyber removed from its portfolio</td><td>30 Jun 2026</td></tr><tr><td><strong>Office of Corporate Partnerships</strong> stood up as industry's "single point of access"</td><td>30 Jun 2026</td></tr></tbody></table></div>
+<p>Do not address a submission to "DDI." Address the <strong>Directorate of Analysis</strong> as mission owner, name <strong>DMS</strong> as the enterprise host, and treat the Office of Corporate Partnerships as intake. Naming DMS correctly is a cheap, high-signal proof of reading the buyer as of this quarter.</p>
+<h3 id="the-three-quotes-that-shape-the-whole-strategy"><span>The three quotes that shape the whole strategy</span></h3>
+<ol>
+<li><strong>The DA's own AI strategy has three pillars: "AI as an intelligence topic; AI as a mission enabler; and AI governance and evaluation"</strong> — and it is "horizontally scanning for new AI technology and novel use cases, <strong>such as simulating crisis scenarios</strong>." (Wayne McCool, then Associate Deputy Director for Analysis, Feb 2024; a named officer's public post, not an official release — verify before quoting.) <em>The customer named our product category, and the third pillar is our metrics package.</em></li>
+<li><strong>"Within the next couple of years, we will have AI co-workers built into all of the agency's analytic platforms… It won't do the thinking for our analysts, but it will help draft key judgments, edit it for clarity, and compare drafts against tradecraft standards."</strong> (Deputy Director Michael Ellis, SCSP IntelSummit, 9 April 2026.) <em>A Deputy Director has publicly committed, on a two-year horizon, to machine checking of analytic products against ICD 203. That is deep-dive #3 below, almost verbatim.</em></li>
+<li><strong>Osiris — CIA's disclosed enterprise LLM — is for summarization, and CIA considers it a home run.</strong> The CTO in the same breath: analysts "must be able — with full certainty — to annotate and explain data they cite and how they reach conclusions. Our tradecraft has not changed." <em>The summarization slot is taken and defended. The open slot is provenance and adjudication. A white paper that reads as "better summarization" competes with an internal success and loses.</em></li>
+</ol>
+<h3 id="the-panel-is-the-buyers-own-doctrine"><span>The panel is the buyer's own doctrine</span></h3>
+<p>CIA's published <em>Tradecraft Primer: Structured Analytic Techniques for Improving Intelligence Analysis</em> names Analysis of Competing Hypotheses, Key Assumptions Check, Devil's Advocacy, Team A/Team B, High-Impact/Low-Probability, "What If?", and Indicators and Signposts — and on ACH specifically, that it highlights evidence that is most <strong>"discriminating."</strong></p>
+<p>The adjudication panel is not a methodology we have to sell. It is the CIA's own primer, implemented in software, with the diagnosticity weighting made explicit and the outputs measured. Say so on page one and cite the Primer by name.</p>
+<p>There is also a fifty-year-old internal argument to answer: Colby's 1973–75 devil's-advocate initiative died on "the practicality of institutionalizing challenge procedures" and fears that the costs might outweigh the benefits. <strong>Cost per insight answers that argument</strong>, and saying so is worth a paragraph.</p>
+<h3 id="the-objections-published-by-the-buyer"><span>The objections, published by the buyer</span></h3>
+<p>CIA's own journal has printed the case against us. <em>Studies in Intelligence</em> 68 no.1 calls generative AI integration "irresponsible, at best," resting on "brittle, untested, and untrustworthy applications whose inner workings not even their designers can entirely explain." <em>Studies</em> 67 no.4: "both the 'dots' and the connections between those dots exist within a black box at a time when organizations like the IC continue to work toward greater transparency about the underpinnings of their judgments."</p>
+<p>Every one of those is a direct hit on a black-box LLM product and a direct miss on this architecture. Quote them and answer mechanism by mechanism. That move separates a submission from vendors who have not read the buyer's own literature.</p>
+<hr />
+<h2 id="3-the-landscape-60-candidates-scored"><span class="eyebrow">3</span><span>The landscape — 60 candidates, scored</span></h2>
+<p>Six mission lenses produced 10 candidates each. Three panels scored all 60 independently:</p>
+<p><strong>mission reality</strong> (would an office buy and defend it), <strong>architecture fit</strong> (is this really simulate-and-adjudicate, or a RAG chatbot in a trench coat), <strong>win probability</strong> (federal capture view).</p>
+<p>Panel means before normalization: 3.20 / 3.48 / 3.15 — close enough that severity correction barely moved the order, which is itself a useful signal about the panels.</p>
+<h3 id="the-top-of-the-table"><span>The top of the table</span></h3>
+<div class="scroll"><table><thead><tr><th>#</th><th>id</th><th>M</th><th>A</th><th>W</th><th>Capability</th></tr></thead><tbody><tr><td class="num">1</td><td>C-GEO-3</td><td class="num">5</td><td class="num">5</td><td class="num">5</td><td>Coercion Tempo Ladder — PRC gray-zone pressure on Taiwan</td></tr><tr><td class="num">2</td><td>C-TRADECRAFT-2</td><td class="num">5</td><td class="num">5</td><td class="num">5</td><td>Effective-N — circular reporting and source independence</td></tr><tr><td class="num">3</td><td>C-TRADECRAFT-9</td><td class="num">4</td><td class="num">5</td><td class="num">5</td><td>The Range — synthetic closed worlds</td></tr><tr><td class="num">4</td><td>C-ADV-5</td><td class="num">5</td><td class="num">4</td><td class="num">5</td><td>Technoeconomic Retaliation</td></tr><tr><td class="num">5</td><td>C-TRADECRAFT-4</td><td class="num">5</td><td class="num">4</td><td class="num">5</td><td>Tradecraft Auditor — ICD 203 + Dutch-book coherence</td></tr><tr><td class="num">6</td><td>C-CYBER-2</td><td class="num">3</td><td class="num">5</td><td class="num">5</td><td>Hydra — water cyber-physical consequence twin</td></tr><tr><td class="num">7</td><td>C-CYBER-4</td><td class="num">4</td><td class="num">5</td><td class="num">4</td><td>Ransomware Ledger</td></tr><tr><td class="num">8</td><td>C-CYBER-6</td><td class="num">4</td><td class="num">5</td><td class="num">4</td><td>Exploit acquisition capacity</td></tr><tr><td class="num">9</td><td>C-GEO-9</td><td class="num">4</td><td class="num">5</td><td class="num">4</td><td>Post-Election Legitimacy Crisis</td></tr><tr><td class="num">10</td><td>C-IW-7</td><td class="num">4</td><td class="num">5</td><td class="num">4</td><td>Censorship Posture as a regime-insecurity barometer</td></tr><tr><td class="num">11</td><td>C-TECHECON-3</td><td class="num">4</td><td class="num">5</td><td class="num">4</td><td>Time-to-Capability</td></tr><tr><td class="num">12</td><td>C-IW-9</td><td class="num">4</td><td class="num">4</td><td class="num">5</td><td>Retrieval poisoning of the IC's own AI answer surface</td></tr></tbody></table></div>
+<p>Twenty candidates scored ≥4 from every panel. Seven were floored unanimously.</p>
+<h3 id="the-finding-that-matters-more-than-the-ranking"><span>The finding that matters more than the ranking</span></h3>
+<p><strong>Sixty candidates collapse to roughly twelve kernel families.</strong> Both the architecture and win-probability panels reached this independently and enumerated the clusters by id — one ordinal escalation ladder behind four candidates; one threshold-cascade-on-a-network behind six; one queueing/production pipeline behind six; one capture-recapture estimator behind three.</p>
+<p>State the collapse deliberately in the submission. <strong>The collapse <em>is</em> the config-not-code argument</strong>, and it is far more persuasive stated than discovered by an evaluator.</p>
+<h3 id="what-the-panels-agreed-on-unprompted"><span>What the panels agreed on, unprompted</span></h3>
+<ul>
+<li><strong>Buyability has one reliable discriminator: does the output land on a dated artifact with a signature block?</strong> A BIS rule annex, an OFAC designation memo, a stockpile purchase, an ICD 203 review, a watch list. Candidates that name one scored 4–5. Standalone probabilities "for senior policymakers" scored 2–3, because a standalone probability has no home in IC production and nobody is empowered to act on it.</li>
+<li><strong>The unglamorous capabilities are the ones that field.</strong> Four of the mission panel's top eight are quality-assurance products. They displace mandated, repetitive, disliked tasks and produce no judgment anyone has to defend. <em>"The adversary-simulation candidates win the demo and lose the deployment."</em></li>
+<li><strong>Coordination appears in zero of sixty candidates and is the largest adoption risk.</strong> IC finished intelligence is coordinated, not authored. Nobody said who represents a machine judgment in a coordination meeting or who takes the dissent footnote. The capabilities that dodge this entirely are the ones making claims about the <strong>source base</strong> rather than about the world — and that is not a coincidence, it is why they will field.</li>
+<li><strong>TRL is inflated across the board</strong> by counting the platform (TRL 4, 663 tests) instead of the domain pack (TRL 2–3, everywhere, without exception). Ship two columns before an evaluator draws the line for you.</li>
+<li><strong>Never backtest against the customer's own historical calls.</strong> If the model beats them, the submission is saying "your people were wrong" in a room containing people who were there. Use public baselines.</li>
+</ul>
+<hr />
+<h2 id="4-what-to-claim-and-what-to-cut"><span class="eyebrow">4</span><span>What to claim, and what to cut</span></h2>
+<p>The competitive analysis was run adversarially, and it is the most uncomfortable and most useful section of the sweep. Legend: ✅ safe · ⚠️ narrow it · ❌ cut it.</p>
+<div class="scroll"><table><thead><tr><th>Claim</th><th>Verdict</th><th>Why</th></tr></thead><tbody><tr><td><strong>Measured abstention</strong> — INSUFFICIENT_EVIDENCE as a first-class outcome with a published false-abstention rate</td><td>✅ <strong>Lead with this</strong></td><td>Zero vendors in the defense/IC market advertise it. The mechanism exists only in open-source RAG kernels and one finance product. The strongest differentiator in the deck. Cite the research (SURE-RAG et al.) yourself to show you know the literature and are claiming the <em>fielded implementation</em>, not the invention.</td></tr><tr><td><strong>The evaluation-regime tag and the refusal to pool</strong></td><td>✅</td><td>A self-limiting claim, which is itself the credibility signal.</td></tr><tr><td><strong>Leakage guards enforced at runtime</strong></td><td>✅</td><td>Anchor to DoDM 5000.102, which already forbids validating M&amp;S on training data. We enforce mechanically what the regulation demands.</td></tr><tr><td><strong>Weakest-link confidence aggregation</strong></td><td>✅</td><td>The one calibration idea with <strong>no prior art found</strong>. Lead the calibration story with this, not with z-scores.</td></tr><tr><td><strong>Artifact hash as an accreditation object</strong></td><td>✅</td><td>No LLM-wargaming vendor is talking about accreditation. Open lane.</td></tr><tr><td>"We measure Brier and they don't"</td><td>❌ <strong>Cut</strong></td><td>Logicon publishes Brier 0.106 / AUC 0.95 on <strong>480 resolved real-world</strong> predictions. Good Judgment, RAND's forecasting initiative and Metaculus all publish real-world calibration. On this axis PROTEUS is <strong>behind</strong>, not ahead — 15,832 synthetic simulations is an engineering result, not a forecasting result.</td></tr><tr><td>"Everything is config"</td><td>❌ <strong>Cut</strong></td><td>Every competitor claims no-code configurability. If kept, convert to a number: measured wall-clock and marginal cost to stand up a new scenario.</td></tr><tr><td>Two-knob adversary profiles as a differentiator</td><td>❌ <strong>Cut</strong></td><td>DecisionAdvantage's DecisionCompass and Anadyr Horizon are deeper and have named users. Reframe: the profiles exist to generate measured <em>ensemble diversity</em>, not to be psychologically faithful.</td></tr><tr><td>"Reproducible simulation", unqualified</td><td>⚠️</td><td>AFSIM is reproducible; JHU APL's GenWar Lab already owns "rigor," "repeatability," "traceable." Narrow to <strong>cryptographic reproducibility of an LLM-in-the-loop run</strong>.</td></tr><tr><td>Auto-designed ACH panel</td><td>⚠️</td><td>Automated ACH is prior art — MITRE holds patent 8,966,569 and IARPA funded the critique problem via REASON. Narrow to per-question panel composition plus a red team whose objection is a <strong>control-flow event</strong>, not advisory text. Have counsel check the patent before any IP claim.</td></tr><tr><td>Likelihood/confidence separation</td><td>⚠️</td><td>Real but low-moat — an indie project already enforces exactly this constraint in code. One paragraph as tradecraft literacy, not a pillar.</td></tr></tbody></table></div>
+<p><strong>The one-line competitive frame, from the analysis:</strong> <em>every vendor in this market sells an answer — Palantir sells the platform it runs on, Rhombus and Dataminr sell the claim it arrived early, APL and Hadean sell more answers faster. Nobody sells the measurement of whether the answer was any good, and nobody sells the ability to decline to answer.</em></p>
+<h3 id="where-we-are-genuinely-weaker-say-it-first"><span>Where we are genuinely weaker — say it first</span></h3>
+<ol>
+<li><strong>No real-world forecast track record.</strong> Competitors have hundreds of resolved questions. The honest claim is narrow and strong: the monotonic skill-vs-evidence-quality curve (+0.44 / +0.42 / +0.11 / −0.46) shows <strong>the machinery responds correctly to evidence quality</strong>. Say exactly that and no more.</li>
+<li><strong>No accreditation, no vehicle, no ATO.</strong> Competitors hold JWICS ATOs, IL2–IL7 paths, and multi-billion IDIQ ceilings. Name the intended path or it reads as a science project.</li>
+<li><strong>The IC already tried scored forecasting and abandoned it.</strong> A CIA reviewer over 45 will remember. <strong>The adoption argument matters more than the technical argument.</strong> The honest answer: cost per forecast collapses when the forecaster is a machine, and the abstention gate removes the analyst's fear of being scored on unanswerable questions.</li>
+<li><strong>The escalation literature is a loaded gun.</strong> Published work found off-the-shelf LLMs escalate, develop arms-race dynamics, and occasionally reach for nuclear weapons; another study with 214 national-security experts found LLM-simulated teams cannot represent human player characteristics at all. <strong>Cite these yourself.</strong> This architecture puts the LLM at setup and interpretation and a deterministic kernel at simulation — precisely the mitigation those papers imply. Nothing builds more credibility with an IC reviewer than citing the strongest argument against your own category.</li>
+</ol>
+<hr />
+<h2 id="5-the-procurement-risk-that-has-to-be-fixed-first"><span class="eyebrow">5</span><span>The procurement risk that has to be fixed first</span></h2>
+<p><strong>Reported and independently corroborated by two agents, then verified by me this session against PBS NewsHour:</strong> on <strong>27 February 2026</strong> the administration ordered all US agencies to stop using Anthropic's AI technology; the Secretary of Defense designated Anthropic "a supply chain risk." Most agencies were to stop immediately; the Pentagon received a six-month phase-out. The dispute originated in Anthropic's refusal to permit unrestricted military use without safeguards.</p>
+<p>Our only working model backend is <code>src/llm/anthropic.ts</code>, and the README already concedes "model-agnosticism is a seam, not a measurement."</p>
+<p><strong>The exposure is smaller than it looks, and I measured it.</strong> <code>LlmClient</code> is a two-member interface (<code>name</code>, <code>complete</code>). Every analytic agent — <code>framer.ts</code>, <code>panel.ts</code>, <code>red-team.ts</code>, <code>run-question.ts</code>, <code>benchmark.ts</code> — imports only the <em>type</em>. No vendor SDK is imported anywhere outside <code>src/llm/anthropic.ts</code>, and there is <strong>not one hard-coded <code>claude-*</code> model id outside that file</strong>. The entire coupling is two lines:</p>
+<div class="scroll"><pre><code>src/forecast.ts:20    import { createAnthropicClient } from "./llm/anthropic.js";
+src/forecast.ts:168     return createAnthropicClient();</code></pre></div>
+<p>both inside <code>selectClient()</code>.</p>
+<p><strong>Recommendation.</strong> Implement a second backend against an open-weight or non-designated model and run the existing benchmark through both. That converts the README's caveat into a measured number — model-swap cost — and turns the single largest procurement risk into a differentiator, because vendor-diversity is now an explicit CIA posture: the Deputy Director said publicly that the agency "cannot allow the whims of a single company" to constrain its use of AI.</p>
+<p>Two consequences for the submission, both from the buyer analysis:</p>
+<ul>
+<li><strong>Do not name a model vendor anywhere in the document.</strong> Describe the LLM layer as pluggable and specify the interface.</li>
+<li><strong>The deterministic kernel means the numeric result does not depend on which model is installed</strong> — the LLM frames and interprets, the seeded math simulates. That is the strongest available answer to "single-company whims," and no summarization-first competitor can make it.</li>
+</ul>
+<hr />
+<h2 id="6-the-acquisition-path"><span class="eyebrow">6</span><span>The acquisition path</span></h2>
+<ul>
+<li><strong>There is no CIA SBIR.</strong> IC elements are statutorily exempt; NGA is the only IC member that participates, voluntarily. Do not spend a cycle looking for a topic.</li>
+<li><strong>In-Q-Tel is the only CIA-adjacent channel that explicitly asks for a technology white paper</strong> and can fund adaptation work without a clearance. Two instruments: equity-only (~$250K, board observer seat) and directed investments / technology development agreements (low single-digit millions, tied to a named government partner's use case). For a pre-revenue prototype with a synthetic-oracle benchmark, the directed investment is the highest-probability first dollar. The ask is not "buy this" — it is "here is a measurable capability, here is the DA use case it serves, fund the adaptation."</li>
+<li><strong>CIA Labs publishes a CRADA intake form.</strong> Lowest-clearance-barrier front door on the entire CIA surface. Not revenue, but a citable engagement and a government sponsor.</li>
+<li><strong>The <code>cia.gov/partner-with-cia/</code> unsolicited channel works</strong> — enter the keyword <code>private-sector</code>, expect a Submission Reference ID, and note the asymmetry: <strong>CIA replies within 45 days only if interested. Silence is a rejection.</strong></li>
+<li><strong>Write to DARPA/IARPA conventions.</strong> CIA's Chief Procurement Executive arrived from DARPA in November 2025. Expect white papers, Heilmeier framing, milestone-and-metric structure.</li>
+<li><strong>Assume five pages, 12 pt, 1-inch margins, everything inside the count</strong> — the modal government white paper, matching both IARPA and DARPA. If the actual solicitation says otherwise, its instructions win absolutely; non-conformance is the cheapest way to get binned.</li>
+<li><strong>Heilmeier question 5 is where this wins</strong>: <em>how will you evaluate progress, and what are your milestones and metrics?</em> Most submissions fumble it. We arrive with a metrics package, a mandatory regime tag, and a rule that no function pools regimes.</li>
+</ul>
+<h3 id="the-classification-barrier-has-a-solved-pattern-use-it"><span>The classification barrier has a solved pattern — use it</span></h3>
+<p>IARPA REASON's structure is the template, and it is the strongest thing this architecture has to say about classification: performers build and are tested on <strong>unclassified</strong> data; an independent <strong>cleared T&amp;E team</strong> evaluates on classified material in parallel; performers never receive classified access and refine against unclassified summary-level feedback.</p>
+<p><strong>Deterministic seeded byte-identical artifacts make that pattern cheaper than it has ever been</strong> — a cleared T&amp;E team can re-derive a performer's run exactly, without the performer, and attribute any difference to a named config line. Every capability that says "the classified version swaps one config file" should say this instead.</p>
+<p>Two more, both from the compliance sweep: REASON requires <strong>a minimum of Government Purpose Rights</strong>, which is the data-rights floor for this space and must be priced in rather than discovered at negotiation. And <strong>a deterministic system with no wall clock and no <code>Math.random()</code> is materially cheaper to accredit under ICD 503 than a stochastic service</strong> — reproducibility is a <em>schedule</em> argument, not only a science argument, at an agency publicly trying to compress 24-month onboarding to 6.</p>
+<h3 id="a-second-door-already-written-to-this-architecture"><span>A second door, already written to this architecture</span></h3>
+<p>A DIU/ODNI solicitation issued 11 March 2026 seeks "an evaluation harness and government-specific benchmarks that together enable rigorous, reproducible, vendor-agnostic assessment of any AI system," including reproducible degradation testing and gaming-resistant benchmarks. <strong>The government is buying the metrics package as a separate procurement.</strong> If the CIA path stalls, that requirement already describes what exists.</p>
+<hr />
+<p><em>Sections 7 (the six deep dives) and 8 (the architecture redesign) follow when the second workflow lands.</em></p>
+<hr />
+<h2 id="7-the-six-capabilities-taken-to-depth"><span class="eyebrow">7</span><span>The six capabilities, taken to depth</span></h2>
+<p>Chosen by composite rank, then <strong>deduplicated into fused capabilities</strong> rather than left as raw candidates — because the clusters are the product. Full concept-of-operations documents are in <code>docs/landscape/dives--*.md</code>.</p>
+<h3 id="71-c-chain-1-iran-water-decision-activation-consequence"><span class="eyebrow">7.1</span><span>C-CHAIN-1 — Iran → water: decision → activation → consequence</span></h3>
+<p><em>(fuses C-ADV-1 + C-CYBER-1 + C-CYBER-2)</em></p>
+<p>The customer's own worked example, and the only capability both judging panels independently named as the biggest gap in the catalog: nobody had chained the three stages. <em>Will</em> Iran move against US water controls; <em>when</em> would it spend access it already holds; <em>what happens to the water</em>. Today those three questions live with an analyst, a threat hunter, and a utility engineer who never speak, and nobody hands the answer forward.</p>
+<p>Built as <strong>four registered questions, not one</strong> — because a fused question would force a single regime tag, and the three stages genuinely have different oracles. The consequence stage runs on <strong>WNTR/EPANET 2.2</strong>, an EPA/Sandia solver a panel can rerun themselves.</p>
+<p><strong>The design decision that makes it honest:</strong> the activation stage depends on an access- inventory prior only classified reporting has, so the unclassified tier is <strong>structurally capped at low confidence</strong>, and the product names the stage that capped it. The chain refuses to launder a weak link into a strong headline.</p>
+<p><strong>What the red team broke, and it matters:</strong> the consequence stage was tagged <code>synthetic_oracle</code> with WNTR as its own oracle. <em>Reproducibility is not accuracy</em> — if the solver is both predictor and answer key, measured skill is 1.0 by construction. The defensible claim is narrower: <strong>Q3 is verifiable, not validated.</strong> Also: the proposed <code>[number, number, ...number[]]</code> guard on the pressure sweep forbids arity 1 but not <code>[20.0, 20.0]</code> — it constrains cardinality where the trap is about span.</p>
+<h3 id="72-confluence-source-discrepancy-and-analytic-confidence-rec"><span class="eyebrow">7.2</span><span>CONFLUENCE — source discrepancy and analytic-confidence reconciliation</span></h3>
+<p><em>(fuses C-TRADECRAFT-1 + C-GEO-8 on C-TRADECRAFT-2 as enforced upstream)</em></p>
+<p>Maps <strong>word for word</strong> onto stated benefit (c). One product, three modes: provenance graph, single quantity, whole folder.</p>
+<p>In 2002 the judgment that Iraq had mobile biological weapons labs rested on ~100 reports that turned out to be one man; Silberman–Robb found the reporting "left an impression of many corroborating reports where in fact there were very few sources." <strong>Nobody has ever been handed a tool that computes that number before the assessment ships.</strong> The output is a sentence no one in the room has seen: <em>you believed fourteen sources; you have 2.3; your posterior odds fall from 61:1 to 4:1.</em></p>
+<p>It never claims anything about the world, never names a person, only says which documents descend from which. <strong>That restraint is the fielding argument</strong> — it is why this capability never enters interagency coordination, which the sweep identified as the largest unaddressed adoption risk in the entire catalog.</p>
+<p><strong>Two things to fix.</strong> The false-circularity rate must be co-equal reported — over-declaring circularity suppresses real corroboration, which is not a safe error. And the "no person node" red line is weaker than stated: evidence channel 4 is byline reuse, which requires byline data; absence of a <code>Person</code> type means the data sits on <code>DocumentInstance</code> instead. A security reviewer finds that in one pass.</p>
+<h3 id="73-tradecraft-auditor-icd-203-compliance-and-probabilistic-c"><span class="eyebrow">7.3</span><span>Tradecraft Auditor — ICD 203 compliance and probabilistic coherence</span></h3>
+<p><em>(C-TRADECRAFT-4, with C-TRADECRAFT-6 Indicator Lab)</em></p>
+<p>The most defensible position a vendor can occupy: <strong>scoring against the customer's own published regulation.</strong> And the Deputy Director has publicly committed, on a two-year horizon, to AI coworkers that "compare drafts against tradecraft standards."</p>
+<p>The genuinely new element is a <strong>linear-programming Dutch-book detector</strong>: are the seven estimative statements in one product mutually satisfiable? This has <em>mathematical</em> ground truth and finds a defect nothing else finds, because holding seven probabilistic propositions in working memory is beyond any human reviewer. The failure — "X is likely" beside "X or Y is unlikely" — is invisible and embarrassing.</p>
+<p>Indicator Lab is its sibling: it gives a watch chief measured cover to <strong>delete</strong> indicators, an organizational pathology with no current solution anywhere in the community.</p>
+<p><strong>Two hard adoption warnings, both with structural answers.</strong> A false contradiction alarm destroys analyst trust faster than any other failure, so the extracted proposition set must be shown back for confirmation before infeasibility is declared. And the moment scores aggregate to a named author this becomes a personnel instrument and adoption dies — <strong>the red team found this understated</strong>: scoring accumulates per product class and topic, which in most shops is near-unique to an office and often an individual. k-anonymity is never mentioned. "There is no <code>authorId</code> field" is not an answer to that.</p>
+<h3 id="74-c-geo-3-coercion-tempo-ladder"><span class="eyebrow">7.4</span><span>C-GEO-3 — Coercion Tempo Ladder</span></h3>
+<p><em>(and the ordinal escalation-ladder kernel family: C-ADV-2, C-ADV-8, C-CYBER-3)</em></p>
+<p><strong>Unanimous 5/5/5, tied first.</strong> A watch officer at INDOPACOM counts PLA aircraft by hand each morning from Taiwan's public releases, and writes "sustained elevated pressure" — a sentence that has been in the product for years and that nobody can score.</p>
+<p><strong>This is the capability that should lead, and the reason is not the forecast.</strong> It is the only candidate that pre-registers an ablation of <em>PROTEUS's own architectural contribution</em> rather than of the data's signal: it names <strong>"a plain Hawkes fit with no game layer"</strong> as the model to beat. Every other candidate compares itself to a base rate, which tests whether the data has signal. This one tests whether simulate-and-adjudicate has signal. A positive ΔRPS from the decision layer on daily public data is worth more than every synthetic number in the package — and if it is negative, we need to know before a customer does.</p>
+<p><strong>A correction the deep dive made to my own brief:</strong> I specified ΔCRPS as the headline. CRPS is for continuous quantities; for an <em>ordered categorical</em> rung the correct member of the family is the <strong>Ranked Probability Score</strong>. Reporting "ΔCRPS on the rung" is a category error a technical panel will catch. ΔRPS on the rung, ΔCRPS on the tempo, reported side by side, never summed. <code>grep -rniE "crps|rankedProbability|ordinal" engine/src/</code> returns <strong>zero hits</strong> — neither is implemented.</p>
+<h3 id="75-adversary-technoeconomic-decision-making"><span class="eyebrow">7.5</span><span>Adversary technoeconomic decision-making</span></h3>
+<p><em>(fuses C-ADV-5 + C-TECHECON-8 + C-TECHECON-2, with C-TECHECON-4)</em></p>
+<p>The customer named technoeconomic policy explicitly. A BIS rule package goes to interagency with a retaliation annex that has a due date, a drafter and a signature block — and today it is one person reasoning from the last two episodes.</p>
+<p>The differentiator against Sayari, Kharon, C4ADS, Altana, Exiger and Interos is exact: <strong>they illuminate networks; none models the adversary as a chooser, and none publishes a forward-scored prediction.</strong> C-TECHECON-8's coefficients are <em>fitted</em> on the Global Sanctions Database's 1,547 coded cases rather than hand-set, and it ships a mirror config (same kernel, US instrument menu) — one of only five places where config-not-code is genuinely demonstrable.</p>
+<p><strong>The problem to face rather than hide:</strong> a static input-output matrix with a one-shot argmax on top is not obviously a simulation, and a technical evaluator will say so. And Iran and DPRK are largely absent from the I-O tables, so <strong>structural abstention on the customer's named case approaches 100%.</strong></p>
+<h3 id="76-c-iw-9-retrieval-poisoning-of-the-ics-own-ai-answer-surfa"><span class="eyebrow">7.6</span><span>C-IW-9 — Retrieval poisoning of the IC's own AI answer surface</span></h3>
+<p>The sleeper, and the shortest path to a first contract. Every other capability asks the customer to trust a prediction about the world; this one makes a claim about <strong>a machine the customer owns</strong>, and the verification is running the audit. CIA already fields a generative-AI tool over open source used by thousands of analysts across 18 agencies, and nobody measures how far an adversary has gotten into it.</p>
+<p><strong>The classification barrier inverts here</strong> — the classified version is the <em>easy</em> one, because the thing modeled is the customer's own index, which exists only inside the enclave.</p>
+<p><strong>The red team found the kernel commits the error it diagnoses.</strong> §2.2 correctly argues that global corpus share is the wrong state variable, because PoisonedRAG achieved 97% attack success by injecting <strong>5 texts per target question into 2,681,468</strong> — a 0.0002% poisoning rate that no corpus-share model can reproduce. Then §3.3's state variables are per-topic-cell corpus counts with <strong>no query variable anywhere in the dynamics</strong>. Per-query targeting — the entire mechanism of the cited result — is not representable. This is fixable, and it must be fixed before the capability is pitched.</p>
+<hr />
+<h2 id="8-the-redesign"><span class="eyebrow">8</span><span>The redesign</span></h2>
+<p>Full documents: <code>docs/landscape/redesign--{platform,dualtier,evaluation}.md</code>.</p>
+<h3 id="81-name-the-three-architectures-and-stop-selling-them-as-one"><span class="eyebrow">8.1</span><span>Name the three architectures, and stop selling them as one</span></h3>
+<p>The platform contains three legitimate but distinct shapes, and pitching all three as "simulate-and-adjudicate" is the exact evidence-class inflation the platform exists to prevent:</p>
+<div class="scroll"><table><thead><tr><th>Class</th><th>What it is</th><th>What varies across the ensemble</th></tr></thead><tbody><tr><td><strong>A — simulate-and-adjudicate</strong></td><td>a decision process with state evolving under a rule</td><td>divergent actor/decision profiles</td></tr><tr><td><strong>B — estimate-and-adjudicate</strong></td><td>an estimator over a fixed evidence set</td><td><em>interpretive</em> hypotheses — evidence partitions, model choices, deception hypotheses</td></tr><tr><td><strong>C — consequence twin</strong></td><td>a physical/operational process, adversary as boundary condition</td><td>perturbation and parameter draws</td></tr></tbody></table></div>
+<p><strong>Classes B and C have systematically better oracles than class A</strong>, because their quantities are constructible or physically measured. Claim each on its own terms. Class B is also where the capabilities that actually field live.</p>
+<h3 id="82-the-scenario-pack-and-the-honest-version-of-config-not-co"><span class="eyebrow">8.2</span><span>The Scenario Pack, and the honest version of "config not code"</span></h3>
+<p>The config contract: question contract (measure, partition, resolution tick, as-of, range), actor/profile models, kernel adapter binding, corpus binding, <strong>panel spec</strong>, thresholds, red lines — canonicalized and hashed to a <code>packHash</code>, with <strong>every numeric leaf required to carry an <code>estimator:</code> field or the pack fails to load.</strong></p>
+<p><strong>The arithmetic that kills the unqualified claim.</strong> Domain-free core: <strong>8,748 lines</strong> (verified: <code>src</code> total 11,723 − adapters 2,529 − bindings 446). New code the six packs declare or imply: <strong>12,000–16,000 lines.</strong> The new domain code exceeds the entire domain-free platform, and two of six packs give no estimate at all. Claim config-reuse in the five places it is demonstrable and <strong>kernel-family reuse</strong> everywhere else.</p>
+<h3 id="83-the-three-confirmed-gaps-and-their-fixes"><span class="eyebrow">8.3</span><span>The three confirmed gaps, and their fixes</span></h3>
+<ul>
+<li><strong>Panel provenance</strong> → the panel spec becomes a content-addressed artifact; <code>packHash</code>, <code>panelSpecHash</code> and <code>ensembleDimensionHash</code> join <code>RunIdentity</code> at <code>identityVersion: 2</code>; a registry of human-approved panels exists; an unapproved panel produces a flagged-and-counted run, not a blocked one.</li>
+<li><strong>Graded degradation</strong> → delete <code>adjudicationAvailable: boolean</code> (<code>analysis.ts:171</code>) and <code>available: results.length &gt; 0</code> (<code>run-question.ts:680</code>); replace with a <code>PanelSurvival</code> record that grades refusals and errors apart, and instantiate <code>degradationCheck()</code> (<code>metrics/operations.ts:159-195</code>) over it so graceful degradation becomes a test assertion.</li>
+<li><strong>The two knobs</strong> → delete the hard-wired schema at <code>framer.ts:41</code>. Replace with a generic two-knob actor profile <strong>plus a declared free-form ensemble dimension</strong>. Four of six domains rejected the knobs; a parameterization four of six domains reject is not a platform primitive. Say it as reach, not apology: the fan-out generalizes past actor psychology.</li>
+</ul>
+<h3 id="84-new-first-class-components"><span class="eyebrow">8.4</span><span>New first-class components</span></h3>
+<p>The observation-corruption layer (delay, censoring, bias, quantization, deception policy, laundering operator) as a <strong>wrapper any kernel can run through</strong>, so every pack gets a synthetic false-positive and false-abstention rate for free — today those rates are measurable for one capability and asserted for the rest. The Range as <strong>infrastructure, not a product</strong> (precedent: IARPA FOCUS evaluated methods by having hundreds of people forecast outcomes in complex simulations, so the regime is already accepted by the customer's own research arm). The <code>estimator:</code> field with a <strong>variance-attribution gate</strong> that abstains when ensemble spread is dominated by a parameter with <code>estimator: none</code> — converting "your diversity is decoration" from a rhetorical objection into a runtime assertion. A <strong>stylized-facts gate</strong> that refuses to forecast until the kernel reproduces published empirical regularities. The <strong>ablation harness</strong>. The <strong>commit-then-resolve register</strong>. The <strong>rerun-diff</strong> — which upgrades determinism from a reproducibility claim to an <em>attributable-change</em> claim: here is the single config line that moved the BLUF band and here is the one that did not. And the</p>
+<p><strong>dissent-and-override channel</strong>, because IC tools die of non-adoption far more often than of inaccuracy.</p>
+<h3 id="85-dual-tier-the-reason-pattern-is-the-answer-and-determinis"><span class="eyebrow">8.5</span><span>Dual-tier: the REASON pattern is the answer, and determinism is why</span></h3>
+<p>Every capability that says "the classified version swaps one config file" should say this instead: performers build and are tested on unclassified data; an independent <strong>cleared T&amp;E team</strong> evaluates on classified material in parallel; performers never receive classified access. <strong>Because a run's identity is the hash of everything that produced it and the artifact hash is the hash of everything it emitted, a cleared T&amp;E team can re-execute an uncleared performer's pack against classified corpora and prove — byte for byte — that it ran the same system, without the performer ever seeing the data or the result.</strong></p>
+<p>The component substitution table, the red-line type system as an accreditation artifact (a schema diff plus a failing test showing config-load rejection is worth more in a bid than every TRL number combined), and the two ICD 203 standards an auditor will actually fail us on — <strong>sourcing of model <em>parameters</em>, not just evidence items</strong>, and the requirement for an <em>argument</em> rather than a number — are in <code>redesign--dualtier.md</code>.</p>
+<h3 id="86-evaluation-the-new-guards"><span class="eyebrow">8.6</span><span>Evaluation: the new guards</span></h3>
+<p><code>oracle_independence</code> as a <strong>required fourth field</strong> on the regime tag (<code>independent | shares_source_with_input | analyst_consensus | revised_series</code>), with the metrics package <strong>refusing to compute a skill score</strong> against a contaminated oracle. The counterfactual-branch rule: score the realized branch under backtest or live regimes, score unrealized branches only under synthetic oracle, never pool. Data-vintage recording for oracles that move. A <strong>platform-wide null suite</strong> — every pack run against a quiet period, reporting false-alarm rate per pack, which is the number a warning customer wants and no vendor publishes. And metric selection by question class: for rare events over short windows the honest headline is <strong>tail recall and coverage@N</strong>, not Brier skill, because "predict no" is a devastating baseline.</p>
+<hr />
+<h2 id="9-what-to-do-next-in-order"><span class="eyebrow">9</span><span>What to do next, in order</span></h2>
+<ol>
+<li><strong>Fix the regime tag, then re-run and re-publish every headline number under it.</strong> Delete <code>regime?</code> and the <code>?? "synthetic_oracle"</code> default at <code>benchmark.ts:83,241</code>; make <code>EvaluationRegime</code> required. This is cheap, provable in a demo, and converts the most refutable claim in the package into the most defensible one. Right now a panel can break the central thesis by reading two lines of our source.</li>
+<li><strong>Add a second LLM backend and measure the swap.</strong> Two lines of coupling (<code>forecast.ts:20,168</code>). This closes the procurement risk in §5 and turns model-agnosticism from a caveat into a number.</li>
+<li><strong>Start the commit-then-resolve register now, on the coercion ladder.</strong> Taiwan MND publishes daily; the rung-mapping function can be hashed and committed today. <strong>A live register with commitment hashes predating resolution is the only artifact in this market a T&amp;E team can verify without trusting the vendor at all.</strong> Submitting a paper <em>about</em> a register you have not started is submitting what everyone else submits.</li>
+<li><strong>Correct the record in <code>ARCHITECTURE-PROTEUS.md</code>.</strong> Delete the rows claiming <code>scoring/normalize.ts</code> and <code>scoring/outliers.ts</code> are "KEPT — ZERO CODE CHANGE," and fix the stale comment at <code>evidence/contradiction.ts:209</code>. Leaving them invites exactly the claim we must not make.</li>
+<li><strong>Grade panel loss</strong> and add per-judge normalization — currently a single severe adjudicator over-moves the aggregate, with no correction anywhere.</li>
+</ol>
+<h3 id="two-things-this-package-still-cannot-answer"><span>Two things this package still cannot answer</span></h3>
+<p><strong>Benefit (b) — reduced time to analyze — is never measured.</strong> No time-on-task study, no human-in-the-loop evaluation, no comparison against an analyst doing the same task. We measure machine accuracy and never measure the thing the customer said it wanted.</p>
+<p><strong>Benefit (d) — cost reduction — has no denominator.</strong> The only cost figures are $0.2959 and $0.7544 <em>per question</em>, commercial-API, and explicitly non-transferable to the high side. There is no analyst-hour baseline and no products-per-year figure, so <strong>no cost-reduction claim currently survives arithmetic</strong> — because no arithmetic has been attempted. Both are squarely in scope for the customer's stated benefits, and both are unaddressed.</p>
+<hr />
+<h2 id="10-evidence-base"><span class="eyebrow">10</span><span>Evidence base</span></h2>
+<div class="scroll"><table><thead><tr><th>File</th><th>What it is</th></tr></thead><tbody><tr><td><code>landscape/priorArt--cia.md</code></td><td>The buyer: offices, AI posture, procurement, ICD standards, a recommended five-page skeleton</td></tr><tr><td><code>landscape/priorArt--iarpa.md</code> · <code>--darpa.md</code></td><td>Program archaeology — what the government already paid for, and the gap it left</td></tr><tr><td><code>landscape/priorArt--incumbents.md</code></td><td>Adversarial competitive analysis and the differentiation table</td></tr><tr><td><code>landscape/priorArt--standards.md</code></td><td>ICD 203/206/505, IL levels, ICD 503, model availability by tier, data rights</td></tr><tr><td><code>landscape/priorArt--acquisition.md</code></td><td>Every pathway from white paper to first dollar, with timelines</td></tr><tr><td><code>landscape/candidates--*.md</code></td><td>The 60 candidates, full template each</td></tr><tr><td><code>landscape/judges--*.md</code></td><td>Three independent scorings of all 60</td></tr><tr><td><code>landscape/dives--*.md</code></td><td>The six concept-of-operations documents</td></tr><tr><td><code>landscape/redesign--*.md</code></td><td>Platform architecture, dual-tier deployment, evaluation redesign</td></tr><tr><td><code>landscape/redteam.md</code></td><td>The hostile evaluation that found the defects in §7 and §9</td></tr></tbody></table></div>
+<p><strong>Caveat that travels with all of it:</strong> these are research agents' reports. Claims I verified myself this session are marked as such in the body above. The rest carry the agents' own labels, and the deep-dive agents ran after the session's web-search budget was exhausted, so their citations are thinner than the landscape sweep's.</p>
+<hr />
+<h2 id="appendix-all-60-candidates-scored"><span class="eyebrow">Appendix</span><span>all 60 candidates, scored</span></h2>
+<p>M = mission reality · A = architecture fit · W = win probability, each 1–5 from an independent panel. Composite is the z-normalized mean across panels. ⭐ = no panel scored it below 4.</p>
+<div class="scroll"><table class="ledger"><thead><tr><th>#</th><th>id</th><th>lens</th><th>M</th><th>A</th><th>W</th><th>composite</th><th>capability</th></tr></thead><tbody><tr><td class="num">1</td><td><code>C-GEO-3</code></td><td>Geopolitical instability</td><td class="num">5</td><td class="num">5</td><td class="num">5</td><td class="num">7.71</td><td>Coercion Tempo Ladder ⭐</td></tr><tr><td class="num">2</td><td><code>C-TRADECRAFT-2</code></td><td>Analytic tradecraft QA</td><td class="num">5</td><td class="num">5</td><td class="num">5</td><td class="num">7.71</td><td>Effective-N ⭐</td></tr><tr><td class="num">3</td><td><code>C-TRADECRAFT-9</code></td><td>Analytic tradecraft QA</td><td class="num">4</td><td class="num">5</td><td class="num">5</td><td class="num">7.29</td><td>The Range ⭐</td></tr><tr><td class="num">4</td><td><code>C-ADV-5</code></td><td>Adversary decision-making</td><td class="num">5</td><td class="num">4</td><td class="num">5</td><td class="num">7.25</td><td>Technoeconomic Retaliation ⭐</td></tr><tr><td class="num">5</td><td><code>C-TRADECRAFT-4</code></td><td>Analytic tradecraft QA</td><td class="num">5</td><td class="num">4</td><td class="num">5</td><td class="num">7.25</td><td>Tradecraft Auditor ⭐</td></tr><tr><td class="num">6</td><td><code>C-CYBER-2</code></td><td>Cyber &amp; critical infrastructure</td><td class="num">3</td><td class="num">5</td><td class="num">5</td><td class="num">6.88</td><td>Hydra water twin</td></tr><tr><td class="num">7</td><td><code>C-CYBER-4</code></td><td>Cyber &amp; critical infrastructure</td><td class="num">4</td><td class="num">5</td><td class="num">4</td><td class="num">6.87</td><td>Ransomware Ledger ⭐</td></tr><tr><td class="num">8</td><td><code>C-CYBER-6</code></td><td>Cyber &amp; critical infrastructure</td><td class="num">4</td><td class="num">5</td><td class="num">4</td><td class="num">6.87</td><td>Exploit Pipeline ⭐</td></tr><tr><td class="num">9</td><td><code>C-GEO-9</code></td><td>Geopolitical instability</td><td class="num">4</td><td class="num">5</td><td class="num">4</td><td class="num">6.87</td><td>Post-Election Legitimacy ⭐</td></tr><tr><td class="num">10</td><td><code>C-IW-7</code></td><td>Information warfare</td><td class="num">4</td><td class="num">5</td><td class="num">4</td><td class="num">6.87</td><td>Censorship Posture barometer ⭐</td></tr><tr><td class="num">11</td><td><code>C-TECHECON-3</code></td><td>Technoeconomic statecraft</td><td class="num">4</td><td class="num">5</td><td class="num">4</td><td class="num">6.87</td><td>Time-to-Capability ⭐</td></tr><tr><td class="num">12</td><td><code>C-IW-9</code></td><td>Information warfare</td><td class="num">4</td><td class="num">4</td><td class="num">5</td><td class="num">6.84</td><td>Retrieval Poisoning ⭐</td></tr><tr><td class="num">13</td><td><code>C-GEO-8</code></td><td>Geopolitical instability</td><td class="num">5</td><td class="num">4</td><td class="num">4</td><td class="num">6.83</td><td>Contradiction Ledger ⭐</td></tr><tr><td class="num">14</td><td><code>C-TECHECON-2</code></td><td>Technoeconomic statecraft</td><td class="num">5</td><td class="num">4</td><td class="num">4</td><td class="num">6.83</td><td>Sanctions Package Pre-Mortem ⭐</td></tr><tr><td class="num">15</td><td><code>C-TECHECON-4</code></td><td>Technoeconomic statecraft</td><td class="num">5</td><td class="num">4</td><td class="num">4</td><td class="num">6.83</td><td>Mineral Chokepoint ⭐</td></tr><tr><td class="num">16</td><td><code>C-TRADECRAFT-6</code></td><td>Analytic tradecraft QA</td><td class="num">5</td><td class="num">4</td><td class="num">4</td><td class="num">6.83</td><td>Indicator Lab ⭐</td></tr><tr><td class="num">17</td><td><code>C-ADV-7</code></td><td>Adversary decision-making</td><td class="num">3</td><td class="num">5</td><td class="num">4</td><td class="num">6.46</td><td>Coalition Cohesion</td></tr><tr><td class="num">18</td><td><code>C-ADV-2</code></td><td>Adversary decision-making</td><td class="num">4</td><td class="num">4</td><td class="num">4</td><td class="num">6.42</td><td>Crisis Ladder ⭐</td></tr><tr><td class="num">19</td><td><code>C-TECHECON-7</code></td><td>Technoeconomic statecraft</td><td class="num">4</td><td class="num">4</td><td class="num">4</td><td class="num">6.42</td><td>Proliferation Diffusion ⭐</td></tr><tr><td class="num">20</td><td><code>C-TECHECON-8</code></td><td>Technoeconomic statecraft</td><td class="num">4</td><td class="num">4</td><td class="num">4</td><td class="num">6.42</td><td>Coercion Instrument Chooser ⭐</td></tr><tr><td class="num">21</td><td><code>C-TRADECRAFT-1</code></td><td>Analytic tradecraft QA</td><td class="num">4</td><td class="num">4</td><td class="num">4</td><td class="num">6.42</td><td>Source Conflict Adjudicator ⭐</td></tr><tr><td class="num">22</td><td><code>C-TRADECRAFT-5</code></td><td>Analytic tradecraft QA</td><td class="num">4</td><td class="num">4</td><td class="num">4</td><td class="num">6.42</td><td>Collection Tasker ⭐</td></tr><tr><td class="num">23</td><td><code>C-ADV-1</code></td><td>Adversary decision-making</td><td class="num">4</td><td class="num">3</td><td class="num">5</td><td class="num">6.39</td><td>Sub-Threshold Action Selector</td></tr><tr><td class="num">24</td><td><code>C-GEO-2</code></td><td>Geopolitical instability</td><td class="num">4</td><td class="num">4</td><td class="num">3</td><td class="num">6.00</td><td>Mobilization Cascade</td></tr><tr><td class="num">25</td><td><code>C-TECHECON-1</code></td><td>Technoeconomic statecraft</td><td class="num">4</td><td class="num">4</td><td class="num">3</td><td class="num">6.00</td><td>Diversion Pathway</td></tr><tr><td class="num">26</td><td><code>C-TECHECON-5</code></td><td>Technoeconomic statecraft</td><td class="num">4</td><td class="num">4</td><td class="num">3</td><td class="num">6.00</td><td>Interdiction Portfolio</td></tr><tr><td class="num">27</td><td><code>C-CYBER-9</code></td><td>Cyber &amp; critical infrastructure</td><td class="num">4</td><td class="num">3</td><td class="num">4</td><td class="num">5.97</td><td>DPRK Treasury Line</td></tr><tr><td class="num">28</td><td><code>C-IW-4</code></td><td>Information warfare</td><td class="num">4</td><td class="num">3</td><td class="num">4</td><td class="num">5.97</td><td>Adversary Campaign COA</td></tr><tr><td class="num">29</td><td><code>C-IW-2</code></td><td>Information warfare</td><td class="num">2</td><td class="num">5</td><td class="num">3</td><td class="num">5.63</td><td>Belief Drift</td></tr><tr><td class="num">30</td><td><code>C-GEO-1</code></td><td>Geopolitical instability</td><td class="num">3</td><td class="num">4</td><td class="num">3</td><td class="num">5.59</td><td>Elite Defection Cascade</td></tr><tr><td class="num">31</td><td><code>C-IW-1</code></td><td>Information warfare</td><td class="num">3</td><td class="num">4</td><td class="num">3</td><td class="num">5.59</td><td>Dark Figure</td></tr><tr><td class="num">32</td><td><code>C-CYBER-5</code></td><td>Cyber &amp; critical infrastructure</td><td class="num">4</td><td class="num">3</td><td class="num">3</td><td class="num">5.55</td><td>Q-Model attribution</td></tr><tr><td class="num">33</td><td><code>C-CYBER-8</code></td><td>Cyber &amp; critical infrastructure</td><td class="num">2</td><td class="num">4</td><td class="num">3</td><td class="num">5.17</td><td>Regional hospital triage</td></tr><tr><td class="num">34</td><td><code>C-IW-8</code></td><td>Information warfare</td><td class="num">2</td><td class="num">4</td><td class="num">3</td><td class="num">5.17</td><td>Synthetic Media Surge</td></tr><tr><td class="num">35</td><td><code>C-TRADECRAFT-7</code></td><td>Analytic tradecraft QA</td><td class="num">2</td><td class="num">4</td><td class="num">3</td><td class="num">5.17</td><td>The Ledger</td></tr><tr><td class="num">36</td><td><code>C-ADV-3</code></td><td>Adversary decision-making</td><td class="num">3</td><td class="num">3</td><td class="num">3</td><td class="num">5.14</td><td>Belief Gap</td></tr><tr><td class="num">37</td><td><code>C-CYBER-1</code></td><td>Cyber &amp; critical infrastructure</td><td class="num">3</td><td class="num">3</td><td class="num">3</td><td class="num">5.14</td><td>Activation Clock</td></tr><tr><td class="num">38</td><td><code>C-CYBER-7</code></td><td>Cyber &amp; critical infrastructure</td><td class="num">3</td><td class="num">3</td><td class="num">3</td><td class="num">5.14</td><td>Chokepoint force flow</td></tr><tr><td class="num">39</td><td><code>C-GEO-5</code></td><td>Geopolitical instability</td><td class="num">3</td><td class="num">3</td><td class="num">3</td><td class="num">5.14</td><td>Alignment Drift</td></tr><tr><td class="num">40</td><td><code>C-IW-5</code></td><td>Information warfare</td><td class="num">3</td><td class="num">3</td><td class="num">3</td><td class="num">5.14</td><td>Campaign dose-response</td></tr><tr><td class="num">41</td><td><code>C-IW-6</code></td><td>Information warfare</td><td class="num">3</td><td class="num">3</td><td class="num">3</td><td class="num">5.14</td><td>Attribution Support</td></tr><tr><td class="num">42</td><td><code>C-GEO-7</code></td><td>Geopolitical instability</td><td class="num">4</td><td class="num">3</td><td class="num">2</td><td class="num">5.13</td><td>Collapse Consequence Fan</td></tr><tr><td class="num">43</td><td><code>C-ADV-4</code></td><td>Adversary decision-making</td><td class="num">2</td><td class="num">3</td><td class="num">3</td><td class="num">4.72</td><td>Regime Survival Constraint</td></tr><tr><td class="num">44</td><td><code>C-ADV-6</code></td><td>Adversary decision-making</td><td class="num">3</td><td class="num">3</td><td class="num">2</td><td class="num">4.72</td><td>Counter-COA</td></tr><tr><td class="num">45</td><td><code>C-GEO-4</code></td><td>Geopolitical instability</td><td class="num">3</td><td class="num">3</td><td class="num">2</td><td class="num">4.72</td><td>Ceasefire Survival</td></tr><tr><td class="num">46</td><td><code>C-TRADECRAFT-3</code></td><td>Analytic tradecraft QA</td><td class="num">3</td><td class="num">3</td><td class="num">2</td><td class="num">4.72</td><td>Red Mirror</td></tr><tr><td class="num">47</td><td><code>C-TRADECRAFT-8</code></td><td>Analytic tradecraft QA</td><td class="num">3</td><td class="num">3</td><td class="num">2</td><td class="num">4.72</td><td>Tournament + router</td></tr><tr><td class="num">48</td><td><code>C-CYBER-3</code></td><td>Cyber &amp; critical infrastructure</td><td class="num">3</td><td class="num">2</td><td class="num">3</td><td class="num">4.68</td><td>Rung response options</td></tr><tr><td class="num">49</td><td><code>C-ADV-9</code></td><td>Adversary decision-making</td><td class="num">2</td><td class="num">3</td><td class="num">2</td><td class="num">4.30</td><td>Sustainment Ceiling</td></tr><tr><td class="num">50</td><td><code>C-GEO-6</code></td><td>Geopolitical instability</td><td class="num">2</td><td class="num">3</td><td class="num">2</td><td class="num">4.30</td><td>Water-food stress pathway</td></tr><tr><td class="num">51</td><td><code>C-TECHECON-6</code></td><td>Technoeconomic statecraft</td><td class="num">2</td><td class="num">3</td><td class="num">2</td><td class="num">4.30</td><td>Control-Backfire Counterfactual</td></tr><tr><td class="num">52</td><td><code>C-TECHECON-9</code></td><td>Technoeconomic statecraft</td><td class="num">2</td><td class="num">3</td><td class="num">2</td><td class="num">4.30</td><td>Financial-Rail Escape</td></tr><tr><td class="num">53</td><td><code>C-ADV-8</code></td><td>Adversary decision-making</td><td class="num">2</td><td class="num">2</td><td class="num">2</td><td class="num">3.85</td><td>Tail Watch</td></tr><tr><td class="num">54</td><td><code>C-IW-3</code></td><td>Information warfare</td><td class="num">1</td><td class="num">3</td><td class="num">1</td><td class="num">3.47</td><td>Resilience Playbook</td></tr><tr><td class="num">55</td><td><code>C-TECHECON-10</code></td><td>Technoeconomic statecraft</td><td class="num">1</td><td class="num">2</td><td class="num">1</td><td class="num">3.02</td><td>GDP Nowcast</td></tr><tr><td class="num">56</td><td><code>C-ADV-10</code></td><td>Adversary decision-making</td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td class="num">2.56</td><td>Leader Digital Twin</td></tr><tr><td class="num">57</td><td><code>C-CYBER-10</code></td><td>Cyber &amp; critical infrastructure</td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td class="num">2.56</td><td>Warning Board</td></tr><tr><td class="num">58</td><td><code>C-GEO-10</code></td><td>Geopolitical instability</td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td class="num">2.56</td><td>Global Instability Heat Map</td></tr><tr><td class="num">59</td><td><code>C-IW-10</code></td><td>Information warfare</td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td class="num">2.56</td><td>Domestic radicalization scoring</td></tr><tr><td class="num">60</td><td><code>C-TRADECRAFT-10</code></td><td>Analytic tradecraft QA</td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td class="num">2.56</td><td>Bias / insider-risk scorer</td></tr></tbody></table></div>
+    <footer>
+      Generated from docs/GOV-LANDSCAPE.md · full agent reports in docs/landscape/ ·
+      claims labelled <em>verified this session</em> were checked against the code or a
+      primary source; the rest carry the reporting agent's own label.
+    </footer>
+  </main>
+</div>

@@ -25,8 +25,14 @@ import type {
   DoctrineProfile,
 } from "../actors/doctrine.js";
 import { SCENARIO_PACKS } from "./packs/index.js";
-import { SCENARIO_PRESETS, validatePresets } from "./presets.js";
+import {
+  PRESET_VERIFICATION_SEEDS,
+  SCENARIO_PRESETS,
+  validatePresets,
+} from "./presets.js";
 import type { ScenarioPreset } from "./presets.js";
+import { compareArms, worstActorFor } from "./compare-arms.js";
+import type { ArmComparison } from "./compare-arms.js";
 
 export interface ManifestDefense {
   readonly kind: string;
@@ -156,6 +162,40 @@ export async function buildDossiers(
       })),
     ),
   };
+}
+
+/**
+ * Every pack's mitigations, replayed against its worst actor across six seeds.
+ *
+ * Published as its own file rather than folded into the manifest: the manifest
+ * is imported by a client component, and per-seed harm arrays for three packs
+ * would ride into the browser to render a table the server can render itself.
+ *
+ * Uses the same six seeds the presets are checked against, so a reader who runs
+ * `--preset one-world-cannot-tell-you` and then reads this table is looking at
+ * the same worlds from two directions.
+ */
+export async function buildComparisons(
+  profilePath?: string,
+): Promise<readonly ArmComparison[]> {
+  const library = await loadDoctrineLibrary(profilePath);
+  const actorIds = library.profiles.map((profile) => profile.id);
+  const seeds = [...PRESET_VERIFICATION_SEEDS];
+
+  const comparisons: ArmComparison[] = [];
+  for (const pack of Object.keys(SCENARIO_PACKS)) {
+    const actorId = await worstActorFor(pack, actorIds, seeds, profilePath);
+    comparisons.push(
+      await compareArms({
+        pack,
+        actorId,
+        actorLabel: library.get(actorId).label,
+        seeds,
+        profilePath,
+      }),
+    );
+  }
+  return comparisons;
 }
 
 export async function buildManifest(

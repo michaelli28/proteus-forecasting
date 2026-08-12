@@ -1,0 +1,308 @@
+[
+  {
+    "pack": "regional-grid",
+    "harmUnit": "customer-hours without supply",
+    "tickUnit": "day",
+    "actorId": "ideological-nonstate",
+    "actorLabel": "Ideologically-motivated violent non-state actor",
+    "seeds": [
+      "proteus",
+      "atlas",
+      "meridian",
+      "beacon",
+      "kestrel",
+      "orpheus"
+    ],
+    "baseline": {
+      "defense": null,
+      "label": "no mitigation",
+      "costPerTick": 0,
+      "harm": [
+        859434,
+        923650,
+        0,
+        923650,
+        372304,
+        1127770
+      ],
+      "median": 891542,
+      "best": 0,
+      "worst": 1127770,
+      "beatBaseline": 0
+    },
+    "defended": [
+      {
+        "defense": "manual-fallback",
+        "label": "staffed manual operation",
+        "costPerTick": 6,
+        "harm": [
+          678101.2,
+          678101.2,
+          0,
+          442937.04,
+          331140.04000000004,
+          235164.16
+        ],
+        "median": 387038.54000000004,
+        "best": 0,
+        "worst": 678101.2,
+        "beatBaseline": 5
+      },
+      {
+        "defense": "anomaly-detection",
+        "label": "operations anomaly detection",
+        "costPerTick": 12,
+        "harm": [
+          807450,
+          603330,
+          0,
+          859434,
+          372304,
+          576424
+        ],
+        "median": 589877,
+        "best": 0,
+        "worst": 859434,
+        "beatBaseline": 4
+      },
+      {
+        "defense": "credential-rotation",
+        "label": "credential rotation",
+        "costPerTick": 8,
+        "harm": [
+          603330,
+          603330,
+          0,
+          859434,
+          372304,
+          807450
+        ],
+        "median": 603330,
+        "best": 0,
+        "worst": 859434,
+        "beatBaseline": 4
+      },
+      {
+        "defense": "segmentation",
+        "label": "control-network segmentation",
+        "costPerTick": 18,
+        "harm": [
+          655314,
+          923650,
+          0,
+          859434,
+          576424,
+          372304
+        ],
+        "median": 615869,
+        "best": 0,
+        "worst": 923650,
+        "beatBaseline": 3
+      }
+    ]
+  },
+  {
+    "pack": "port-throughput",
+    "harmUnit": "container-hours of delayed throughput",
+    "tickUnit": "day",
+    "actorId": "china",
+    "actorLabel": "People's Republic of China",
+    "seeds": [
+      "proteus",
+      "atlas",
+      "meridian",
+      "beacon",
+      "kestrel",
+      "orpheus"
+    ],
+    "baseline": {
+      "defense": null,
+      "label": "no mitigation",
+      "costPerTick": 0,
+      "harm": [
+        184248,
+        575223.6,
+        453594,
+        622138.8,
+        479254.8,
+        323356.8
+      ],
+      "median": 466424.4,
+      "best": 184248,
+      "worst": 622138.8,
+      "beatBaseline": 0
+    },
+    "defended": [
+      {
+        "defense": "credential-rotation",
+        "label": "credential rotation",
+        "costPerTick": 9,
+        "harm": [
+          135162,
+          227901.6,
+          135162,
+          283011.6,
+          35154,
+          211353.6
+        ],
+        "median": 173257.8,
+        "best": 35154,
+        "worst": 283011.6,
+        "beatBaseline": 6
+      },
+      {
+        "defense": "segmentation",
+        "label": "operations network segmentation",
+        "costPerTick": 20,
+        "harm": [
+          382245.6,
+          227901.6,
+          236055.6,
+          396663.6,
+          155898,
+          151996.8
+        ],
+        "median": 231978.6,
+        "best": 151996.8,
+        "worst": 396663.6,
+        "beatBaseline": 5
+      },
+      {
+        "defense": "anomaly-detection",
+        "label": "operations anomaly detection",
+        "costPerTick": 12,
+        "harm": [
+          417867.6,
+          227901.6,
+          454371.6,
+          362391.6,
+          0,
+          211353.6
+        ],
+        "median": 295146.6,
+        "best": 0,
+        "worst": 454371.6,
+        "beatBaseline": 4
+      },
+      {
+        "defense": "manifest-attestation",
+        "label": "independent manifest attestation",
+        "costPerTick": 14,
+        "harm": [
+          175882.8384,
+          142034.0832,
+          429010.6944,
+          375349.8144,
+          230512.224,
+          366065.70239999995
+        ],
+        "median": 298288.9632,
+        "best": 142034.0832,
+        "worst": 429010.6944,
+        "beatBaseline": 5
+      }
+    ]
+  },
+  {
+    "pack": "benefits-delivery",
+    "harmUnit": "beneficiary-hours of incorrect or absent service",
+    "tickUnit": "day",
+    "actorId": "china",
+    "actorLabel": "People's Republic of China",
+    "seeds": [
+      "proteus",
+      "atlas",
+      "meridian",
+      "beacon",
+      "kestrel",
+      "orpheus"
+    ],
+    "baseline": {
+      "defense": null,
+      "label": "no mitigation",
+      "costPerTick": 0,
+      "harm": [
+        155250000,
+        183150000,
+        183150000,
+        186450000,
+        191422500,
+        187522500
+      ],
+      "median": 184800000,
+      "best": 155250000,
+      "worst": 191422500,
+      "beatBaseline": 0
+    },
+    "defended": [
+      {
+        "defense": "privileged-access-review",
+        "label": "privileged access review",
+        "costPerTick": 10,
+        "harm": [
+          28917000,
+          122067000,
+          137808000,
+          131925000,
+          171075000,
+          133542000
+        ],
+        "median": 132733500,
+        "best": 28917000,
+        "worst": 171075000,
+        "beatBaseline": 6
+      },
+      {
+        "defense": "determination-sampling",
+        "label": "independent determination sampling",
+        "costPerTick": 16,
+        "harm": [
+          144253059.6,
+          25180923.6,
+          144669459.6,
+          146959659.6,
+          133253736,
+          55095723.6
+        ],
+        "median": 138753397.8,
+        "best": 25180923.6,
+        "worst": 146959659.6,
+        "beatBaseline": 6
+      },
+      {
+        "defense": "anomaly-detection",
+        "label": "transaction anomaly detection",
+        "costPerTick": 12,
+        "harm": [
+          186450000,
+          122067000,
+          137808000,
+          149367000,
+          65455500,
+          186450000
+        ],
+        "median": 143587500,
+        "best": 65455500,
+        "worst": 186450000,
+        "beatBaseline": 5
+      },
+      {
+        "defense": "segmentation",
+        "label": "service segmentation",
+        "costPerTick": 22,
+        "harm": [
+          50625000,
+          155250000,
+          186450000,
+          186450000,
+          169008000,
+          191422500
+        ],
+        "median": 177729000,
+        "best": 50625000,
+        "worst": 191422500,
+        "beatBaseline": 3
+      }
+    ]
+  }
+]

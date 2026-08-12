@@ -25,12 +25,36 @@ const API_VERSION = "2023-06-01";
 
 export const DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-4-5-20250929";
 
-/** USD per million tokens. Override via options when prices change. */
+/**
+ * USD per million tokens, published list rates. Override via options.
+ *
+ * Checked against the vendor's current model table on 2026-08-12. The previous
+ * entry for Opus 4.6 read $15/$75 — three times the real rate — so every run on
+ * an Opus model reported a cost that was wrong in the direction that matters
+ * most for a project whose whole claim is traceable numbers.
+ *
+ * Aliases and dated ids are both listed because a caller may pass either, and a
+ * model this table does not know is reported as unpriced tokens rather than
+ * silently costed at a neighbour's rate — an invented figure is worse than an
+ * absent one.
+ */
 export const DEFAULT_PRICING: Readonly<
   Record<string, { input: number; output: number }>
 > = {
+  "claude-fable-5": { input: 10, output: 50 },
+  "claude-mythos-5": { input: 10, output: 50 },
+  "claude-opus-5": { input: 5, output: 25 },
+  "claude-opus-4-8": { input: 5, output: 25 },
+  "claude-opus-4-7": { input: 5, output: 25 },
+  "claude-opus-4-6": { input: 5, output: 25 },
+  // Sonnet 5 carries a $2/$10 introductory rate through 2026-08-31. The list
+  // rate is used instead: a run priced high by the discount is a pleasant
+  // surprise, and a table that quietly expires is not.
+  "claude-sonnet-5": { input: 3, output: 15 },
+  "claude-sonnet-4-6": { input: 3, output: 15 },
+  "claude-sonnet-4-5": { input: 3, output: 15 },
   "claude-sonnet-4-5-20250929": { input: 3, output: 15 },
-  "claude-opus-4-6": { input: 15, output: 75 },
+  "claude-haiku-4-5": { input: 1, output: 5 },
   "claude-haiku-4-5-20251001": { input: 1, output: 5 },
 };
 

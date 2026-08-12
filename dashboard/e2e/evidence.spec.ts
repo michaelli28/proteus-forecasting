@@ -116,6 +116,59 @@ test.describe("the preset picker", () => {
   });
 });
 
+test.describe("the mitigation comparison", () => {
+  test("reports a spread per measure, not one harm-avoided number", async ({
+    page,
+  }) => {
+    await page.goto("/live", { waitUntil: "networkidle" });
+
+    const section = page.locator("section", {
+      hasText: "One run cannot tell you",
+    });
+    await expect(section.first()).toBeVisible();
+
+    // One table per scenario, each with a baseline row and its measures.
+    const tables = section.first().locator("table");
+    expect(await tables.count(), "a table per scenario").toBeGreaterThanOrEqual(
+      3,
+    );
+
+    const body = await section.first().innerText();
+    expect(body, "baseline arm is shown").toContain("no mitigation");
+    // The finding is the spread. A range on every row is what makes it visible.
+    expect(
+      (body.match(/\bto\b/g) ?? []).length,
+      "per-measure ranges",
+    ).toBeGreaterThan(5);
+  });
+
+  test("marks only the measures that won in every world", async ({ page }) => {
+    await page.goto("/live", { waitUntil: "networkidle" });
+    const section = page
+      .locator("section", { hasText: "One run cannot tell you" })
+      .first();
+
+    const rows = section.locator("tbody tr");
+    const total = await rows.count();
+    const reliable = await section.getByText(/better in all \d+/).count();
+    const unreliable = await section.getByText(/worse in \d+ of \d+/).count();
+
+    // Both states must actually occur, or the distinction the table draws is
+    // decoration: a mark that appears on every row tells a reader nothing.
+    expect(reliable, "measures that never lost").toBeGreaterThan(0);
+    expect(unreliable, "measures that lost somewhere").toBeGreaterThan(0);
+    expect(reliable + unreliable).toBeLessThan(total);
+  });
+
+  test("does not ship the per-seed data to the browser", async ({ page }) => {
+    await page.goto("/live", { waitUntil: "networkidle" });
+    // The comparison is server-rendered; its raw per-seed arrays should never
+    // appear in a client payload. `beatBaseline` is the giveaway field name.
+    const html = await page.content();
+    expect(html).not.toContain("beatBaseline");
+  });
+});
+
 test.describe("actor dossiers", () => {
   test("every dossier names its own weakest claim, with the field it indicts", async ({
     page,

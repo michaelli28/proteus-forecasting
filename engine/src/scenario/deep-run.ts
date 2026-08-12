@@ -364,6 +364,13 @@ export function decisionPoints(
 /**
  * Apply the per-world cap, keeping the most interesting steps.
  *
+ * Each actor is guaranteed its best step before any actor gets a second. Strict
+ * rank order does not survive contact with the comparison this product exists
+ * to make: put Russia and China in one grid and Russia authorises six moves
+ * while China authorises none, so six rank-0 Russian steps fill the budget and
+ * the actor that declined — the whole point of running them together — convenes
+ * nothing. Its silence then reads as the model having nothing to say about it.
+ *
  * Returns what it discarded rather than discarding quietly. A bounded search
  * reported as an exhaustive one is the same defect as an unsourced parameter:
  * the number looks like more than it is.
@@ -385,8 +392,21 @@ export function capPerBranch(
     const ordered = [...list].sort(
       (a, b) => a.rank - b.rank || a.tick - b.tick,
     );
-    kept.push(...ordered.slice(0, max));
-    dropped += Math.max(0, ordered.length - max);
+
+    const firstPerActor: DecisionPoint[] = [];
+    const remainder: DecisionPoint[] = [];
+    const claimed = new Set<string>();
+    for (const point of ordered) {
+      if (claimed.has(point.actorId)) remainder.push(point);
+      else {
+        claimed.add(point.actorId);
+        firstPerActor.push(point);
+      }
+    }
+
+    const chosen = [...firstPerActor, ...remainder].slice(0, max);
+    kept.push(...chosen);
+    dropped += Math.max(0, ordered.length - chosen.length);
   }
   // Chronological within the run, so the stream reads as a story rather than as
   // the priority queue it was selected by.

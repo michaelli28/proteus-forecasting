@@ -136,6 +136,13 @@ export interface HistoricalDecision {
   confidence: Confidence;
 }
 
+/** The one place this profile's researcher says it is least defensible. */
+export interface WeakestClaim {
+  /** The field it indicts, e.g. "worldview.adversaryModel". */
+  section: string;
+  finding: string;
+}
+
 export interface Dossier {
   id: string;
   label: string;
@@ -150,6 +157,25 @@ export interface Dossier {
   procedure?: DecisionProcedure;
   worldview?: Worldview;
   history?: HistoricalDecision[];
+  weakestClaim?: WeakestClaim;
+}
+
+/** Whether an enforceable commitment can bite in any shipped scenario. */
+export interface ConstraintReach {
+  profileId: string;
+  redlineId: string;
+  attribute: string;
+  maxAcceptable: number;
+  /** Packs holding at least one move this commitment would remove. */
+  reachedIn: string[];
+}
+
+/** One heading from a profile's source list, with the citations under it. */
+export interface SourceGroup {
+  profileId: string;
+  /** Empty for citations filed before any heading. */
+  label: string;
+  citations: string[];
 }
 
 export interface DossierFile {
@@ -157,6 +183,8 @@ export interface DossierFile {
   reviewedAt: string;
   method: string;
   profiles: Dossier[];
+  constraintReach: ConstraintReach[];
+  sourceGroups: SourceGroup[];
 }
 
 function load(): DossierFile {
@@ -173,6 +201,45 @@ export const DOSSIERS = load();
 
 export function dossierFor(id: string): Dossier | undefined {
   return DOSSIERS.profiles.find((profile) => profile.id === id);
+}
+
+/**
+ * What the model does with one commitment, stated exactly.
+ *
+ * Three states, not two. A commitment with no threshold changes nothing and
+ * says so; one whose threshold some scenario reaches genuinely narrows the
+ * choice set; and one whose threshold no shipped ladder gets near is enforced
+ * and inert — which is true of every constrained redline in the library today.
+ * Collapsing that third case into "enforced" is how a page tells a reader
+ * something accurate and leaves them believing something false.
+ */
+export function redlineReach(
+  dossier: Dossier,
+  redlineId: string,
+): ConstraintReach | undefined {
+  return DOSSIERS.constraintReach.find(
+    (reach) => reach.profileId === dossier.id && reach.redlineId === redlineId,
+  );
+}
+
+/**
+ * The citations, under the headings their author filed them beneath.
+ *
+ * The raw `sources` array mixes both, so counting it counted the headings —
+ * every actor page overstated its own sourcing by three or four. The engine
+ * publishes the repaired reading; this just selects one profile's.
+ */
+export function sourceGroupsFor(dossier: Dossier): SourceGroup[] {
+  return DOSSIERS.sourceGroups.filter(
+    (group) => group.profileId === dossier.id,
+  );
+}
+
+export function citationCount(dossier: Dossier): number {
+  return sourceGroupsFor(dossier).reduce(
+    (total, group) => total + group.citations.length,
+    0,
+  );
 }
 
 /** Episodes offered as evidence for one parameter, newest first. */

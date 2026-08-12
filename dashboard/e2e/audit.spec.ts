@@ -15,6 +15,8 @@ import type { ConsoleMessage, Page, Request } from "@playwright/test";
 const ROUTES = [
   { path: "/", name: "overview" },
   { path: "/live", name: "watch a run" },
+  { path: "/actors", name: "actors index" },
+  { path: "/actors/russia", name: "one actor dossier" },
   { path: "/exposure", name: "water exposure" },
   { path: "/calibration", name: "forecast quality" },
   { path: "/metrics", name: "metrics" },
@@ -181,8 +183,11 @@ test("buttons and controls on every page respond without error", async ({
 
       const label = ((await button.innerText()) || "(unlabelled)").trim();
       // The live run is exercised properly in its own test; clicking it here
-      // would start a stream this test has no intention of waiting out.
-      if (/^run it$/i.test(label)) continue;
+      // would start a stream this test has no intention of waiting out. The
+      // label changes with the mode — "Run it for real" when deliberation is on
+      // — and matching only the fast-path wording meant this loop was starting
+      // real, paid deep runs it never waited for.
+      if (/^(run it|run it for real|stop)$/i.test(label)) continue;
 
       await button.click({ timeout: 10_000 });
       await page.waitForTimeout(120);
@@ -244,7 +249,9 @@ test("the live run streams, updates, and completes", async ({ page }) => {
 
   // The worlds view only renders once run_started has been received.
   await expect(
-    page.getByRole("heading", { name: /the world it ran|worlds, same situation/i }),
+    page.getByRole("heading", {
+      name: /the world it ran|worlds, same situation/i,
+    }),
     "the worlds view never rendered — the stream never started",
   ).toBeVisible({ timeout: 30_000 });
 

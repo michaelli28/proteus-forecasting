@@ -8,7 +8,12 @@
  */
 
 import Link from "next/link";
-import { DOSSIERS, KIND_LABEL, dossierDepth } from "../../lib/dossier";
+import {
+  DOSSIERS,
+  KIND_LABEL,
+  citationCount,
+  dossierDepth,
+} from "../../lib/dossier";
 import { Card, Eyebrow, Page, Pill } from "../../components/site/ui";
 
 export const metadata = {
@@ -77,7 +82,7 @@ export default function ActorsPage() {
                 </p>
 
                 <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 border-t border-line pt-3 text-[11.5px] text-muted">
-                  <span>{dossier.sources.length} sources</span>
+                  <span>{citationCount(dossier)} sources</span>
                   <span>
                     {dossier.redlines.length}{" "}
                     {dossier.redlines.length === 1

@@ -410,7 +410,11 @@
           "basis": "Letter dated 27 Jun 2025 from the Permanent Representative of the United States to the United Nations addressed to the President of the Security Council ('necessary and proportionate action - directed solely against the Iranian nuclear program'), text hosted by Just Security; CRS Insight IN12571 on the strikes; Department of Defense briefing, 22 Jun 2025, naming the operation; Lawfare, 'U.S. and U.K. Submit Article 51 Letters to the U.N. Security Council on Middle East Operations', 2025; Just Security, 'Assessing the U.S. Article 51 Letter for the Attack on Iran', 2025. The claim that leadership was notified only after aircraft were clear rests on statements by the Secretary of Defense and the White House Press Secretary as reported on 22 Jun 2025, not on a released notification record.",
           "confidence": "high"
         }
-      ]
+      ],
+      "weakestClaim": {
+        "section": "procedure.preconditions",
+        "finding": "two of its four claims are the least checkable in the dossier. The force-protection/telegraphing precondition is inferred from a single episode (the five-day Tower 22 → 2 Feb 2024 interval) with no doctrinal source, and one episode cannot distinguish a procedural requirement from a political choice; it is marked confidence \"low\". The covert-action branch is statutory on paper only: 50 USC 3093 and CRS R45191 establish the written-Finding and Gang-of-Eight notification requirements, but the base rate, content and compliance record of actual findings are unknowable from open sources by construction, so the precondition is verifiable as law and unverifiable as behaviour. Runner-up: the 2019 aborted-strike episode, where the decision is well established but the ~150 casualty figure that drove it is contested between White House and Pentagon sourcing (flagged in-line, confidence \"medium\")."
+      }
     },
     {
       "id": "russia",
@@ -818,7 +822,11 @@
           "basis": "Constitution Art. 102(1)(g) consent requested and granted on 1 Mar 2014 and revoked on request 25 Jun 2014 (Office of the President of Russia and Federation Council records); public acknowledgment of the participation of Russian servicemen in the presidential 'Direct Line' of 17 Apr 2014 and in the state documentary broadcast in Mar 2015; Marten, Post-Soviet Affairs 35(3), 2019, 181-204, on the semi-state structures used in Crimea and eastern Ukraine; Cormac & Aldrich, International Affairs 94(3), 2018, on formally available rather than credible denial; Chatham House, 'Ukraine: Debunking Russia's Legal Justifications', Feb 2022, on the legal instruments.",
           "confidence": "high"
         }
-      ]
+      ],
+      "weakestClaim": {
+        "section": "worldview.adversaryModel",
+        "finding": "confidence \"low\". The claim that this institution believes Western coalitions are casualty-averse, election-bound and separable, and that \"dosed\" damage will deter rather than unite them, rests on doctrinal and military-analytical writing (Thomas 2004 on reflexive control; CNA DRM-2019-U-022455-1Rev, Apr 2020 on calibrated damage) which evidences an institutional CONCEPT, not a leadership BELIEF — and CNA's own text disclaims the inference (\"We do not know Russian confidence levels in such strategies\"). Feb 2022 is direct evidence the model of Western cohesion failed in at least one high-stakes application. Second weakest: procedure.preconditions[3] (also \"low\", same underlying evidence gap), and procedure.steps[0]–[1], where internal tasking and staffing are reconstructed from service structure plus observed duplication rather than from any document. Two named verification gaps a reviewer should close: the Marshall Center Security Insights issue number/date for the Galeotti Security Council piece could not be retrieved (flagged UNVERIFIED in the basis), and the Federation Council vote tallies for 1 Mar 2014 / 22 Feb 2022 were taken from reporting, not the chamber's stenographic record."
+      }
     },
     {
       "id": "china",
@@ -1224,7 +1232,11 @@
           "basis": "M. Taylor Fravel, Strong Borders, Secure Nation: Cooperation and Conflict in China's Territorial Disputes (Princeton University Press, 2008), which reads 1962 as force used to arrest declining bargaining power; Hoover Institution, 'The 1962 Sino-Indian War and the Cuban Missile Crisis,' on the timing of the ceasefire against the end of the Cuban crisis and the prospect of US intervention. CONTESTED: whether the withdrawal reflected planned self-limitation or anticipated US intervention is disputed, and the two readings imply different escalationControlBelief values.",
           "confidence": "medium"
         }
-      ]
+      ],
+      "weakestClaim": {
+        "section": "procedure.steps",
+        "finding": "five of the seven stages are scored \"medium\" because the org charts are documented but the deliberations are not. The CMC-to-theatre-command structure (2016 reform), the CNSC/commission layer (2013, upgraded 2018), the three-warfares political-work review, the pre-laid legal predicate (CCG Law Art. 22; CCG Order No. 3), and the instrument-selection step all rest on institutional documentation plus one primary-document anchor each — but no open source shows a specific proposal being stopped at any of these gates, so the gates are inferred function, not observed function. Step 5 is the exception worth reading first: the i-Soon leak and the March 2025 DOJ indictment show the contracted cyber channel operating as a market (contractors pitching targets, pricing stolen data by victim, breaching organisations on no tasking list), which contradicts the profile's decisionCentralization of 0.85 in that domain specifically. Second weakest: worldview.adversaryModel (low) — the \"war control\" reading is contested three ways in the literature and the two episodes cited teach opposite lessons."
+      }
     },
     {
       "id": "iran",
@@ -1626,7 +1638,11 @@
           "basis": "Signature, mediation and terms: Al Jazeera, 'Read the US account of unreleased 14-point Iran ceasefire memorandum', 17 June 2026, and CNN's publication of the official fourteen-point text, 17 June 2026, both as compiled in Wikipedia, 'Islamabad Memorandum' (consulted 12 August 2026), which reproduces point 8 (no procurement or development of nuclear weapons; enriched material to be resolved by on-site downblending under IAEA supervision), the sixty-day toll-free reopening of the Strait of Hormuz and the sixty-day ceasefire extension. The same compilation records that neither the ballistic-missile programme nor the network of non-state allies appears in the framework, and that the reconstituted office of the Supreme Leader issued a written statement endorsing the memorandum 'despite misgivings'. Two citations carried in an earlier draft - an NPR full-text publication of 18 June 2026 and a Euronews text of the fourteen points - could not be verified in this review and have been removed. NPT bill: Libby Flatoff, 'Iran Threatens to Withdraw from the NPT', Arms Control Today, May 2026 - bill introduced 28 March 2026 with triple urgency, parliament not meeting in person since 28 February, Guardian Council veto still pending even if passed, and Iran submitting five working papers to the 2026 NPT Review Conference after the war began. Collapse by 8 July 2026 is separately reported. The 'declined to spend it' reading is contested by an alternative account in which the bill simply could not be voted because parliament could not convene; both readings are consistent with the record and the parent profile's low confidence on lossFrameRiskAcceptance should be preserved here.",
           "confidence": "medium"
         }
-      ]
+      ],
+      "weakestClaim": {
+        "section": "worldview.adversaryModel",
+        "finding": "a belief claim inferred entirely from behaviour with no Iranian primary document behind it; the pre-2026 \"plays to close exchanges\" reading rests on Eisenstadt (Washington Institute, 25 Jun 2025), the source the parent profile already flags for over-concentration, and is directly contradicted by the sustained Feb–Jul 2026 campaign. Rated \"low\" and labelled as the dossier's weakest item inside its own basis field."
+      }
     },
     {
       "id": "dprk",
@@ -2019,7 +2035,11 @@
           "basis": "Treaty on Comprehensive Strategic Partnership signed at the Pyongyang summit of 18-19 June 2024 (sources differ on the signing date), ratified by both parties in November 2024 and in force from 4 Dec 2024; Article 4 commits each party to immediate military and other assistance by all available means, invoking UN Charter Article 51, if the other is subjected to armed aggression (CRS In Focus IF12760, 'Russia-North Korea Relations'; E. Howell, 'North Korea and Russia's dangerous partnership', Chatham House research paper, Dec 2024; CSIS, 'The New Russia-North Korea Security Alliance'). Acknowledgement: 38 North, 'North Korea's Acknowledgement of War Participation' (Apr 2025), describing the unusual Central Military Commission 'written stand' and the framing that the leadership determined the Kursk situation met the Article 4 criteria. CASUALTY FIGURES ARE CONTESTED AND SHOULD NOT BE STATED AS ONE NUMBER: UK Defence Intelligence assessed roughly 6,000 casualties from about 11,000 deployed by June 2025 (Bloomberg, 16 Jun 2025), while ROK assessments earlier in 2025 put the figure nearer 4,000 with roughly 3,000 reinforcements sent in January-February 2025; 38 North, 'North Korea's Military Intervention in Kursk: A High Casualty Learning Curve' (Feb 2025), documents tactical adaptation under those losses. Only the direction — continued rotation after heavy losses — is reliable.",
           "confidence": "medium"
         }
-      ]
+      ],
+      "weakestClaim": {
+        "section": "worldview.adversaryModel",
+        "finding": "confidence \"low\". It is the only claim in the dossier inferred from a behavioural pattern rather than read off a document the institution issued: the belief that the counterpart absorbs sub-threshold violence and prefers restoring the status quo is an analyst's reading of 1976 Panmunjom, 2010 Yeonpyeong and the Sept 2020 killing-plus-apology sequence, and the strategic-culture literature disputes exactly that inference (Jackson, Rival Reputations, 2016, against the mechanical \"provocation cycle\"; Cha vs. Kang staging it as the point of disagreement). It should be carried as a distribution, not a constant. Runner-up weaknesses: procedure.tempo (low — both clean crisis timelines are cases where the institution HELD, so the 5-7 day figure measures deliberation under scrutiny, not strike tempo) and procedure.steps[2] (low — OGD/General Political Bureau cadre-vetting mechanics rest on defector-derived reporting) and steps[6] (low — the lane split is well evidenced but assigning the attribution decision specifically to the Propaganda and Agitation Department is inferred, not documented)."
+      }
     },
     {
       "id": "criminal-syndicate",
@@ -2403,7 +2423,11 @@
           "basis": "UK National Crime Agency, 'The NCA announces the disruption of LockBit with Operation Cronos', 20 Feb 2024. Trend Micro, 'Unveiling the Fallout: Operation Cronos' Impact on LockBit Following Landmark Disruption', Apr 2024; five-day relaunch reported contemporaneously (BankInfoSecurity; Dark Reading, Feb 2024). May 2024 NCA/OFAC/AFP designation of the brand's lead. Relaunch and Q3 2025 victim count: Check Point Research, 'LockBit 5.0: Ransomware Gang Returns in Force' (2025). Contested causal attribution: Analyst1, 'LockBit Takedown & Operation Cronos: A Long-Awaited PsyOps Against Ransomware' (2024) and 'Ransomware Diaries Volume 5' (2024-25).",
           "confidence": "medium"
         }
-      ]
+      ],
+      "weakestClaim": {
+        "section": "procedure.steps[5] (pricing and negotiation)",
+        "finding": "the only stage set to low confidence. The core-set price floor and delegated discount authority are inferred from the observed discount distribution (Sophos 2025: 53% of payers paid below ask, payers averaged 85%) and from the chat controls visible in the May 2025 LockBit panel dump; no recovered pricing-policy document states a floor, so a modeller should treat that gate as plausible mechanism rather than established fact. Close second: worldview.threatModel[2] (revocation of the shelter jurisdiction, also low) — behaviourally the most consequential claim in the dossier and it rests on a single commercial-vendor assessment (Recorded Future, Dark Covenant 3.0, 2025) inferred from arrest and prosecution patterns, with no primary document from either party. worldview.declaredIdeology is marked low by construction: it cites only self-published affiliate rules-of-engagement postings from an actor class whose declared exclusions the profile's own declaredVsObserved section shows to be contradicted by observed targeting."
+      }
     },
     {
       "id": "ideological-nonstate",
@@ -2783,7 +2807,11 @@
           "basis": "Royal Commission of Inquiry into the terrorist attack on Christchurch masjidain on 15 March 2019, 'Ko to tatou kainga tenei', report presented 26 November 2020 and publicly released 8 December 2020 (Government of New Zealand), which found the individual acted alone and reviewed his use of online platforms; RAND, 'A Dangerous Web: Mapping Racially and Ethnically Motivated Violent Extremism', RBA1841-1 (2022), and GNET, 'Ideological Leaderless Resistance in the Digital Age' (2022), on movement structures with no authorising body. Contested detail, disclosed: later archival research by a University of Auckland team identified extensive prior imageboard posting by the attacker that the Commission's account under-weighted - 'Christchurch terrorist discussed attacks online a year before carrying them out, new research reveals', The Conversation, 20 February 2024, and 'Christchurch attacks 5 years on: terrorist's online history gives clues to preventing future atrocities', The Conversation, 13 March 2024; peer-reviewed version, 'The Role of Ideology in Motivating Lone Actor Terrorism: An Analysis of the Online Record of the Christchurch Terrorist' (University of Auckland research deposit, 2025) - so the inquiry's radicalisation findings are the best public record but not the last word. The perpetrator is deliberately not named and no method detail is recorded here.",
           "confidence": "medium"
         }
-      ]
+      ],
+      "weakestClaim": {
+        "section": "procedure.steps[3]",
+        "finding": "the justification-review gate (confidence: low). The open literature reliably observes this gate's OUTPUT (post-hoc justifications) but almost never observes it exercising a veto, so it is coded as a weak, reversible brake rather than a filter. Second weakest: procedure.preconditions[3] (pre-execution attribution posture), which is inferred from claiming patterns rather than documented as a gate."
+      }
     },
     {
       "id": "state-proxy",
@@ -3150,7 +3178,11 @@
           "basis": "Byman, Daniel; Jones, Seth G.; Palmer, Alexander, 'Escalating to War between Israel, Hezbollah, and Iran,' Center for Strategic and International Studies, Warfare, Irregular Threats, and Terrorism Program, 4 October 2024: between 7 October 2023 and 31 August 2024 the average Israeli strike fell about 4 km into Lebanon and the average Hezbollah strike about 3 km into Israel, while during the week of 22 September 2024 those averages were 27 km and 28 km respectively; the same analysis records that the organisation 'kept its rocket attacks small relative to its total launch capacity' against a claimed inventory of as many as 200,000 standoff weapons, and attributes the earlier limits to a combination of Hezbollah restraint and Israeli deterrence. The Washington Institute for Near East Policy, 'Hezbollah's Escalation Ladder,' for the rung structure. CAVEAT: the strike-depth figures are one analytic dataset rather than an agreed measurement, and the organisation never published rules of engagement — the ceiling is inferred from observed conduct, and the split between self-restraint and deterrence cannot be resolved from the outside.",
           "confidence": "medium"
         }
-      ]
+      ],
+      "weakestClaim": {
+        "section": "worldview.adversaryModel",
+        "finding": "no located source states this archetype's adversary model in its own terms, so the whole claim is behavioural inference from two episodes (the 2006 \"inconceivable response\" admission and the post-Oct-2023 attribution pattern), and the closest-fitting literature (Carson 2018, Secret Wars) is a state-level finding that the profile itself rules out as a level-of-analysis error; marked confidence low. Runner-up: the history section supplies ZERO episodes for counterpartHarmRestraint — the profile's most contested parameter (0.30, low, out-of-sample risk already flagged) — because the two episodes that superficially look like evidence for it (Bowman Avenue Dam 2013, CyberAv3ngers/Unitronics 2023) are explicitly disqualified in their lessons, since restraint and incapacity are observationally identical in both."
+      }
     },
     {
       "id": "hacktivist",
@@ -3519,7 +3551,11 @@
           "basis": "Europol, 'Global operation targets NoName057(16) pro-Russian cybercrime network', 16 Jul 2025 (13 countries; over 100 servers disrupted or taken offline; one preliminary arrest in France and one arrest in Spain; seven European arrest warrants, six issued by Germany; 1,100 participants and 17 administrators notified). Naer, S., 'Operation Eastwood: Measuring the Real Impact on NoName057(16)', Imperva, 12 Sep 2025: no claims 18-22 Jul 2025; resumption and manifesto on 23 Jul 2025; roughly 10 targeted sites per day from 24 Jun to 13 Jul 2025 versus roughly 18 per day from 24 Jul to 13 Aug 2025. The volume figures are one vendor's measurement of one banner over three weeks and have not been independently replicated.",
           "confidence": "medium"
         }
-      ]
+      ],
+      "weakestClaim": {
+        "section": "worldview.declaredIdeology",
+        "finding": "the only field graded \"low\". The archetype is a composite of ~700 banners (Graphika, 16 Jul 2025) that issues no common charter, so there is no organisation-level programmatic document to cite; the field is scoped to NoName057(16)'s Telegram manifesto of 23 Jul 2025 and explicitly says so. The manifesto text itself was not retrieved in the original this session — both readings (Imperva, 12 Sep 2025; INCYBER NEWS, Jul 2025) are secondary. Runners-up: history coverage is single-episode for attributionAversion (2024-01-18), decisionCentralization (2022) and lossFrameRiskAcceptance (2025-07-14), and procedure.preconditions[3] (no legal or proportionality review at any stage) is a negative finding resting on absence of evidence, graded medium for that reason."
+      }
     }
   ]
 }

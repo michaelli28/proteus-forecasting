@@ -153,6 +153,27 @@ export interface SourcedClaim {
 }
 
 /**
+ * The single least defensible thing in this profile, named by its researcher.
+ *
+ * Separate from `uncertainty`, which surveys everywhere the literature is thin.
+ * This names ONE place and argues why it is the worst — and a reviewer with an
+ * hour reads this and nothing else. It is kept as two fields rather than prose
+ * so the section it indicts can be shown beside the section itself instead of
+ * buried in a paragraph at the bottom of the page.
+ *
+ * `section` is a path into this profile — "worldview.adversaryModel",
+ * "procedure.steps[5]" — because a weakness that does not say what it is a
+ * weakness IN is a disclaimer, and disclaimers are how a document looks candid
+ * without telling anyone anything.
+ */
+export interface WeakestClaim {
+  /** Dotted path to the field this indicts, e.g. "worldview.adversaryModel". */
+  readonly section: string;
+  /** Why that field is the least defensible part of the profile. */
+  readonly finding: string;
+}
+
+/**
  * One gate a proposal passes through before anything executes.
  *
  * `office` names an institutional role — a directorate, a legal review, a
@@ -274,6 +295,8 @@ export interface DoctrineProfile {
   readonly procedure?: DecisionProcedure;
   readonly worldview?: Worldview;
   readonly history?: readonly HistoricalDecision[];
+  /** The one place the researcher says this profile is least defensible. */
+  readonly weakestClaim?: WeakestClaim;
 }
 
 export class DoctrineError extends Error {}
@@ -387,6 +410,15 @@ function validateDossier(profile: DoctrineProfile): void {
     );
   }
 
+  const weakest = profile.weakestClaim;
+  if (weakest) {
+    if (!weakest.section.trim() || !weakest.finding.trim()) {
+      throw new DoctrineError(
+        `${profile.id}.weakestClaim: both section and finding are required — a weakness that names no section is a disclaimer`,
+      );
+    }
+  }
+
   for (const episode of profile.history ?? []) {
     if (!episode.basis.trim()) {
       throw new DoctrineError(
@@ -442,6 +474,120 @@ export function lowConfidenceParameters(
   return DOCTRINE_PARAMETERS.filter(
     (parameter) => profile.doctrine[parameter].confidence === "low",
   );
+}
+
+/** A researcher's heading in the source list, with the citations under it. */
+export interface SourceGroup {
+  /** Empty for citations filed before any heading. */
+  readonly label: string;
+  readonly citations: readonly string[];
+}
+
+/**
+ * A source list that lost its opening emphasis markers somewhere upstream.
+ *
+ * Every profile's `sources` is a flat array carrying two different things: the
+ * researcher's section headings ("Peer-reviewed literature") and the citations
+ * under them. The headings arrived with their closing `**` and no opening one,
+ * so they render as citations with a stray delimiter — and they are counted as
+ * citations, which inflates all nine source counts by twenty-eight between them.
+ *
+ * Repaired on read rather than in the file: the fix is unambiguous (a heading
+ * has no date, no URL and one orphan delimiter) and rewriting research data to
+ * suit a renderer is the wrong direction for a correction to travel.
+ */
+function isGroupLabel(source: string): boolean {
+  const text = source.trim();
+  return (
+    text.endsWith("**") &&
+    (text.match(/\*/g) ?? []).length === 2 &&
+    !text.includes("http") &&
+    !/\d{4}/.test(text)
+  );
+}
+
+/** Orphaned emphasis delimiters, left by the same upstream loss. */
+function cleanEmphasis(source: string): string {
+  const balanced = (source.match(/\*/g) ?? []).length % 2 === 0;
+  return (balanced ? source : source.replace(/\*/g, "")).trim();
+}
+
+/** The source list as its author structured it: headings, then what sits under each. */
+export function groupedSources(
+  profile: DoctrineProfile,
+): readonly SourceGroup[] {
+  const groups: SourceGroup[] = [];
+  let current: { label: string; citations: string[] } = {
+    label: "",
+    citations: [],
+  };
+
+  for (const source of profile.sources) {
+    if (isGroupLabel(source)) {
+      if (current.citations.length > 0) groups.push(current);
+      current = {
+        label: source.trim().replace(/\*+$/, "").trim(),
+        citations: [],
+      };
+      continue;
+    }
+    current.citations.push(cleanEmphasis(source));
+  }
+  if (current.citations.length > 0) groups.push(current);
+
+  return groups;
+}
+
+/** Citations only. What "43 sources" ought to have meant all along. */
+export function citationCount(profile: DoctrineProfile): number {
+  return profile.sources.filter((source) => !isGroupLabel(source)).length;
+}
+
+/** Whether one enforceable commitment can actually remove a move, and where. */
+export interface ConstraintReach {
+  readonly redlineId: string;
+  readonly attribute: ConstrainedAttribute;
+  readonly maxAcceptable: number;
+  /** Scenarios containing at least one move this commitment would remove. */
+  readonly reachedIn: readonly string[];
+}
+
+/**
+ * Which of an actor's commitments the shipped scenarios can actually trip.
+ *
+ * A redline with a constraint is enforced by the kernel — and that is not the
+ * same as saying it ever fires. Every constrained redline in the library today
+ * sits above the highest value any shipped ladder reaches, so the choice set is
+ * never narrowed by one, and a screen showing "enforced" beside it tells a
+ * reader something true in a way that leaves them believing something false.
+ *
+ * Reporting the gap is the honest move, and it is also the interesting one: the
+ * commitment the arithmetic cannot see is exactly the commitment an actor's own
+ * decision authority still refuses on. That disagreement is the product.
+ */
+export function constraintReach(
+  profile: DoctrineProfile,
+  ladders: readonly {
+    readonly packId: string;
+    readonly maxima: Readonly<Record<ConstrainedAttribute, number>>;
+  }[],
+): readonly ConstraintReach[] {
+  return profile.redlines
+    .filter((redline) => redline.constraint !== undefined)
+    .map((redline) => {
+      const constraint = redline.constraint!;
+      return {
+        redlineId: redline.id,
+        attribute: constraint.attribute,
+        maxAcceptable: constraint.maxAcceptable,
+        reachedIn: ladders
+          .filter(
+            (ladder) =>
+              ladder.maxima[constraint.attribute] > constraint.maxAcceptable,
+          )
+          .map((ladder) => ladder.packId),
+      };
+    });
 }
 
 /**

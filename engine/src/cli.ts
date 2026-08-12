@@ -23,6 +23,7 @@ import {
 } from "./consequence/table.js";
 import { formatSweep, runVulnerabilitySweep } from "./vulnerability.js";
 import { PACK_IDS, runSimulate } from "./simulate.js";
+import { SCENARIO_PRESETS, getPreset } from "./scenario/presets.js";
 import "dotenv/config";
 
 const forecast = new Command("forecast")
@@ -289,6 +290,14 @@ const simulate = new Command("simulate")
     "Run one contested-system scenario and stream every decision as it is made",
   )
   .option(
+    "--preset <id>",
+    `Curated configuration: ${SCENARIO_PRESETS.map((p) => p.id).join(", ")}. Fills in pack, actors, mitigation and seed; anything you also pass wins.`,
+  )
+  .option(
+    "--presets",
+    "List the curated configurations, with the question each one answers, and exit",
+  )
+  .option(
     "-p, --pack <id>",
     `Scenario pack: ${PACK_IDS.join(", ")}`,
     "regional-grid",
@@ -334,12 +343,54 @@ const simulate = new Command("simulate")
   .option("--model <id>", "Model backing the councils and judges")
   .action(async (opts) => {
     try {
+      if (opts.presets) {
+        for (const entry of SCENARIO_PRESETS) {
+          console.log(`\n${entry.id}`);
+          console.log(`  ${entry.question}`);
+          console.log(
+            `  --pack ${entry.pack} --actors ${entry.actors.join(",")}` +
+              (entry.respondents.length
+                ? ` --respondents ${entry.respondents.join(",")}`
+                : "") +
+              (entry.defense ? ` --defense ${entry.defense}` : "") +
+              ` --seed ${entry.seed}` +
+              (entry.needsDeliberation ? " --deep" : ""),
+          );
+        }
+        return;
+      }
+
+      // A preset fills in only what the caller left alone, so `--preset X
+      // --actors china` is a preset with one substitution rather than a silent
+      // conflict — and the run stays inspectable, which is the point of it.
+      const preset = opts.preset ? getPreset(opts.preset) : null;
+      const typed = (name: string): boolean =>
+        simulate.getOptionValueSource(name) === "cli";
+      const pick = <T>(name: string, mine: T, theirs: T | undefined): T =>
+        preset && !typed(name) && theirs !== undefined ? theirs : mine;
+
+      // Never turned on for you: --deep spends real money, so a preset that
+      // needs councils says so and waits to be asked.
+      if (preset?.needsDeliberation && !opts.deep) {
+        console.error(
+          `${preset.id} makes its point with councils convened — add --deep to see it.`,
+        );
+      }
+
       const result = await runSimulate({
-        pack: opts.pack,
-        actors: splitIds(opts.actors),
-        respondents: splitIds(opts.respondents),
-        seed: opts.seed,
-        defense: opts.defense || null,
+        pack: pick("pack", opts.pack, preset?.pack),
+        actors: pick(
+          "actors",
+          splitIds(opts.actors),
+          preset?.actors as string[],
+        ),
+        respondents: pick(
+          "respondents",
+          splitIds(opts.respondents),
+          preset?.respondents as string[],
+        ),
+        seed: pick("seed", opts.seed, preset?.seed),
+        defense: pick("defense", opts.defense || null, preset?.defense),
         tickDelayMs: Number(opts.delay),
         stream: Boolean(opts.stream),
         profilePath: opts.profiles,
@@ -506,9 +557,13 @@ const manifest = new Command("manifest")
       const documented = dossiers.profiles.filter(
         (profile) => profile.procedure || profile.worldview || profile.history,
       ).length;
+      const inert = dossiers.constraintReach.filter(
+        (reach) => reach.reachedIn.length === 0,
+      ).length;
       console.log(
-        `${built.packs.length} packs, ${built.actors.length} actors → ${out}\n` +
-          `${dossiers.profiles.length} dossiers (${documented} carrying procedure, worldview or decision record) → ${dossierOut}`,
+        `${built.packs.length} packs, ${built.actors.length} actors, ${built.presets.length} presets → ${out}\n` +
+          `${dossiers.profiles.length} dossiers (${documented} carrying procedure, worldview or decision record) → ${dossierOut}\n` +
+          `${dossiers.constraintReach.length} enforceable commitments, ${inert} of which no shipped scenario can trip`,
       );
     } catch (error) {
       console.error((error as Error).message);

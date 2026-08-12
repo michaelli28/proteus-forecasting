@@ -2,15 +2,15 @@
   "id": "china",
   "procedure": {
     "authority": {
-      "statement": "Go/no-go on the use of force sits with the Party's Central Military Commission under the chairman responsibility system: the CMC chairman holds the final vote on entering war, on troop deployments and on strategic-weapons decisions, and is concurrently commander-in-chief of the CMC Joint Operations Command Center. State organs (State Council, Ministry of National Defense) and the five theatre commands execute; they do not initiate. One statutory carve-out runs the other way — Anti-Secession Law Art. 8 vests the non-peaceful-means decision on Taiwan jointly in the State Council AND the CMC, with a duty to report promptly to the NPC Standing Committee — so the single most consequential authorisation in this profile is the one place the chain is formally plural rather than singular.",
-      "basis": "Chairman responsibility system as described in PRC military regulations and summarised in Jamestown China Brief coverage of the 20th CMC (2022) and CNA, 'China's New Military Leadership' (November 2022); the CMC chairman has served as commander-in-chief of the Joint Operations Command Center since 2016. USCC 2022 Annual Report, Ch. 1, on concentration of national-security authority. Anti-Secession Law of the PRC (NPC, 14 March 2005), Art. 8, full English text as verified against the PRC Embassy (Washington DC) in the parent profile's research cycle — note the parent profile's own correction that Art. 8 is joint State Council + CMC, not CMC alone.",
+      "statement": "Go/no-go on the use of force sits with the Party's Central Military Commission under the chairman responsibility system: the CMC chairman holds the final vote on entering war, on troop deployments and on strategic-weapons decisions, and is concurrently commander-in-chief of the CMC Joint Operations Command Center. State organs (State Council, Ministry of National Defense) and the five theatre commands execute; they do not initiate. One statutory carve-out runs the other way \u2014 Anti-Secession Law Art. 8 vests the non-peaceful-means decision on Taiwan jointly in the State Council AND the CMC, with a duty to report promptly to the NPC Standing Committee \u2014 so the single most consequential authorisation in this profile is the one place the chain is formally plural rather than singular.",
+      "basis": "Chairman responsibility system as described in PRC military regulations and summarised in Jamestown China Brief coverage of the 20th CMC (2022) and CNA, 'China's New Military Leadership' (November 2022); the CMC chairman has served as commander-in-chief of the Joint Operations Command Center since 2016. USCC 2022 Annual Report, Ch. 1, on concentration of national-security authority. Anti-Secession Law of the PRC (NPC, 14 March 2005), Art. 8, full English text as verified against the PRC Embassy (Washington DC) in the parent profile's research cycle \u2014 note the parent profile's own correction that Art. 8 is joint State Council + CMC, not CMC alone.",
       "confidence": "high"
     },
     "steps": [
       {
         "order": 0,
         "stage": "Political line-setting: does the proposal fit the standing judgement of the security situation",
-        "office": "Politburo Standing Committee, working through the Party's central commissions — Central National Security Commission (created at the Third Plenum of the 18th Central Committee, late 2013, with a permanent General Office), Central Foreign Affairs Commission and Central Cyberspace Affairs Commission (both upgraded from leading small groups in March 2018)",
+        "office": "Politburo Standing Committee, working through the Party's central commissions \u2014 Central National Security Commission (created at the Third Plenum of the 18th Central Committee, late 2013, with a permanent General Office), Central Foreign Affairs Commission and Central Cyberspace Affairs Commission (both upgraded from leading small groups in March 2018)",
         "gate": "Stops proposals that do not fit the current line on sovereignty, security and development interests, or that would put the Party's political security at risk. Anything touching regime security is elevated rather than delegated, which is the mechanism behind the high decisionCentralization value: the gate is not a veto by a rival institution but the absence of any level permitted to decide without referring upward.",
         "basis": "Joel Wuthnow, 'A New Chinese National Security Bureaucracy Emerges,' China Brief (Jamestown Foundation), 23 November 2021, on the CNSC system and its General Office as a fix for 'excessive bureaucratic stove-piping'; Lea Shih & Sebastian Heilmann, 'The Remodeling of Chinese Policy-Making,' China-US Focus, 19 September 2018, on the reorganisation of leading small groups into commissions in March 2018; USCC 2022 Annual Report Ch. 1. CONTESTED IN DETAIL: the bodies and remits are documented, the deliberations are closed, and no open source establishes how a specific proposal is tabled or who can kill it at this stage.",
         "confidence": "medium"
@@ -18,7 +18,7 @@
       {
         "order": 1,
         "stage": "Campaign planning and force allocation",
-        "office": "CMC Joint Staff Department — one of the fifteen CMC functional organs created when the four general departments were dissolved in the January 2016 reform — working through the CMC Joint Operations Command Center",
+        "office": "CMC Joint Staff Department \u2014 one of the fifteen CMC functional organs created when the four general departments were dissolved in the January 2016 reform \u2014 working through the CMC Joint Operations Command Center",
         "gate": "Feasibility and force allocation. Theatre commands may plan and fight but cannot initiate: the reform formula is that the CMC manages, theatre commands focus on warfighting, and the services build the force. A proposal that cannot be resourced from the theatre's assigned forces returns to the CMC rather than being improvised locally.",
         "basis": "January 2016 reform: seven military regions replaced by five theatre commands directly subordinate to the CMC; four general departments reorganised into 15 CMC organs (Jamestown China Brief, 'The PLA's New Organizational Structure: What is Known, Unknown and Speculation'; RAND commentary, 'PLA Reforms and Their Ramifications,' 2016). The structure is well documented; the internal staffing sequence within it is not, and no open source shows a specific plan being rejected at this stage.",
         "confidence": "medium"
@@ -26,22 +26,22 @@
       {
         "order": 2,
         "stage": "Political-work review: can the action be presented as lawful, defensive and post-strike",
-        "office": "CMC Political Work Department and the political-work apparatus that owns the 'three warfares' — public opinion warfare, psychological warfare and legal warfare",
-        "gate": "Shapes rather than stops. The declared military strategic guideline is active defence — 'we will not attack unless we are attacked, but we will surely counterattack if attacked' — so a proposal that cannot be narrated inside that formula is reshaped in form, sequence or instrument until it can be. This is the concrete mechanism behind legitimacyWeight sitting below midpoint at 0.48: legitimacy constrains the presentation and the choice of instrument, not the objective.",
+        "office": "CMC Political Work Department and the political-work apparatus that owns the 'three warfares' \u2014 public opinion warfare, psychological warfare and legal warfare",
+        "gate": "Shapes rather than stops. The declared military strategic guideline is active defence \u2014 'we will not attack unless we are attacked, but we will surely counterattack if attacked' \u2014 so a proposal that cannot be narrated inside that formula is reshaped in form, sequence or instrument until it can be. This is the concrete mechanism behind legitimacyWeight sitting below midpoint at 0.48: legitimacy constrains the presentation and the choice of instrument, not the objective.",
         "basis": "The three warfares were introduced in the 2003 revision of the PLA Political Work Regulations and carried into the 2010 revision, with responsibility resting in the political-work chain (Elsa Kania, 'China's Three Warfares in Perspective,' War on the Rocks, 30 January 2018, on the regulation history; US DoD China Military Power Reports, which characterise legal warfare as claiming the legal high ground). Declaratory formula quoted from China's National Defense in the New Era (State Council Information Office, 24 July 2019).",
         "confidence": "medium"
       },
       {
         "order": 3,
         "stage": "Domestic legal predicate laid before the act, so the act is enforcement rather than force",
-        "office": "NPC Standing Committee and State Council legislative channels, plus the enforcing agency's own rule-making — e.g. the China Coast Guard, which was placed under People's Armed Police command in 2018",
-        "gate": "A coercive move is normally preceded by a domestic instrument that makes it a legal duty or a law-enforcement power. The 2021 Coast Guard Law Art. 22 extends the use of weapons to acts by foreign organisations infringing claimed sovereignty or jurisdiction; CCG Order No. 3, in force 15 June 2024, authorises detention of foreign persons for 30 days, extendable to 60 in 'complicated' cases, in 'waters under Chinese jurisdiction' — a term deliberately not defined by UNCLOS categories. Anti-Secession Law Art. 8 is the same device at the top of the ladder, converting a Taiwan decision from a cost-benefit calculation into a statutory obligation.",
+        "office": "NPC Standing Committee and State Council legislative channels, plus the enforcing agency's own rule-making \u2014 e.g. the China Coast Guard, which was placed under People's Armed Police command in 2018",
+        "gate": "A coercive move is normally preceded by a domestic instrument that makes it a legal duty or a law-enforcement power. The 2021 Coast Guard Law Art. 22 extends the use of weapons to acts by foreign organisations infringing claimed sovereignty or jurisdiction; CCG Order No. 3, in force 15 June 2024, authorises detention of foreign persons for 30 days, extendable to 60 in 'complicated' cases, in 'waters under Chinese jurisdiction' \u2014 a term deliberately not defined by UNCLOS categories. Anti-Secession Law Art. 8 is the same device at the top of the ladder, converting a Taiwan decision from a cost-benefit calculation into a statutory obligation.",
         "basis": "China Coast Guard Law (NPC Standing Committee, January 2021), Art. 22; 'Regulation of the CCG Organization on Enforcing Law and Order' (CCG Order No. 3), in force 15 June 2024, Art. 257, summarised in Jamestown China Brief, 'New China Coast Guard Regulation Buttresses PRC Aggression in the South China Sea' (2024), and in Lowy Institute (The Interpreter), 'Overcoming the deliberate legal ambiguity adopted by China's coast guard,' 20 June 2024, which reproduces the Art. 257 detention terms and the undefined 'waters under Chinese jurisdiction' formula directly. The documents are primary and undisputed; that they FUNCTION as a pre-laid predicate is an analytic reading, which is why this is not scored high.",
         "confidence": "medium"
       },
       {
         "order": 4,
-        "stage": "Authorisation and selection of the instrument — organic force, armed-police force, militia, or contracted operator",
+        "stage": "Authorisation and selection of the instrument \u2014 organic force, armed-police force, militia, or contracted operator",
         "office": "CMC chairman under the chairman responsibility system; jointly State Council and CMC for Taiwan non-peaceful means; instrument assignment runs to a theatre command, to the China Coast Guard under People's Armed Police, to a provincial military district and its People's Armed Forces Departments for maritime militia, or to a provincial Ministry of Public Security / Ministry of State Security bureau for contracted network operations",
         "gate": "Chooses how provable the state's hand will be. This is the step that produces the profile's combination of high attributionAversion (0.72) with only moderate proxyPreference (0.55): deniability is bought by picking a civilian-guise or commercially contracted channel, not by handing an objective to a foreign non-state force. Maritime militia units are raised by military districts through provincial government plans and commanded through the local PLA chain, so the state loses visibility, not control.",
         "basis": "Conor M. Kennedy & Andrew S. Erickson, 'China's Third Sea Force, The People's Armed Forces Maritime Militia,' China Maritime Report No. 1, US Naval War College China Maritime Studies Institute, March 2017, on the military-district-to-PAFD command chain and provincial funding; Helmus, T. C., et al., 'Understanding and Countering China's Maritime Gray Zone Operations,' RAND RR-A2954-1, 2024; US Department of Justice press release, 'Justice Department Charges 12 Chinese Contract Hackers and Law Enforcement Officers in Global Computer Intrusion Campaigns,' 5 March 2025, naming two MPS officers alongside eight i-Soon employees.",
@@ -49,7 +49,7 @@
       },
       {
         "order": 5,
-        "stage": "Execution — and, in the cyber channel, a purchase decision rather than a tasking order",
+        "stage": "Execution \u2014 and, in the cyber channel, a purchase decision rather than a tasking order",
         "office": "Theatre command joint operations for military action; provincial military district and PAFD for militia; provincial MPS/MSS bureaus and their contracted vendors for network operations",
         "gate": "Weaker than the centralisation elsewhere in this chain implies, and the discrepancy is a finding rather than a gap in the sourcing. The 2024 i-Soon leak and the 2025 US indictment describe a market: contractors pitched targets, priced stolen data by victim (about USD 55,000 for material from Vietnam's Ministry of Economy), sometimes breached organisations that were on no tasking list, and were paid after the fact. An engine that treats every PRC cyber action as centrally authorised will over-predict coherence in this domain specifically.",
         "basis": "Dakota Cary & Aleksandar Milenkoski, 'Unmasking I-Soon: The Leak That Revealed China's Cyber Operations,' SentinelOne Labs, 21 February 2024 (pricing, marketing-led target selection, an off-list intrusion treated internally as an accident); DOJ press release, 5 March 2025, stating the defendants conducted intrusions 'at the direction of' MPS and MSS 'and on their own initiative,' and that those ministries paid for stolen data. Scope limit: this is evidence about the contracted cyber channel, not about the military chain, and it rests on one leak plus one indictment.",
@@ -57,7 +57,7 @@
       },
       {
         "order": 6,
-        "stage": "Declaratory framing — deciding whether the act is claimed at all",
+        "stage": "Declaratory framing \u2014 deciding whether the act is claimed at all",
         "office": "Ministry of Foreign Affairs spokesperson, Taiwan Affairs Office, theatre command spokesperson, and the Ministry of Commerce for trade measures",
         "gate": "Splits the record in two, which is why signalingPreference sits mid-scale at 0.55 rather than high. Actions meant to coerce a specific target are announced within hours as 'countermeasures' with named closure areas or tariff schedules; economic punishment is routed through antidumping, biosecurity or customs findings and is never officially named as retaliation; network pre-positioning is never acknowledged at all. The consistent rule is that the target must read the message and third parties must not be able to prove it.",
         "basis": "ASPI, 'Countering China's coercive diplomacy' (2020), on informal, officially unacknowledged economic coercion; the November 2020 '14 grievances' document was leaked to Australian media while the trade measures themselves were formally framed as antidumping and biosecurity actions (United States Studies Centre, 'China's trade restrictions on Australian exports'); contrast CISA/NSA/FBI advisory AA24-038A (7 February 2024), where the activity was designed never to be announced.",
@@ -65,13 +65,13 @@
       }
     ],
     "tempo": {
-      "statement": "Two clocks, and confusing them is the main way an analyst mis-times this actor. Capability building and positional advantage run on published multi-year milestones — the 2027 PLA centenary building goal, basic modernisation by 2035, world-class forces by mid-century — and gray-zone positions are consolidated over months to years. Declaratory retaliation is fast: closure areas, exercise announcements and countermeasure lists appear within hours of a triggering event. What is slow, and slow on purpose, is de-escalation: settlement authority sits at the apex, and military-to-military channels are treated as a concession to be withheld rather than a safety device to be kept open.",
+      "statement": "Two clocks, and confusing them is the main way an analyst mis-times this actor. Capability building and positional advantage run on published multi-year milestones \u2014 the 2027 PLA centenary building goal, basic modernisation by 2035, world-class forces by mid-century \u2014 and gray-zone positions are consolidated over months to years. Declaratory retaliation is fast: closure areas, exercise announcements and countermeasure lists appear within hours of a triggering event. What is slow, and slow on purpose, is de-escalation: settlement authority sits at the apex, and military-to-military channels are treated as a concession to be withheld rather than a safety device to be kept open.",
       "basis": "Report to the 20th National Congress of the CPC (16 October 2022, Xinhua English full text), section on achieving the PLA centenary goal, 2035 modernisation and a world-class military by mid-century. On the slow clock for de-escalation: the 2001 EP-3 crew were held 11 days pending an agreed verbal formula; theatre-commander talks, defence policy coordination talks and Military Maritime Consultative Agreement meetings were suspended after August 2022 and left unrestored for roughly 18 months, with US calls unanswered after the February 2023 balloon shootdown (NPR, 7 February 2023; NBC News, December 2023; CNA, 'Suspending U.S.-Chinese military ties is no longer a low-risk proposition,' July 2023).",
       "confidence": "medium"
     },
     "preconditions": [
       {
-        "statement": "A provocation frame. Action is authorised as a response to someone else's move, consistent with the declared active-defence formula — 'we will not attack unless we are attacked, but we will surely counterattack if attacked'. This constrains sequencing and narrative rather than timing: a first move is recast as enforcement of a pre-existing right, so the requirement is satisfiable by construction and should not be modelled as a genuine restraint on initiation.",
+        "statement": "A provocation frame. Action is authorised as a response to someone else's move, consistent with the declared active-defence formula \u2014 'we will not attack unless we are attacked, but we will surely counterattack if attacked'. This constrains sequencing and narrative rather than timing: a first move is recast as enforcement of a pre-existing right, so the requirement is satisfiable by construction and should not be modelled as a genuine restraint on initiation.",
         "basis": "China's National Defense in the New Era (State Council Information Office, 24 July 2019), on the military strategic guideline of active defence and defence, self-defence and post-strike response. The second sentence is this analyst's reading of how the formula was applied to first-move gray-zone actions in 2012 and after, not a claim the document makes.",
         "confidence": "medium"
       },
@@ -82,7 +82,7 @@
       },
       {
         "statement": "Bounded and targetable self-harm. Economic coercion is aimed at sectors where the counterpart's exposure exceeds the actor's own and substitutes exist, and sectors where it does not are left untouched even at the peak of a campaign.",
-        "basis": "ASPI coercive-diplomacy dataset and case studies (2020); in the Australian case, barley, wine, beef, coal, cotton, timber and lobster were hit while iron ore — where substitution was unavailable — was left alone (United States Studies Centre, 'China's trade restrictions on Australian exports'; Lowy Institute, 'Chinese coercion, Australian resilience').",
+        "basis": "ASPI coercive-diplomacy dataset and case studies (2020); in the Australian case, barley, wine, beef, coal, cotton, timber and lobster were hit while iron ore \u2014 where substitution was unavailable \u2014 was left alone (United States Studies Centre, 'China's trade restrictions on Australian exports'; Lowy Institute, 'Chinese coercion, Australian resilience').",
         "confidence": "medium"
       },
       {
@@ -92,7 +92,7 @@
       }
     ],
     "afterAction": {
-      "statement": "Learning is internal, disciplinary and structural rather than published. The leadership issues its own diagnoses — 'peace disease' and the 'five incapables' (commanders held to be unable to judge situations, understand higher intent, make operational decisions, deploy forces, or handle the unexpected) — and responds by reorganising and removing people rather than by publishing lessons an outsider can read. The 2023-25 removals across the Rocket Force and the equipment-procurement chain are that mechanism operating. The same record cuts against assuming the apex is accurately informed: the removals reached hand-picked appointees, and the same analysis warns that newly promoted leaders may not pass bad news up the line, so a model should allow that the authorising level may be authorising a capability that does not perform as briefed.",
+      "statement": "Learning is internal, disciplinary and structural rather than published. The leadership issues its own diagnoses \u2014 'peace disease' and the 'five incapables' (commanders held to be unable to judge situations, understand higher intent, make operational decisions, deploy forces, or handle the unexpected) \u2014 and responds by reorganising and removing people rather than by publishing lessons an outsider can read. The 2023-25 removals across the Rocket Force and the equipment-procurement chain are that mechanism operating. The same record cuts against assuming the apex is accurately informed: the removals reached hand-picked appointees, and the same analysis warns that newly promoted leaders may not pass bad news up the line, so a model should allow that the authorising level may be authorising a capability that does not perform as briefed.",
       "basis": "'Peace disease' and the 'five incapables' are the leadership's own formulations, discussed in CSIS ChinaPower, 'The Purges Within China's Military Are Even Deeper Than You Think' (February 2026), and CSIS (Lin et al.), 'Assessing Xi's Unprecedented Purges of China's Military: Key Developments and Potential Implications' (24 February 2026); War on the Rocks, 'Rocket-Powered Corruption: Why the Missile Industry Became the Target of Xi's Purge'; DoD China Military Power Report 2024 background briefing (18 December 2024). The upward-reporting risk is taken from the CSIS ChinaPower analysis, which states that newly promoted leaders, fearing their predecessors' fate, may not pass bad news up the line. Specific allegations of missile-maintenance and silo-construction defects were previously carried in the statement above on unnamed US reporting and have been removed rather than softened, because no named source establishes them.",
       "confidence": "medium"
     }
@@ -111,7 +111,7 @@
       },
       {
         "statement": "Complete reunification with Taiwan as a stated task of rejuvenation, with peaceful reunification the declared preference and the use of force explicitly not renounced, reserved against outside interference and separatist action.",
-        "basis": "Report to the 20th National Congress of the CPC (16 October 2022), Taiwan section; Anti-Secession Law of the PRC (2005), Arts. 5, 8 and 9 — Art. 9 also commits the state to 'exert its utmost' to protect Taiwan civilians and foreign nationals, which is the declared half of the profile's contested counterpartHarmRestraint value.",
+        "basis": "Report to the 20th National Congress of the CPC (16 October 2022), Taiwan section; Anti-Secession Law of the PRC (2005), Arts. 5, 8 and 9 \u2014 Art. 9 also commits the state to 'exert its utmost' to protect Taiwan civilians and foreign nationals, which is the declared half of the profile's contested counterpartHarmRestraint value.",
         "confidence": "high"
       },
       {
@@ -120,13 +120,13 @@
         "confidence": "high"
       },
       {
-        "statement": "'A human community with a shared future' as the declared ordering concept for international relations — an alternative framing of legitimacy that does not run through existing adjudicative institutions.",
+        "statement": "'A human community with a shared future' as the declared ordering concept for international relations \u2014 an alternative framing of legitimacy that does not run through existing adjudicative institutions.",
         "basis": "Report to the 20th National Congress of the CPC (16 October 2022), section on promoting world peace and development; the concept was written into the CPC Constitution at the 19th National Congress (2017). Whether it functions as a programme or as declaratory branding is contested in the literature and is not settled here.",
         "confidence": "medium"
       }
     ],
     "selfImage": {
-      "statement": "A major country whose defence policy is defensive in nature and which 'never seeks hegemony, expansion or spheres of influence', acting only in post-strike response. The operative consequence for modelling is that first moves are classified by the actor as enforcement of pre-existing rights rather than as initiation — which is why raising the reputational price of 'aggression' does not bite: the actor does not accept the label the price is attached to.",
+      "statement": "A major country whose defence policy is defensive in nature and which 'never seeks hegemony, expansion or spheres of influence', acting only in post-strike response. The operative consequence for modelling is that first moves are classified by the actor as enforcement of pre-existing rights rather than as initiation \u2014 which is why raising the reputational price of 'aggression' does not bite: the actor does not accept the label the price is attached to.",
       "basis": "China's National Defense in the New Era (State Council Information Office, 24 July 2019), which states that never seeking hegemony, expansion or spheres of influence is the distinctive feature of China's national defence in the new era. The second sentence is analytic: it reads the 2016 arbitration rejection and the enforcement framing of CCG Order No. 3 as showing the label being applied to first moves, and an evaluator may reasonably contest that reading.",
       "confidence": "medium"
     },
@@ -147,14 +147,14 @@
         "confidence": "medium"
       },
       {
-        "statement": "A window that may be closing: 'changes unseen in a century' combined with a standing instruction to practise bottom-line and extreme-scenario thinking. This is the input to lossFrameRiskAcceptance (0.68) and it cuts against timeHorizon (0.82) — if the closing-window read is real in internal discourse rather than an artefact of outside analysis, patience falls and risk appetite rises together.",
-        "basis": "Xinhua readout of the first meeting of the Central National Security Commission under the 20th CPC Central Committee, 30 May 2023 — the meeting 'stressed the necessity of being prepared to deal with worst-case and extreme-case scenarios and being ready to withstand high winds, choppy waters, and even dangerous storms'; 20th Party Congress report framing of 'changes of a magnitude not seen in a century'. The interpretive step — that this constitutes a perceived closing window — is contested.",
+        "statement": "A window that may be closing: 'changes unseen in a century' combined with a standing instruction to practise bottom-line and extreme-scenario thinking. This is the input to lossFrameRiskAcceptance (0.68) and it cuts against timeHorizon (0.82) \u2014 if the closing-window read is real in internal discourse rather than an artefact of outside analysis, patience falls and risk appetite rises together.",
+        "basis": "Xinhua readout of the first meeting of the Central National Security Commission under the 20th CPC Central Committee, 30 May 2023 \u2014 the meeting 'stressed the necessity of being prepared to deal with worst-case and extreme-case scenarios and being ready to withstand high winds, choppy waters, and even dangerous storms'; 20th Party Congress report framing of 'changes of a magnitude not seen in a century'. The interpretive step \u2014 that this constitutes a perceived closing window \u2014 is contested.",
         "confidence": "low"
       }
     ],
     "adversaryModel": {
-      "statement": "It treats the United States as the actor whose intervention decision must be shaped, and reads that decision as responsive to cost and to accomplished fact rather than to law. PLA strategic writing carries concepts of 'war control' and 'effective control' — the proposition that escalation can be initiated and then bounded, including keeping an outside power from entering. The profile's escalationControlBelief (0.65, low confidence) represents a BELIEVED controllability that may be wrong, not a verified capability; the 1996 crisis, where two US carrier groups arrived and the coercion stopped, and 2012, where no outside intervention materialised and control was consolidated, are the two episodes that teach opposite lessons.",
-      "basis": "Science of Military Strategy 'war control' and 'effective control' concepts as analysed in CNA (2016) and the CASI translation (2022); Fiona Cunningham & M. Taylor Fravel, 'Dangerous Confidence? Chinese Views on Nuclear Escalation,' International Security 44:2 (2019) — whose thesis is precisely that the confidence may be unwarranted; RAND MG-614, which calls PLA escalation writing undertheorized. Genuinely contested in the literature; the parent profile flags this as the parameter to sweep 0.5-0.8 in any sensitivity run.",
+      "statement": "It treats the United States as the actor whose intervention decision must be shaped, and reads that decision as responsive to cost and to accomplished fact rather than to law. PLA strategic writing carries concepts of 'war control' and 'effective control' \u2014 the proposition that escalation can be initiated and then bounded, including keeping an outside power from entering. The profile's escalationControlBelief (0.65, low confidence) represents a BELIEVED controllability that may be wrong, not a verified capability; the 1996 crisis, where two US carrier groups arrived and the coercion stopped, and 2012, where no outside intervention materialised and control was consolidated, are the two episodes that teach opposite lessons.",
+      "basis": "Science of Military Strategy 'war control' and 'effective control' concepts as analysed in CNA (2016) and the CASI translation (2022); Fiona Cunningham & M. Taylor Fravel, 'Dangerous Confidence? Chinese Views on Nuclear Escalation,' International Security 44:2 (2019) \u2014 whose thesis is precisely that the confidence may be unwarranted; RAND MG-614, which calls PLA escalation writing undertheorized. Genuinely contested in the literature; the parent profile flags this as the parameter to sweep 0.5-0.8 in any sensitivity run.",
       "confidence": "low"
     },
     "declaredIdeology": {
@@ -167,7 +167,7 @@
     {
       "date": "2024-02-07",
       "episode": "Volt Typhoon disclosed: PRC state-sponsored actors found pre-positioned in US communications, energy, water, transportation and government networks, in some cases holding access for at least five years without executing any disruptive effect.",
-      "choice": "Held. Access was obtained, maintained with living-off-the-land tradecraft to avoid detection, and left unspent — capability placed for a future contingency rather than used for present coercion.",
+      "choice": "Held. Access was obtained, maintained with living-off-the-land tradecraft to avoid detection, and left unspent \u2014 capability placed for a future contingency rather than used for present coercion.",
       "bearsOn": [
         "timeHorizon",
         "signalingPreference",
@@ -186,20 +186,20 @@
         "decisionCentralization",
         "legitimacyWeight"
       ],
-      "lesson": "There is a cost ceiling, and it is set by domestic attributability rather than by the absolute size of the loss — this is the case that cuts against a high ownCostTolerance reading and is the reason the parent profile lowered that value. It is also the cleanest available evidence for decisionCentralization: no subordinate level could adjust the policy while the apex held it, and when the apex moved the change was instantaneous everywhere, producing the whiplash and the unprepared surge that followed.",
-      "basis": "China Leadership Monitor, 'The Sudden End of Zero-Covid: An Investigation', Issue 75, Mar 2023; Council on Foreign Relations, 'Did China's Street Protests End Harsh COVID Policies?'; CNN, 27 December 2022, on the 7 December rollback of lockdowns, mass testing and centralised isolation. CAVEAT an evaluator should press: this is a domestic public-health decision, and transferring its cost ceiling to an external coercion decision — where the leadership can frame losses as externally imposed — is not established.",
+      "lesson": "There is a cost ceiling, and it is set by domestic attributability rather than by the absolute size of the loss \u2014 this is the case that cuts against a high ownCostTolerance reading and is the reason the parent profile lowered that value. It is also the cleanest available evidence for decisionCentralization: no subordinate level could adjust the policy while the apex held it, and when the apex moved the change was instantaneous everywhere, producing the whiplash and the unprepared surge that followed.",
+      "basis": "China Leadership Monitor, 'The Sudden End of Zero-Covid: An Investigation', Issue 75, Mar 2023; Council on Foreign Relations, 'Did China's Street Protests End Harsh COVID Policies?'; CNN, 27 December 2022, on the 7 December rollback of lockdowns, mass testing and centralised isolation. CAVEAT an evaluator should press: this is a domestic public-health decision, and transferring its cost ceiling to an external coercion decision \u2014 where the leadership can frame losses as externally imposed \u2014 is not established.",
       "confidence": "medium"
     },
     {
       "date": "2020",
-      "episode": "Trade coercion against Australia following Canberra's April 2020 call for an independent inquiry into COVID-19 origins: barley duties of 80.5% in May 2020, beef abattoir suspensions, an informal coal ban from October 2020, wine duties later confirmed up to 218%, and restrictions across cotton, timber, lobster and copper — accompanied by a list of fourteen grievances leaked to Australian media in November 2020.",
+      "episode": "Trade coercion against Australia following Canberra's April 2020 call for an independent inquiry into COVID-19 origins: barley duties of 80.5% in May 2020, beef abattoir suspensions, an informal coal ban from October 2020, wine duties later confirmed up to 218%, and restrictions across cotton, timber, lobster and copper \u2014 accompanied by a list of fourteen grievances leaked to Australian media in November 2020.",
       "choice": "Acted, disproportionately and without acknowledgement. Every measure was formally presented as an antidumping, biosecurity or customs finding; none was officially named as retaliation, and the grievance list arrived through a leak rather than a demarche.",
       "bearsOn": [
         "reciprocityProportion",
         "attributionAversion",
         "ownCostTolerance"
       ],
-      "lesson": "Escalated far beyond the triggering act, and calibrated the escalation to its own exposure: iron ore, where substitution was unavailable, was left untouched throughout. The response magnitude scaled inversely with the target's leverage, which is the behaviour reciprocityProportion at 0.68 encodes. The ending matters as much as the opening — most measures were wound back between 2023 and 2024 without the fourteen demands being met, so this is also evidence of cost sensitivity and of a willingness to absorb a strategic loss quietly rather than press a failing instrument.",
+      "lesson": "Escalated far beyond the triggering act, and calibrated the escalation to its own exposure: iron ore, where substitution was unavailable, was left untouched throughout. The response magnitude scaled inversely with the target's leverage, which is the behaviour reciprocityProportion at 0.68 encodes. The ending matters as much as the opening \u2014 most measures were wound back between 2023 and 2024 without the fourteen demands being met, so this is also evidence of cost sensitivity and of a willingness to absorb a strategic loss quietly rather than press a failing instrument.",
       "basis": "United States Studies Centre, 'China's trade restrictions on Australian exports'; ASPI, 'Countering China's coercive diplomacy' (2020), on informal and unacknowledged coercion; Lowy Institute, 'Chinese coercion, Australian resilience'; Heritage Foundation, 'How China's Coercive Measures Against Australia Backfired,' on the wind-down; The China Project, 18 November 2020, on the leaked fourteen grievances. Dates for individual measures vary by commodity across 2020-2021 and the aggregate export-loss figures differ between sources.",
       "confidence": "high"
     },
@@ -207,30 +207,38 @@
       "date": "2015-09-25",
       "episode": "The Xi-Obama understanding that neither government would conduct or knowingly support cyber-enabled theft of intellectual property for commercial advantage, followed by a measured decline in intrusions by China-based groups.",
       "choice": "Curtailed, then restructured. Visible, high-volume commercial collection was pulled back under the combined pressure of public attribution, the May 2014 indictment of five PLA officers and the threat of sanctions; the mission was not abandoned but moved to quieter, contractor-mediated channels under civilian intelligence direction.",
-      "bearsOn": ["attributionAversion", "proxyPreference", "legitimacyWeight"],
-      "lesson": "Held back under attribution pressure — one of the few documented cases where naming and legal exposure changed behaviour — but held back on FORM rather than on objective, which is exactly what legitimacyWeight at 0.48 is meant to represent. The follow-on is the proxyPreference evidence: subsequent operations ran increasingly through MSS-linked contractors rather than uniformed units, buying deniability without ceding control.",
-      "basis": "FireEye iSIGHT Intelligence, 'Red Line Drawn: China Recalculates Its Use of Cyber Espionage,' June 2016, reporting a steep decline in successful compromises by China-based groups — while explicitly assessing that political and economic forces had been shifting operations for more than a year before the agreement, so the accord was 'one point amongst dramatic changes.' Restructuring evidenced by later US indictments of MSS-linked contractors (DOJ, July 2020 Hainan State Security Department case; DOJ, September 2020 APT41/Chengdu 404 case; DOJ, 5 March 2025 i-Soon case). CONTESTED: causal attribution of the decline to the agreement is disputed by the report's own authors.",
+      "bearsOn": [
+        "attributionAversion",
+        "proxyPreference",
+        "legitimacyWeight"
+      ],
+      "lesson": "Held back under attribution pressure \u2014 one of the few documented cases where naming and legal exposure changed behaviour \u2014 but held back on FORM rather than on objective, which is exactly what legitimacyWeight at 0.48 is meant to represent. The follow-on is the proxyPreference evidence: subsequent operations ran increasingly through MSS-linked contractors rather than uniformed units, buying deniability without ceding control.",
+      "basis": "FireEye iSIGHT Intelligence, 'Red Line Drawn: China Recalculates Its Use of Cyber Espionage,' June 2016, reporting a steep decline in successful compromises by China-based groups \u2014 while explicitly assessing that political and economic forces had been shifting operations for more than a year before the agreement, so the accord was 'one point amongst dramatic changes.' Restructuring evidenced by later US indictments of MSS-linked contractors (DOJ, July 2020 Hainan State Security Department case; DOJ, September 2020 APT41/Chengdu 404 case; DOJ, 5 March 2025 i-Soon case). CONTESTED: causal attribution of the decline to the agreement is disputed by the report's own authors.",
       "confidence": "medium"
     },
     {
       "date": "2012-04-08",
       "episode": "Scarborough Shoal standoff. A Philippine navy frigate attempted to arrest Chinese fishermen inside the shoal; Chinese Marine Surveillance vessels interposed, the standoff ran for weeks, and after the Philippines withdrew its remaining vessel China placed a barrier across the entrance and retained control.",
       "choice": "Acted through civilian-guise and law-enforcement vessels rather than naval combatants, absorbed a long standoff without firing, and then consolidated a permanent position when the counterpart withdrew.",
-      "bearsOn": ["proxyPreference", "attributionAversion", "timeHorizon"],
-      "lesson": "Escalated in a register the counterpart could not answer with force without becoming the aggressor, and was content to wait: the outcome was produced by outlasting rather than by defeating. The instrument choice — maritime surveillance and fishing vessels, not the navy — is the model case for buying deniability while keeping the action unmistakable to the target, the pattern that makes attributionAversion and signalingPreference co-exist in this profile.",
+      "bearsOn": [
+        "proxyPreference",
+        "attributionAversion",
+        "timeHorizon"
+      ],
+      "lesson": "Escalated in a register the counterpart could not answer with force without becoming the aggressor, and was content to wait: the outcome was produced by outlasting rather than by defeating. The instrument choice \u2014 maritime surveillance and fishing vessels, not the navy \u2014 is the model case for buying deniability while keeping the action unmistakable to the target, the pattern that makes attributionAversion and signalingPreference co-exist in this profile.",
       "basis": "CSIS Asia Maritime Transparency Initiative, 'Counter-Coercion Series: Scarborough Shoal Standoff,' which also notes that the Philippine decision to send a warship rather than a coast guard vessel helped trigger the standoff and that both bureaucracies coordinated poorly. Contested point: the existence and terms of a US-brokered mutual-withdrawal understanding in June 2012 are disputed between the participants and the sequence is not settled in the open record.",
       "confidence": "medium"
     },
     {
       "date": "2001-04-01",
       "episode": "EP-3 collision near Hainan: a US Navy signals-intelligence aircraft and a PLA Navy J-8 interceptor collided, the Chinese pilot was lost, and the US aircraft made an unauthorised landing at Lingshui with 24 crew aboard, who were detained for eleven days.",
-      "choice": "Held. No counter-force, no seizure of a broader hostage position, no escalation to sanctions — instead the crew was traded for a verbal formula, the 'letter of the two sorries', which both governments could present differently at home.",
+      "choice": "Held. No counter-force, no seizure of a broader hostage position, no escalation to sanctions \u2014 instead the crew was traded for a verbal formula, the 'letter of the two sorries', which both governments could present differently at home.",
       "bearsOn": [
         "escalationControlBelief",
         "decisionCentralization",
         "reciprocityProportion"
       ],
-      "lesson": "Where the objective was a face-saving settlement rather than a change on the ground, the institution took a proportionate and reversible path and accepted a linguistic instrument as payment. The eleven days are the procedural finding, not the diplomatic one: release authority sat at the apex, no working level could settle it, and the delay was a function of the authority chain rather than of the substance in dispute — the same slow de-escalation clock this profile's tempo describes.",
+      "lesson": "Where the objective was a face-saving settlement rather than a change on the ground, the institution took a proportionate and reversible path and accepted a linguistic instrument as payment. The eleven days are the procedural finding, not the diplomatic one: release authority sat at the apex, no working level could settle it, and the delay was a function of the authority chain rather than of the substance in dispute \u2014 the same slow de-escalation clock this profile's tempo describes.",
       "basis": "Association for Diplomatic Studies & Training, 'A U.S.-Chinese Mid-Air Collision and The Letter of Two Sorries' (2016), on the negotiated formula; ASPI 'Pressure points' project discussion of what happens when serious air and maritime incidents occur, contrasting the 2001 resolution with the absence of working channels today. Note the asymmetry with the present day: in 2001 both sides had usable channels, which is precisely what has been withheld since August 2022.",
       "confidence": "high"
     },
@@ -243,7 +251,7 @@
         "escalationControlBelief",
         "lossFrameRiskAcceptance"
       ],
-      "lesson": "Chose an instrument whose entire value was that it be seen — announced closure areas, publicised firings, a declared exercise window — and stopped at the edge of the announced envelope when the counter-deployment arrived, without any acknowledgement that it had stopped. Read as loss-frame evidence, the crisis was triggered by a perceived slide in Taiwan's international status rather than by any Taiwanese action on the ground, which is the pattern lossFrameRiskAcceptance encodes: risk is taken to arrest decline, not to capture gains. The episode is also the strongest single case against a high escalationControlBelief, since the intervention the coercion was meant to deter is the thing that ended it.",
+      "lesson": "Chose an instrument whose entire value was that it be seen \u2014 announced closure areas, publicised firings, a declared exercise window \u2014 and stopped at the edge of the announced envelope when the counter-deployment arrived, without any acknowledgement that it had stopped. Read as loss-frame evidence, the crisis was triggered by a perceived slide in Taiwan's international status rather than by any Taiwanese action on the ground, which is the pattern lossFrameRiskAcceptance encodes: risk is taken to arrest decline, not to capture gains. The episode is also the strongest single case against a high escalationControlBelief, since the intervention the coercion was meant to deter is the thing that ended it.",
       "basis": "Robert S. Ross, 'The 1995-96 Taiwan Strait Confrontation: Coercion, Credibility, and the Use of Force,' International Security (2000); Andrew Scobell, 'Show of Force: The PLA and the 1995-1996 Taiwan Strait Crisis,' in China's Use of Military Force (Cambridge University Press, 2003). Contested: whether the exercises ended because of the carriers or because they had always been scheduled to end on 25 March is exactly the point Ross and Scobell weigh differently, and this dossier does not resolve it.",
       "confidence": "medium"
     },
@@ -251,23 +259,30 @@
       "date": "1979-02-17",
       "episode": "Punitive war against Vietnam: a twenty-nine-day ground invasion launched to impose costs on Hanoi and to demonstrate to Moscow that its new treaty ally could be attacked without Soviet response, ending in a declared withdrawal completed by 16 March 1979.",
       "choice": "Acted and absorbed. Heavy casualties were accepted for a demonstrative political objective, and the force was withdrawn on a self-declared schedule with the stated objective announced as achieved.",
-      "bearsOn": ["ownCostTolerance", "escalationControlBelief"],
-      "lesson": "Absorbed severe losses for a signalling objective and then declared its own terminus rather than negotiating one — the same self-declared-end pattern as 1962. HEAVILY DISCOUNTED as evidence about the present institution: it predates the 2016 command reform, the exposure of the economy to global finance and supply chains, and the current legitimacy basis, and the parent profile explicitly treats 1979 as weak evidence for the present regime. Carried here because removing it would leave ownCostTolerance with only the zero-COVID counter-case.",
+      "bearsOn": [
+        "ownCostTolerance",
+        "escalationControlBelief"
+      ],
+      "lesson": "Absorbed severe losses for a signalling objective and then declared its own terminus rather than negotiating one \u2014 the same self-declared-end pattern as 1962. HEAVILY DISCOUNTED as evidence about the present institution: it predates the 2016 command reform, the exposure of the economy to global finance and supply chains, and the current legitimacy basis, and the parent profile explicitly treats 1979 as weak evidence for the present regime. Carried here because removing it would leave ownCostTolerance with only the zero-COVID counter-case.",
       "basis": "Xiaoming Zhang, Deng Xiaoping's Long War: The Military Conflict between China and Vietnam, 1979-1991 (University of North Carolina Press, 2015), drawing on declassified Chinese documents and senior memoirs, on the twenty-nine-day border war and its decision-making. Casualty figures are contested across Chinese, Vietnamese and Western sources and no single count should be treated as established.",
       "confidence": "medium"
     },
     {
       "date": "1962-11-21",
       "episode": "Sino-Indian border war: after a month of offensives along the disputed frontier, a unilateral ceasefire was declared on 21 November 1962 and forces withdrew behind the pre-war line rather than holding the captured ground.",
-      "choice": "Escalated, then unilaterally de-escalated from a position of advantage — the ground was given back and the disputed territorial question deliberately left open.",
+      "choice": "Escalated, then unilaterally de-escalated from a position of advantage \u2014 the ground was given back and the disputed territorial question deliberately left open.",
       "bearsOn": [
         "escalationControlBelief",
         "lossFrameRiskAcceptance",
         "reciprocityProportion"
       ],
-      "lesson": "Used force to reverse a perceived slide in bargaining position rather than to seize and hold, and terminated on its own initiative before an outside power could enter — evidence for a belief that it can start and stop a conflict at a time of its choosing, and for taking risk under a loss frame rather than an opportunity frame. The self-declared, unreciprocated termination is also why reciprocityProportion should not be read as simple symmetry: response magnitude here was set by the political objective, not by the counterpart's action.",
+      "lesson": "Used force to reverse a perceived slide in bargaining position rather than to seize and hold, and terminated on its own initiative before an outside power could enter \u2014 evidence for a belief that it can start and stop a conflict at a time of its choosing, and for taking risk under a loss frame rather than an opportunity frame. The self-declared, unreciprocated termination is also why reciprocityProportion should not be read as simple symmetry: response magnitude here was set by the political objective, not by the counterpart's action.",
       "basis": "M. Taylor Fravel, Strong Borders, Secure Nation: Cooperation and Conflict in China's Territorial Disputes (Princeton University Press, 2008), which reads 1962 as force used to arrest declining bargaining power; Hoover Institution, 'The 1962 Sino-Indian War and the Cuban Missile Crisis,' on the timing of the ceasefire against the end of the Cuban crisis and the prospect of US intervention. CONTESTED: whether the withdrawal reflected planned self-limitation or anticipated US intervention is disputed, and the two readings imply different escalationControlBelief values.",
       "confidence": "medium"
     }
-  ]
+  ],
+  "weakestClaim": {
+    "section": "procedure.steps",
+    "finding": "five of the seven stages are scored \"medium\" because the org charts are documented but the deliberations are not. The CMC-to-theatre-command structure (2016 reform), the CNSC/commission layer (2013, upgraded 2018), the three-warfares political-work review, the pre-laid legal predicate (CCG Law Art. 22; CCG Order No. 3), and the instrument-selection step all rest on institutional documentation plus one primary-document anchor each \u2014 but no open source shows a specific proposal being stopped at any of these gates, so the gates are inferred function, not observed function. Step 5 is the exception worth reading first: the i-Soon leak and the March 2025 DOJ indictment show the contracted cyber channel operating as a market (contractors pitching targets, pricing stolen data by victim, breaching organisations on no tasking list), which contradicts the profile's decisionCentralization of 0.85 in that domain specifically. Second weakest: worldview.adversaryModel (low) \u2014 the \"war control\" reading is contested three ways in the literature and the two episodes cited teach opposite lessons."
+  }
 }

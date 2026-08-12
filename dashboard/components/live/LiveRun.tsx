@@ -27,7 +27,7 @@ import { EMPTY_RUN, reduceRun, totalCost } from "../../lib/run-state";
 import type { RunState } from "../../lib/run-state";
 import { Card, Pill } from "../site/ui";
 import { AgentMind } from "./AgentMind";
-import { CouncilCard } from "./CouncilCard";
+import { Councils } from "./Councils";
 import { JudgesBench } from "./JudgesBench";
 import { Presets } from "./Presets";
 import { Worlds } from "./Worlds";
@@ -187,9 +187,6 @@ export function LiveRun() {
   );
 
   const opened = openAgent ? state.agents[openAgent.label] : undefined;
-  const disagreements = state.councils.filter(
-    (council) => council.verdict && !council.verdict.agreed,
-  ).length;
 
   return (
     <div className="mt-8">
@@ -434,28 +431,12 @@ export function LiveRun() {
 
           {state.councils.length > 0 && (
             <div className="mt-12">
-              <h3 className="text-[15px]">
-                Where the institutions actually deliberated
-              </h3>
-              <p className="mt-1.5 max-w-[72ch] text-[13px] leading-relaxed text-slate">
-                At each step below, that actor&rsquo;s own gates were seated as
-                separate agents and asked to judge the same option set. They are
-                advisory — the arithmetic is what the run executed — so the{" "}
-                {disagreements > 0
-                  ? `${disagreements} ${disagreements === 1 ? "council" : "councils"} that reached a different call than the arithmetic ${disagreements === 1 ? "is" : "are"} the finding`
-                  : "places where they agree are a check on it"}
-                . Open any seat to read what it was asked and what it answered.
-              </p>
-              <div className="mt-4 space-y-3">
-                {state.councils.map((council) => (
-                  <CouncilCard
-                    key={council.councilId}
-                    council={council}
-                    agentFor={agentFor}
-                    onOpenAgent={onOpenAgent}
-                  />
-                ))}
-              </div>
+              <Councils
+                councils={state.councils}
+                running={running}
+                agentFor={agentFor}
+                onOpenAgent={onOpenAgent}
+              />
             </div>
           )}
 

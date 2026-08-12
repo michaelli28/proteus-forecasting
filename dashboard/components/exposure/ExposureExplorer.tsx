@@ -183,7 +183,7 @@ function Chokepoints({ result }: { result: ArchetypeResult }) {
       title="Biggest exposures"
       lede="Every control component, ranked by the damage its compromise could do — whether or not the attacker in the simulation chose to target it. That is the point: the worst vulnerabilities are not always the ones under attack."
     >
-      <div className="overflow-hidden rounded-xl border border-line bg-surface">
+      <div className="overflow-x-auto rounded-xl border border-line bg-surface">
         <table className="w-full text-[13.5px]">
           <thead>
             <tr className="border-b border-line bg-sunken/50 text-left">
@@ -291,7 +291,7 @@ function AttackPaths({ result }: { result: ArchetypeResult }) {
       title="How the attacker moves"
       lede="Where the simulated attacker actually spent its access, split by the kind of interference — because locking operators out and silently sabotaging controls are very different events."
     >
-      <div className="overflow-hidden rounded-xl border border-line bg-surface">
+      <div className="overflow-x-auto rounded-xl border border-line bg-surface">
         <table className="w-full text-[13.5px]">
           <thead>
             <tr className="border-b border-line bg-sunken/50 text-left">

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 /**
- * Top navigation. Four destinations, plain names.
+ * Top navigation. Five destinations, plain names.
  *
  * The active link is the only one that gets the navy weight and the underline —
  * every other tab stays quiet, so the eye lands on where you are without a busy
@@ -12,6 +12,8 @@ import { usePathname } from "next/navigation";
  */
 const NAV = [
   { href: "/", label: "Overview" },
+  { href: "/live", label: "Watch a run" },
+  { href: "/actors", label: "Actors" },
   { href: "/exposure", label: "Water exposure" },
   { href: "/calibration", label: "Forecast quality" },
   { href: "/runs", label: "Runs" },
@@ -25,15 +27,22 @@ export default function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-ground/85 backdrop-blur-md">
-      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-6 px-6">
-        <Link href="/" className="group flex items-center gap-2.5">
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-4 px-6">
+        <Link href="/" className="group flex shrink-0 items-center gap-2.5">
           <ProteusMark />
           <span className="font-serif text-[17px] font-semibold tracking-tight text-navy">
             Proteus
           </span>
         </Link>
 
-        <nav className="flex items-center gap-1">
+        {/*
+          Scrolls rather than wraps on narrow screens. Wrapping would push the
+          header past its fixed height and drop the active underline onto the
+          row below it; scrolling keeps one row and the underline geometry
+          intact. The scrollbar is hidden because a tab strip that only
+          sometimes shows a bar reads as a rendering fault.
+        */}
+        <nav className="flex min-w-0 items-center gap-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {NAV.map((item) => {
             const active = isActive(item.href);
             return (
@@ -41,7 +50,7 @@ export default function SiteHeader() {
                 key={item.href}
                 href={item.href}
                 aria-current={active ? "page" : undefined}
-                className={`relative rounded-md px-3 py-1.5 text-[13.5px] transition-colors ${
+                className={`relative shrink-0 whitespace-nowrap rounded-md px-3 py-1.5 text-[13.5px] transition-colors ${
                   active
                     ? "font-semibold text-navy"
                     : "font-medium text-slate hover:text-ink"

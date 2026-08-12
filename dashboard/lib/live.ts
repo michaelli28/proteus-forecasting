@@ -264,19 +264,41 @@ export interface ManifestActor {
   uncertainty: string;
 }
 
+/**
+ * A configuration worth someone's first ten minutes.
+ *
+ * Authored in `engine/src/scenario/presets.ts`, where `finding` is enforced by a
+ * test that runs the configuration across six seeds. That matters for what this
+ * page is allowed to do with it: the sentence can be rendered as a statement of
+ * fact rather than hedged, because the build fails if it stops being one.
+ */
+export interface ScenarioPreset {
+  id: string;
+  question: string;
+  finding: string;
+  watchFor: string;
+  pack: string;
+  actors: string[];
+  respondents: string[];
+  defense: string | null;
+  seed: string;
+  needsDeliberation: boolean;
+}
+
 export interface ScenarioManifest {
   generatedNote: string;
   profilesReviewedAt: string;
   profileMethod: string;
   packs: ManifestPack[];
   actors: ManifestActor[];
+  presets: ScenarioPreset[];
 }
 
 function load(): ScenarioManifest {
   const data = manifest as ScenarioManifest;
-  if (!data.packs?.length || !data.actors?.length) {
+  if (!data.packs?.length || !data.actors?.length || !data.presets?.length) {
     throw new Error(
-      "scenario-manifest.json is empty — run `npm run manifest` in engine/",
+      "scenario-manifest.json is empty or predates presets — run `npm run manifest` in engine/",
     );
   }
   return data;

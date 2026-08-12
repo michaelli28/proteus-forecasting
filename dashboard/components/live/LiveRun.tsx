@@ -22,13 +22,14 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { MANIFEST, formatNumber } from "../../lib/live";
-import type { RunEvent } from "../../lib/live";
+import type { RunEvent, ScenarioPreset } from "../../lib/live";
 import { EMPTY_RUN, reduceRun, totalCost } from "../../lib/run-state";
 import type { RunState } from "../../lib/run-state";
 import { Card, Pill } from "../site/ui";
 import { AgentMind } from "./AgentMind";
 import { CouncilCard } from "./CouncilCard";
 import { JudgesBench } from "./JudgesBench";
+import { Presets } from "./Presets";
 import { Worlds } from "./Worlds";
 
 interface OpenAgent {
@@ -48,6 +49,8 @@ export function LiveRun() {
   const [councils, setCouncils] = useState(6);
   const [judges, setJudges] = useState(5);
 
+  const [presetId, setPresetId] = useState<string | null>(null);
+
   const [running, setRunning] = useState(false);
   const [state, setState] = useState<RunState>(EMPTY_RUN);
   const [openAgent, setOpenAgent] = useState<OpenAgent | null>(null);
@@ -62,6 +65,32 @@ export function LiveRun() {
     sourceRef.current = null;
     setRunning(false);
   }, []);
+
+  const applyPreset = useCallback((preset: ScenarioPreset) => {
+    setPresetId(preset.id);
+    setPackId(preset.pack);
+    setActorIds([...preset.actors]);
+    setRespondentId(preset.respondents[0] ?? "");
+    setDefenseKind(preset.defense ?? "");
+    setSeed(preset.seed);
+    if (preset.needsDeliberation) setDeep(true);
+  }, []);
+
+  /**
+   * Any hand edit drops the preset's highlight.
+   *
+   * Without this, changing the actor leaves a selected question above a
+   * configuration that no longer answers it — a claim on screen that the run
+   * below will not support, which is the one failure this page cannot afford.
+   */
+  const edited = useCallback(
+    <T,>(set: (value: T) => void) =>
+      (value: T) => {
+        setPresetId(null);
+        set(value);
+      },
+    [],
+  );
 
   useEffect(() => stop, [stop]);
 
@@ -164,13 +193,16 @@ export function LiveRun() {
 
   return (
     <div className="mt-8">
-      <Card>
+      <Presets activeId={presetId} running={running} onPick={applyPreset} />
+
+      <Card className="mt-6">
         <div className="grid gap-5 sm:grid-cols-2">
           <Field label="Situation">
             <select
               className="w-full rounded-lg border border-line bg-surface px-3 py-2 text-[13px]"
               value={packId}
               onChange={(event) => {
+                setPresetId(null);
                 setPackId(event.target.value);
                 setDefenseKind("");
               }}
@@ -191,7 +223,7 @@ export function LiveRun() {
             <select
               className="w-full rounded-lg border border-line bg-surface px-3 py-2 text-[13px]"
               value={defenseKind}
-              onChange={(event) => setDefenseKind(event.target.value)}
+              onChange={(event) => edited(setDefenseKind)(event.target.value)}
               disabled={running}
             >
               <option value="">none — baseline run</option>
@@ -218,7 +250,7 @@ export function LiveRun() {
                   type="button"
                   aria-pressed={selected}
                   onClick={() =>
-                    setActorIds(
+                    edited(setActorIds)(
                       selected
                         ? actorIds.filter((entry) => entry !== actor.id)
                         : [...actorIds, actor.id],
@@ -244,7 +276,7 @@ export function LiveRun() {
             <select
               className="w-full rounded-lg border border-line bg-surface px-3 py-2 text-[13px]"
               value={respondentId}
-              onChange={(event) => setRespondentId(event.target.value)}
+              onChange={(event) => edited(setRespondentId)(event.target.value)}
               disabled={running}
             >
               <option value="">nobody responds</option>
@@ -260,7 +292,7 @@ export function LiveRun() {
             <input
               className="w-full rounded-lg border border-line bg-surface px-3 py-2 text-[13px]"
               value={seed}
-              onChange={(event) => setSeed(event.target.value)}
+              onChange={(event) => edited(setSeed)(event.target.value)}
               disabled={running}
             />
           </Field>
@@ -271,7 +303,18 @@ export function LiveRun() {
             <input
               type="checkbox"
               checked={deep}
-              onChange={(event) => setDeep(event.target.checked)}
+              onChange={(event) => {
+                // Turning deliberation OFF under a preset that needs it leaves
+                // the question above unanswerable, so the preset stops claiming
+                // to be the thing configured. Turning it on breaks nothing.
+                const active = MANIFEST.presets.find(
+                  (entry) => entry.id === presetId,
+                );
+                if (!event.target.checked && active?.needsDeliberation) {
+                  setPresetId(null);
+                }
+                setDeep(event.target.checked);
+              }}
               disabled={running}
               className="mt-0.5"
             />
@@ -316,10 +359,11 @@ export function LiveRun() {
                 disabled={running}
               />
               <p className="text-[12px] leading-snug text-muted sm:col-span-3">
-                Roughly{" "}
-                {estimateCalls(branches, councils, judges, actorIds.length)}{" "}
-                model calls. Each council seats one agent per gate plus a final
-                authority, and every one of them is openable afterwards.
+                At most {estimateCalls(branches, councils, judges)} model calls
+                — usually fewer, since a world where fewer steps qualify
+                convenes fewer councils. Each council seats one agent per gate
+                plus a final authority, and every one of them is openable
+                afterwards.
               </p>
             </div>
           )}
@@ -650,13 +694,18 @@ function Number({
  * An estimate, and stated as one: the council count is a CAP, and a world where
  * fewer steps qualify convenes fewer. Showing the ceiling is the useful
  * direction to be wrong in — nobody is surprised by a run that cost less.
+ *
+ * The cap is per WORLD, across every actor in it, so multiplying by the cast
+ * was double-counting: a two-actor run does not convene twice as many councils,
+ * it splits the same budget between them.
  */
 function estimateCalls(
   branches: number,
   councils: number,
   judges: number,
-  actors: number,
 ): number {
-  const seatsPerCouncil = 5;
-  return branches * councils * Math.max(1, actors) * seatsPerCouncil + judges;
+  // Each council seats one agent per documented gate, plus the chair that
+  // synthesises them. Seven gates is what the researched profiles carry.
+  const callsPerCouncil = 7 + 1;
+  return branches * councils * callsPerCouncil + judges;
 }

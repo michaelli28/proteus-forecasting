@@ -20,6 +20,7 @@ import type {
   ObservableTick,
 } from "../sim/adapters/influence-ops/index.js";
 import type { TargetQuantity } from "../evidence/partition.js";
+import type { SimEvent } from "../sim/kernel.js";
 import type { DomainBinding } from "./types.js";
 
 /** Population measures this domain can be asked to forecast. */
@@ -161,25 +162,50 @@ export function createInfluenceOpsBinding(
       // Reconstructed from telemetry events alone. Reading finalState here
       // would hand the detector the population's actual beliefs and quietly
       // turn detection precision into a tautology.
-      const ticks: ObservableTick[] = result.events
-        .filter((event) => event.kind === "telemetry")
-        .map((event) => ({
-          tick: event.tick,
-          volume: event.data.volume as number,
-          activeAccounts: event.data.activeAccounts as number,
-          activeDegreeRatio: event.data.activeDegreeRatio as number,
-          clusterActivityShare: event.data.clusterActivityShare as number[],
-        }));
-
-      const signatures = deriveSignatures(ticks);
-      return {
-        burstiness: signatures.burstiness,
-        surgeRatio: signatures.surgeRatio,
-        hubConcentration: signatures.hubConcentration,
-        clusterSynchrony: signatures.clusterSynchrony,
-        compositeScore: signatures.compositeScore,
-      };
+      return signaturesFromTelemetry(
+        result.events.filter((event) => event.kind === "telemetry"),
+      );
     },
+  };
+}
+
+/**
+ * The same signatures, computed from telemetry at ticks 0..t0 only — what a
+ * defender could know at t0. Takes the event stream and nothing else, so an
+ * early check cannot read the future or the final state.
+ */
+export function signaturesUpTo(
+  result: { readonly events: readonly SimEvent[] },
+  t0: number,
+): Readonly<Record<string, number>> {
+  if (!Number.isInteger(t0) || t0 < 0) {
+    throw new RangeError(`t0 must be a non-negative integer: ${t0}`);
+  }
+  return signaturesFromTelemetry(
+    result.events.filter(
+      (event) => event.kind === "telemetry" && event.tick <= t0,
+    ),
+  );
+}
+
+function signaturesFromTelemetry(
+  telemetry: readonly SimEvent[],
+): Readonly<Record<string, number>> {
+  const ticks: ObservableTick[] = telemetry.map((event) => ({
+    tick: event.tick,
+    volume: event.data.volume as number,
+    activeAccounts: event.data.activeAccounts as number,
+    activeDegreeRatio: event.data.activeDegreeRatio as number,
+    clusterActivityShare: event.data.clusterActivityShare as number[],
+  }));
+
+  const signatures = deriveSignatures(ticks);
+  return {
+    burstiness: signatures.burstiness,
+    surgeRatio: signatures.surgeRatio,
+    hubConcentration: signatures.hubConcentration,
+    clusterSynchrony: signatures.clusterSynchrony,
+    compositeScore: signatures.compositeScore,
   };
 }
 

@@ -6,9 +6,11 @@ import {
   createInfluenceOpsBinding,
   influenceOpsBinding,
   influenceOpsQuantity,
+  signaturesUpTo,
 } from "../../src/pipeline/influence-ops-binding.js";
 import { DEFAULT_CONFIG } from "../../src/sim/adapters/influence-ops/index.js";
 import type { RunSpec } from "../../src/agents/framer.js";
+import type { SimEvent } from "../../src/sim/kernel.js";
 
 /** Small world so the binding's tests stay in the millisecond range. */
 const SMALL = {
@@ -150,6 +152,67 @@ describe("signatures — the detector/oracle separation", () => {
     expect(binding.signatures(telemetryOnly)).toEqual(
       binding.signatures(result),
     );
+  });
+});
+
+describe("signaturesUpTo — telemetry through tick t0 and nothing later", () => {
+  const quantity = influenceOpsQuantity("adoptionRate", 25);
+
+  async function run(risk: number, escalation: number) {
+    const config = binding.configFor(spec("a", risk, escalation), quantity);
+    return runSimulation(binding.adapter, config, "seed", { observeEvery: 0 });
+  }
+
+  function scramble(event: SimEvent): SimEvent {
+    return event.kind === "telemetry"
+      ? {
+          ...event,
+          data: {
+            volume: 1e6,
+            activeAccounts: 1e6,
+            activeDegreeRatio: 99,
+            clusterActivityShare: [1, 0, 0],
+          },
+        }
+      : { ...event, data: { adoptionRate: 1 } };
+  }
+
+  it("ignores every event, truth or telemetry, after t0", async () => {
+    const result = await run(70, 70);
+    const t0 = 12;
+    const tampered = {
+      ...result,
+      events: result.events.map((e) => (e.tick > t0 ? scramble(e) : e)),
+    };
+    expect(signaturesUpTo(tampered, t0)).toEqual(signaturesUpTo(result, t0));
+
+    // Not vacuous: tampering with tick t0 itself does move the reading.
+    const atCutoff = {
+      ...result,
+      events: result.events.map((e) => (e.tick === t0 ? scramble(e) : e)),
+    };
+    expect(signaturesUpTo(atCutoff, t0)).not.toEqual(
+      signaturesUpTo(result, t0),
+    );
+  });
+
+  it("cannot tell two campaigns apart before either has started", async () => {
+    // On this 30-tick world both campaigns start at tick 13 or later.
+    const quiet = await run(20, 20);
+    const loud = await run(90, 90);
+    expect(signaturesUpTo(loud, 12)).toEqual(signaturesUpTo(quiet, 12));
+    expect(signaturesUpTo(loud, 29)).not.toEqual(signaturesUpTo(quiet, 29));
+  });
+
+  it("matches the full-run signatures when t0 is the last tick", async () => {
+    const result = await run(70, 70);
+    expect(signaturesUpTo(result, 29)).toEqual(binding.signatures(result));
+  });
+
+  it("rejects a cutoff that is not a non-negative integer", async () => {
+    const result = await run(70, 70);
+    expect(() => signaturesUpTo(result, -1)).toThrow(RangeError);
+    expect(() => signaturesUpTo(result, 2.5)).toThrow(RangeError);
   });
 });
 

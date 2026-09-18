@@ -37,6 +37,7 @@ import { DEFAULT_ABSTENTION_THRESHOLDS } from "../evidence/abstention.js";
 import { createFailingClient } from "../llm/stub.js";
 import { runQuestion } from "./run-question.js";
 import { ensembleQualityReport, scoreQuestions } from "./score.js";
+import { stratifiedBootstrap } from "../metrics/bootstrap.js";
 import type { ArtifactStore } from "../artifact/store.js";
 import type { AsOfCorpus } from "../corpus/as-of.js";
 import type { LlmClient } from "../llm/client.js";
@@ -44,6 +45,7 @@ import type { RunSpec } from "../agents/framer.js";
 import type { AbstentionThresholds } from "../evidence/abstention.js";
 import type { TargetQuantity } from "../evidence/partition.js";
 import type { EvaluationRegime } from "../metrics/index.js";
+import type { Interval } from "../metrics/bootstrap.js";
 import type { BatchScore, EnsembleQualityReport } from "./score.js";
 import type { QuestionResult, ScenarioPrior } from "./run-question.js";
 import type { DomainBinding } from "./types.js";
@@ -106,6 +108,19 @@ export interface ArmReport {
   readonly score: BatchScore | null;
   readonly ensemble: EnsembleQualityReport | null;
   readonly meanCompletionRatio: number;
+  /** Null when the arm has nothing to score. */
+  readonly intervals: ArmIntervals | null;
+}
+
+/**
+ * 95% percentile intervals, resampling questions within prior boxes. None for
+ * ECE: it is biased upward and not smooth, so a percentile interval undercovers,
+ * and outside `misspecified` it is near zero by construction anyway.
+ */
+export interface ArmIntervals {
+  readonly brier: Interval | null;
+  readonly skill: Interval | null;
+  readonly coverageAt1: Interval | null;
 }
 
 export interface BenchmarkReport {
@@ -293,6 +308,7 @@ export async function runBenchmark<TConfig, TState>(
 
   const arms: ArmReport[] = BENCHMARK_ARMS.map((arm) => {
     const armResults = byArm.get(arm) ?? [];
+    const score = safely(() => scoreQuestions(armResults, regime));
     const abstained = armResults.filter((r) => r.abstained).length;
     const failuresByPhase: Record<string, number> = {};
     for (const result of armResults) {
@@ -310,13 +326,21 @@ export async function runBenchmark<TConfig, TState>(
         armResults.length === 0 ? 0 : abstained / armResults.length,
       failuresByPhase,
       unresolved: armResults.filter((r) => !r.abstained && !r.forecast).length,
-      score: safely(() => scoreQuestions(armResults, regime)),
+      score,
       ensemble: safely(() => ensembleQualityReport(armResults)),
       meanCompletionRatio:
         armResults.length === 0
           ? 0
           : armResults.reduce((sum, r) => sum + r.ensemble.completionRatio, 0) /
             armResults.length,
+      intervals: score
+        ? armIntervals(
+            questions.flatMap((question, i) =>
+              question.arm === arm ? [{ question, result: results[i]! }] : [],
+            ),
+            { regime, seed: `${options.seed}/bootstrap/${arm}` },
+          )
+        : null,
     };
   });
 
@@ -333,6 +357,30 @@ export async function runBenchmark<TConfig, TState>(
       0,
     ),
     thresholds: options.abstentionThresholds ?? DEFAULT_ABSTENTION_THRESHOLDS,
+  };
+}
+
+function armIntervals(
+  paired: readonly { question: BenchmarkQuestion; result: QuestionResult }[],
+  options: { regime: EvaluationRegime; seed: string },
+): ArmIntervals {
+  const interval = (
+    name: string,
+    statistic: (results: readonly QuestionResult[]) => number,
+  ) =>
+    stratifiedBootstrap(paired, {
+      // The prior box a question was drawn around.
+      stratumOf: (p) => JSON.stringify(p.question.prior),
+      statistic: (sample) => safely(() => statistic(sample.map((p) => p.result))),
+      seed: `${options.seed}/${name}`,
+    });
+  return {
+    brier: interval("brier", (r) => scoreQuestions(r, options.regime).report.brier),
+    skill: interval(
+      "skill",
+      (r) => scoreQuestions(r, options.regime).report.brierSkillVsBaseRate,
+    ),
+    coverageAt1: interval("coverage", (r) => ensembleQualityReport(r).coverageAt1),
   };
 }
 
@@ -370,6 +418,12 @@ export const MCE_CAVEAT = [
   "than sample size — read ECE, which weights bins by occupancy. (Measured: §8h.)",
 ].join("\n");
 
+function ci(interval: Interval | null | undefined, digits = 4): string {
+  return interval
+    ? ` [${interval.lower.toFixed(digits)}, ${interval.upper.toFixed(digits)}]`
+    : "";
+}
+
 export function formatBenchmark(report: BenchmarkReport): string {
   const lines = [
     `PROTEUS benchmark — regime: ${report.regime}`,
@@ -389,14 +443,14 @@ export function formatBenchmark(report: BenchmarkReport): string {
       const r = arm.score.report;
       lines.push(
         `   n=${r.n} binary forecasts from ${arm.score.scored} questions`,
-        `   Brier ${r.brier.toFixed(4)}   skill vs base rate ${r.brierSkillVsBaseRate.toFixed(4)}   ignorance ${r.ignoranceBits.toFixed(3)} bits`,
+        `   Brier ${r.brier.toFixed(4)}${ci(arm.intervals?.brier)}   skill vs base rate ${r.brierSkillVsBaseRate.toFixed(4)}${ci(arm.intervals?.skill)}   ignorance ${r.ignoranceBits.toFixed(3)} bits`,
         `   ECE ${r.expectedCalibrationError.toFixed(4)}   MCE ${r.maximumCalibrationError.toFixed(4)}   sharpness ${r.sharpness.toFixed(4)}${r.isHedging ? "  [HEDGING]" : ""}`,
         `   Murphy: reliability ${r.reliability.toFixed(4)} − resolution ${r.resolution.toFixed(4)} + uncertainty ${r.uncertainty.toFixed(4)}`,
       );
     }
     if (arm.ensemble) {
       lines.push(
-        `   coverage@1 ${arm.ensemble.coverageAt1.toFixed(3)}   coverage@2 ${arm.ensemble.coverageAt2.toFixed(3)}   tail recall ${arm.ensemble.tailRecall.recall.toFixed(3)} (${arm.ensemble.tailRecall.surprises} surprises)`,
+        `   coverage@1 ${arm.ensemble.coverageAt1.toFixed(3)}${ci(arm.intervals?.coverageAt1, 3)}   coverage@2 ${arm.ensemble.coverageAt2.toFixed(3)}   tail recall ${arm.ensemble.tailRecall.recall.toFixed(3)} (${arm.ensemble.tailRecall.surprises} surprises)`,
       );
     }
     lines.push("");

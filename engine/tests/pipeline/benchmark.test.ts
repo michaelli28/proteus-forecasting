@@ -189,6 +189,35 @@ describe("runBenchmark", () => {
     );
   });
 
+  it("puts question-level intervals on Brier, skill and coverage@1, never on ECE", async () => {
+    const report = await runBenchmark({
+      binding: toyBinding,
+      store,
+      corpus: testCorpus(),
+      quantity: TOY_QUANTITY,
+      asOf: CORPUS_AS_OF,
+      questionsPerArm: 8,
+      ensembleSize: 4,
+      bandCount: 3,
+      seed: "toy-bench",
+    });
+    const scored = report.arms.find((a) => a.score !== null)!;
+    const { brier, skill, coverageAt1 } = scored.intervals!;
+    expect(brier!.estimate).toBe(scored.score!.report.brier);
+    expect(skill!.estimate).toBe(scored.score!.report.brierSkillVsBaseRate);
+    expect(coverageAt1!.estimate).toBe(scored.ensemble!.coverageAt1);
+    for (const ci of [brier!, skill!, coverageAt1!]) {
+      expect(ci.lower).toBeLessThanOrEqual(ci.estimate);
+      expect(ci.estimate).toBeLessThanOrEqual(ci.upper);
+    }
+    expect(Object.keys(scored.intervals!)).not.toContain(
+      "expectedCalibrationError",
+    );
+    expect(formatBenchmark(report)).toMatch(
+      /Brier \d\.\d{4} \[\d\.\d{4}, \d\.\d{4}\]/,
+    );
+  });
+
   it("always states the synthetic-oracle caveat when formatted", async () => {
     const report = await runBenchmark({
       binding: toyBinding,

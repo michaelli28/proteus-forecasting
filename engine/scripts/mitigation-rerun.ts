@@ -14,6 +14,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { compareArms } from "../src/scenario/compare-arms.js";
 import { stratifiedBootstrap } from "../src/metrics/bootstrap.js";
+import { Rng } from "../src/sim/rng.js";
 import type { ArmComparison } from "../src/scenario/compare-arms.js";
 
 const SEEDS = Number(process.argv[2] ?? 200);
@@ -28,6 +29,7 @@ const published = JSON.parse(
 
 const mean = (xs: readonly number[]) =>
   xs.reduce((s, x) => s + x, 0) / xs.length;
+const pct = (x: number) => `${(x * 100).toFixed(0)}%`;
 const fmt = (x: number) =>
   Math.abs(x) >= 1e6
     ? `${(x / 1e6).toFixed(2)}M`
@@ -126,6 +128,58 @@ for (const pub of published) {
     `   rank by mean over ${SEEDS}:   ${byMean.map((l) => publishedOrder.indexOf(l) + 1).join(" > ")}   (published order = 1 > 2 > 3 > 4)`,
     `   rank by median over ${SEEDS}: ${byMedian.map((l) => publishedOrder.indexOf(l) + 1).join(" > ")}`,
   );
+
+  // Rankings compare mitigations with each other, so the intervals that
+  // matter are head-to-head on the same seeds, and how often each would come
+  // out on top if the seeds were drawn again.
+  const harmOf = (label: string) =>
+    rerun.defended.find((r) => r.label === label)!.harm;
+  const rank = (label: string) => publishedOrder.indexOf(label) + 1;
+  const median = (xs: readonly number[]) => {
+    const s = [...xs].sort((a, b) => a - b);
+    const m = Math.floor(s.length / 2);
+    return s.length % 2 ? s[m]! : (s[m - 1]! + s[m]!) / 2;
+  };
+  const rng = new Rng(`mitigation/${pub.pack}/p-best`);
+  const bestByMean = new Map<string, number>();
+  const bestByMedian = new Map<string, number>();
+  const RESAMPLES = 2000;
+  for (let b = 0; b < RESAMPLES; b++) {
+    const idx = Array.from({ length: SEEDS }, () =>
+      Math.floor(rng.next() * SEEDS),
+    );
+    const stat = (f: (xs: number[]) => number) =>
+      publishedOrder
+        .map((l) => ({ l, v: f(idx.map((i) => harmOf(l)[i]!)) }))
+        .sort((a, c) => a.v - c.v)[0]!.l;
+    const m = stat(mean);
+    const d = stat(median);
+    bestByMean.set(m, (bestByMean.get(m) ?? 0) + 1);
+    bestByMedian.set(d, (bestByMedian.get(d) ?? 0) + 1);
+  }
+  const share = (tally: Map<string, number>) =>
+    publishedOrder
+      .map((l) => `#${rank(l)} ${pct((tally.get(l) ?? 0) / RESAMPLES)}`)
+      .join(", ");
+  lines.push(
+    `   share of seed-resamples ranking each first — by mean: ${share(bestByMean)}; by median: ${share(bestByMedian)}`,
+  );
+  const pairs = byMean.slice(0, -1).map((a, i) => [a, byMean[i + 1]!] as const);
+  for (const [a, b] of pairs) {
+    const diffs = harmOf(a).map((h, i) => h - harmOf(b)[i]!);
+    const ci = stratifiedBootstrap(
+      diffs.map((value) => ({ value })),
+      {
+        stratumOf: () => "seeds",
+        statistic: (s) => mean(s.map((x) => x.value)),
+        seed: `mitigation/${pub.pack}/${a}/${b}`,
+      },
+    )!;
+    const separated = ci.upper < 0 || ci.lower > 0;
+    lines.push(
+      `   #${rank(a)} vs #${rank(b)} head to head: mean Δ ${fmt(ci.estimate)} [${fmt(ci.lower)}, ${fmt(ci.upper)}] — ${separated ? "separated" : "NOT separated"}; seeds #${rank(a)} better/tied/worse ${diffs.filter((x) => x < 0).length}/${diffs.filter((x) => x === 0).length}/${diffs.filter((x) => x > 0).length}`,
+    );
+  }
   json.push({
     pack: pub.pack,
     actorId: pub.actorId,

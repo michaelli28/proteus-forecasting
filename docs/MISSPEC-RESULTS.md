@@ -76,21 +76,27 @@ ABSTENTION (not pre-registered): 461 resolved question×δ cases from 80 dose qu
    Columns per slice: answered share, mean Brier on answered, cost of abstaining per question
    (cost = mean over ALL cases of [flat 0.1875 − forecast Brier] on the abstained ones; negative = abstaining helped)
 
-   rule                      all δ                       δ=0 (model right)           δ≥12 (model wrong)          
-   old gate                   100%  0.1579 +0.0000        100%  0.0969 +0.0000        100%  0.2130 +0.0000       
-   never abstain              100%  0.1579 +0.0000        100%  0.0969 +0.0000        100%  0.2130 +0.0000       
-   Chow τ=0.556                97%  0.1585 +0.0014         98%  0.0968 +0.0021         97%  0.2147 +0.0010       
-   Chow τ=0.600                80%  0.1584 +0.0062         81%  0.0960 +0.0163         80%  0.2179 -0.0012       
-   Chow τ=0.639                70%  0.1582 +0.0090         71%  0.0923 +0.0228         70%  0.2222 -0.0013       
-   Chow τ=0.686                48%  0.1615 +0.0173         48%  0.0851 +0.0419         48%  0.2347 -0.0029       
-   Chow τ=0.722                35%  0.1709 +0.0239         35%  0.0935 +0.0577         35%  0.2464 -0.0052       
-   Chow τ=0.750                21%  0.1690 +0.0257         21%  0.0864 +0.0691         21%  0.2644 -0.0093       
-   Chow τ=0.806                 7%  0.1415 +0.0266          6%  0.0119 +0.0796          7%  0.2711 -0.0199       
-   Chow τ=0.861                 1%  0.0764 +0.0282          1%  0.0069 +0.0883          1%  0.1458 -0.0261       
-   check alarm                 59%  0.1205 -0.0102         91%  0.0974 +0.0084         30%  0.1651 -0.0323       
-   check or Chow τ=0.600       49%  0.1149 -0.0059         76%  0.0978 +0.0222         24%  0.1476 -0.0352       
-   check or Chow τ=0.686       28%  0.1113 +0.0085         43%  0.0917 +0.0499         13%  0.1509 -0.0305       
+   rule                      all δ (equal mix)       δ=0 (model right)       δ=12                    δ=24                    δ=30                    
+   old gate                   100%  0.1579 +0.0000    100%  0.0969 +0.0000    100%  0.1465 +0.0000    100%  0.2232 +0.0000    100%  0.2730 +0.0000   
+   never abstain              100%  0.1579 +0.0000    100%  0.0969 +0.0000    100%  0.1465 +0.0000    100%  0.2232 +0.0000    100%  0.2730 +0.0000   
+   Chow τ=0.556                97%  0.1585 +0.0014     98%  0.0968 +0.0021     97%  0.1464 +0.0009     97%  0.2252 +0.0010     97%  0.2764 +0.0010   
+   Chow τ=0.600                80%  0.1584 +0.0062     81%  0.0960 +0.0163     81%  0.1467 +0.0081     79%  0.2283 -0.0033     79%  0.2838 -0.0090   
+   Chow τ=0.639                70%  0.1582 +0.0090     71%  0.0923 +0.0228     70%  0.1479 +0.0132     70%  0.2392 +0.0004     70%  0.2838 -0.0182   
+   Chow τ=0.686                48%  0.1615 +0.0173     48%  0.0851 +0.0419     48%  0.1486 +0.0223     48%  0.2582 -0.0018     48%  0.3022 -0.0305   
+   Chow τ=0.722                35%  0.1709 +0.0239     35%  0.0935 +0.0577     35%  0.1642 +0.0328     34%  0.2666 -0.0086     34%  0.3150 -0.0419   
+   Chow τ=0.750                21%  0.1690 +0.0257     21%  0.0864 +0.0691     22%  0.1624 +0.0354     21%  0.2820 -0.0163     21%  0.3625 -0.0496   
+   Chow τ=0.806                 7%  0.1415 +0.0266      6%  0.0119 +0.0796      6%  0.0897 +0.0346      7%  0.3202 -0.0266      7%  0.4035 -0.0707   
+   Chow τ=0.861                 1%  0.0764 +0.0282      1%  0.0069 +0.0883      1%  0.0069 +0.0386      1%  0.0069 -0.0381      1%  0.4236 -0.0823   
+   check alarm                 59%  0.1205 -0.0102     91%  0.0974 +0.0084     49%  0.1148 +0.0051     25%  0.1690 -0.0402     15%  0.3327 -0.0636   
+   check or Chow τ=0.600       49%  0.1149 -0.0059     76%  0.0978 +0.0222     42%  0.1073 +0.0076     19%  0.1357 -0.0456     11%  0.3295 -0.0700   
+   check or Chow τ=0.686       28%  0.1113 +0.0085     43%  0.0917 +0.0499     23%  0.0977 +0.0200     11%  0.1557 -0.0392      5%  0.3807 -0.0749   
+   post-hoc, found by review: Chow on the forecast reweighted by the same t0 telemetry (h from the pre-registration)
+   weighted Chow τ=0.500       67%  0.1227 -0.0136     96%  0.0966 +0.0031     65%  0.1334 +0.0058     30%  0.1582 -0.0445     22%  0.2975 -0.0614   
+   weighted Chow τ=0.550       60%  0.1152 -0.0138     88%  0.0935 +0.0083     55%  0.1038 -0.0047     27%  0.1618 -0.0427     21%  0.3049 -0.0614   
 
-   The shipped forecast is the same at every δ (it never sees the truth), so Chow's rule abstains on the same
-   questions whether the model is right or wrong. 17 distinct max-p̂ values across 80 questions.
+   The shipped forecast does not use the early telemetry the check reads, so Chow's rule on it abstains on the same
+   questions at every δ. That is true by construction, not a finding about confidence-based abstention: Chow on the
+   telemetry-weighted forecast (post-hoc rows, τ picked after seeing the data) does about as well as the check.
+   What the check has that those rows lack is a false-alarm rate fixed in advance by the rank argument.
+   17 distinct shipped max-p̂ values across 80 questions.
 ```

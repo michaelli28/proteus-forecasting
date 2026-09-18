@@ -134,6 +134,20 @@ function brier(probabilities: readonly number[], outcomeBand: number): number {
 /** Brier of always saying 1/B, the benchmark's "base rate" reference. */
 const REFERENCE_BRIER = (1 / BANDS.length) * (1 - 1 / BANDS.length);
 
+/** The pre-registered telemetry-weighted forecast (same draws, kernel, smoothing). */
+function weightedProbabilities(
+  q: QuestionData,
+  truth: Member,
+  prereg: Prereg,
+): number[] {
+  const bands = q.draws.map((d) => bandOf(d.outcome));
+  const d2 = mahalanobisTo(
+    vectors(q, truth, prereg.primaryT0, prereg.channels),
+    0,
+  ).slice(1);
+  return weightedBandForecast(bands, abcWeights(d2, prereg.bandwidth), 4);
+}
+
 function forecasts(q: QuestionData, truth: Member, prereg: Prereg) {
   const truthBand = bandOf(truth.outcome);
   if (truthBand === null) return null;
@@ -558,6 +572,7 @@ function abstain(doseDir: string, preregPath: string) {
   type Case = {
     delta: number;
     maxP: number;
+    weightedMaxP: number;
     alarm: boolean;
     gate: boolean;
     brier: number;
@@ -576,6 +591,7 @@ function abstain(doseDir: string, preregPath: string) {
       cases.push({
         delta,
         maxP: Math.max(...probabilities),
+        weightedMaxP: Math.max(...weightedProbabilities(q, truth, pre)),
         alarm: pAt(q, truth, pre.primaryT0, pre.channels) <= ALPHA,
         gate: q.pipeline!.abstained,
         brier: brier(probabilities, band),
@@ -587,7 +603,9 @@ function abstain(doseDir: string, preregPath: string) {
     const cells = [
       ["all δ", cases],
       ["δ=0", cases.filter((c) => c.delta === 0)],
-      ["δ≥12", cases.filter((c) => c.delta >= 12)],
+      ["δ=12", cases.filter((c) => c.delta === 12)],
+      ["δ=24", cases.filter((c) => c.delta === 24)],
+      ["δ=30", cases.filter((c) => c.delta === 30)],
     ] as const;
     return (
       `   ${name.padEnd(26)}` +
@@ -600,7 +618,7 @@ function abstain(doseDir: string, preregPath: string) {
             off.reduce((s, c) => s + (REFERENCE_BRIER - c.brier), 0) /
             cs.length;
           return `${pct(on.length / cs.length).padStart(5)} ${(Number.isNaN(risk) ? "—" : risk.toFixed(4)).padStart(7)} ${(cost >= 0 ? "+" : "") + cost.toFixed(4)}`.padEnd(
-            28,
+            24,
           );
         })
         .join("")
@@ -613,7 +631,7 @@ function abstain(doseDir: string, preregPath: string) {
     "   Columns per slice: answered share, mean Brier on answered, cost of abstaining per question",
     "   (cost = mean over ALL cases of [flat 0.1875 − forecast Brier] on the abstained ones; negative = abstaining helped)",
     "",
-    `   ${"rule".padEnd(26)}${"all δ".padEnd(28)}${"δ=0 (model right)".padEnd(28)}${"δ≥12 (model wrong)".padEnd(28)}`,
+    `   ${"rule".padEnd(26)}${"all δ (equal mix)".padEnd(24)}${"δ=0 (model right)".padEnd(24)}${"δ=12".padEnd(24)}${"δ=24".padEnd(24)}${"δ=30".padEnd(24)}`,
     describe("old gate", (c) => c.gate),
     describe("never abstain", () => false),
     ...taus
@@ -623,14 +641,20 @@ function abstain(doseDir: string, preregPath: string) {
     describe("check alarm", (c) => c.alarm),
     describe(`check or Chow τ=0.600`, (c) => c.alarm || c.maxP < 0.6),
     describe(`check or Chow τ=0.686`, (c) => c.alarm || c.maxP < 0.686),
+    "   post-hoc, found by review: Chow on the forecast reweighted by the same t0 telemetry (h from the pre-registration)",
+    describe(`weighted Chow τ=0.500`, (c) => c.weightedMaxP < 0.5),
+    describe(`weighted Chow τ=0.550`, (c) => c.weightedMaxP < 0.55),
   ];
   const maxPs = [
     ...new Set(dose.map((q) => Math.max(...q.pipeline!.probabilities!))),
   ];
   out.push(
     "",
-    `   The shipped forecast is the same at every δ (it never sees the truth), so Chow's rule abstains on the same`,
-    `   questions whether the model is right or wrong. ${maxPs.length} distinct max-p̂ values across ${dose.length} questions.`,
+    `   The shipped forecast does not use the early telemetry the check reads, so Chow's rule on it abstains on the same`,
+    `   questions at every δ. That is true by construction, not a finding about confidence-based abstention: Chow on the`,
+    `   telemetry-weighted forecast (post-hoc rows, τ picked after seeing the data) does about as well as the check.`,
+    `   What the check has that those rows lack is a false-alarm rate fixed in advance by the rank argument.`,
+    `   ${maxPs.length} distinct shipped max-p̂ values across ${dose.length} questions.`,
   );
   process.stdout.write(out.join("\n") + "\n");
 }

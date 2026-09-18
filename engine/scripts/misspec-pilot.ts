@@ -10,7 +10,9 @@
  *
  * t0 = 9 is the negative control. No campaign starts before tick 10, so up to
  * t0 = 9 the two arms' telemetry has the same distribution and the check can
- * only alarm at chance. Exploratory: the primary t0 is pre-registered later.
+ * only alarm at chance. Exploratory: the primary t0 is pre-registered later,
+ * and not from this table — its questions are 20 of the 80 the headline is
+ * measured on. Choose t0 and tune the statistic on a different seed.
  *
  *   node --import tsx scripts/misspec-pilot.ts [questionsPerArm] [draws] [out.json]
  */

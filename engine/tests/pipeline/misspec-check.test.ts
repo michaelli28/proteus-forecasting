@@ -52,6 +52,48 @@ describe("pooledMahalanobis", () => {
       expect(Number.isFinite(score)).toBe(true);
     }
   });
+
+  it("matches (x − x̄)²/s² in one dimension", () => {
+    const scores = pooledMahalanobis([[1], [2], [3], [4]]);
+    // x̄ = 2.5, s² = 5/3.
+    [1, 2, 3, 4].forEach((x, i) =>
+      expect(scores[i]).toBeCloseTo((x - 2.5) ** 2 / (5 / 3), 6),
+    );
+  });
+
+  it("matches cᵀΣ⁻¹c with off-diagonals shrunk by 10% in two dimensions", () => {
+    const pts = [
+      [0, 0],
+      [1, 1],
+      [2, 1],
+      [3, 3],
+    ];
+    // x̄ = (1.5, 1.25); sample covariance [[5/3, 17/12], [17/12, 1.5833…]].
+    const mx = 1.5;
+    const my = 1.25;
+    const c = pts.map(([x, y]) => [x! - mx, y! - my]);
+    const sxx = c.reduce((s, [x]) => s + x! * x!, 0) / 3;
+    const syy = c.reduce((s, [, y]) => s + y! * y!, 0) / 3;
+    const sxy = 0.9 * (c.reduce((s, [x, y]) => s + x! * y!, 0) / 3);
+    const det = sxx * syy - sxy * sxy;
+    const expected = c.map(
+      ([x, y]) => (syy * x! * x! - 2 * sxy * x! * y! + sxx * y! * y!) / det,
+    );
+    const scores = pooledMahalanobis(pts);
+    expected.forEach((e, i) => expect(scores[i]).toBeCloseTo(e, 6));
+  });
+
+  it("gives the same scores whatever units a channel is measured in", () => {
+    // Channels whose variances differ by twelve orders of magnitude, as
+    // burstiness and hubConcentration do on the reference world.
+    const wide = [10, -5, 3, 12, -8, 0, 7, -2];
+    const narrow = [3, -1, 2, -4, 0, 1, -2, 5].map((v) => 1 + 1e-5 * v);
+    const raw = wide.map((w, i) => [w, narrow[i]!]);
+    const rescaled = wide.map((w, i) => [w, narrow[i]! * 1e6]);
+    const a = pooledMahalanobis(raw);
+    const b = pooledMahalanobis(rescaled);
+    a.forEach((score, i) => expect(b[i]).toBeCloseTo(score, 6));
+  });
 });
 
 describe("the rank check when the model is right", () => {

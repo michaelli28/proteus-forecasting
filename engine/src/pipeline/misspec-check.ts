@@ -80,12 +80,14 @@ export function pooledMahalanobis(
     ),
   );
 
-  // A channel that never varies is centred to zero for every member, so it
-  // adds nothing; the ridge only keeps the factorisation finite.
-  const scale = covariance.reduce((sum, row, k) => sum + row[k]!, 0) / d;
-  const ridge = 1e-9 * scale + Number.MIN_VALUE;
+  // The ridge is relative to each channel's own variance, so rescaling a
+  // channel rescales its ridge and the score does not depend on units. A
+  // channel that never varies is centred to zero for every member and adds
+  // nothing; MIN_VALUE only keeps the factorisation finite.
   const shrunk = covariance.map((row, a) =>
-    row.map((v, b) => (a === b ? v + ridge : (1 - SHRINKAGE) * v)),
+    row.map((v, b) =>
+      a === b ? v * (1 + 1e-9) + Number.MIN_VALUE : (1 - SHRINKAGE) * v,
+    ),
   );
 
   const lower = cholesky(shrunk);

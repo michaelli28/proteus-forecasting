@@ -221,22 +221,33 @@ export function benchmarkQuestions(
   return questions;
 }
 
+/**
+ * One uniform draw from a prior box, rounded to hundredths. The truth and the
+ * misspecification check's prior draws both come through here, so the check
+ * compares the truth with draws made exactly the way the truth was.
+ */
+export function drawFromBox(
+  box: ScenarioPrior,
+  seed: string,
+): Pick<RunSpec, "riskTolerance" | "escalationPropensity"> {
+  const rng = new Rng(seed);
+  const risk = rng.uniform(box.riskRange[0], box.riskRange[1]);
+  const escalation = rng.uniform(
+    box.escalationRange[0],
+    box.escalationRange[1],
+  );
+  return {
+    riskTolerance: Number(risk.toFixed(2)),
+    escalationPropensity: Number(escalation.toFixed(2)),
+  };
+}
+
 /** One draw from a prior box. Its seed is disjoint from every ensemble seed. */
 export function truthSpec(question: BenchmarkQuestion): RunSpec {
-  const rng = new Rng(`${question.rootSeed}/truth-draw`);
-  const risk = rng.uniform(
-    question.truthPrior.riskRange[0],
-    question.truthPrior.riskRange[1],
-  );
-  const escalation = rng.uniform(
-    question.truthPrior.escalationRange[0],
-    question.truthPrior.escalationRange[1],
-  );
   return {
     id: "truth",
     label: "ground truth",
-    riskTolerance: Number(risk.toFixed(2)),
-    escalationPropensity: Number(escalation.toFixed(2)),
+    ...drawFromBox(question.truthPrior, `${question.rootSeed}/truth-draw`),
     rationale:
       "The scenario that actually obtains. Never shown to the forecaster.",
   };

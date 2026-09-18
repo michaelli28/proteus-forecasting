@@ -67,6 +67,21 @@ describe("benchmarkSnapshot", () => {
     ).toBe("excluded");
   });
 
+  it("carries each scored arm's question-level intervals, and none for ECE", async () => {
+    const report = await benchmark();
+    const snapshot = benchmarkSnapshot(report, STAMP);
+    for (const arm of snapshot.arms) {
+      const source = report.arms.find((a) => a.arm === arm.arm)!;
+      expect(arm.intervals).toEqual(source.intervals);
+      if (arm.intervals) {
+        expect(Object.keys(arm.intervals)).not.toContain(
+          "expectedCalibrationError",
+        );
+      }
+    }
+    expect(snapshot.arms.some((a) => a.intervals !== null)).toBe(true);
+  });
+
   it("reports an arm that answered nothing as null, not as a perfect score", async () => {
     const snapshot = benchmarkSnapshot(await benchmark(), STAMP);
 

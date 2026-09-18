@@ -18,7 +18,11 @@ import { expandToBinary } from "./score.js";
 import { ARM_ANSWERABILITY } from "./threshold-sweep.js";
 import type { AbstentionThresholds } from "../evidence/abstention.js";
 import type { EvaluationRegime } from "../metrics/index.js";
-import type { BenchmarkArm, BenchmarkReport } from "./benchmark.js";
+import type {
+  ArmIntervals,
+  BenchmarkArm,
+  BenchmarkReport,
+} from "./benchmark.js";
 import type { QuestionResult } from "./run-question.js";
 import type { ArmAnswerability, SweepReport } from "./threshold-sweep.js";
 
@@ -74,6 +78,8 @@ export interface ArmSnapshot {
   readonly score: ScoreSnapshot | null;
   readonly calibration: readonly CalibrationPoint[];
   readonly ensemble: EnsembleSnapshot | null;
+  /** 95% question-level intervals; null when the arm has nothing to score. */
+  readonly intervals: ArmIntervals | null;
 }
 
 /** One point on the abstention gate's operating curve. */
@@ -220,6 +226,7 @@ function armSnapshot(
           surprises: arm.ensemble.tailRecall.surprises,
         }
       : null,
+    intervals: arm.intervals,
   };
 }
 

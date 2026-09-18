@@ -294,9 +294,9 @@ describe("detection from telemetry alone", () => {
     expect(attackedScore).toBeGreaterThan(controlScore + 0.05);
   });
 
-  it("does not separate perfectly, so precision/recall is a real measurement", async () => {
+  it("does not separate perfectly, so a precision/recall sweep would be a real measurement", async () => {
     // Perfect separation would mean the detector is reading something it should
-    // not see. Overlap is the honest result and is what the sweep measures.
+    // not see. Overlap is the honest result, and what a sweep would measure.
     const controlScores = await Promise.all(
       SEEDS.map(
         async (s) => (await summarize(control, s)).signatures.compositeScore,
@@ -384,7 +384,9 @@ describe("the truth stream carries the population's shape", () => {
     for (const event of truth) {
       const bins = event.data.beliefHistogram as number[];
       expect(bins).toHaveLength(BELIEF_HISTOGRAM_BINS);
-      expect(bins.reduce((a, b) => a + b, 0)).toBe(DEFAULT_CONFIG.population.agents);
+      expect(bins.reduce((a, b) => a + b, 0)).toBe(
+        DEFAULT_CONFIG.population.agents,
+      );
     }
   });
 
@@ -407,7 +409,10 @@ describe("the truth stream carries the population's shape", () => {
       expect(typeof event.data.abandonments).toBe("number");
     }
     // A campaign that converts nobody would make the cascade view meaningless.
-    const converted = truth.reduce((sum, e) => sum + (e.data.adoptions as number), 0);
+    const converted = truth.reduce(
+      (sum, e) => sum + (e.data.adoptions as number),
+      0,
+    );
     expect(converted).toBeGreaterThan(0);
   });
 

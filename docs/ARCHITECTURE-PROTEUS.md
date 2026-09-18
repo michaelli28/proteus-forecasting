@@ -553,7 +553,8 @@ Two findings worth carrying into the analytic product:
 Deliberate detail the memo left open: the detector does **not** separate attacked from
 control worlds perfectly (control max 0.428 overlaps attacked min 0.380). That overlap is
 kept and asserted — perfect separation would mean the detector is reading something a real
-platform could not see, and it is what makes the precision/recall sweep a real measurement.
+platform could not see, and it is what a precision/recall sweep would need to be a real
+measurement. No such sweep has been run: `detectCampaign` is called only from a unit test.
 
 ## 8c. Build log — steps 4–5, and one limitation that must reach the white paper
 
@@ -1023,10 +1024,9 @@ Six arms, `minSeparation` 0.05, **15 832 simulations in 305s**.
 | indistinguishable       | 16    | **80/80** | —      | —                  | —      | —          |
 | misspecified¹           | 4     | 0/80      | 0.2730 | **−0.4561**        | 0.2892 | 0.123      |
 
-¹ Scored on 73 of 80. The 7 questions whose truth landed outside every band have no
-resolved outcome and drop out of Brier, skill, ECE and coverage@1 — and they are the
-worst misses, so these figures flatter the arm. Counting them as misses, coverage@1 is
-9/80 = 0.1125.
+¹ Scored on 73 of 80. The 7 questions whose truth landed just above the top band
+(0.655–0.708) have no resolved outcome and drop out of Brier, skill, ECE and coverage@1.
+Counting them as misses, coverage@1 is 9/80 = 0.1125.
 
 §8g's three substantive properties survive the bigger batch: skill tracks evidence
 quality monotonically, the misspecified arm scores worse than the base rate with

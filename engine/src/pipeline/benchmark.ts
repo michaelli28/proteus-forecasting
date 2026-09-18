@@ -23,7 +23,7 @@
  *                      the actor was NOT in. Scores must get worse here. If they
  *                      do not, the metrics are measuring nothing. Questions
  *                      whose truth lands outside every band go unresolved and
- *                      drop out of Brier and coverage — the most wrong ones.
+ *                      drop out of Brier and coverage.
  *
  * What this does NOT measure: real-world forecasting skill. Ensemble and oracle
  * are drawn from the same simulator, and outside `misspecified` the truth is

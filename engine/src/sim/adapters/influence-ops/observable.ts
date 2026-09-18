@@ -1,8 +1,8 @@
 /**
  * The restricted view and the detection signatures derived from it.
  *
- * This separation is what makes detection precision/recall a measured number
- * rather than a claim: the detector sees only what a platform's telemetry could
+ * This separation is what would let detection precision/recall be measured
+ * without being a tautology: the detector sees only what a platform's telemetry could
  * plausibly capture — activity volume, who was active, how concentrated by
  * degree, how synchronised across clusters — and never the campaign parameters,
  * the injection node identities, or any agent's actual belief.
@@ -116,9 +116,8 @@ export function deriveSignatures(
   const hubConcentration = mean(ticks.map((t) => t.activeDegreeRatio));
   const clusterSynchrony = synchrony(ticks);
 
-  // Weights are a starting point, not a fitted model. The benchmark measures
-  // precision/recall at a swept threshold, so mis-weighting shows up as a worse
-  // curve rather than as a silently wrong verdict.
+  // Weights are hand-set, not fitted, and precision/recall has not been
+  // measured: detectCampaign runs only in a unit test.
   const normalizedBurst = Math.min(1, burst / 5);
   const normalizedSurge = Math.min(1, surgeRatio / 10);
   const normalizedHub = Math.min(1, Math.max(0, hubConcentration - 1) / 2);

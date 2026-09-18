@@ -120,8 +120,8 @@ HYPOTHESES
 
 INDICATORS & WARNINGS
   employerConcentration above 0.2698 → favours h1 (LR 8.75, channel employerConcentration)
-  acceptanceRate above 0.2267 → favours h1 (LR 0.18, channel acceptanceRate)
-  accountYouth above 0.0863 → favours h1 (LR 0.18, channel accountYouth)
+  acceptanceRate at or below 0.2267 → favours h1 (LR 2.92, channel acceptanceRate)
+  accountYouth at or below 0.0863 → favours h1 (LR 2.92, channel accountYouth)
 ```
 
 **Read the indicators, not the BLUF.** Every channel named is one a platform

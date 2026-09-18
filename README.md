@@ -20,7 +20,7 @@ line of every run.
 
 | Path         | What it is                                                    |
 | ------------ | ------------------------------------------------------------- |
-| `engine/`    | The forecasting pipeline, its CLI, and 663 tests              |
+| `engine/`    | The forecasting pipeline, its CLI, and 798 tests              |
 | `dashboard/` | Next.js app rendering the calibration benchmark at `/metrics` |
 | `docs/`      | `ARCHITECTURE-PROTEUS.md` — the full design record            |
 
@@ -43,7 +43,7 @@ Inside `engine/src/`:
 
 ```bash
 cd engine && npm install
-npm test                 # 659 pass, 4 skipped (2 need a key, 2 need PROTEUS_BENCH)
+npm test                 # 794 pass, 4 skipped (2 need a key, 1 PROTEUS_BENCH, 1 PROTEUS_SCALE)
 npm run preflight        # which credentials actually work right now
 ```
 

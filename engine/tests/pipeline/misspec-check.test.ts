@@ -2,10 +2,16 @@ import { describe, it, expect } from "vitest";
 import { Rng } from "../../src/sim/rng.js";
 import { benchmarkQuestions, truthSpec } from "../../src/pipeline/benchmark.js";
 import {
+  abcWeights,
+  effectiveSampleSize,
+  mahalanobisTo,
+  minPCombined,
   pooledMahalanobis,
   priorDraws,
   rankPValue,
+  weightedBandForecast,
 } from "../../src/pipeline/misspec-check.js";
+import { forecastFromEnsemble } from "../../src/metrics/ensemble.js";
 
 describe("rankPValue", () => {
   it("is 1/(N+1) when the observed member is strictly the most extreme", () => {
@@ -117,6 +123,73 @@ describe("the rank check when the model is right", () => {
     // sd of the rate at 4000 reps is 0.0034; ±0.012 is 3.5 sd.
     expect(alarms / reps).toBeGreaterThan(0.05 - 0.012);
     expect(alarms / reps).toBeLessThan(0.05 + 0.012);
+  });
+});
+
+describe("minPCombined", () => {
+  it("is the ordinary rank p-value when there is one look", () => {
+    const scores = [4, 9, 1, 7, 3];
+    expect(minPCombined([scores], 0)).toBe(rankPValue(scores, 0));
+  });
+
+  it("ranks the observed member's best look against every member's best look", () => {
+    const early = [9, 1, 2, 3, 4, 5, 6, 7, 8, 0.5];
+    const late = [0.1, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    // Member 0 is most extreme early, member 9 late: both reach min-p 1/10.
+    expect(minPCombined([early, late], 0)).toBeCloseTo(2 / 10, 12);
+    // Most extreme at both looks, it alone reaches 1/10.
+    const alsoLate = [9.5, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+    expect(minPCombined([early, alsoLate], 0)).toBeCloseTo(1 / 10, 12);
+  });
+
+  // Several looks at one set of members give the truth several chances to
+  // look extreme. Ranking every member's own min-p keeps the bound at α.
+  it("alarms on at most α of exchangeable worlds across three looks", () => {
+    const rng = new Rng("min-p");
+    const N = 19;
+    const reps = 4000;
+    let alarms = 0;
+    for (let rep = 0; rep < reps; rep++) {
+      const walks = Array.from({ length: N + 1 }, () => {
+        let x = 0;
+        return [1, 2, 3].map(() => (x += rng.normal()));
+      });
+      const looks = [0, 1, 2].map((t) => walks.map((w) => Math.abs(w[t]!)));
+      if (minPCombined(looks, 0) <= 0.05) alarms++;
+    }
+    expect(alarms / reps).toBeLessThan(0.05 + 0.012);
+  });
+});
+
+describe("reweighting by early telemetry", () => {
+  it("measures each member's squared distance to the observed one", () => {
+    const pts = [[0], [1], [2], [3]];
+    // s² = 5/3 in one dimension.
+    const d2 = mahalanobisTo(pts, 0);
+    [0, 1, 4, 9].forEach((sq, i) => expect(d2[i]).toBeCloseTo(sq / (5 / 3), 6));
+  });
+
+  it("weights by a Gaussian kernel and reports the effective sample size", () => {
+    const w = abcWeights([0, 1, 4], 1);
+    expect(w[0]).toBeCloseTo(1, 12);
+    expect(w[1]).toBeCloseTo(Math.exp(-0.5), 12);
+    expect(w[2]).toBeCloseTo(Math.exp(-2), 12);
+    expect(effectiveSampleSize([1, 1, 1, 1])).toBeCloseTo(4, 12);
+    expect(effectiveSampleSize([1, 0, 0, 0])).toBeCloseTo(1, 12);
+  });
+
+  it("reduces to the Laplace-smoothed ensemble forecast under equal weights", () => {
+    const bands = [0, 0, 1, 3, 3, 3, null];
+    const expected = forecastFromEnsemble("q", [0, 0, 1, 3, 3, 3], 4, 0);
+    const p = weightedBandForecast(bands, new Array(7).fill(0.3), 4);
+    p.forEach((v, k) => expect(v).toBeCloseTo(expected.probabilities[k]!, 12));
+  });
+
+  it("moves mass toward the bands of the closest members", () => {
+    const bands = [0, 0, 3, 3];
+    const p = weightedBandForecast(bands, [1, 1, 0.01, 0.01], 4);
+    expect(p[0]).toBeGreaterThan(p[3]!);
+    expect(p.reduce((s, v) => s + v, 0)).toBeCloseTo(1, 12);
   });
 });
 

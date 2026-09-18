@@ -50,6 +50,27 @@ export function rankPValue(
   return scores.filter((score) => score >= observed).length / scores.length;
 }
 
+/**
+ * The any-look version: each member takes its smallest rank p-value across the
+ * looks, and the observed member's min-p is ranked among everyone's. Computing
+ * min-p for every member, not just the truth, is what keeps P(p ≤ α) ≤ α.
+ */
+export function minPCombined(
+  scoresByLook: readonly (readonly number[])[],
+  observedIndex: number,
+): number {
+  const members = scoresByLook[0]?.length ?? 0;
+  if (members === 0) throw new RangeError("no looks to combine");
+  const minP = Array.from({ length: members }, (_, j) =>
+    Math.min(...scoresByLook.map((scores) => rankPValue(scores, j))),
+  );
+  // A smaller min-p is more extreme, so rank its negation.
+  return rankPValue(
+    minP.map((p) => -p),
+    observedIndex,
+  );
+}
+
 /** Weight moved from the off-diagonal covariances onto the diagonal. */
 const SHRINKAGE = 0.1;
 
@@ -62,6 +83,74 @@ const SHRINKAGE = 0.1;
 export function pooledMahalanobis(
   points: readonly (readonly number[])[],
 ): number[] {
+  const { centred, lower } = pooledFactor(points);
+  return centred.map((c) =>
+    forwardSolve(lower, c).reduce((sum, v) => sum + v * v, 0),
+  );
+}
+
+/**
+ * Each member's squared Mahalanobis distance to the observed member, under the
+ * same pooled, shrunk covariance — the distance the reweighting kernel uses.
+ */
+export function mahalanobisTo(
+  points: readonly (readonly number[])[],
+  observedIndex: number,
+): number[] {
+  const observed = points[observedIndex];
+  if (!observed) throw new RangeError(`no point at index ${observedIndex}`);
+  const { lower } = pooledFactor(points);
+  return points.map((p) =>
+    forwardSolve(
+      lower,
+      p.map((v, k) => v - observed[k]!),
+    ).reduce((sum, v) => sum + v * v, 0),
+  );
+}
+
+/** Gaussian kernel weights exp(−d²/2h²) from squared distances. */
+export function abcWeights(
+  squaredDistances: readonly number[],
+  bandwidth: number,
+): number[] {
+  if (!(bandwidth > 0)) throw new RangeError("bandwidth must be > 0");
+  return squaredDistances.map((d2) => Math.exp(-d2 / (2 * bandwidth ** 2)));
+}
+
+/** Kish's effective sample size, (Σw)²/Σw². */
+export function effectiveSampleSize(weights: readonly number[]): number {
+  const sum = weights.reduce((s, w) => s + w, 0);
+  const sumSq = weights.reduce((s, w) => s + w * w, 0);
+  return sumSq === 0 ? 0 : (sum * sum) / sumSq;
+}
+
+/**
+ * Weighted band histogram with Laplace smoothing scaled to the effective
+ * sample size: p_k = (ESS·W̃_k + 1)/(ESS + B), where W̃_k is the normalized
+ * weight landing in band k. Equal weights give (c_k + 1)/(n + B), the
+ * ensemble's own forecast. Members with no band (outcome outside the
+ * partition) are left out, as the ensemble leaves out runs it cannot resolve.
+ */
+export function weightedBandForecast(
+  bandIndices: readonly (number | null)[],
+  weights: readonly number[],
+  bandCount: number,
+): number[] {
+  const kept = bandIndices
+    .map((band, i) => ({ band, weight: weights[i]! }))
+    .filter((m): m is { band: number; weight: number } => m.band !== null);
+  const total = kept.reduce((s, m) => s + m.weight, 0);
+  if (total === 0) throw new RangeError("no weight on any resolved member");
+  const ess = effectiveSampleSize(kept.map((m) => m.weight));
+  const mass = new Array<number>(bandCount).fill(0);
+  for (const m of kept) mass[m.band]! += m.weight / total;
+  return mass.map((w) => (ess * w + 1) / (ess + bandCount));
+}
+
+function pooledFactor(points: readonly (readonly number[])[]): {
+  centred: number[][];
+  lower: number[][];
+} {
   const n = points.length;
   const d = points[0]?.length ?? 0;
   if (n < 2 || d === 0) {
@@ -90,10 +179,7 @@ export function pooledMahalanobis(
     ),
   );
 
-  const lower = cholesky(shrunk);
-  return centred.map((c) =>
-    forwardSolve(lower, c).reduce((sum, v) => sum + v * v, 0),
-  );
+  return { centred, lower: cholesky(shrunk) };
 }
 
 function cholesky(matrix: readonly (readonly number[])[]): number[][] {

@@ -285,6 +285,10 @@ function median(values: readonly number[]): number {
  *
  * Add-half smoothing keeps a small ensemble from claiming an infinite ratio off
  * a single run.
+ *
+ * A channel that runs cold in the leading band is reported as "at or below",
+ * so every ratio emitted is ≥ 1 in favour of the leading band. The floor and
+ * the ranking apply to that reported ratio, not the unflipped one.
  */
 export function indicatorsFromEnsemble(
   summaries: readonly RunSummary[],
@@ -309,11 +313,14 @@ export function indicatorsFromEnsemble(
 
       const pLeading = (above(leading) + 0.5) / (leading.length + 1);
       const pRest = (above(rest) + 0.5) / (rest.length + 1);
+      const runsHot = pLeading >= pRest;
 
       return {
-        observable: `${channel} above ${threshold.toFixed(4)}`,
+        observable: `${channel} ${runsHot ? "above" : "at or below"} ${threshold.toFixed(4)}`,
         favorsHypothesis: leadingBandId,
-        likelihoodRatio: pLeading / pRest,
+        likelihoodRatio: runsHot
+          ? pLeading / pRest
+          : (1 - pLeading) / (1 - pRest),
         instrumentChannel: channel,
       };
     })

@@ -310,6 +310,60 @@ describe("indicatorsFromEnsemble", () => {
       indicators[0]!.instrumentChannel,
     );
   });
+
+  // A channel that runs COLD in the leading band is evidence for it only as
+  // "at or below": P(≤ | lead) / P(≤ | rest) = (1−p_L)/(1−p_R).
+  it("reports a channel that runs cold in the leading band as the complementary event", () => {
+    const runs: RunSummary[] = [
+      summary("r1", "h2", 0.5, { meanJitter: 0.009 }),
+      summary("r2", "h2", 0.5, { meanJitter: 0.009 }),
+      summary("r3", "h3", 0.8, { meanJitter: 0.001 }),
+      summary("r4", "h3", 0.9, { meanJitter: 0.001 }),
+    ];
+    const [indicator] = indicatorsFromEnsemble(runs, "h3");
+    expect(indicator!.observable).toBe("meanJitter at or below 0.0050");
+    expect(indicator!.favorsHypothesis).toBe("h3");
+    // p_L = 0.5/3, p_R = 2.5/3 → (1 − 1/6)/(1 − 5/6) = 5.
+    expect(indicator!.likelihoodRatio).toBeCloseTo(5, 10);
+  });
+
+  it("ranks by the strength of the event actually reported, not the raw ratio", () => {
+    const lead = (id: string, x: number, y: number) =>
+      summary(id, "h3", 0.8, { x, y });
+    const other = (id: string, x: number, y: number) =>
+      summary(id, "h2", 0.5, { x, y });
+    const runs: RunSummary[] = [
+      lead("l1", 1, 5),
+      lead("l2", 1, 5),
+      lead("l3", 1, 5),
+      lead("l4", 1, 1),
+      other("o1", 5, 5),
+      other("o2", 5, 1),
+      other("o3", 1, 1),
+      other("o4", 1, 1),
+    ];
+    const indicators = indicatorsFromEnsemble(runs, "h3");
+    // y above 3: (3.5/5)/(1.5/5) = 7/3. x at or below 1: (4.5/5)/(2.5/5) = 1.8,
+    // even though the unflipped x ratio (0.2) looks stronger than 7/3.
+    expect(indicators.map((i) => i.instrumentChannel)).toEqual(["y", "x"]);
+    expect(indicators[0]!.likelihoodRatio).toBeCloseTo(7 / 3, 10);
+    expect(indicators[1]!.observable).toBe("x at or below 1.0000");
+    expect(indicators[1]!.likelihoodRatio).toBeCloseTo(1.8, 10);
+  });
+
+  it("drops a channel whose complementary event barely discriminates", () => {
+    const runs: RunSummary[] = [
+      ...Array.from({ length: 24 }, (_, i) =>
+        summary(`l${i}`, "h3", 0.8, { z: 0 }),
+      ),
+      ...Array.from({ length: 49 }, (_, i) =>
+        summary(`o${i}`, "h2", 0.5, { z: i === 0 ? 1 : 0 }),
+      ),
+    ];
+    // Unflipped: (0.5/25)/(1.5/50) = 2/3, |ln| ≈ 0.41, which would pass.
+    // Flipped: 0.98/0.97, |ln| ≈ 0.01, below the 0.05 floor.
+    expect(indicatorsFromEnsemble(runs, "h3")).toEqual([]);
+  });
 });
 
 describe("ensembleSummaryText", () => {

@@ -216,6 +216,47 @@ describe("signaturesUpTo — telemetry through tick t0 and nothing later", () =>
   });
 });
 
+describe("adoptionThreshold — a truth-only change telemetry cannot see", () => {
+  const quantity = influenceOpsQuantity("adoptionRate", 25);
+
+  async function run(threshold?: number) {
+    const b = createInfluenceOpsBinding(
+      threshold === undefined
+        ? SMALL
+        : { ...SMALL, adoptionThreshold: threshold },
+    );
+    const config = b.configFor(spec("a", 70, 70), quantity);
+    const result = await runSimulation(b.adapter, config, "seed", {
+      observeEvery: 0,
+    });
+    return { b, result };
+  }
+
+  it("leaves every telemetry event identical while moving the answer", async () => {
+    const reference = await run();
+    const shifted = await run(0.5);
+    const telemetry = (r: typeof reference) =>
+      r.result.events.filter((e) => e.kind === "telemetry");
+    expect(telemetry(shifted)).toEqual(telemetry(reference));
+    expect(shifted.b.readQuantity(shifted.result, quantity)).toBeGreaterThan(
+      reference.b.readQuantity(reference.result, quantity),
+    );
+  });
+
+  it("defaults to 0.6 without adding a field to the run's config", async () => {
+    const reference = await run();
+    const explicit = await run(0.6);
+    expect(explicit.result.events).toEqual(reference.result.events);
+    const config = binding.configFor(spec("a", 70, 70), quantity);
+    expect("adoptionThreshold" in config).toBe(false);
+  });
+
+  it("rejects a threshold outside (0, 1)", async () => {
+    await expect(run(0)).rejects.toThrow(RangeError);
+    await expect(run(1.2)).rejects.toThrow(RangeError);
+  });
+});
+
 describe("the default binding", () => {
   it("uses the reference world configuration", () => {
     const quantity = influenceOpsQuantity("adoptionRate", 50);

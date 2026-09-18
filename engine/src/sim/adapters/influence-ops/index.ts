@@ -92,6 +92,7 @@ export const influenceOpsAdapter: SimulationAdapter<
     const measures = measurePopulation(
       state.population.agents,
       targetNarrative,
+      config.adoptionThreshold,
     );
 
     // Ground truth and telemetry travel in separate event kinds so a consumer

@@ -91,6 +91,13 @@ export interface InfluenceOpsConfig {
   readonly influenceRate: number;
   readonly campaign: CampaignConfig | null;
   readonly defense: DefenseConfig | null;
+  /**
+   * Belief at which an agent counts as adopting; ADOPTION_THRESHOLD when
+   * absent. It only changes what is counted, never how beliefs move, so
+   * telemetry cannot see it. Left absent by default so existing run
+   * identities hash exactly as before.
+   */
+  readonly adoptionThreshold?: number;
 }
 
 export const DEFAULT_CONFIG: InfluenceOpsConfig = {
@@ -143,6 +150,10 @@ export function validateConfig(config: InfluenceOpsConfig): void {
   if (network.intraClusterDegree < 1)
     throw new RangeError("intraClusterDegree must be >= 1");
   if (media.outlets < 0) throw new RangeError("outlets must be >= 0");
+  const threshold = config.adoptionThreshold;
+  if (threshold !== undefined && !(threshold > 0 && threshold < 1)) {
+    throw new RangeError(`adoptionThreshold must be in (0,1): ${threshold}`);
+  }
 
   if (campaign) {
     if (campaign.narrativeId < 0 || campaign.narrativeId >= config.narratives) {

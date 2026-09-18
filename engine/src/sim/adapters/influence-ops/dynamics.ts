@@ -166,12 +166,12 @@ export function stepBeliefs(
   let abandonments = 0;
   const activeNodes: number[] = [];
   const targetNarrative = campaign?.narrativeId ?? 0;
+  const threshold = config.adoptionThreshold ?? ADOPTION_THRESHOLD;
   for (let i = 0; i < agents.length; i++) {
     const before = previous[i]![targetNarrative]!;
     const after = next[i]![targetNarrative]!;
-    if (before < ADOPTION_THRESHOLD && after >= ADOPTION_THRESHOLD) adoptions++;
-    if (before >= ADOPTION_THRESHOLD && after < ADOPTION_THRESHOLD)
-      abandonments++;
+    if (before < threshold && after >= threshold) adoptions++;
+    if (before >= threshold && after < threshold) abandonments++;
 
     let moved = false;
     for (let n = 0; n < narrativeCount && !moved; n++) {

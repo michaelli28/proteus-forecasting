@@ -133,6 +133,7 @@ export interface PopulationMeasures {
 export function measurePopulation(
   agents: readonly Agent[],
   narrative: number,
+  adoptionThreshold = ADOPTION_THRESHOLD,
 ): PopulationMeasures {
   const values = beliefsOn(agents, narrative);
   return {
@@ -143,7 +144,7 @@ export function measurePopulation(
     adoptionRate:
       agents.length === 0
         ? 0
-        : adoptionCount(agents, narrative) / agents.length,
+        : adoptionCount(agents, narrative, adoptionThreshold) / agents.length,
   };
 }
 

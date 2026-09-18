@@ -1,14 +1,17 @@
 /**
  * The synthetic-oracle benchmark.
  *
- * Four arms, scored separately and never pooled, because each answers a
+ * Six arms, scored separately and never pooled, because each answers a
  * different question:
  *
  *   narrow / medium  — is the pipeline's uncertainty honest when the evidence
  *                      genuinely constrains the adversary?
- *   wide-control     — a NEGATIVE control. Nothing constrains the actor, so the
- *                      abstention gate is supposed to fire. An arm that answers
- *                      confidently here is broken, however good its Brier is.
+ *   wide-control     — weak evidence, but still answerable (ARM_ANSWERABILITY
+ *                      in threshold-sweep.ts). Its skill should fall toward the
+ *                      base rate; the gate is not required to fire here.
+ *   indistinguishable — the gate's real NEGATIVE control. Bands are finer than
+ *                      seed noise, so no ensemble can separate them and every
+ *                      question should be abstained on.
  *   tied             — the separation signal's OWN control, added in §8h. Few
  *                      enough bands that the diagnostic-evidence condition is
  *                      inert (B <= 10), and a prior wide enough that the top two
@@ -18,11 +21,15 @@
  *                      benefit.
  *   misspecified     — the truth is drawn from a region the ensemble was told
  *                      the actor was NOT in. Scores must get worse here. If they
- *                      do not, the metrics are measuring nothing.
+ *                      do not, the metrics are measuring nothing. Questions
+ *                      whose truth lands outside every band go unresolved and
+ *                      drop out of Brier and coverage — the most wrong ones.
  *
  * What this does NOT measure: real-world forecasting skill. Ensemble and oracle
- * are drawn from the same simulator, so a good number here says the pipeline
- * propagates uncertainty correctly — not that the world behaves like the model.
+ * are drawn from the same simulator, and outside `misspecified` the truth is
+ * drawn from the very box the ensemble sweeps, so calibration on those arms
+ * holds by construction. A good number here says the pipeline propagates
+ * uncertainty correctly — not that the world behaves like the model.
  */
 
 import { Rng } from "../sim/rng.js";

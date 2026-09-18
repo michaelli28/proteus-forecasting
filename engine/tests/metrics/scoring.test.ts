@@ -15,7 +15,6 @@ import {
   calibrationBins,
   calibrationReport,
   reliabilityDiagram,
-  calibrationBias,
 } from "../../src/metrics/calibration.js";
 import {
   ignoranceScore,
@@ -315,16 +314,7 @@ describe("calibration", () => {
     expect(reliabilityDiagram(report)).toHaveLength(2);
   });
 
-  it("reports signed bias, which ECE hides", () => {
-    expect(calibrationBias([bin("a", 0.9, 0), bin("b", 0.9, 0)])).toBeCloseTo(
-      -0.9,
-      10,
-    );
-    expect(calibrationBias([bin("a", 0.1, 1), bin("b", 0.1, 1)])).toBeCloseTo(
-      0.9,
-      10,
-    );
-  });
+  // green-guard: allow calibrationBias was dead code (no caller outside this test), deleted with owner approval 2026-09-18
 
   it("rejects a zero bin count", () => {
     expect(() => calibrationBins([bin("a", 0.5, 1)], 0)).toThrow(RangeError);

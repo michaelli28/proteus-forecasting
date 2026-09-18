@@ -108,13 +108,3 @@ export function reliabilityDiagram(
       count: bin.count,
     }));
 }
-
-/**
- * Signed calibration bias: positive means systematically under-confident,
- * negative means over-confident. ECE reports magnitude and hides direction,
- * and the two call for opposite fixes.
- */
-export function calibrationBias(forecasts: readonly BinaryForecast[]): number {
-  if (forecasts.length === 0) throw new RangeError("no forecasts");
-  return mean(forecasts.map((f) => f.outcome - f.probability));
-}

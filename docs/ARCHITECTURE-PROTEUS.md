@@ -1021,7 +1021,12 @@ Six arms, `minSeparation` 0.05, **15 832 simulations in 305s**.
 | wide-control            | 4     | 7/80      | 0.1664 | +0.1125            | 0.0388 | 0.411      |
 | tied                    | 8     | 14/80     | 0.0997 | +0.0883            | 0.0193 | 0.288      |
 | indistinguishable       | 16    | **80/80** | —      | —                  | —      | —          |
-| misspecified            | 4     | 0/80      | 0.2730 | **−0.4561**        | 0.2892 | 0.123      |
+| misspecified¹           | 4     | 0/80      | 0.2730 | **−0.4561**        | 0.2892 | 0.123      |
+
+¹ Scored on 73 of 80. The 7 questions whose truth landed outside every band have no
+resolved outcome and drop out of Brier, skill, ECE and coverage@1 — and they are the
+worst misses, so these figures flatter the arm. Counting them as misses, coverage@1 is
+9/80 = 0.1125.
 
 §8g's three substantive properties survive the bigger batch: skill tracks evidence
 quality monotonically, the misspecified arm scores worse than the base rate with

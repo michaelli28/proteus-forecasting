@@ -122,8 +122,9 @@ The page is built around one distinction. **Ground truth** — every belief, the
 distribution, who converted — scores the forecast and no defender can see it.
 **Telemetry** — activity volume, active accounts, degree ratios, cluster shares
 — is the detector's entire input. They travel in separate event kinds, separate
-objects in the trace, and separate panes on the page, so detection precision
-stays a measured number instead of a tautology.
+objects in the trace, and separate panes on the page, so a detector's precision
+could be measured without it being a tautology. None has been measured yet:
+`detectCampaign` has hand-set weights and runs only in a unit test.
 
 ## The dashboard
 

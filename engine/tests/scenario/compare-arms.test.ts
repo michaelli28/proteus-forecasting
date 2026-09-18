@@ -7,12 +7,14 @@
  */
 
 import { describe, expect, it } from "vitest";
+import { readFileSync } from "node:fs";
 import {
+  COMPARISON_SEEDS,
   compareArms,
   harmFor,
   worstActorFor,
 } from "../../src/scenario/compare-arms.js";
-import { buildComparisons } from "../../src/scenario/manifest.js";
+import type { ArmComparison } from "../../src/scenario/compare-arms.js";
 import { getPack } from "../../src/scenario/packs/index.js";
 
 const SEEDS = ["proteus", "atlas", "meridian"];
@@ -49,7 +51,7 @@ describe("worstActorFor", () => {
 });
 
 describe("compareArms", () => {
-  it("replays every mitigation the pack offers, best median first", async () => {
+  it("replays every mitigation the pack offers, lowest mean harm first", async () => {
     const comparison = await compareArms({
       pack: "port-throughput",
       actorId: "russia",
@@ -60,8 +62,9 @@ describe("compareArms", () => {
     expect(comparison.defended).toHaveLength(
       getPack("port-throughput").defenses.length,
     );
-    const medians = comparison.defended.map((arm) => arm.median);
-    expect([...medians].sort((a, b) => a - b)).toEqual(medians);
+    const means = comparison.defended.map((arm) => arm.mean);
+    for (const m of means) expect(Number.isFinite(m)).toBe(true);
+    expect([...means].sort((a, b) => a - b)).toEqual(means);
 
     for (const arm of [comparison.baseline, ...comparison.defended]) {
       expect(arm.harm).toHaveLength(SEEDS.length);
@@ -97,28 +100,78 @@ describe("compareArms", () => {
     // China never acts here, so every arm produces zero harm and ties.
     for (const arm of comparison.defended) {
       expect(arm.beatBaseline, arm.label).toBe(0);
+      expect(arm.tiedBaseline, arm.label).toBe(SEEDS.length);
+      expect(arm.lostToBaseline, arm.label).toBe(0);
     }
+  }, 60_000);
+
+  it("puts a paired interval on each defense's change against no defense", async () => {
+    const comparison = await compareArms({
+      pack: "port-throughput",
+      actorId: "russia",
+      actorLabel: "Russian Federation",
+      seeds: SEEDS,
+    });
+    const base = comparison.baseline.harm;
+    for (const arm of comparison.defended) {
+      const change = arm.harm.reduce((s, h, i) => s + h - base[i]!, 0) / SEEDS.length;
+      expect(arm.changeVsBaseline!.estimate).toBeCloseTo(change, 6);
+      expect(arm.changeVsBaseline!.lower).toBeLessThanOrEqual(change);
+      expect(arm.changeVsBaseline!.upper).toBeGreaterThanOrEqual(change);
+      expect(arm.beatBaseline + arm.tiedBaseline + arm.lostToBaseline).toBe(SEEDS.length);
+    }
+    expect(comparison.baseline.changeVsBaseline).toBeNull();
+  }, 60_000);
+
+  it("says how far each defense is from the next one down, on the same seeds", async () => {
+    const comparison = await compareArms({
+      pack: "port-throughput",
+      actorId: "russia",
+      actorLabel: "Russian Federation",
+      seeds: SEEDS,
+    });
+    const ranked = comparison.defended;
+    ranked.forEach((arm, i) => {
+      const next = ranked[i + 1];
+      if (!next) return expect(arm.vsNext).toBeNull();
+      const gap = arm.harm.reduce((s, h, k) => s + h - next.harm[k]!, 0) / SEEDS.length;
+      expect(arm.vsNext!.estimate).toBeCloseTo(gap, 6);
+    });
   }, 60_000);
 });
 
 describe("the shipped comparison", () => {
-  it("finds mitigations that do not beat the undefended arm on every seed", async () => {
-    // This is the claim the page makes. If every mitigation ever became
-    // reliable, the page would be overstating the uncertainty and should change.
-    const comparisons = await buildComparisons();
-    expect(comparisons).toHaveLength(3);
+  // What the page renders is the committed JSON, so that is what is checked.
+  // Rebuilding it here would replay ~8,000 runs inside the unit suite.
+  const shipped = JSON.parse(
+    readFileSync(
+      new URL("../../../dashboard/data/arm-comparisons.json", import.meta.url),
+      "utf8",
+    ),
+  ) as ArmComparison[];
 
-    const unreliable = comparisons.flatMap((comparison) =>
-      comparison.defended.filter(
-        (arm) => arm.beatBaseline < comparison.seeds.length,
-      ),
-    );
-    expect(unreliable.length).toBeGreaterThan(0);
-
-    for (const comparison of comparisons) {
-      expect(comparison.defended.length).toBeGreaterThan(0);
-      expect(comparison.seeds.length).toBeGreaterThanOrEqual(6);
-      expect(comparison.harmUnit.length).toBeGreaterThan(0);
+  it("replays every arm on the shared seeds, ranked by mean", () => {
+    expect(shipped).toHaveLength(3);
+    for (const comparison of shipped) {
+      expect(comparison.seeds).toEqual([...COMPARISON_SEEDS]);
+      const means = comparison.defended.map((arm) => arm.mean);
+      expect([...means].sort((a, b) => a - b)).toEqual(means);
+      for (const arm of comparison.defended) {
+        expect(arm.changeVsBaseline, arm.label).not.toBeNull();
+        expect(
+          arm.beatBaseline + arm.tiedBaseline + arm.lostToBaseline,
+          arm.label,
+        ).toBe(comparison.seeds.length);
+      }
     }
-  }, 120_000);
+  });
+
+  it("finds mitigations that make some worlds worse", () => {
+    // The claim the page makes. If no mitigation ever lost a seed, the page
+    // would be overstating the uncertainty and should change.
+    const hurtSomewhere = shipped.flatMap((comparison) =>
+      comparison.defended.filter((arm) => arm.lostToBaseline > 0),
+    );
+    expect(hurtSomewhere.length).toBeGreaterThan(0);
+  });
 });

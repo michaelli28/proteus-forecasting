@@ -3,27 +3,26 @@
  *
  * The run above cannot answer that, and one of the presets exists to show why:
  * harm here is driven by when access happens to land, and that varies enough
- * between worlds to swamp most mitigations. Having made that point, the page
- * owed a reader the way to actually find out — so the engine replays every arm
- * of every scenario across the same six seeds the presets are checked against,
- * and this renders what it measured.
+ * between worlds to swamp most mitigations. So the engine replays every arm of
+ * every scenario across the same 200 worlds, and this renders what it measured.
  *
- * Deliberately not a single "harm avoided" figure. Averaging would reproduce the
- * error the preset was built to expose: a mean hides that the same mitigation
- * helps in four worlds and hurts in two, and a defender buying on the mean is
- * buying a coin flip they were told was a discount.
+ * Average harm ranks the rows, but it never travels alone: each row also shows
+ * how many worlds the defense won, left unchanged and lost, and how far its
+ * average is from no defense. Neighbours the worlds cannot separate are named.
  */
 
-import { ARM_COMPARISONS, reliable } from "../../lib/arms";
-import type { ArmComparison as Comparison } from "../../lib/arms";
+import { ARM_COMPARISONS, clearlyHelps, unresolvedPairs } from "../../lib/arms";
+import type { ArmComparison as Comparison, ArmOutcome } from "../../lib/arms";
 import { formatNumber } from "../../lib/live";
-import { MagnitudeCell, Pill } from "../site/ui";
+import { MagnitudeCell } from "../site/ui";
 
 export function ArmComparison() {
-  const everywhereReliable = ARM_COMPARISONS.flatMap(reliable).length;
-  const total = ARM_COMPARISONS.flatMap(
-    (comparison) => comparison.defended,
+  const defenses = ARM_COMPARISONS.flatMap((comparison) => comparison.defended);
+  const helps = ARM_COMPARISONS.flatMap(clearlyHelps).length;
+  const everywhere = defenses.filter(
+    (arm) => arm.lostToBaseline === 0 && arm.tiedBaseline === 0,
   ).length;
+  const worlds = ARM_COMPARISONS[0]?.seeds.length ?? 0;
 
   return (
     <section className="mt-16 border-t border-line pt-8">
@@ -32,9 +31,12 @@ export function ArmComparison() {
         One run cannot tell you. Harm here depends on whether an actor gains
         access at a moment when acting pays off, and that swings enough between
         worlds to outweigh most defenses. So every defense below was replayed
-        across the same six worlds, against the actor that does the most damage
-        to that system undefended. Only {everywhereReliable} of {total} came out
-        ahead in all six.
+        across the same {worlds} worlds, against the actor that does the most
+        damage to that system on average with no defense. {helps} of{" "}
+        {defenses.length} lower average harm by more than chance;{" "}
+        {everywhere === 0
+          ? "none is better in every world."
+          : `${everywhere} ${everywhere === 1 ? "is" : "are"} better in every world.`}
       </p>
 
       <div className="mt-8 space-y-10">
@@ -44,22 +46,24 @@ export function ArmComparison() {
       </div>
 
       <p className="mt-8 max-w-[76ch] text-[12.5px] leading-relaxed text-muted">
-        Cost is the defense&rsquo;s own price per {ARM_COMPARISONS[0]?.tickUnit}
-        , in the units the scenario declares; harm is in the units that scenario
-        declares for harm. They are different units and no ratio between them is
-        offered here, because dividing one by the other would produce a return
-        figure that looks like money and is not.
+        Ranges are 95% intervals from resampling the {worlds} worlds. Cost is
+        the defense&rsquo;s own price per {ARM_COMPARISONS[0]?.tickUnit}, in the
+        units the scenario declares; harm is in the units that scenario declares
+        for harm. They are different units and no ratio between them is offered
+        here, because dividing one by the other would produce a return figure
+        that looks like money and is not.
       </p>
     </section>
   );
 }
 
 function PackTable({ comparison }: { comparison: Comparison }) {
-  const seeds = comparison.seeds.length;
+  const worlds = comparison.seeds.length;
   const ceiling = Math.max(
-    comparison.baseline.median,
-    ...comparison.defended.map((arm) => arm.median),
+    comparison.baseline.mean,
+    ...comparison.defended.map((arm) => arm.mean),
   );
+  const ties = unresolvedPairs(comparison);
 
   return (
     <div>
@@ -73,14 +77,19 @@ function PackTable({ comparison }: { comparison: Comparison }) {
       </div>
 
       <div className="mt-3 overflow-x-auto">
-        <table className="w-full min-w-[46rem] border-collapse text-[13px]">
+        <table className="w-full min-w-[52rem] border-collapse text-[13px]">
           <thead>
             <tr className="border-b border-line text-left text-[11.5px] uppercase tracking-wider text-muted">
               <th className="py-2 pr-4 font-semibold">Defense</th>
               <th className="py-2 pr-4 text-right font-semibold">
-                Median harm
+                Average harm
               </th>
-              <th className="py-2 pr-4 font-semibold">Across six worlds</th>
+              <th className="py-2 pr-4 font-semibold">
+                Across {worlds} worlds
+              </th>
+              <th className="py-2 pr-4 text-right font-semibold">
+                Change vs no defense
+              </th>
               <th className="py-2 pr-4 text-right font-semibold">
                 Cost / {comparison.tickUnit}
               </th>
@@ -90,7 +99,6 @@ function PackTable({ comparison }: { comparison: Comparison }) {
             <Row
               label="no defense"
               arm={comparison.baseline}
-              seeds={seeds}
               ceiling={ceiling}
               baseline
             />
@@ -99,13 +107,19 @@ function PackTable({ comparison }: { comparison: Comparison }) {
                 key={arm.defense ?? "none"}
                 label={arm.label}
                 arm={arm}
-                seeds={seeds}
                 ceiling={ceiling}
               />
             ))}
           </tbody>
         </table>
       </div>
+
+      {ties.length > 0 && (
+        <p className="mt-2 text-[12.5px] text-muted">
+          {worlds} worlds cannot tell apart:{" "}
+          {ties.map(([a, b]) => `${a.label} and ${b.label}`).join("; ")}.
+        </p>
+      )}
     </div>
   );
 }
@@ -113,23 +127,15 @@ function PackTable({ comparison }: { comparison: Comparison }) {
 function Row({
   label,
   arm,
-  seeds,
   ceiling,
   baseline = false,
 }: {
   label: string;
-  arm: {
-    median: number;
-    best: number;
-    worst: number;
-    beatBaseline: number;
-    costPerTick: number;
-  };
-  seeds: number;
+  arm: ArmOutcome;
   ceiling: number;
   baseline?: boolean;
 }) {
-  const always = !baseline && arm.beatBaseline === seeds;
+  const change = arm.changeVsBaseline;
 
   return (
     <tr className="border-b border-line align-baseline last:border-0">
@@ -138,33 +144,28 @@ function Row({
       </td>
       <td className="py-2.5 pr-4">
         <MagnitudeCell
-          fraction={ceiling > 0 ? arm.median / ceiling : 0}
+          fraction={ceiling > 0 ? arm.mean / ceiling : 0}
           tone={baseline ? "warn" : "accent"}
         >
-          {formatNumber(arm.median)}
+          {formatNumber(arm.mean)}
         </MagnitudeCell>
       </td>
-      <td className="py-2.5 pr-4">
+      <td className="tnum py-2.5 pr-4 text-[12.5px] text-muted">
         {baseline ? (
-          <span className="tnum text-[12.5px] text-muted">
-            {formatNumber(arm.best)} to {formatNumber(arm.worst)}
-          </span>
+          `${formatNumber(arm.best)} to ${formatNumber(arm.worst)}`
         ) : (
-          <span className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
-            <span className="tnum text-[12.5px] text-muted">
-              {formatNumber(arm.best)} to {formatNumber(arm.worst)}
+          <>
+            better in {arm.beatBaseline}, no change in {arm.tiedBaseline},{" "}
+            <span className={arm.lostToBaseline > 0 ? "text-warn" : undefined}>
+              worse in {arm.lostToBaseline}
             </span>
-            {/* Only the measure that never lost gets a mark. A badge on every
-                row would stop telling a reader which rows differ. */}
-            {always ? (
-              <Pill tone="good">better in all {seeds}</Pill>
-            ) : (
-              <span className="text-[12px] text-warn">
-                worse in {seeds - arm.beatBaseline} of {seeds}
-              </span>
-            )}
-          </span>
+          </>
         )}
+      </td>
+      <td className="tnum py-2.5 pr-4 text-right text-[12.5px] text-slate">
+        {change
+          ? `${formatNumber(change.estimate)} (${formatNumber(change.lower)} to ${formatNumber(change.upper)})`
+          : "—"}
       </td>
       <td className="tnum py-2.5 pr-4 text-right text-[12.5px] text-slate">
         {baseline ? "—" : arm.costPerTick}

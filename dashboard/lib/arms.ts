@@ -12,15 +12,29 @@
 
 import comparisons from "../data/arm-comparisons.json";
 
+export interface Interval {
+  estimate: number;
+  lower: number;
+  upper: number;
+  resamples: number;
+}
+
 export interface ArmOutcome {
   defense: string | null;
   label: string;
   costPerTick: number;
   harm: number[];
+  mean: number;
   median: number;
   best: number;
   worst: number;
   beatBaseline: number;
+  tiedBaseline: number;
+  lostToBaseline: number;
+  /** Mean change in harm against no defense, 95% interval. Null on the baseline. */
+  changeVsBaseline: Interval | null;
+  /** Mean gap to the next defense down. Spanning 0 means the worlds cannot tell them apart. */
+  vsNext: Interval | null;
 }
 
 export interface ArmComparison {
@@ -38,7 +52,7 @@ function load(): ArmComparison[] {
   const data = comparisons as unknown as ArmComparison[];
   if (!data?.length) {
     throw new Error(
-      "arm-comparisons.json is empty — run `npm run manifest` in engine/",
+      "arm-comparisons.json is empty — run `node dist/cli.js manifest` in engine/",
     );
   }
   return data;
@@ -46,16 +60,21 @@ function load(): ArmComparison[] {
 
 export const ARM_COMPARISONS = load();
 
-/**
- * Mitigations that came out ahead in every world they were replayed in.
- *
- * The distinction the whole table exists to draw: a mitigation that helps on
- * four seeds out of six is not a cheaper version of one that helps on all six,
- * it is a different kind of thing, and a defender choosing between them on
- * median harm alone cannot tell them apart.
- */
-export function reliable(comparison: ArmComparison): ArmOutcome[] {
+/** Defenses whose average harm is lower than no defense by more than chance. */
+export function clearlyHelps(comparison: ArmComparison): ArmOutcome[] {
   return comparison.defended.filter(
-    (arm) => arm.beatBaseline === comparison.seeds.length,
+    (arm) => arm.changeVsBaseline !== null && arm.changeVsBaseline.upper < 0,
   );
+}
+
+/** Adjacent defenses in the ranking that the replayed worlds cannot separate. */
+export function unresolvedPairs(
+  comparison: ArmComparison,
+): [ArmOutcome, ArmOutcome][] {
+  return comparison.defended.flatMap((arm, i) => {
+    const next = comparison.defended[i + 1];
+    return next && arm.vsNext && arm.vsNext.lower <= 0 && arm.vsNext.upper >= 0
+      ? [[arm, next] as [ArmOutcome, ArmOutcome]]
+      : [];
+  });
 }

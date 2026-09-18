@@ -63,3 +63,5 @@ benefits-delivery vs People's Republic of China (china) — harm in beneficiary-
    #1 vs #3 head to head: mean Δ -5.31M [-13.58M, 3.23M] — NOT separated; seeds #1 better/tied/worse 94/38/68
    #3 vs #4 head to head: mean Δ -4.78M [-13.61M, 3.95M] — NOT separated; seeds #3 better/tied/worse 105/22/73
 ```
+
+**Since this re-run** the published comparison itself uses these 200 seeds, ranked by mean, with ties and losses counted apart. Choosing each pack's worst attacker by mean over the same seeds changed it in two packs: regional-grid is now measured against the criminal syndicate (clearly the worst: +86k over the runner-up, [12k, 157k]); port-throughput against the criminal syndicate too, but China is within noise of it (+11k, [−18k, 40k]); benefits-delivery stays China, with the US within noise.

@@ -66,3 +66,31 @@ REPORT — pre-registered: channels [burstiness, surgeRatio], primary t0 30 (89 
    δ=30: old gate 0/60 → check 53/60 [78%,94%]
    right prior: false alarms 17/280 [4%,10%]
 ```
+
+## Abstention: Chow vs the check (Days 5–6, not pre-registered)
+
+Reproduce: `DOTENV_CONFIG_PATH=/dev/null node --import tsx scripts/misspec-analyze.ts abstain $D/dose $D/prereg.json`
+
+```text
+ABSTENTION (not pre-registered): 461 resolved question×δ cases from 80 dose questions (19 unresolved dropped), shipped forecast, check at t0=30
+   Columns per slice: answered share, mean Brier on answered, cost of abstaining per question
+   (cost = mean over ALL cases of [flat 0.1875 − forecast Brier] on the abstained ones; negative = abstaining helped)
+
+   rule                      all δ                       δ=0 (model right)           δ≥12 (model wrong)          
+   old gate                   100%  0.1579 +0.0000        100%  0.0969 +0.0000        100%  0.2130 +0.0000       
+   never abstain              100%  0.1579 +0.0000        100%  0.0969 +0.0000        100%  0.2130 +0.0000       
+   Chow τ=0.556                97%  0.1585 +0.0014         98%  0.0968 +0.0021         97%  0.2147 +0.0010       
+   Chow τ=0.600                80%  0.1584 +0.0062         81%  0.0960 +0.0163         80%  0.2179 -0.0012       
+   Chow τ=0.639                70%  0.1582 +0.0090         71%  0.0923 +0.0228         70%  0.2222 -0.0013       
+   Chow τ=0.686                48%  0.1615 +0.0173         48%  0.0851 +0.0419         48%  0.2347 -0.0029       
+   Chow τ=0.722                35%  0.1709 +0.0239         35%  0.0935 +0.0577         35%  0.2464 -0.0052       
+   Chow τ=0.750                21%  0.1690 +0.0257         21%  0.0864 +0.0691         21%  0.2644 -0.0093       
+   Chow τ=0.806                 7%  0.1415 +0.0266          6%  0.0119 +0.0796          7%  0.2711 -0.0199       
+   Chow τ=0.861                 1%  0.0764 +0.0282          1%  0.0069 +0.0883          1%  0.1458 -0.0261       
+   check alarm                 59%  0.1205 -0.0102         91%  0.0974 +0.0084         30%  0.1651 -0.0323       
+   check or Chow τ=0.600       49%  0.1149 -0.0059         76%  0.0978 +0.0222         24%  0.1476 -0.0352       
+   check or Chow τ=0.686       28%  0.1113 +0.0085         43%  0.0917 +0.0499         13%  0.1509 -0.0305       
+
+   The shipped forecast is the same at every δ (it never sees the truth), so Chow's rule abstains on the same
+   questions whether the model is right or wrong. 17 distinct max-p̂ values across 80 questions.
+```

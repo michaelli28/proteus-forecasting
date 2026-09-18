@@ -543,12 +543,105 @@ function report(doseDir: string, armsDir: string, preregPath: string) {
   return json;
 }
 
+// ─── abstain (Days 5–6, not pre-registered) ───
+
+/**
+ * Risk–coverage for four abstention rules on the dose questions at every δ,
+ * each scored with the shipped forecast. Abstaining is priced by what a user
+ * who gets no answer falls back to — the flat 1/4 forecast — so its cost on a
+ * question is Brier(flat) − Brier(forecast): positive means the forecast was
+ * better and abstaining lost accuracy, negative means abstaining avoided harm.
+ */
+function abstain(doseDir: string, preregPath: string) {
+  const pre = JSON.parse(readFileSync(preregPath, "utf8")) as Prereg;
+  const dose = load(doseDir);
+  type Case = {
+    delta: number;
+    maxP: number;
+    alarm: boolean;
+    gate: boolean;
+    brier: number;
+  };
+  const cases: Case[] = [];
+  let unresolved = 0;
+  for (const q of dose) {
+    const probabilities = q.pipeline!.probabilities!;
+    for (const delta of DELTAS) {
+      const truth = q.truths[`delta-${delta}`]!;
+      const band = bandOf(truth.outcome);
+      if (band === null) {
+        unresolved++;
+        continue;
+      }
+      cases.push({
+        delta,
+        maxP: Math.max(...probabilities),
+        alarm: pAt(q, truth, pre.primaryT0, pre.channels) <= ALPHA,
+        gate: q.pipeline!.abstained,
+        brier: brier(probabilities, band),
+      });
+    }
+  }
+
+  const describe = (name: string, abstains: (c: Case) => boolean) => {
+    const cells = [
+      ["all δ", cases],
+      ["δ=0", cases.filter((c) => c.delta === 0)],
+      ["δ≥12", cases.filter((c) => c.delta >= 12)],
+    ] as const;
+    return (
+      `   ${name.padEnd(26)}` +
+      cells
+        .map(([, cs]) => {
+          const off = cs.filter(abstains);
+          const on = cs.filter((c) => !abstains(c));
+          const risk = mean(on.map((c) => c.brier));
+          const cost =
+            off.reduce((s, c) => s + (REFERENCE_BRIER - c.brier), 0) /
+            cs.length;
+          return `${pct(on.length / cs.length).padStart(5)} ${(Number.isNaN(risk) ? "—" : risk.toFixed(4)).padStart(7)} ${(cost >= 0 ? "+" : "") + cost.toFixed(4)}`.padEnd(
+            28,
+          );
+        })
+        .join("")
+    );
+  };
+
+  const taus = [...new Set(cases.map((c) => c.maxP))].sort((a, b) => a - b);
+  const out = [
+    `ABSTENTION (not pre-registered): ${cases.length} resolved question×δ cases from ${dose.length} dose questions (${unresolved} unresolved dropped), shipped forecast, check at t0=${pre.primaryT0}`,
+    "   Columns per slice: answered share, mean Brier on answered, cost of abstaining per question",
+    "   (cost = mean over ALL cases of [flat 0.1875 − forecast Brier] on the abstained ones; negative = abstaining helped)",
+    "",
+    `   ${"rule".padEnd(26)}${"all δ".padEnd(28)}${"δ=0 (model right)".padEnd(28)}${"δ≥12 (model wrong)".padEnd(28)}`,
+    describe("old gate", (c) => c.gate),
+    describe("never abstain", () => false),
+    ...taus
+      .filter((_, i) => i % Math.max(1, Math.floor(taus.length / 6)) === 0)
+      .slice(1)
+      .map((tau) => describe(`Chow τ=${tau.toFixed(3)}`, (c) => c.maxP < tau)),
+    describe("check alarm", (c) => c.alarm),
+    describe(`check or Chow τ=0.600`, (c) => c.alarm || c.maxP < 0.6),
+    describe(`check or Chow τ=0.686`, (c) => c.alarm || c.maxP < 0.686),
+  ];
+  const maxPs = [
+    ...new Set(dose.map((q) => Math.max(...q.pipeline!.probabilities!))),
+  ];
+  out.push(
+    "",
+    `   The shipped forecast is the same at every δ (it never sees the truth), so Chow's rule abstains on the same`,
+    `   questions whether the model is right or wrong. ${maxPs.length} distinct max-p̂ values across ${dose.length} questions.`,
+  );
+  process.stdout.write(out.join("\n") + "\n");
+}
+
 const [mode, ...rest] = process.argv.slice(2);
 if (mode === "tune") tune(rest[0]!);
 else if (mode === "report") {
   const json = report(rest[0]!, rest[1]!, rest[2]!);
   if (rest[3]) writeFileSync(rest[3], JSON.stringify(json, null, 2) + "\n");
-} else
+} else if (mode === "abstain") abstain(rest[0]!, rest[1]!);
+else
   throw new Error(
-    "usage: misspec-analyze.ts tune <doseDir> | report <doseDir> <armsDir> <prereg.json> [out.json]",
+    "usage: misspec-analyze.ts tune <doseDir> | report <doseDir> <armsDir> <prereg.json> [out.json] | abstain <doseDir> <prereg.json>",
   );

@@ -87,3 +87,23 @@ From the dev run (40 questions, N = 256), by the rules in §3:
   "blindThreshold": 0.65
 }
 ```
+
+## 5. Disclosures (added after the confirmatory run, found by review)
+
+- **The confirm seed was not untouched.** The Day-1 pilot, as the work order
+  asked, ran the check on `proteus-v1` misspecified and narrow questions 1–20
+  (N = 99, the same truth runs, the first 99 of the same draw seeds, t0 ∈ {9,
+  20, 40, 60, 80}). A review of that pilot then scored burstiness + surge ratio
+  alone on the same 40 questions. That is where the two-channel candidate in
+  §3 rule 1 came from, so the candidate set was informed by a quarter of the
+  headline questions. Sensitivity result on the questions the pilot never
+  touched (21–80): δ = 30 alarms 53/60 [78%, 94%]; right-prior false alarms
+  17/280 [4%, 10%].
+- **The header's timing is only true for scoring.** `proteus-v1` data
+  generation started about 19 s before commit 2e59ca4. The generator records
+  every channel, look and threshold, so its output does not depend on the
+  chosen values, and nothing on `proteus-v1` was scored before that commit.
+- **Added to the report after the pre-registered run**, each labelled in it:
+  a shrink-only control for reweighting (the unweighted shares under the same
+  ESS-scaled smoothing) and the flat 1/4 reference; power and ΔBrier by prior
+  box; the untouched-questions subset above.

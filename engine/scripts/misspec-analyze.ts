@@ -144,13 +144,24 @@ function forecasts(q: QuestionData, truth: Member, prereg: Prereg) {
   ).slice(1);
   const weights = abcWeights(d2, prereg.bandwidth);
   const resolvedWeights = weights.filter((_, i) => bands[i] !== null);
+  const ess = effectiveSampleSize(resolvedWeights);
+  // Control (added after the pre-registered run): the unweighted shares under
+  // the same ESS-scaled smoothing. Weighted minus this is what the telemetry
+  // itself contributes; the rest is smoothing pulling toward uniform.
+  const resolved = bands.filter((b): b is number => b !== null);
+  const shrink = [0, 1, 2, 3].map(
+    (k) =>
+      (ess * (resolved.filter((b) => b === k).length / resolved.length) + 1) /
+      (ess + 4),
+  );
   return {
     unweighted: brier(
       weightedBandForecast(bands, new Array(bands.length).fill(1), 4),
       truthBand,
     ),
     weighted: brier(weightedBandForecast(bands, weights, 4), truthBand),
-    ess: effectiveSampleSize(resolvedWeights),
+    shrinkOnly: brier(shrink, truthBand),
+    ess,
   };
 }
 
@@ -428,20 +439,105 @@ function report(doseDir: string, armsDir: string, preregPath: string) {
     const diffs = rows.map((r) => r.weighted - r.unweighted);
     const [lo, hi] = bootstrapMean(diffs, `abc/${name}`);
     const ess = rows.map((r) => r.ess).sort((a, b) => a - b);
+    const vsShrink = rows.map((r) => r.weighted - r.shrinkOnly);
+    const [slo, shi] = bootstrapMean(vsShrink, `abc-shrink/${name}`);
     abcRows[name] = {
       n: rows.length,
       weighted: mean(rows.map((r) => r.weighted)),
       unweighted: mean(rows.map((r) => r.unweighted)),
       diff: mean(diffs),
       ci: [lo, hi],
+      shrinkOnly: mean(rows.map((r) => r.shrinkOnly)),
+      diffVsShrink: mean(vsShrink),
+      ciVsShrink: [slo, shi],
       essMedian: ess[Math.floor(ess.length / 2)],
       essMin: ess[0],
     };
     out.push(
       `   ${name.padEnd(20)} n=${String(rows.length).padEnd(3)} weighted ${mean(rows.map((r) => r.weighted)).toFixed(4)}  unweighted ${mean(rows.map((r) => r.unweighted)).toFixed(4)}  Δ ${mean(diffs) >= 0 ? "+" : ""}${mean(diffs).toFixed(4)} [${lo.toFixed(4)}, ${hi.toFixed(4)}]  ESS median ${ess[Math.floor(ess.length / 2)]!.toFixed(1)}, min ${ess[0]!.toFixed(1)}`,
+      `   ${"".padEnd(20)}       shrink-only control ${mean(rows.map((r) => r.shrinkOnly)).toFixed(4)}  weighted − control ${mean(vsShrink) >= 0 ? "+" : ""}${mean(vsShrink).toFixed(4)} [${slo.toFixed(4)}, ${shi.toFixed(4)}]`,
     );
   }
+  out.push(
+    `   (flat 1/4 forecast: Brier ${REFERENCE_BRIER.toFixed(4)}. "shrink-only control" and "weighted − control" were added after the pre-registered run.)`,
+  );
   json.abc = abcRows;
+
+  // ─── Exploratory, NOT pre-registered: added after review of the report ───
+  out.push(
+    "",
+    "5. EXPLORATORY (not pre-registered). Power and ΔBrier by prior box, primary t0",
+  );
+  const byBox = new Map<string, QuestionData[]>();
+  for (const q of dose) {
+    const p = (
+      q as unknown as {
+        prior: { riskRange: number[]; escalationRange: number[] };
+      }
+    ).prior;
+    const key = `(${(p.riskRange[0]! + p.riskRange[1]!) / 2},${(p.escalationRange[0]! + p.escalationRange[1]!) / 2})`;
+    byBox.set(key, [...(byBox.get(key) ?? []), q]);
+  }
+  const boxRows: Record<string, unknown> = {};
+  for (const [box, qs] of byBox) {
+    const cells = DELTAS.map((d) => {
+      const key = `delta-${d}`;
+      const k = qs.filter(
+        (q) => pAt(q, q.truths[key]!, pre.primaryT0, pre.channels) <= ALPHA,
+      ).length;
+      const paired = qs
+        .map((q) => {
+          const band = bandOf(q.truths[key]!.outcome);
+          return band === null ||
+            !q.pipeline?.probabilities ||
+            !brier0.has(q.id)
+            ? null
+            : brier(q.pipeline.probabilities, band) - brier0.get(q.id)!;
+        })
+        .filter((x): x is number => x !== null);
+      return { delta: d, alarms: k, n: qs.length, deltaBrier: mean(paired) };
+    });
+    boxRows[box] = cells;
+    out.push(
+      `   box ${box.padEnd(9)} ` +
+        cells
+          .map((c) =>
+            `δ${c.delta}:${c.alarms}/${c.n}${c.delta === 0 ? "" : ` (${c.deltaBrier >= 0 ? "+" : ""}${c.deltaBrier.toFixed(3)})`}`.padEnd(
+              19,
+            ),
+          )
+          .join(""),
+    );
+  }
+  json.byBox = boxRows;
+
+  const untouched = (q: QuestionData) => Number(q.id.split("-").pop()) > 20;
+  const fresh = dose.filter(untouched);
+  const freshAlarms = (key: string) =>
+    fresh.filter(
+      (q) => pAt(q, q.truths[key]!, pre.primaryT0, pre.channels) <= ALPHA,
+    ).length;
+  const rightFresh = [
+    ...fresh.map((q) =>
+      pAt(q, q.truths["delta-0"]!, pre.primaryT0, pre.channels),
+    ),
+    ...arms
+      .filter((q) => !(q.arm === "narrow" && !untouched(q)))
+      .map((q) => pAt(q, q.truths.truth!, pre.primaryT0, pre.channels)),
+  ];
+  const rightFreshAlarms = rightFresh.filter((p) => p <= ALPHA).length;
+  out.push(
+    "",
+    "6. EXPLORATORY. Questions the Day-1 pilot never touched (misspecified and narrow 21–80)",
+    `   δ=30: old gate 0/${fresh.length} → check ${rate(freshAlarms("delta-30"), fresh.length)}`,
+    `   right prior: false alarms ${rate(rightFreshAlarms, rightFresh.length)}`,
+  );
+  json.untouched = {
+    delta30: freshAlarms("delta-30"),
+    n: fresh.length,
+    rightPriorAlarms: rightFreshAlarms,
+    rightPriorN: rightFresh.length,
+  };
 
   process.stdout.write(out.join("\n") + "\n");
   return json;

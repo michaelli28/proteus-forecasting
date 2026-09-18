@@ -68,8 +68,14 @@ export function buildForecastProduct(
       input.confidence.drivers,
     ),
     achScore: achScore.get(band.id) ?? 0,
+    // A ratio below 1 is evidence against the band it names, so it is no
+    // driver of it, whatever the indicator claims to favour.
     drivers: input.indicators
-      .filter((indicator) => indicator.favorsHypothesis === band.id)
+      .filter(
+        (indicator) =>
+          indicator.favorsHypothesis === band.id &&
+          indicator.likelihoodRatio >= 1,
+      )
       .map((indicator) => indicator.observable),
   }));
 
@@ -148,7 +154,7 @@ export function formatProduct(product: AnalyticProduct): string {
     lines.push("", "INDICATORS & WARNINGS");
     for (const indicator of product.indicators) {
       lines.push(
-        `  ${indicator.observable} → favours ${indicator.favorsHypothesis} (LR ${indicator.likelihoodRatio.toFixed(2)}, channel ${indicator.instrumentChannel})`,
+        `  ${indicator.observable} → ${indicator.likelihoodRatio >= 1 ? "favours" : "weighs against"} ${indicator.favorsHypothesis} (LR ${indicator.likelihoodRatio.toFixed(2)}, channel ${indicator.instrumentChannel})`,
       );
     }
   }

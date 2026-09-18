@@ -169,3 +169,39 @@ describe("formatProduct", () => {
     expect(text).toMatch(/closed-world|synthetic/i);
   });
 });
+
+// The mechanical indicators always report LR ≥ 1, but a model on the panel can
+// still assert "X favours h2 (LR 0.4)", which is evidence against h2.
+describe("indicators whose ratio is below 1", () => {
+  const product = buildForecastProduct({
+    ...BASE,
+    indicators: [
+      {
+        observable: "burstiness above 6",
+        favorsHypothesis: "h2",
+        likelihoodRatio: 0.4,
+        instrumentChannel: "burstiness",
+      },
+      {
+        observable: "surgeRatio above 2",
+        favorsHypothesis: "h2",
+        likelihoodRatio: 3,
+        instrumentChannel: "surgeRatio",
+      },
+    ],
+    probabilities: [0.2, 0.65, 0.15],
+    achScores: ACH_SCORES,
+    confidence: { level: "moderate", drivers: [] },
+  });
+
+  it("does not count as a driver of the band it names", () => {
+    const h2 = product.hypotheses.find((h) => h.hypothesis.id === "h2")!;
+    expect(h2.drivers).toEqual(["surgeRatio above 2"]);
+  });
+
+  it("prints as weighing against that band, not favouring it", () => {
+    const text = formatProduct(product);
+    expect(text).toContain("burstiness above 6 → weighs against h2 (LR 0.40");
+    expect(text).toContain("surgeRatio above 2 → favours h2 (LR 3.00");
+  });
+});

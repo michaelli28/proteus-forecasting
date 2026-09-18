@@ -67,4 +67,23 @@ randomness differs.
 
 ## 4. Chosen values
 
-Filled in from the dev run in the next commit.
+From the dev run (40 questions, N = 256), by the rules in §3:
+
+| Choice               | Value                           | Dev evidence                                                                                     |
+| -------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------ |
+| Channels             | burstiness, surgeRatio          | best pair's mean power 61%; all four channels peak at 46% (t0 = 30)                              |
+| Primary t0           | 30 (89 ticks before resolution) | power at δ = 6/12/24/30: 5, 21, 33, 38 of 40; δ = 0: 2/40                                        |
+| Bandwidth h          | 0.5                             | dev δ = 0 mean Brier 0.1149 weighted vs 0.1191 unweighted; median ESS 61.5                       |
+| Blind-spot threshold | 0.65                            | Brier 0.1171 → 0.2288, 3/40 unresolved (0.55: → 0.1693, 3/40; 0.5 and 0.7 exceed 10% unresolved) |
+
+`prereg.json` for `scripts/misspec-analyze.ts report`:
+
+```json
+{
+  "channels": ["burstiness", "surgeRatio"],
+  "primaryT0": 30,
+  "anyLooks": [20, 40, 60, 80],
+  "bandwidth": 0.5,
+  "blindThreshold": 0.65
+}
+```

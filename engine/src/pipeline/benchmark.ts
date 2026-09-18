@@ -37,7 +37,10 @@ import { DEFAULT_ABSTENTION_THRESHOLDS } from "../evidence/abstention.js";
 import { createFailingClient } from "../llm/stub.js";
 import { runQuestion } from "./run-question.js";
 import { ensembleQualityReport, scoreQuestions } from "./score.js";
-import { stratifiedBootstrap } from "../metrics/bootstrap.js";
+import {
+  DEFAULT_RESAMPLES,
+  stratifiedBootstrap,
+} from "../metrics/bootstrap.js";
 import type { ArtifactStore } from "../artifact/store.js";
 import type { AsOfCorpus } from "../corpus/as-of.js";
 import type { LlmClient } from "../llm/client.js";
@@ -364,23 +367,21 @@ function armIntervals(
   paired: readonly { question: BenchmarkQuestion; result: QuestionResult }[],
   options: { regime: EvaluationRegime; seed: string },
 ): ArmIntervals {
-  const interval = (
-    name: string,
-    statistic: (results: readonly QuestionResult[]) => number,
-  ) =>
+  // One seed for all three, so every statistic sees the same resamples and
+  // skill's interval is exactly Brier's mapped through 1 − Brier/reference.
+  const interval = (statistic: (results: readonly QuestionResult[]) => number) =>
     stratifiedBootstrap(paired, {
       // The prior box a question was drawn around.
       stratumOf: (p) => JSON.stringify(p.question.prior),
       statistic: (sample) => safely(() => statistic(sample.map((p) => p.result))),
-      seed: `${options.seed}/${name}`,
+      seed: options.seed,
     });
   return {
-    brier: interval("brier", (r) => scoreQuestions(r, options.regime).report.brier),
+    brier: interval((r) => scoreQuestions(r, options.regime).report.brier),
     skill: interval(
-      "skill",
       (r) => scoreQuestions(r, options.regime).report.brierSkillVsBaseRate,
     ),
-    coverageAt1: interval("coverage", (r) => ensembleQualityReport(r).coverageAt1),
+    coverageAt1: interval((r) => ensembleQualityReport(r).coverageAt1),
   };
 }
 
@@ -419,10 +420,15 @@ export const MCE_CAVEAT = [
 ].join("\n");
 
 function ci(interval: Interval | null | undefined, digits = 4): string {
-  return interval
-    ? ` [${interval.lower.toFixed(digits)}, ${interval.upper.toFixed(digits)}]`
-    : "";
+  if (!interval) return "";
+  const kept =
+    interval.resamples < DEFAULT_RESAMPLES
+      ? ` (${interval.resamples} scorable resamples)`
+      : "";
+  return ` [${interval.lower.toFixed(digits)}, ${interval.upper.toFixed(digits)}]${kept}`;
 }
+
+const INTERVAL_LEGEND = `[lo, hi] = 95% percentile bootstrap over questions, resampled within each prior box (${DEFAULT_RESAMPLES} resamples, ensembles held fixed). No interval on ECE.`;
 
 export function formatBenchmark(report: BenchmarkReport): string {
   const lines = [
@@ -456,7 +462,7 @@ export function formatBenchmark(report: BenchmarkReport): string {
     lines.push("");
   }
 
-  lines.push(MCE_CAVEAT, "", SYNTHETIC_ORACLE_CAVEAT);
+  lines.push(INTERVAL_LEGEND, "", MCE_CAVEAT, "", SYNTHETIC_ORACLE_CAVEAT);
 
   return lines.join("\n");
 }

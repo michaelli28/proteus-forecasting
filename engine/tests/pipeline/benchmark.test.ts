@@ -196,7 +196,7 @@ describe("runBenchmark", () => {
       corpus: testCorpus(),
       quantity: TOY_QUANTITY,
       asOf: CORPUS_AS_OF,
-      questionsPerArm: 8,
+      questionsPerArm: 40,
       ensembleSize: 4,
       bandCount: 3,
       seed: "toy-bench",
@@ -216,6 +216,12 @@ describe("runBenchmark", () => {
     expect(formatBenchmark(report)).toMatch(
       /Brier \d\.\d{4} \[\d\.\d{4}, \d\.\d{4}\]/,
     );
+    // Skill is 1 − Brier/reference, so both intervals must come from the same
+    // resamples: skill's ends are Brier's ends mapped through that line.
+    const reference = brier!.estimate / (1 - skill!.estimate);
+    expect(skill!.lower).toBeCloseTo(1 - brier!.upper / reference, 10);
+    expect(skill!.upper).toBeCloseTo(1 - brier!.lower / reference, 10);
+    expect(formatBenchmark(report)).toMatch(/95% percentile bootstrap/);
   });
 
   it("always states the synthetic-oracle caveat when formatted", async () => {

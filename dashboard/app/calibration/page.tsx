@@ -19,6 +19,11 @@ export default function CalibrationPage() {
   const snapshot = LATEST;
   const { cost } = snapshot;
   const declined = MISSPEC.dose.reduce((sum, row) => sum + row.gate, 0);
+  // The smallest error the check catches more often than not, and the largest.
+  const half = MISSPEC.dose.find(
+    (row) => row.delta > 0 && row.alarms / row.n >= 0.5,
+  );
+  const top = MISSPEC.dose[MISSPEC.dose.length - 1]!;
   const abstainRate =
     snapshot.arms.reduce((sum, a) => sum + a.abstained, 0) /
     snapshot.arms.reduce((sum, a) => sum + a.questions, 0);
@@ -97,8 +102,8 @@ export default function CalibrationPage() {
 
         <Section
           eyebrow="Where it fails"
-          title="A wrong starting assumption, caught early"
-          lede={`We told the forecaster the attacker was somewhere it was not. The refusal rule above declined ${declined === 0 ? "none" : declined} of them. A second check compares the early activity data with what the forecaster expected, and flags most of these questions long before the answer is known.`}
+          title="When the starting assumption is wrong"
+          lede={`We told the forecaster the attacker was somewhere it was not. The refusal rule above declined ${declined === 0 ? "none" : declined} of them. A second check compares the early activity data with what the forecaster expected${half ? `, and flags ${half.alarms} of ${half.n} once the assumption is ${half.delta} points off and ${top.alarms} of ${top.n} at ${top.delta}, long before the answer is known` : ""}. Small errors look much like no error.`}
         >
           <WhereItFails />
         </Section>

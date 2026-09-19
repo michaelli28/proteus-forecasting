@@ -25,7 +25,11 @@ export default function WhereItFails() {
   const otherBoxes = Object.values(byBox)
     .map((cells) => cells.find((c) => c.delta === 30)!)
     .filter((cell) => cell !== worstBox.top);
-  const maxUnresolved = Math.max(...dose.map((row) => row.unresolved));
+  // Every score on this panel, the blind-spot one included.
+  const maxUnresolved = Math.max(
+    blind.unresolved,
+    ...dose.map((row) => row.unresolved),
+  );
   const [risk, escalation] = worstBox.box.slice(1, -1).split(",");
 
   return (

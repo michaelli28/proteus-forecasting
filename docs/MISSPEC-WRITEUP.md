@@ -42,8 +42,11 @@ covariance, and let p be the share of members scoring at least the truth's.
   symmetrically from all of them has a uniformly distributed rank. So P(p ≤ α)
   ≤ ⌊α(N+1)⌋/(N+1) = 12/257 = 4.67%. Ties only lower it.
 - **What the bound does not say.** It holds on average over the prior, not for a
-  fixed true setting, and it says nothing about power. A truth near the edge of
-  its box can alarm more often (exploratory: 11.7% vs 5.0%, p ≈ 0.07).
+  fixed true setting, and it says nothing about power. A truth whose
+  escalation sits near the edge of its range may alarm more often
+  (exploratory, one of two splits tried: 7/60 = 11.7% vs 13/260 = 5.0%,
+  p ≈ 0.07; by overall position in the box, the outermost tenth alarms
+  3/56 = 5.4%).
 - **No peeking.** `signaturesUpTo(result, t0)` reads telemetry events up to t0
   and nothing else. A test shows that tampering with any later event changes
   nothing.
@@ -113,8 +116,10 @@ abstain, not a fix.
   false in five places; `detectCampaign` runs only in a unit test.
 - **Defense rankings.** Six seeds ranked by median, and ties were counted as
   losses ("worse in 3 of 6" was 3 wins, 2 ties, 1 loss). With 200 shared seeds
-  every defense helps on average, but the published order was wrong where the
-  data can tell. See `MITIGATION-RERUN.md`.
+  the published order was wrong where the data can tell. Against the attackers
+  the page now uses, 11 of 12 defenses lower average harm by more than chance
+  (not port's alerts against the criminal syndicate); against the old ones all
+  12 did. See `MITIGATION-RERUN.md`.
 
 ## What this does not claim
 
@@ -131,5 +136,6 @@ abstain, not a fix.
 - Benchmark with intervals: `cd engine && PROTEUS_BENCH=1 npx vitest run tests/benchmark/calibration`
 - Defense rankings: `cd engine && DOTENV_CONFIG_PATH=/dev/null node --import tsx scripts/mitigation-rerun.ts 200`
 
-Built with Claude Code, which wrote most of the lines. Three adversarial review
-passes by independent agents checked every claim here before it was written down.
+Built with Claude Code, which wrote most of the lines. Four adversarial review
+passes by independent agents checked these claims against the code and data;
+every confirmed finding was fixed or is disclosed above.

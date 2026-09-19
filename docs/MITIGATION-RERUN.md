@@ -10,7 +10,7 @@ What holds up, judged head to head on the same seeds:
 - Every mitigation lowers mean harm against no mitigation (all 12 intervals exclude 0).
 - port-throughput: the order changes and every adjacent gap is separated; the published #2 is the weakest.
 - regional-grid: by mean, the published #1 stays first; #2 and #3 swap, separated. The median order is not stable.
-- benefits-delivery: no adjacent pair is separated, so 200 seeds cannot rank its four.
+- benefits-delivery: no adjacent pair is separated, but spot-checks beat alerts and splitting the service, and admin-access review beats splitting the service, so only a partial order holds.
 
 Reproduce (about 30 seconds):
 
@@ -64,4 +64,4 @@ benefits-delivery vs People's Republic of China (china) — harm in beneficiary-
    #3 vs #4 head to head: mean Δ -4.78M [-13.61M, 3.95M] — NOT separated; seeds #3 better/tied/worse 105/22/73
 ```
 
-**Since this re-run** the published comparison itself uses these 200 seeds, ranked by mean, with ties and losses counted apart. Choosing each pack's worst attacker by mean over the same seeds changed it in two packs: regional-grid is now measured against the criminal syndicate (clearly the worst: +86k over the runner-up, [12k, 157k]); port-throughput against the criminal syndicate too, but China is within noise of it (+11k, [−18k, 40k]); benefits-delivery stays China, with the US within noise.
+**Since this re-run** the published comparison itself uses these 200 seeds, ranked by mean, with ties and losses counted apart. Choosing each pack's worst attacker by mean over the same seeds changed it in two packs: regional-grid is now measured against the criminal syndicate (clearly the worst: +86k over the runner-up, [12k, 157k]); port-throughput against the criminal syndicate too, but China is within noise of it (+11k, [−18k, 40k]); benefits-delivery stays China, with the US within noise. Against the published attackers, port's alerts no longer separate from no defense (−17.6k, [−38.8k, 3.1k]), so 11 of 12 defenses help by more than chance, and grid's published #1 and #2 are now a dead heat (−0.3k, [−45k, 45k]).

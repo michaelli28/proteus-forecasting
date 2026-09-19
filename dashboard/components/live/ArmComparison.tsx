@@ -8,10 +8,11 @@
  *
  * Average harm ranks the rows, but it never travels alone: each row also shows
  * how many worlds the defense won, left unchanged and lost, and how far its
- * average is from no defense. Neighbours the worlds cannot separate are named.
+ * average is from no defense. Neighbours the worlds cannot separate are named
+ * pair by pair.
  */
 
-import { ARM_COMPARISONS, clearlyHelps, unresolvedRuns } from "../../lib/arms";
+import { ARM_COMPARISONS, clearlyHelps, unresolvedPairs } from "../../lib/arms";
 import type { ArmComparison as Comparison, ArmOutcome } from "../../lib/arms";
 import { formatNumber } from "../../lib/live";
 import { MagnitudeCell } from "../site/ui";
@@ -63,7 +64,7 @@ function PackTable({ comparison }: { comparison: Comparison }) {
     comparison.baseline.mean,
     ...comparison.defended.map((arm) => arm.mean),
   );
-  const ties = unresolvedRuns(comparison);
+  const ties = unresolvedPairs(comparison);
 
   return (
     <div>
@@ -116,18 +117,12 @@ function PackTable({ comparison }: { comparison: Comparison }) {
 
       {ties.length > 0 && (
         <p className="mt-2 text-[12.5px] text-muted">
-          {worlds} worlds cannot tell apart:{" "}
-          {ties.map((run) => listOf(run.map((arm) => arm.label))).join("; ")}.
+          {worlds} worlds cannot tell these neighbours apart:{" "}
+          {ties.map(([a, b]) => `${a.label} vs ${b.label}`).join("; ")}.
         </p>
       )}
     </div>
   );
-}
-
-function listOf(items: string[]): string {
-  return items.length <= 2
-    ? items.join(" and ")
-    : `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
 }
 
 function Row({

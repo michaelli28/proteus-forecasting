@@ -166,9 +166,15 @@ test.describe("the mitigation comparison", () => {
     }
     // A tie counted as a loss is how "worse in 3 of 6" once read as a coin flip.
     expect(body).not.toMatch(/worse in \d+ of \d+/);
-    expect(body, "unseparable neighbours are named").toMatch(
-      /cannot tell apart/,
-    );
+    const ties = body.match(/cannot tell these neighbours apart: ([^.]*)\./g) ?? [];
+    expect(ties.length, "unseparable neighbours are named").toBeGreaterThan(0);
+    // A tie with a neighbour does not carry down the list, so every group
+    // named is exactly a pair — never "A, B, C and D".
+    for (const line of ties) {
+      for (const group of line.split(": ")[1]!.split("; ")) {
+        expect(group.split(" vs ").length, group).toBe(2);
+      }
+    }
     // Every defense loses somewhere at this many worlds, so a warning colour on
     // the losses would mark every row and tell a reader nothing.
     expect(await section.locator("tbody .text-warn").count()).toBe(0);
@@ -278,7 +284,7 @@ test.describe("where the forecast fails", () => {
   }) => {
     await page.goto("/calibration", { waitUntil: "networkidle" });
     const section = page
-      .locator("section", { hasText: "A wrong starting assumption, caught early" })
+      .locator("section", { hasText: "When the starting assumption is wrong" })
       .last();
     const body = await section.innerText();
     expect(body).toMatch(/declined none of them/);

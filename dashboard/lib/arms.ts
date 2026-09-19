@@ -67,14 +67,21 @@ export function clearlyHelps(comparison: ArmComparison): ArmOutcome[] {
   );
 }
 
-/** Adjacent defenses in the ranking that the replayed worlds cannot separate. */
-export function unresolvedPairs(
-  comparison: ArmComparison,
-): [ArmOutcome, ArmOutcome][] {
-  return comparison.defended.flatMap((arm, i) => {
-    const next = comparison.defended[i + 1];
-    return next && arm.vsNext && arm.vsNext.lower <= 0 && arm.vsNext.upper >= 0
-      ? [[arm, next] as [ArmOutcome, ArmOutcome]]
-      : [];
-  });
+/**
+ * Runs of neighbouring defenses the replayed worlds cannot separate: each run
+ * is two or more defenses in a row whose gaps to the next all span zero.
+ */
+export function unresolvedRuns(comparison: ArmComparison): ArmOutcome[][] {
+  const runs: ArmOutcome[][] = [];
+  let run: ArmOutcome[] = [];
+  for (const arm of comparison.defended) {
+    run.push(arm);
+    const tiedWithNext =
+      arm.vsNext !== null && arm.vsNext.lower <= 0 && arm.vsNext.upper >= 0;
+    if (!tiedWithNext) {
+      if (run.length > 1) runs.push(run);
+      run = [];
+    }
+  }
+  return runs;
 }

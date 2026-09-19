@@ -2,7 +2,7 @@
   "snapshots": [
     {
       "label": "80x32",
-      "generatedAt": "2026-08-10T03:21:42.843Z",
+      "generatedAt": "2026-09-19T00:01:47.292Z",
       "regime": "synthetic_oracle",
       "quantity": "adoptionRate",
       "bandCount": 4,
@@ -93,6 +93,26 @@
             "coverageAt2": 1,
             "tailRecall": 1,
             "surprises": 2
+          },
+          "intervals": {
+            "brier": {
+              "estimate": 0.10583898652053428,
+              "lower": 0.08567937846434888,
+              "upper": 0.12690775777903787,
+              "resamples": 2000
+            },
+            "skill": {
+              "estimate": 0.4355254052238172,
+              "lower": 0.3231586251784647,
+              "upper": 0.5430433148568059,
+              "resamples": 2000
+            },
+            "coverageAt1": {
+              "estimate": 0.6875,
+              "lower": 0.5875,
+              "upper": 0.7875,
+              "resamples": 2000
+            }
           }
         },
         {
@@ -167,6 +187,26 @@
             "coverageAt2": 0.9871794871794872,
             "tailRecall": 1,
             "surprises": 1
+          },
+          "intervals": {
+            "brier": {
+              "estimate": 0.10878997609043062,
+              "lower": 0.09241471701802893,
+              "upper": 0.126086966128665,
+              "resamples": 2000
+            },
+            "skill": {
+              "estimate": 0.41978679418437004,
+              "lower": 0.3275361806471201,
+              "upper": 0.507121509237179,
+              "resamples": 2000
+            },
+            "coverageAt1": {
+              "estimate": 0.6923076923076923,
+              "lower": 0.5974025974025974,
+              "upper": 0.7848101265822784,
+              "resamples": 2000
+            }
           }
         },
         {
@@ -236,6 +276,26 @@
             "coverageAt2": 0.7397260273972602,
             "tailRecall": 1,
             "surprises": 2
+          },
+          "intervals": {
+            "brier": {
+              "estimate": 0.16641363954481425,
+              "lower": 0.15174621716304926,
+              "upper": 0.18148161929886716,
+              "resamples": 2000
+            },
+            "skill": {
+              "estimate": 0.11246058909432399,
+              "lower": 0.032098030406041755,
+              "upper": 0.19068684179707063,
+              "resamples": 2000
+            },
+            "coverageAt1": {
+              "estimate": 0.410958904109589,
+              "lower": 0.3013698630136986,
+              "upper": 0.5277777777777778,
+              "resamples": 2000
+            }
           }
         },
         {
@@ -290,6 +350,26 @@
             "coverageAt2": 0.5303030303030303,
             "tailRecall": 1,
             "surprises": 4
+          },
+          "intervals": {
+            "brier": {
+              "estimate": 0.09971347577661155,
+              "lower": 0.09565408111375046,
+              "upper": 0.10387584527195048,
+              "resamples": 2000
+            },
+            "skill": {
+              "estimate": 0.08833393575669446,
+              "lower": 0.050277986085024096,
+              "upper": 0.1254484012457101,
+              "resamples": 2000
+            },
+            "coverageAt1": {
+              "estimate": 0.2878787878787879,
+              "lower": 0.17647058823529413,
+              "upper": 0.39705882352941174,
+              "resamples": 2000
+            }
           }
         },
         {
@@ -303,7 +383,8 @@
           "meanCompletionRatio": 0.999609375,
           "score": null,
           "calibration": [],
-          "ensemble": null
+          "ensemble": null,
+          "intervals": null
         },
         {
           "arm": "misspecified",
@@ -382,6 +463,26 @@
             "coverageAt2": 0.4931506849315068,
             "tailRecall": 1,
             "surprises": 37
+          },
+          "intervals": {
+            "brier": {
+              "estimate": 0.27302399676258066,
+              "lower": 0.24813804342811688,
+              "upper": 0.295069162772046,
+              "resamples": 2000
+            },
+            "skill": {
+              "estimate": -0.4561279827337634,
+              "lower": -0.5737022014509119,
+              "upper": -0.32340289828328994,
+              "resamples": 2000
+            },
+            "coverageAt1": {
+              "estimate": 0.1232876712328767,
+              "lower": 0.0547945205479452,
+              "upper": 0.19718309859154928,
+              "resamples": 2000
+            }
           }
         }
       ],

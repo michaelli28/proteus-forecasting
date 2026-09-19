@@ -67,6 +67,19 @@ export default function ArmTable({ arms }: ArmTableProps) {
                     >
                       {signed(arm.score.brierSkillVsBaseRate, 2)}
                     </span>
+                    {arm.intervals?.skill && (
+                      <div className="mt-0.5 text-[12px] font-normal text-muted">
+                        {signed(arm.intervals.skill.lower, 2)} to{" "}
+                        {signed(arm.intervals.skill.upper, 2)}
+                      </div>
+                    )}
+                    {/* Only when some answers fell outside every range: the
+                        score is then over fewer questions than were asked. */}
+                    {arm.unresolved > 0 && (
+                      <div className="text-[12px] font-normal text-muted">
+                        scored on {arm.score.questions} of {arm.questions}
+                      </div>
+                    )}
                   </td>
                   <td className={CELL}>
                     ±{(arm.score.expectedCalibrationError * 100).toFixed(1)} pts

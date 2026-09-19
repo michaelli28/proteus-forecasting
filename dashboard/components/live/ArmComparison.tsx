@@ -11,7 +11,7 @@
  * average is from no defense. Neighbours the worlds cannot separate are named.
  */
 
-import { ARM_COMPARISONS, clearlyHelps, unresolvedPairs } from "../../lib/arms";
+import { ARM_COMPARISONS, clearlyHelps, unresolvedRuns } from "../../lib/arms";
 import type { ArmComparison as Comparison, ArmOutcome } from "../../lib/arms";
 import { formatNumber } from "../../lib/live";
 import { MagnitudeCell } from "../site/ui";
@@ -63,7 +63,7 @@ function PackTable({ comparison }: { comparison: Comparison }) {
     comparison.baseline.mean,
     ...comparison.defended.map((arm) => arm.mean),
   );
-  const ties = unresolvedPairs(comparison);
+  const ties = unresolvedRuns(comparison);
 
   return (
     <div>
@@ -117,11 +117,17 @@ function PackTable({ comparison }: { comparison: Comparison }) {
       {ties.length > 0 && (
         <p className="mt-2 text-[12.5px] text-muted">
           {worlds} worlds cannot tell apart:{" "}
-          {ties.map(([a, b]) => `${a.label} and ${b.label}`).join("; ")}.
+          {ties.map((run) => listOf(run.map((arm) => arm.label))).join("; ")}.
         </p>
       )}
     </div>
   );
+}
+
+function listOf(items: string[]): string {
+  return items.length <= 2
+    ? items.join(" and ")
+    : `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
 }
 
 function Row({
@@ -155,10 +161,8 @@ function Row({
           `${formatNumber(arm.best)} to ${formatNumber(arm.worst)}`
         ) : (
           <>
-            better in {arm.beatBaseline}, no change in {arm.tiedBaseline},{" "}
-            <span className={arm.lostToBaseline > 0 ? "text-warn" : undefined}>
-              worse in {arm.lostToBaseline}
-            </span>
+            better in {arm.beatBaseline}, no change in {arm.tiedBaseline},
+            worse in {arm.lostToBaseline}
           </>
         )}
       </td>

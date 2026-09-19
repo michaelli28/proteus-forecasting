@@ -2,6 +2,8 @@ import ArmTable from "../../components/metrics/ArmTable";
 import OperatingCurve from "../../components/metrics/OperatingCurve";
 import ReliabilityChart from "../../components/metrics/ReliabilityChart";
 import SkillTrend from "../../components/metrics/SkillTrend";
+import WhereItFails from "../../components/metrics/WhereItFails";
+import { MISSPEC } from "../../lib/misspec";
 import { LATEST, SNAPSHOTS, percent } from "../../lib/metrics";
 import { Page, Section, Figure, Card } from "../../components/site/ui";
 import { Reveal } from "../../components/site/motion";
@@ -16,6 +18,7 @@ export const metadata = {
 export default function CalibrationPage() {
   const snapshot = LATEST;
   const { cost } = snapshot;
+  const declined = MISSPEC.dose.reduce((sum, row) => sum + row.gate, 0);
   const abstainRate =
     snapshot.arms.reduce((sum, a) => sum + a.abstained, 0) /
     snapshot.arms.reduce((sum, a) => sum + a.questions, 0);
@@ -90,6 +93,14 @@ export default function CalibrationPage() {
               adopted={snapshot.thresholds.minSeparation}
             />
           </Card>
+        </Section>
+
+        <Section
+          eyebrow="Where it fails"
+          title="A wrong starting assumption, caught early"
+          lede={`We told the forecaster the attacker was somewhere it was not. The refusal rule above declined ${declined === 0 ? "none" : declined} of them. A second check compares the early activity data with what the forecaster expected, and flags most of these questions long before the answer is known.`}
+        >
+          <WhereItFails />
         </Section>
 
         <Section

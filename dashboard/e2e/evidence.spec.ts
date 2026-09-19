@@ -142,22 +142,36 @@ test.describe("the mitigation comparison", () => {
     ).toBeGreaterThan(5);
   });
 
-  test("marks only the measures that won in every world", async ({ page }) => {
+  test("counts ties apart from losses, and names neighbours it cannot separate", async ({
+    page,
+  }) => {
     await page.goto("/live", { waitUntil: "networkidle" });
     const section = page
       .locator("section", { hasText: "One run cannot tell you" })
       .first();
+    const body = await section.innerText();
 
-    const rows = section.locator("tbody tr");
-    const total = await rows.count();
-    const reliable = await section.getByText(/better in all \d+/).count();
-    const unreliable = await section.getByText(/worse in \d+ of \d+/).count();
-
-    // Both states must actually occur, or the distinction the table draws is
-    // decoration: a mark that appears on every row tells a reader nothing.
-    expect(reliable, "measures that never lost").toBeGreaterThan(0);
-    expect(unreliable, "measures that lost somewhere").toBeGreaterThan(0);
-    expect(reliable + unreliable).toBeLessThan(total);
+    // Every defense row splits its worlds three ways, and the three add up.
+    const splits = [
+      ...body.matchAll(
+        /better in (\d+), no change in (\d+),\s+worse in (\d+)/g,
+      ),
+    ];
+    expect(splits.length, "a split per defense").toBeGreaterThanOrEqual(12);
+    const worlds = Number(
+      body.match(/replayed across the same (\d+) worlds/)![1],
+    );
+    for (const [, won, tied, lost] of splits) {
+      expect(Number(won) + Number(tied) + Number(lost)).toBe(worlds);
+    }
+    // A tie counted as a loss is how "worse in 3 of 6" once read as a coin flip.
+    expect(body).not.toMatch(/worse in \d+ of \d+/);
+    expect(body, "unseparable neighbours are named").toMatch(
+      /cannot tell apart/,
+    );
+    // Every defense loses somewhere at this many worlds, so a warning colour on
+    // the losses would mark every row and tell a reader nothing.
+    expect(await section.locator("tbody .text-warn").count()).toBe(0);
   });
 
   test("does not ship the per-seed data to the browser", async ({ page }) => {
@@ -255,5 +269,30 @@ test.describe("actor dossiers", () => {
       page.getByText(/no move in any scenario here goes that far/i),
       "an inert commitment is presented as though it binds",
     ).toBeVisible();
+  });
+});
+
+test.describe("where the forecast fails", () => {
+  test("shows the check's hits, its false alarms and both blind spots", async ({
+    page,
+  }) => {
+    await page.goto("/calibration", { waitUntil: "networkidle" });
+    const section = page
+      .locator("section", { hasText: "A wrong starting assumption, caught early" })
+      .last();
+    const body = await section.innerText();
+    expect(body).toMatch(/declined none of them/);
+    expect(body).toMatch(/69 of 80/);
+    expect(body).toMatch(/flags 20 of 320 questions/);
+    expect(body).toMatch(/Blind spot: a mistake the activity data cannot show/);
+    expect(body).toMatch(/Blind spot: one of the four scenarios/);
+  });
+
+  test("says when a score covers fewer questions than were asked", async ({
+    page,
+  }) => {
+    await page.goto("/calibration", { waitUntil: "networkidle" });
+    // The misspecified arm's skill is over the 73 questions that resolved.
+    await expect(page.getByText("scored on 73 of 80")).toBeVisible();
   });
 });

@@ -403,6 +403,7 @@ function report(doseDir: string, armsDir: string, preregPath: string) {
     n: dose.length,
     identicalToDelta0: identical,
     brier: blindB,
+    skill: 1 - blindB / REFERENCE_BRIER,
     deltaBrier: mean(blindPaired),
     unresolved: dose.length - blindScored.length,
   };
@@ -432,6 +433,12 @@ function report(doseDir: string, armsDir: string, preregPath: string) {
     );
   }
   json.histogram = histo;
+  json.falseAlarms = {
+    alarms: pooled.filter((p) => p <= ALPHA).length,
+    n: pooled.length,
+    // The rank argument's bound for N draws: ⌊α(N+1)⌋/(N+1).
+    bound: Math.floor(ALPHA * (N + 1)) / (N + 1),
+  };
 
   out.push(
     "",

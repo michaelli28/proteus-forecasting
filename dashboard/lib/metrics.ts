@@ -53,6 +53,21 @@ export interface ArmSnapshot {
   score: ScoreSnapshot | null;
   calibration: CalibrationPoint[];
   ensemble: EnsembleSnapshot | null;
+  /** 95% question-level intervals. Absent on snapshots published before they existed. */
+  intervals?: ArmIntervals | null;
+}
+
+export interface Interval {
+  estimate: number;
+  lower: number;
+  upper: number;
+  resamples: number;
+}
+
+export interface ArmIntervals {
+  brier: Interval | null;
+  skill: Interval | null;
+  coverageAt1: Interval | null;
 }
 
 export interface OperatingPoint {

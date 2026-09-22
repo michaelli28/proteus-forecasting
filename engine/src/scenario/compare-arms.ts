@@ -17,7 +17,7 @@
 
 import { getPack } from "./packs/index.js";
 import { runSimulate } from "../simulate.js";
-import { stratifiedBootstrap } from "../metrics/bootstrap.js";
+import { pairedChange, winTieLoss } from "../metrics/paired.js";
 import type { Interval } from "../metrics/bootstrap.js";
 
 /**
@@ -72,18 +72,6 @@ export interface ArmComparison {
 
 function mean(values: readonly number[]): number {
   return values.reduce((sum, v) => sum + v, 0) / values.length;
-}
-
-/** Mean paired difference a − b over shared seeds, with a 95% seed bootstrap. */
-function pairedChange(
-  a: readonly number[],
-  b: readonly number[],
-  seed: string,
-): Interval | null {
-  return stratifiedBootstrap(
-    a.map((value, i) => value - b[i]!),
-    { stratumOf: () => "seeds", statistic: mean, seed },
-  );
 }
 
 function median(values: readonly number[]): number {
@@ -182,11 +170,11 @@ export async function compareArms(
     const harm = await Promise.all(
       seeds.map((seed) => harmFor(pack, actorId, defense, seed, profilePath)),
     );
-    const against = (compare: (value: number, base: number) => boolean) =>
-      baselineHarm
-        ? harm.filter((value, index) => compare(value, baselineHarm[index]!))
-            .length
-        : 0;
+    // Ties are neither wins nor losses: a mitigation that changed nothing on a
+    // seed did not beat the baseline there, and did not lose to it either.
+    const split = baselineHarm
+      ? winTieLoss(harm, baselineHarm)
+      : { better: 0, tied: 0, worse: 0 };
     return {
       defense,
       label,
@@ -196,11 +184,9 @@ export async function compareArms(
       median: median(harm),
       best: Math.min(...harm),
       worst: Math.max(...harm),
-      // Ties are neither wins nor losses: a mitigation that changed nothing on
-      // a seed did not beat the baseline there, and did not lose to it either.
-      beatBaseline: against((v, b) => v < b),
-      tiedBaseline: against((v, b) => v === b),
-      lostToBaseline: against((v, b) => v > b),
+      beatBaseline: split.better,
+      tiedBaseline: split.tied,
+      lostToBaseline: split.worse,
       changeVsBaseline: baselineHarm
         ? pairedChange(harm, baselineHarm, `${pack}/${defense}/baseline`)
         : null,

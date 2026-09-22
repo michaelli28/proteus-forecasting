@@ -26,12 +26,8 @@ import {
   influenceOpsQuantity,
   signaturesUpTo,
 } from "../src/pipeline/influence-ops-binding.js";
-import {
-  CHECK_CHANNELS,
-  pooledMahalanobis,
-  priorDraws,
-  rankPValue,
-} from "../src/pipeline/misspec-check.js";
+import { CHECK_CHANNELS, priorDraws } from "../src/pipeline/misspec-check.js";
+import { pooledMahalanobis, rankPValue } from "../src/metrics/rank-check.js";
 import type { RunSpec } from "../src/agents/framer.js";
 import type { BenchmarkQuestion } from "../src/pipeline/benchmark.js";
 

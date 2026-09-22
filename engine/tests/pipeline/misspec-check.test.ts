@@ -1,16 +1,16 @@
 import { describe, it, expect } from "vitest";
 import { Rng } from "../../src/sim/rng.js";
 import { benchmarkQuestions, truthSpec } from "../../src/pipeline/benchmark.js";
+import { priorDraws } from "../../src/pipeline/misspec-check.js";
 import {
   abcWeights,
   effectiveSampleSize,
   mahalanobisTo,
   minPCombined,
   pooledMahalanobis,
-  priorDraws,
   rankPValue,
   weightedBandForecast,
-} from "../../src/pipeline/misspec-check.js";
+} from "../../src/metrics/rank-check.js";
 import { forecastFromEnsemble } from "../../src/metrics/ensemble.js";
 
 describe("rankPValue", () => {

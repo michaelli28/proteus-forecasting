@@ -18,7 +18,7 @@ import {
   pooledMahalanobis,
   rankPValue,
   weightedBandForecast,
-} from "../src/pipeline/misspec-check.js";
+} from "../src/metrics/rank-check.js";
 import { uniformPartition } from "../src/evidence/partition.js";
 
 type Member = {

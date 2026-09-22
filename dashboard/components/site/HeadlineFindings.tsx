@@ -64,7 +64,8 @@ export default function HeadlineFindings() {
           </div>
           <p className="mt-2 text-[13.5px] leading-relaxed text-slate">
             Simply having operators run the plant by hand cut lost water service
-            by nearly half — and cost less than every high-tech defense tested.
+            by about two-thirds — and cost less than every high-tech defense
+            tested.
           </p>
         </Reveal>
 
@@ -111,6 +112,14 @@ export default function HeadlineFindings() {
           </p>
         </Reveal>
       </div>
+
+      <Reveal delay={0.1}>
+        <p className="mt-6 max-w-[74ch] text-[13px] leading-relaxed text-muted">
+          All three await a re-run. The simulator does not hold a pump outage
+          for its full length, which shifts every baseline behind these figures
+          a little.
+        </p>
+      </Reveal>
 
       <Reveal delay={0.1}>
         <Link

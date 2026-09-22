@@ -6,6 +6,7 @@ import {
   VULNERABILITY,
   ARCHETYPE_NAME,
   componentName,
+  isWithdrawn,
   instrumentName,
   defenseName,
   DEFENSE_INFO,
@@ -163,6 +164,9 @@ function chokepointStatus(row: ChokepointRow): {
   label: string;
   tone: "warn" | "accent" | "neutral" | "good";
 } | null {
+  if (isWithdrawn(row.componentId)) {
+    return { label: "Withdrawn", tone: "neutral" };
+  }
   if (row.robustPersonHours > 0 && row.activationRate < 0.02) {
     return { label: "Overlooked risk", tone: "warn" };
   }
@@ -197,7 +201,10 @@ function Chokepoints({ result }: { result: ArchetypeResult }) {
           <tbody>
             {rows.map((row) => {
               const status = chokepointStatus(row);
-              const dead = row.robustPersonHours <= 0 && !row.sweepSensitive;
+              const withdrawn = isWithdrawn(row.componentId);
+              const dead =
+                withdrawn ||
+                (row.robustPersonHours <= 0 && !row.sweepSensitive);
               return (
                 <tr
                   key={row.componentId}
@@ -212,11 +219,11 @@ function Chokepoints({ result }: { result: ArchetypeResult }) {
                   </td>
                   <td className="px-4 py-3 text-right">
                     <div className="tnum font-semibold text-ink">
-                      {row.worstCasePeakPeople > 0
+                      {!withdrawn && row.worstCasePeakPeople > 0
                         ? people(row.worstCasePeakPeople)
                         : "—"}
                     </div>
-                    {row.worstCasePeakPeople > 0 && (
+                    {!withdrawn && row.worstCasePeakPeople > 0 && (
                       <div className="mt-1">
                         <Bar
                           fraction={row.worstCasePeakPeople / maxPeople}
@@ -226,7 +233,9 @@ function Chokepoints({ result }: { result: ArchetypeResult }) {
                     )}
                   </td>
                   <td className="px-4 py-3 text-right tnum text-slate">
-                    {row.robustPersonHours > 0 ? (
+                    {withdrawn ? (
+                      "—"
+                    ) : row.robustPersonHours > 0 ? (
                       <>
                         {personHours(row.robustPersonHours)}
                         <span className="text-muted">
@@ -242,7 +251,7 @@ function Chokepoints({ result }: { result: ArchetypeResult }) {
                     )}
                   </td>
                   <td className="px-4 py-3 text-right tnum text-slate">
-                    {percent(row.activationRate)}
+                    {withdrawn ? "—" : percent(row.activationRate)}
                   </td>
                   <td className="px-4 py-3">
                     {status && <Pill tone={status.tone}>{status.label}</Pill>}
@@ -258,7 +267,11 @@ function Chokepoints({ result }: { result: ArchetypeResult }) {
         add up every hour each person is left without safe water pressure — 100
         people for 5 hours is 500. The range spans a cautious estimate to a
         pessimistic one. &ldquo;Overlooked risk&rdquo; marks a real danger the
-        attacker rarely picks because an even bigger target is available.
+        attacker rarely picks because an even bigger target is available.{" "}
+        <strong className="font-semibold text-ink">Withdrawn</strong> rows are
+        blank because the simulator does not hold a pump outage for its whole
+        duration, so their figures measured the leak rather than the outage.
+        They return once that is fixed and the sweep is re-run.
       </Caption>
     </Block>
   );

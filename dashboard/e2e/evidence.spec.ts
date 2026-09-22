@@ -166,7 +166,8 @@ test.describe("the mitigation comparison", () => {
     }
     // A tie counted as a loss is how "worse in 3 of 6" once read as a coin flip.
     expect(body).not.toMatch(/worse in \d+ of \d+/);
-    const ties = body.match(/cannot tell these neighbours apart: ([^.]*)\./g) ?? [];
+    const ties =
+      body.match(/cannot tell these neighbours apart: ([^.]*)\./g) ?? [];
     expect(ties.length, "unseparable neighbours are named").toBeGreaterThan(0);
     // A tie with a neighbour does not carry down the list, so every group
     // named is exactly a pair — never "A, B, C and D".
@@ -300,5 +301,45 @@ test.describe("where the forecast fails", () => {
     await page.goto("/calibration", { waitUntil: "networkidle" });
     // The misspecified arm's skill is over the 73 questions that resolved.
     await expect(page.getByText("scored on 73 of 80")).toBeVisible();
+  });
+});
+
+test.describe("rows withdrawn over the pump-outage defect", () => {
+  // A pump held out of service keeps running between rule checks, and every
+  // outage ends by forcing its link open. Numbers for the pump rows are
+  // artefacts of that, so they must not be printed as findings until the
+  // simulation is fixed. See research/plans/proteus-restoration-plan.md §D in
+  // the cohort0-prep repo.
+  test("prints no harm figures for a withdrawn component", async ({ page }) => {
+    await page.goto("/exposure", { waitUntil: "networkidle" });
+    const row = page
+      .locator("tr", { hasText: "South pump controller" })
+      .first();
+
+    await expect(row.getByText(/withdrawn/i)).toBeVisible();
+    // 68,927.5 person-hours is the artefact this row used to print.
+    expect(await row.innerText()).not.toMatch(/68,9|68,928|up to/);
+  });
+
+  test("says on the page why those rows are blank", async ({ page }) => {
+    await page.goto("/exposure", { waitUntil: "networkidle" });
+    await expect(
+      page.getByText(/pump outage.*(hold|held)/i).first(),
+      "the table gives no reason for its blank rows",
+    ).toBeVisible();
+  });
+
+  test("the home page caption matches the figure beside it", async ({
+    page,
+  }) => {
+    await page.goto("/", { waitUntil: "networkidle" });
+    const section = page
+      .locator("section", { hasText: "Three results from the water example" })
+      .first();
+    const body = await section.innerText();
+    // The figure rendered is 102,731 / 157,527 = 65%, not "nearly half".
+    expect(body).toMatch(/about two-thirds/i);
+    expect(body).not.toMatch(/nearly half/i);
+    expect(body).toMatch(/re-run/i);
   });
 });

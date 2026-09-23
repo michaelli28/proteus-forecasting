@@ -161,3 +161,27 @@ Every reference is **hindsight: it knows the true repair times.**
   index) in the primary cell with k = 6, at 2 crews. It shows most customers
   first beside the reference, with every start, finish and restoration tick
   printed.
+
+## 9. Clarifications before the run
+
+These were added on 2026-09-22 after the code was written and reviewed, and
+before any lab result was computed. None of them changes a choice above. Each
+records a choice the code had to make that §3 or §4 left unstated.
+
+1. **Horn's ties.** When two groups have exactly the same customers per repair
+   tick, the one with the lowest head index merges first, as in spike S2.
+   - For the 1-crew reference this cannot change the cost, because every
+     Horn order is optimal.
+   - For both Horn-order rows it can change the schedule. It matters most for
+     rule 5, where equal planned times make ties common.
+2. **Horn-order's planning time.** Rule 5 plans on 1.5 h per repair. Any single
+   value used for every repair gives the same list, because every ratio scales
+   by the same factor. So the value of the median does not matter, only that it
+   is the same for every repair.
+3. **The 2–4 crew reference schedule.**
+   - It is HiGHS's schedule handed out again, in HiGHS's start order, to
+     whichever crew frees up first.
+   - This moves no repair later, so its cost is never above HiGHS's, and no crew
+     sits idle while a repair waits (§2). HiGHS is free to leave a crew idle
+     when that costs nothing, and it did on 44 of 60 test storms.
+   - The reference's cost is that schedule's customer-ticks, a whole number.

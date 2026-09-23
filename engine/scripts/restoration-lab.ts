@@ -4,8 +4,9 @@
  * the reference from Horn (1 crew) or HiGHS (2–4 crews); the paired tables.
  *
  * Markdown to stdout, progress to stderr, everything to
- * .cache/restoration-lab/results.json. The storm count is for smoke runs only:
- * the results doc uses the pre-registered 200.
+ * .cache/restoration-lab/results-<storms>.json, so a smoke run never overwrites
+ * the 200-storm file. The storm count is for smoke runs only: the results doc
+ * uses the pre-registered 200.
  *
  *   RESTORATION_LAB_COMMIT=$(git rev-parse HEAD) node --import tsx scripts/restoration-lab.ts [storms]
  */
@@ -32,9 +33,18 @@ import type {
   Schedule,
   Storm,
 } from "../src/sim/adapters/restoration/index.js";
-import { solveLpFloor, solveOptimum } from "../src/restoration/solver.js";
+import {
+  TIME_LIMIT_SECONDS,
+  solveLpFloor,
+  solveOptimum,
+} from "../src/restoration/solver.js";
 import type { OptimumResult } from "../src/restoration/solver.js";
-import { labTable, resolveReference } from "../src/restoration/lab-table.js";
+import {
+  labTable,
+  median,
+  resolveReference,
+  sigmaPairingKey,
+} from "../src/restoration/lab-table.js";
 import type {
   LabTable,
   Reference,
@@ -53,13 +63,16 @@ type Cell = (typeof CELLS)[number];
 const CREWS = [1, 2, 3, 4] as const;
 const PREREGISTERED_STORMS = 200;
 const STORMS = Number(process.argv[2] ?? PREREGISTERED_STORMS);
-/** Pre-registration §4: 60 s per storm. */
-const MILP_SECONDS = 60;
 /** Pre-registration §8: the first primary storm with k = 6, at 2 crews. */
 const HAND_CHECK = { cell: "primary", k: 6, crews: 2 } as const;
 
 const ENGINE_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const OUT = resolve(ENGINE_ROOT, ".cache", "restoration-lab", "results.json");
+const OUT = resolve(
+  ENGINE_ROOT,
+  ".cache",
+  "restoration-lab",
+  `results-${STORMS}.json`,
+);
 
 const RULE_LABELS: Record<RestorationRule, string> = {
   "most-customers-now": "Most customers first",
@@ -94,15 +107,7 @@ interface Summary {
 
 function summary(values: readonly number[]): Summary | null {
   if (values.length === 0) return null;
-  const sorted = [...values].sort((a, b) => a - b);
-  const mid = Math.floor(sorted.length / 2);
-  return {
-    median:
-      sorted.length % 2 === 1
-        ? sorted[mid]!
-        : (sorted[mid - 1]! + sorted[mid]!) / 2,
-    max: sorted[sorted.length - 1]!,
-  };
+  return { median: median(values), max: Math.max(...values) };
 }
 
 function configFor(
@@ -121,9 +126,13 @@ function configFor(
   };
 }
 
+/** Per seed, across cells with the same k range: the first cell's storm minus its repair ticks. */
+const sigmaPaired = new Map<string, { cell: string; key: string }>();
+
 /**
  * Every rule on storm i through the kernel. The storm must be byte-identical
- * across rules and crew counts (common random numbers): otherwise throw.
+ * across rules and crew counts (common random numbers), and identical but for
+ * repair ticks across the k 6–12 cells (§5): otherwise throw.
  */
 async function runStorm(
   cell: Cell,
@@ -143,8 +152,18 @@ async function runStorm(
     );
     const json = JSON.stringify(finalState.storm);
     const first = stormJson.get(i);
-    if (first === undefined) stormJson.set(i, json);
-    else if (json !== first) {
+    if (first === undefined) {
+      stormJson.set(i, json);
+      const pair = `k ${cell.k.join("–")}/${seedOf(i)}`;
+      const key = sigmaPairingKey(finalState.storm);
+      const paired = sigmaPaired.get(pair);
+      if (paired === undefined) sigmaPaired.set(pair, { cell: cell.id, key });
+      else if (key !== paired.key) {
+        throw new Error(
+          `${cell.id}: ${seedOf(i)} drew a different feeder, customers, critical or broken buses than in ${paired.cell}; only repair ticks may differ across σ`,
+        );
+      }
+    } else if (json !== first) {
       throw new Error(
         `${cell.id}: ${seedOf(i)} drew a different storm under ${rule} at ${crews} crews`,
       );
@@ -159,6 +178,18 @@ async function runStorm(
   return { storm: storm!, problem: problemOf(storm!), schedules, costs };
 }
 
+/** A storm's outcome plus everything its reference is resolved from, so the file alone re-derives every number. */
+interface RecordedOutcome extends StormOutcome {
+  readonly problem: RepairProblem;
+  /** null where no MILP ran: 1 crew, and the k = 20 and k = 50 cells. */
+  readonly milp: {
+    readonly proven: boolean;
+    readonly customerTicks: number | null;
+  } | null;
+  /** null with 1 crew, where Horn on `problem` is the reference. */
+  readonly lpFloor: number | null;
+}
+
 interface CrewResult {
   readonly crews: number;
   readonly table: LabTable;
@@ -168,7 +199,7 @@ interface CrewResult {
     readonly milp: Summary | null;
     readonly lp: Summary | null;
   };
-  readonly outcomes: readonly StormOutcome[];
+  readonly outcomes: readonly RecordedOutcome[];
 }
 
 const solvers = new Set<string>();
@@ -200,32 +231,41 @@ async function runCrews(
     floor = lp.results.map((r) => r.customerTicks);
     lpSeconds = lp.results.map((r) => r.seconds);
     if (cell.exact) {
-      const milp = await solveOptimum(problems, crews, {
-        timeLimitSeconds: MILP_SECONDS,
-        onProgress: log,
-      });
+      const milp = await solveOptimum(problems, crews, { onProgress: log });
       solvers.add(milp.solver);
       optimum = [...milp.results];
     }
   }
 
-  const outcomes = runs.map((run, i): StormOutcome => ({
-    customerTicks: run.costs,
-    reference: resolveReference({
-      crews,
-      ruleCosts: run.costs,
-      ...(crews === 1
-        ? {
-            horn: customerTicks(
-              run.problem,
-              listSchedule(run.problem, hornOrder(run.problem), 1).completion,
-            ),
-          }
-        : {}),
-      ...(optimum ? { milp: optimum[i]! } : {}),
-      ...(floor ? { lpFloor: floor[i]! } : {}),
-    }),
-  }));
+  const outcomes = runs.map((run, i): RecordedOutcome => {
+    const milp = optimum
+      ? {
+          proven: optimum[i]!.proven,
+          customerTicks: optimum[i]!.customerTicks,
+        }
+      : null;
+    const lpFloor = floor ? floor[i]! : null;
+    return {
+      customerTicks: run.costs,
+      reference: resolveReference({
+        crews,
+        ruleCosts: run.costs,
+        ...(crews === 1
+          ? {
+              horn: customerTicks(
+                run.problem,
+                listSchedule(run.problem, hornOrder(run.problem), 1).completion,
+              ),
+            }
+          : {}),
+        ...(milp ? { milp } : {}),
+        ...(lpFloor !== null ? { lpFloor } : {}),
+      }),
+      problem: run.problem,
+      milp,
+      lpFloor,
+    };
+  });
 
   return {
     result: {
@@ -278,6 +318,8 @@ interface HandCheck {
   };
   readonly mostCustomersNow: ScheduleView;
   readonly reference: Reference;
+  /** Whether HiGHS proved the reference, or which rule's schedule became it. */
+  readonly provenance: string;
   /** The reference's schedule; null when it is the LP floor, which has none. */
   readonly referenceSchedule: ScheduleView | null;
 }
@@ -291,14 +333,23 @@ function handCheckOf(
   if (i === -1) return null;
   const { storm, problem, schedules } = runs[i]!;
   const reference = outcomes[i]!.reference;
-  const referenceSchedule =
-    reference.kind === "floor"
-      ? null
-      : reference.source === "rule"
-        ? schedules[reference.rule]
-        : reference.source === "milp"
-          ? optimum![i]!.schedule
-          : listSchedule(problem, hornOrder(problem), 1);
+  let referenceSchedule: Schedule | null;
+  let provenance: string;
+  if (reference.kind === "floor") {
+    referenceSchedule = null;
+    provenance = `HiGHS did not prove this storm, so its reference is the LP floor, ${reference.customerTicks.toFixed(2)} customer-ticks, which has no schedule.`;
+  } else if (reference.source === "milp") {
+    referenceSchedule = optimum![i]!.schedule;
+    provenance =
+      "HiGHS proved this storm within its 1e-4 gap; its schedule, handed out again in its start order (pre-registration §9.3), is the reference.";
+  } else if (reference.source === "rule") {
+    referenceSchedule = schedules[reference.rule];
+    provenance = `HiGHS proved this storm within its 1e-4 gap, but ${RULE_LABELS[reference.rule]}'s schedule costs less than HiGHS's, so it is the reference.`;
+  } else {
+    throw new Error(
+      `the hand check runs at ${HAND_CHECK.crews} crews; Horn is the reference only at 1`,
+    );
+  }
   return {
     seed: seedOf(i),
     cell: HAND_CHECK.cell,
@@ -317,6 +368,7 @@ function handCheckOf(
     },
     mostCustomersNow: scheduleView(problem, schedules["most-customers-now"]),
     reference,
+    provenance,
     referenceSchedule: referenceSchedule
       ? scheduleView(problem, referenceSchedule)
       : null,
@@ -340,7 +392,7 @@ function crewTable(result: CrewResult): string[] {
     "Rule",
     "Mean customer-hours",
     anyFloor
-      ? "At most … above best possible [95% CI]"
+      ? "Extra over best possible, at most [95% CI]"
       : "Extra over best possible [95% CI]",
     "Ties with best possible",
     "vs most customers first (better/tie/worse)",
@@ -382,7 +434,11 @@ function crewTable(result: CrewResult): string[] {
       ]),
     );
   }
-  lines.push("");
+  lines.push(
+    "",
+    "Better / tie / worse count storms against most customers first; better means fewer customer-hours.",
+    "",
+  );
   if (crews === 1) {
     lines.push(
       "Reference: Horn's algorithm on the true repair times, exact for one crew.",
@@ -392,7 +448,7 @@ function crewTable(result: CrewResult): string[] {
       (o) => o.reference.kind === "exact" && o.reference.source === "rule",
     ).length;
     lines.push(
-      `HiGHS proved ${provenCount} of ${table.storms} storms within its 1e-4 gap (${MILP_SECONDS} s limit each); ${table.floorReferences} use the LP floor.` +
+      `HiGHS proved ${provenCount} of ${table.storms} storms within its 1e-4 gap (${TIME_LIMIT_SECONDS} s limit each); ${table.floorReferences} use the LP floor.` +
         (ruleRefs > 0
           ? ` On ${ruleRefs}, a rule's schedule came in under HiGHS's and is the reference.`
           : ""),
@@ -471,7 +527,7 @@ function handCheckMarkdown(hand: HandCheck | null): string[] {
       "Line into bus",
       "Broken segment upstream",
       "Repair ticks",
-      "Customers",
+      "Customers behind it (up to the next break)",
     ]),
     divider(5),
     ...storm.segments.map((s) =>
@@ -485,20 +541,11 @@ function handCheckMarkdown(hand: HandCheck | null): string[] {
     ),
     "",
     ...scheduleTable(RULE_LABELS["most-customers-now"], hand.mostCustomersNow),
+    `Reference: ${hand.provenance}`,
+    "",
   );
   if (hand.referenceSchedule) {
-    const by =
-      hand.reference.kind === "exact" && hand.reference.source === "rule"
-        ? ` (${RULE_LABELS[hand.reference.rule]}'s schedule, under HiGHS's)`
-        : "";
-    lines.push(
-      ...scheduleTable(`${BEST_POSSIBLE}${by}`, hand.referenceSchedule),
-    );
-  } else {
-    lines.push(
-      `HiGHS did not prove this storm; its reference is the LP floor, ${hand.reference.customerTicks.toFixed(2)} customer-ticks, which has no schedule.`,
-      "",
-    );
+    lines.push(...scheduleTable(BEST_POSSIBLE, hand.referenceSchedule));
   }
   return lines;
 }

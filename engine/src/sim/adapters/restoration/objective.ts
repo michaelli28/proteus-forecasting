@@ -58,10 +58,39 @@ export function customerTicks(
 }
 
 /** The crew that frees up first, lowest index on a tie. */
-export function earliestFree(free: readonly number[]): number {
+function earliestFree(free: readonly number[]): number {
   let best = 0;
   for (let c = 1; c < free.length; c++) if (free[c]! < free[best]!) best = c;
   return best;
+}
+
+/** Whenever a crew frees up (lowest index first), `next` names the segment it takes. Crews never idle. */
+export function scheduleBy(
+  problem: RepairProblem,
+  crews: number,
+  next: (crew: number, started: readonly boolean[]) => number,
+): Schedule {
+  const k = problem.ticks.length;
+  const started = new Array<boolean>(k).fill(false);
+  const free = new Array<number>(crews).fill(0);
+  const start = new Array<number>(k).fill(0);
+  const completion = new Array<number>(k).fill(0);
+  const crew = new Array<number>(k).fill(0);
+  for (let n = 0; n < k; n++) {
+    const c = earliestFree(free);
+    const j = next(c, started);
+    if (!Number.isInteger(j) || j < 0 || j >= k) {
+      throw new RangeError(`next: ${j} is not a segment of 0..${k - 1}`);
+    }
+    if (started[j])
+      throw new RangeError(`next: segment ${j} is already started`);
+    started[j] = true;
+    start[j] = free[c]!;
+    free[c] = free[c]! + problem.ticks[j]!;
+    completion[j] = free[c]!;
+    crew[j] = c;
+  }
+  return { start, completion, crew };
 }
 
 /** Hand the jobs, in order, to whichever crew frees up first. Crews never idle. */
@@ -84,18 +113,8 @@ export function listSchedule(
   if (missing !== -1) {
     throw new RangeError(`order: segment ${missing} is missing`);
   }
-  const free = new Array<number>(crews).fill(0);
-  const start = new Array<number>(k).fill(0);
-  const completion = new Array<number>(k).fill(0);
-  const crew = new Array<number>(k).fill(0);
-  for (const j of order) {
-    const c = earliestFree(free);
-    start[j] = free[c]!;
-    free[c] = free[c]! + problem.ticks[j]!;
-    completion[j] = free[c]!;
-    crew[j] = c;
-  }
-  return { start, completion, crew };
+  let n = 0;
+  return scheduleBy(problem, crews, () => order[n++]!);
 }
 
 /**

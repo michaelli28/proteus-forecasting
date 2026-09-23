@@ -100,5 +100,4 @@ export * from "./config.js";
 export * from "./objective.js";
 export * from "./storm.js";
 export { hornOrder } from "./horn.js";
-export type { TieBreak } from "./horn.js";
 export { dispatch, feederDistance } from "./rules.js";

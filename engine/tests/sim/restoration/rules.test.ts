@@ -163,17 +163,19 @@ describe("the rules on a hand-built storm", () => {
   it("refuses a crew count or planned time that cannot make a schedule", () => {
     // crews = 0 would give NaN completions. Horn-order ranks customers per planned tick:
     // at 0 or below there is no ratio, and at Infinity every cross-product is ∞ or NaN, so all tie.
+    // A fractional time turns Horn's exact integer ties into float near-ties (§9.1).
     for (const rule of RESTORATION_RULES) {
       for (const crews of [0, -1, 1.5, Number.NaN]) {
         expect(() => dispatch(Y, crews, rule, 6)).toThrow(
           /crews must be an integer >= 1/,
         );
       }
-      for (const plannedTicks of [0, -6, Number.NaN, Infinity]) {
+      for (const plannedTicks of [0, -6, Number.NaN, Infinity, 0.5, 6.1]) {
         expect(() => dispatch(Y, 1, rule, plannedTicks)).toThrow(
-          /plannedTicks must be a finite number > 0/,
+          /plannedTicks must be a whole number of ticks >= 1/,
         );
       }
+      expect(() => dispatch(Y, 1, rule, 1)).not.toThrow();
     }
   });
 });

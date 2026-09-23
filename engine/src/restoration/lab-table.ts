@@ -15,9 +15,8 @@ import {
   TICK_HOURS,
 } from "../sim/adapters/restoration/config.js";
 import type { RestorationRule } from "../sim/adapters/restoration/config.js";
-
-/** Float noise allowed between the LP floor and a whole-number schedule cost. */
-const FLOOR_NOISE = 1e-6;
+import type { Storm } from "../sim/adapters/restoration/storm.js";
+import { FLOAT_NOISE } from "./solver.js";
 
 export type Reference =
   | {
@@ -96,7 +95,7 @@ export function resolveReference(input: ReferenceInput): Reference {
   }
   if (lpFloor !== undefined) {
     requireCost(lpFloor, "LP floor");
-    const tolerance = FLOOR_NOISE * Math.max(1, lpFloor);
+    const tolerance = FLOAT_NOISE * Math.max(1, lpFloor);
     for (const [name, cost] of schedules) {
       if (cost < lpFloor - tolerance) {
         throw new Error(
@@ -178,7 +177,7 @@ function sum(values: readonly number[]): number {
   return values.reduce((total, v) => total + v, 0);
 }
 
-function median(values: readonly number[]): number {
+export function median(values: readonly number[]): number {
   const sorted = [...values].sort((a, b) => a - b);
   const mid = Math.floor(sorted.length / 2);
   return sorted.length % 2 === 1
@@ -259,4 +258,16 @@ export function labTable(
     rows,
     pairwise: byRule((a) => byRule((b) => winTieLoss(costs[a], costs[b]))),
   };
+}
+
+/**
+ * A storm minus its repair ticks. Pre-registration §5: across the three k 6–12
+ * cells a seed draws the same feeder, customers, critical and broken buses, so
+ * this must match; only σ, and so only the repair ticks, may differ.
+ */
+export function sigmaPairingKey(storm: Storm): string {
+  return JSON.stringify({
+    ...storm,
+    segments: storm.segments.map(({ ticks: _ticks, ...rest }) => rest),
+  });
 }

@@ -123,6 +123,16 @@ describe("parsing the solver's answer", () => {
         ],
       }),
     ).toThrow(/objective 60 is above the recomputed 50 by more than/);
+    // Just past the line: 0.011 ÷ 50.011 = 2.2e-4, above 1e-4 + 1e-6.
+    expect(() =>
+      parseOptimum([chain], 1, {
+        ok: true,
+        solver: "s",
+        results: [
+          { status: "optimal", objective: 50.011, starts: [0, 2], seconds: 0 },
+        ],
+      }),
+    ).toThrow(/objective 50.011 is above the recomputed 50 by more than/);
   });
 
   it("reports no cost at all when HiGHS found no schedule in time", () => {
@@ -144,14 +154,38 @@ describe("parsing the solver's answer", () => {
 
   it("rejects a schedule that costs more than the solver's objective, proven or not", () => {
     // Below the true cost means the formulation undercounts: a bug, whatever the status.
+    // 49.99 is 0.01 under 50, far past the 1e-6 float noise.
     for (const status of ["optimal", "time_limit"] as const) {
-      expect(() =>
-        parseOptimum([chain], 1, {
-          ok: true,
-          solver: "s",
-          results: [{ status, objective: 49, starts: [0, 2], seconds: 0 }],
-        }),
-      ).toThrow(/objective 49 is below the recomputed 50/);
+      for (const objective of [49, 49.99]) {
+        expect(() =>
+          parseOptimum([chain], 1, {
+            ok: true,
+            solver: "s",
+            results: [{ status, objective, starts: [0, 2], seconds: 0 }],
+          }),
+        ).toThrow(`objective ${objective} is below the recomputed 50`);
+      }
+    }
+  });
+
+  it("treats an infeasible or failed MILP as a bug, schedule or not: only a time limit falls back", () => {
+    // The time-indexed MILP is feasible by construction; neither status is a result.
+    for (const status of ["infeasible", "error"] as const) {
+      for (const [objective, starts] of [
+        [null, null],
+        [50, [0, 2]],
+      ] as const) {
+        expect(() =>
+          parseOptimum([chain, chain], 1, {
+            ok: true,
+            solver: "s",
+            results: [
+              { status: "optimal", objective: 50, starts: [0, 2], seconds: 0 },
+              { status, objective, starts, seconds: 0 },
+            ],
+          }),
+        ).toThrow(new RegExp(`problem 1: .*status ${status}`));
+      }
     }
   });
 

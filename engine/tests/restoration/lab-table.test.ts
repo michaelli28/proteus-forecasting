@@ -1,13 +1,27 @@
 import { describe, it, expect } from "vitest";
 import { stratifiedBootstrap } from "../../src/metrics/bootstrap.js";
 import { winTieLoss } from "../../src/metrics/paired.js";
-import { labTable, resolveReference } from "../../src/restoration/lab-table.js";
+import {
+  labTable,
+  median,
+  resolveReference,
+  sigmaPairingKey,
+} from "../../src/restoration/lab-table.js";
 import type {
   Reference,
   StormOutcome,
 } from "../../src/restoration/lab-table.js";
-import { RESTORATION_RULES } from "../../src/sim/adapters/restoration/index.js";
-import type { RestorationRule } from "../../src/sim/adapters/restoration/index.js";
+import { Rng } from "../../src/sim/rng.js";
+import {
+  DEFAULT_CONFIG,
+  RESTORATION_RULES,
+  drawStorm,
+} from "../../src/sim/adapters/restoration/index.js";
+import type {
+  RestorationConfig,
+  RestorationRule,
+  Storm,
+} from "../../src/sim/adapters/restoration/index.js";
 
 /** Costs in table order: most-customers-now, critical, nearest, upstream, horn-order, horn-order (hindsight). */
 function costs(
@@ -405,5 +419,63 @@ describe("the bootstrap seed", () => {
     expect(other.rows[0]!.extraPercent).not.toEqual(
       table.rows[0]!.extraPercent,
     );
+  });
+});
+
+describe("median", () => {
+  it("takes the middle value, or the mean of the middle two, and leaves its input alone", () => {
+    const values = [5, 1, 3];
+    expect(median(values)).toBe(3);
+    expect(values).toEqual([5, 1, 3]);
+    expect(median([4, 1, 3, 2])).toBe(2.5);
+    expect(median([7])).toBe(7);
+  });
+});
+
+describe("the σ pairing key (pre-registration §5)", () => {
+  const withSigma = (sigma: number): RestorationConfig => ({
+    ...DEFAULT_CONFIG,
+    repair: { ...DEFAULT_CONFIG.repair, sigma },
+  });
+
+  it("is the same for one seed at every σ, though the repair ticks differ", () => {
+    let ticksDiffer = 0;
+    for (let i = 0; i < 20; i++) {
+      const seed = `sigma-pairing-${i}`;
+      const [flat, primary, wide] = [0, 0.6, 1.0].map((sigma) =>
+        drawStorm(withSigma(sigma), new Rng(seed)),
+      );
+      expect(sigmaPairingKey(flat!)).toBe(sigmaPairingKey(primary!));
+      expect(sigmaPairingKey(wide!)).toBe(sigmaPairingKey(primary!));
+      if (JSON.stringify(flat) !== JSON.stringify(wide)) ticksDiffer++;
+    }
+    expect(ticksDiffer).toBeGreaterThan(15);
+  });
+
+  it("changes with the feeder, the customers, the critical buses or the broken buses", () => {
+    const storm = drawStorm(DEFAULT_CONFIG, new Rng("sigma-pairing-changes"));
+    const key = sigmaPairingKey(storm);
+    const [first, ...rest] = storm.segments;
+    const variants: Storm[] = [
+      {
+        ...storm,
+        feederParent: storm.feederParent.map((p, v) =>
+          v === storm.feederParent.length - 1 ? (p === 0 ? 1 : 0) : p,
+        ),
+      },
+      { ...storm, customersAtBus: storm.customersAtBus.map((c) => c + 1) },
+      { ...storm, criticalBuses: storm.criticalBuses.map((b) => b + 1) },
+      { ...storm, segments: [{ ...first!, bus: first!.bus + 1 }, ...rest] },
+    ];
+    for (const variant of variants) {
+      expect(sigmaPairingKey(variant)).not.toBe(key);
+    }
+    // Only the repair ticks changed: still paired.
+    expect(
+      sigmaPairingKey({
+        ...storm,
+        segments: storm.segments.map((s) => ({ ...s, ticks: s.ticks + 1 })),
+      }),
+    ).toBe(key);
   });
 });

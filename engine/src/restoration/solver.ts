@@ -25,13 +25,13 @@ const ENGINE_ROOT = resolve(HERE, "..", "..");
 
 export const DEFAULT_PYTHON = resolve(ENGINE_ROOT, ".venv", "bin", "python");
 /** Pre-registration §4: 60 s per storm. */
-const DEFAULT_TIME_LIMIT_SECONDS = 60;
+export const TIME_LIMIT_SECONDS = 60;
 /** Pre-registration §4: HiGHS's default relative gap, the most a proof leaves open. */
 const PROVEN_GAP = 1e-4;
-/** Float noise allowed between HiGHS's objective and a whole-number recomputed cost. */
-const NOISE = 1e-6;
+/** Relative float noise allowed between a solver's number and a whole-number schedule cost. */
+export const FLOAT_NOISE = 1e-6;
 
-export const SOLVER_STATUSES = [
+const SOLVER_STATUSES = [
   "optimal",
   "time_limit",
   "infeasible",
@@ -209,12 +209,12 @@ function checkObjective(
     throw new Error(`solver returned a schedule but no objective`);
   }
   const scale = Math.max(1, Math.abs(objective));
-  if (rawCost > objective + NOISE * scale) {
+  if (rawCost > objective + FLOAT_NOISE * scale) {
     throw new Error(
       `solver objective ${objective} is below the recomputed ${rawCost}: the formulation undercounts`,
     );
   }
-  if (proven && objective - rawCost > (PROVEN_GAP + NOISE) * scale) {
+  if (proven && objective - rawCost > (PROVEN_GAP + FLOAT_NOISE) * scale) {
     throw new Error(
       `solver objective ${objective} is above the recomputed ${rawCost} by more than the proven ${PROVEN_GAP} gap`,
     );
@@ -228,6 +228,12 @@ function checkedOptimum(
 ): OptimumResult {
   const proven = result.status === "optimal";
   const { status, seconds, starts, objective } = result;
+  // The time-indexed MILP is feasible by construction: only a time limit may fall back to the floor.
+  if (status === "infeasible" || status === "error") {
+    throw new Error(
+      `HiGHS returned status ${status} for a MILP that is feasible by construction: a bug, never a result`,
+    );
+  }
   if (starts === null) {
     if (proven)
       throw new Error("solver reported optimal but returned no schedule");
@@ -288,7 +294,7 @@ function request(
     command: "solve",
     mode,
     crews,
-    timeLimitSeconds: options.timeLimitSeconds ?? DEFAULT_TIME_LIMIT_SECONDS,
+    timeLimitSeconds: options.timeLimitSeconds ?? TIME_LIMIT_SECONDS,
     problems,
   };
 }

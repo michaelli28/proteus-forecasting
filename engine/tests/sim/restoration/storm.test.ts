@@ -13,10 +13,12 @@ import {
 } from "../../../src/sim/adapters/restoration/storm.js";
 import type { Storm } from "../../../src/sim/adapters/restoration/storm.js";
 
-// Storm 0 of the lab (seed restoration-lab/storm-0, DEFAULT_CONFIG). A renamed fork or a
-// reordered draw silently moves every published number; this turns it into a failure.
-// Change it only with a deliberate generator change, recorded as a deviation.
-const LAB_STORM_0 =
+// drawStorm(DEFAULT_CONFIG, new Rng("restoration-lab/storm-0")): the generator's draws
+// from one fixed root seed. Not the lab's storm 0, which the kernel draws from that
+// seed's init::storm fork. A renamed fork or a reordered draw silently moves every
+// published number; this turns it into a failure. Change it only with a deliberate
+// generator change, recorded as a deviation.
+const GOLDEN_STORM =
   '{"style":"recursive",' +
   '"feederParent":[-1,0,0,1,2,3,4,6,6,4,5,6,0,1,13,7,1,15,6,3,14,19,3,6,6,2,8,14,6,8,10,10],' +
   '"customersAtBus":[0,0,18,2,9,4,34,0,13,10,10,1,2,12,7,20,14,0,3,5,0,13,7,48,9,0,4,3,15,180,5,36],' +
@@ -244,13 +246,13 @@ describe("drawStorm", () => {
     );
   }, 30_000);
 
-  it("draws the lab's first storms byte for byte", () => {
+  it("draws the same storm byte for byte from a fixed root seed", () => {
     expect(
       JSON.stringify(
         drawStorm(DEFAULT_CONFIG, new Rng("restoration-lab/storm-0")),
       ),
-    ).toBe(LAB_STORM_0);
-    // Storm 0 is recursive; storm 1 pins the lateral branch of the feeder draw.
+    ).toBe(GOLDEN_STORM);
+    // That storm is recursive; seed restoration-lab/storm-1 pins the lateral branch of the feeder draw.
     const lateral = drawStorm(
       DEFAULT_CONFIG,
       new Rng("restoration-lab/storm-1"),
@@ -309,6 +311,18 @@ describe("drawStorm", () => {
     }
     for (const medianTicks of [1, 6, 16]) {
       expect(() => validateConfig(withMedian(medianTicks))).not.toThrow();
+    }
+  });
+
+  it("rejects a median repair time that is not a whole number of ticks", () => {
+    // Horn-order plans on the median; a fractional one breaks Horn's exact ties (§9.1).
+    for (const medianTicks of [1.5, 6.5, 15.9]) {
+      expect(() =>
+        validateConfig({
+          ...DEFAULT_CONFIG,
+          repair: { ...DEFAULT_CONFIG.repair, medianTicks },
+        }),
+      ).toThrow(/repair.medianTicks must be a whole number of ticks/);
     }
   });
 });

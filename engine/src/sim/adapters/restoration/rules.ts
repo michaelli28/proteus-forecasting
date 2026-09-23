@@ -8,7 +8,7 @@
 
 import type { RestorationRule } from "./config.js";
 import { hornOrder } from "./horn.js";
-import { ancestors, earliestFree, listSchedule } from "./objective.js";
+import { ancestors, listSchedule, scheduleBy } from "./objective.js";
 import type { Schedule } from "./objective.js";
 import { downstreamCustomers, problemOf } from "./storm.js";
 import type { Storm } from "./storm.js";
@@ -61,14 +61,14 @@ export function dispatch(
   if (!Number.isInteger(crews) || crews < 1) {
     throw new RangeError(`crews must be an integer >= 1; got ${crews}`);
   }
-  if (!(Number.isFinite(plannedTicks) && plannedTicks > 0)) {
+  // A fractional time would turn Horn's exact ties into float near-ties (§9.1).
+  if (!(Number.isInteger(plannedTicks) && plannedTicks >= 1)) {
     throw new RangeError(
-      `plannedTicks must be a finite number > 0; got ${plannedTicks}`,
+      `plannedTicks must be a whole number of ticks >= 1; got ${plannedTicks}`,
     );
   }
   const problem = problemOf(storm);
   const segments = storm.segments;
-  const k = segments.length;
   const downstream = downstreamCustomers(problem);
 
   // Fixed lists: each free crew takes the next unstarted segment on the list.
@@ -99,17 +99,12 @@ export function dispatch(
   const children = segments.map((_, j) =>
     segments.flatMap((s, i) => (s.parent === j ? [i] : [])),
   );
-  const started = new Array<boolean>(k).fill(false);
-  const free = new Array<number>(crews).fill(0);
   const at = new Array<number>(crews).fill(0);
-  const start = new Array<number>(k).fill(0);
-  const completion = new Array<number>(k).fill(0);
-  const crew = new Array<number>(k).fill(0);
 
   // Customers back the moment j finishes, counting started repairs as done.
   // These rules never start a segment before its broken ancestors, so the
   // descendant walk finds nothing today; it keeps §3's definition literal.
-  const gainNow = (j: number): number => {
+  const gainNow = (j: number, started: readonly boolean[]): number => {
     if (chains[j]!.slice(1).some((a) => !started[a])) return 0;
     let gain = segments[j]!.customers;
     const stack = [...children[j]!];
@@ -122,19 +117,18 @@ export function dispatch(
     }
     return gain;
   };
-  const mostCustomersKey = (j: number) => [
-    -gainNow(j),
+  const mostCustomersKey = (started: readonly boolean[]) => (j: number) => [
+    -gainNow(j, started),
     -downstream[j]!,
     segments[j]!.depth,
     j,
   ];
 
-  for (let n = 0; n < k; n++) {
-    const c = earliestFree(free);
+  return scheduleBy(problem, crews, (c, started) => {
     const todo = segments.flatMap((_, j) => (started[j] ? [] : [j]));
     let j: number;
     if (rule === "most-customers-now") {
-      j = minBy(todo, mostCustomersKey);
+      j = minBy(todo, mostCustomersKey(started));
     } else if (rule === "nearest-first") {
       j = minBy(todo, (i) => [
         feederDistance(storm.feederParent, at[c]!, segments[i]!.bus),
@@ -146,17 +140,12 @@ export function dispatch(
       j =
         critical.length > 0
           ? minBy(critical, (i) => [segments[i]!.depth, -downstream[i]!, i])
-          : minBy(todo, mostCustomersKey);
+          : minBy(todo, mostCustomersKey(started));
     } else {
       const unhandled: never = rule;
       throw new RangeError(`no dispatch for rule ${String(unhandled)}`);
     }
-    started[j] = true;
-    start[j] = free[c]!;
-    free[c] = free[c]! + segments[j]!.ticks;
-    completion[j] = free[c]!;
-    crew[j] = c;
     at[c] = segments[j]!.bus;
-  }
-  return { start, completion, crew };
+    return j;
+  });
 }

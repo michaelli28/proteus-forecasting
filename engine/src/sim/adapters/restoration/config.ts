@@ -72,6 +72,12 @@ export function validateConfig(config: RestorationConfig): void {
       `repair.medianTicks must be in [${repair.minTicks}, ${repair.maxTicks}]; got ${repair.medianTicks}`,
     );
   }
+  // Horn-order plans on it: a fractional value breaks Horn's exact ties (§9.1).
+  if (!Number.isInteger(repair.medianTicks)) {
+    throw new RangeError(
+      `repair.medianTicks must be a whole number of ticks; got ${repair.medianTicks}`,
+    );
+  }
   if (!(repair.sigma >= 0)) {
     throw new RangeError(`repair.sigma must be >= 0; got ${repair.sigma}`);
   }

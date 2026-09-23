@@ -4,6 +4,7 @@ import {
   restorationTicks,
   customerTicks,
   listSchedule,
+  scheduleBy,
   scheduleFromStarts,
 } from "../../../src/sim/adapters/restoration/objective.js";
 import type { RepairProblem } from "../../../src/sim/adapters/restoration/objective.js";
@@ -65,6 +66,38 @@ describe("the restoration objective", () => {
     expect(() => listSchedule(chainAndOne, [], 1)).toThrow(
       /segment 0 is missing/,
     );
+  });
+
+  it("asks for a segment whenever a crew frees up, lowest crew first, and never idles it", () => {
+    // Same jobs as the list test above: crew 0 frees at 2, crew 1 at 4, crew 0 at 5.
+    const order = [0, 3, 1, 2];
+    const calls: { crew: number; started: boolean[] }[] = [];
+    const schedule = scheduleBy(chainAndOne, 2, (crew, started) => {
+      calls.push({ crew, started: [...started] });
+      return order[calls.length - 1]!;
+    });
+    expect(calls).toEqual([
+      { crew: 0, started: [false, false, false, false] },
+      { crew: 1, started: [true, false, false, false] },
+      { crew: 0, started: [true, false, false, true] },
+      { crew: 1, started: [true, true, false, true] },
+    ]);
+    expect(schedule).toEqual({
+      start: [0, 2, 4, 0],
+      completion: [2, 5, 5, 4],
+      crew: [0, 0, 1, 1],
+    });
+  });
+
+  it("refuses a pick that is already started or not a segment", () => {
+    expect(() => scheduleBy(chainAndOne, 2, () => 0)).toThrow(
+      /segment 0 is already started/,
+    );
+    for (const bad of [4, -1, 1.5, Number.NaN]) {
+      expect(() => scheduleBy(chainAndOne, 1, () => bad)).toThrow(
+        new RegExp(`${bad} is not a segment of 0..3`),
+      );
+    }
   });
 
   it("refuses completion ticks that do not match the segments one for one", () => {

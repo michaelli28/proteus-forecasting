@@ -26,6 +26,10 @@ const ENGINE_ROOT = resolve(HERE, "..", "..");
 export const DEFAULT_PYTHON = resolve(ENGINE_ROOT, ".venv", "bin", "python");
 /** Pre-registration §4: 60 s per storm. */
 const DEFAULT_TIME_LIMIT_SECONDS = 60;
+/** Pre-registration §4: HiGHS's default relative gap, the most a proof leaves open. */
+const PROVEN_GAP = 1e-4;
+/** Float noise allowed between HiGHS's objective and a whole-number recomputed cost. */
+const NOISE = 1e-6;
 
 export const SOLVER_STATUSES = [
   "optimal",
@@ -190,6 +194,33 @@ export function relistInStartOrder(
   return { schedule, customerTicks: cost };
 }
 
+/**
+ * HiGHS's objective is Σ customers × R_j with R_j held only from below, so a
+ * time-limited schedule can leave R_j loose and its objective above the true
+ * cost — harmless, the cost is recomputed. Below it, the formulation undercounts.
+ * A proof bounds objective − cost by the gap: cost ≥ optimum ≥ HiGHS's dual bound.
+ */
+function checkObjective(
+  objective: number | null,
+  rawCost: number,
+  proven: boolean,
+): void {
+  if (objective === null) {
+    throw new Error(`solver returned a schedule but no objective`);
+  }
+  const scale = Math.max(1, Math.abs(objective));
+  if (rawCost > objective + NOISE * scale) {
+    throw new Error(
+      `solver objective ${objective} is below the recomputed ${rawCost}: the formulation undercounts`,
+    );
+  }
+  if (proven && objective - rawCost > (PROVEN_GAP + NOISE) * scale) {
+    throw new Error(
+      `solver objective ${objective} is above the recomputed ${rawCost} by more than the proven ${PROVEN_GAP} gap`,
+    );
+  }
+}
+
 function checkedOptimum(
   problem: RepairProblem,
   result: SolverResult,
@@ -204,14 +235,7 @@ function checkedOptimum(
   }
   const raw = scheduleFromStarts(problem, starts, crews);
   const rawCost = customerTicks(problem, raw.completion);
-  if (
-    objective === null ||
-    Math.abs(rawCost - objective) > 1e-6 * Math.max(1, Math.abs(objective))
-  ) {
-    throw new Error(
-      `solver objective ${objective} disagrees with the recomputed ${rawCost}`,
-    );
-  }
+  checkObjective(objective, rawCost, proven);
   const relisted = relistInStartOrder(
     problem,
     { start: starts, customerTicks: rawCost },

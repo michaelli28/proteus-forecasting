@@ -81,6 +81,50 @@ describe("parsing the solver's answer", () => {
     expect(parsed.results[0]!.customerTicks).toBe(50);
   });
 
+  it("accepts a time-limited objective above its schedule's cost, and publishes the cost", () => {
+    // HiGHS's objective is Σ customers × R_j with R_j held only from below; a
+    // schedule found before the time limit can leave R_1 at 6, not 5 → 60, not 50.
+    // Pre-registration §4 then falls back to the LP floor, so this must not throw.
+    const parsed = parseOptimum([chain], 1, {
+      ok: true,
+      solver: "s",
+      results: [
+        { status: "time_limit", objective: 60, starts: [0, 2], seconds: 60 },
+      ],
+    });
+    expect(parsed.results[0]).toMatchObject({
+      proven: false,
+      status: "time_limit",
+      customerTicks: 50,
+    });
+    expect(parsed.results[0]!.schedule!.start).toEqual([0, 2]);
+  });
+
+  it("lets a proven objective sit above its schedule's cost by no more than HiGHS's 1e-4 gap", () => {
+    // 50.004 is within 1e-4 × 50.004 ≈ 0.005 of 50: the proof still covers it.
+    const parsed = parseOptimum([chain], 1, {
+      ok: true,
+      solver: "s",
+      results: [
+        { status: "optimal", objective: 50.004, starts: [0, 2], seconds: 0 },
+      ],
+    });
+    expect(parsed.results[0]).toMatchObject({
+      proven: true,
+      customerTicks: 50,
+    });
+    // 60 is 20% above 50: a proof that loose means the formulation overcounts.
+    expect(() =>
+      parseOptimum([chain], 1, {
+        ok: true,
+        solver: "s",
+        results: [
+          { status: "optimal", objective: 60, starts: [0, 2], seconds: 0 },
+        ],
+      }),
+    ).toThrow(/objective 60 is above the recomputed 50 by more than/);
+  });
+
   it("reports no cost at all when HiGHS found no schedule in time", () => {
     const parsed = parseOptimum([chain], 1, {
       ok: true,
@@ -98,16 +142,17 @@ describe("parsing the solver's answer", () => {
     });
   });
 
-  it("rejects a schedule whose recomputed cost disagrees with the solver's objective", () => {
-    expect(() =>
-      parseOptimum([chain], 1, {
-        ok: true,
-        solver: "s",
-        results: [
-          { status: "optimal", objective: 49, starts: [0, 2], seconds: 0 },
-        ],
-      }),
-    ).toThrow(/objective 49.*recomputed 50/);
+  it("rejects a schedule that costs more than the solver's objective, proven or not", () => {
+    // Below the true cost means the formulation undercounts: a bug, whatever the status.
+    for (const status of ["optimal", "time_limit"] as const) {
+      expect(() =>
+        parseOptimum([chain], 1, {
+          ok: true,
+          solver: "s",
+          results: [{ status, objective: 49, starts: [0, 2], seconds: 0 }],
+        }),
+      ).toThrow(/objective 49 is below the recomputed 50/);
+    }
   });
 
   it("rejects an infeasible schedule, a wrong result count, a proven answer with no schedule and a failure report", () => {

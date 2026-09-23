@@ -23,7 +23,6 @@ DIP_WINDOW = 97  # slots, a centred +-12 h rolling median of rows per slot
 DIP_SHARE = 0.5
 BRIDGE_MAX = 8  # interior missing runs of up to 2 h are filled linearly
 ZERO_HEAVY_SHARE = 0.10
-USECOLS = ["fips_code", "customers_out", "run_start_time"]
 RECODE = {int(k): int(v) for k, v in FIPS_RECODE.items()}
 
 
@@ -78,13 +77,16 @@ def compact(fips: np.ndarray, slot: np.ndarray, cust: np.ndarray) -> YearData:
 
 
 def read_year(path: Path, *, chunksize: int = 2_000_000) -> YearData:
+    header = pd.read_csv(path, nrows=0).columns.tolist()
+    # The 2023 file names customers_out "sum" (protocol §15, found by the schema read).
+    count = "customers_out" if "customers_out" in header else "sum"
     fips_parts, slot_parts, cust_parts = [], [], []
-    for chunk in pd.read_csv(path, usecols=USECOLS, chunksize=chunksize,
-                             dtype={"fips_code": str, "customers_out": "float64", "run_start_time": str}):
+    for chunk in pd.read_csv(path, usecols=["fips_code", count, "run_start_time"], chunksize=chunksize,
+                             dtype={"fips_code": str, count: "float64", "run_start_time": str}):
         t = parse_times(chunk["run_start_time"])
         fips_parts.append(chunk["fips_code"].astype(int).to_numpy(np.int32))
         slot_parts.append(((t - EPOCH) // SLOT).to_numpy(np.int64).astype(np.int32))  # floors off-grid stamps
-        cust_parts.append(chunk["customers_out"].to_numpy(np.float32))
+        cust_parts.append(chunk[count].to_numpy(np.float32))
     return compact(np.concatenate(fips_parts), np.concatenate(slot_parts), np.concatenate(cust_parts))
 
 

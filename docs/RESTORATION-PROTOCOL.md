@@ -493,3 +493,22 @@ draft did not match the code, or could not be implemented as written.
     - the crews claim, which applies to the features, not to curves;
     - Clopper–Pearson is two-sided;
     - the rank-check citations point at `rank-check.ts`.
+
+## 15. Clarifications after the schema read
+
+Added on 2026-09-23 after the §3 schema read and before any held-out value was
+read. The read (`engine/.cache/restoration-check/schema-held-out.json`, run at
+loader commit `58dda63`) covered only the headers and the distinct county codes
+of 2022–2025. None of these clarifications changes a choice above.
+
+1. **The 2023 file names its customers-out column `sum`.** The other years use
+   `customers_out`. The loader reads `sum` as `customers_out` in a file that has
+   no `customers_out`. The 2024 file adds `total_customers`, which §6 already
+   ignores.
+2. **Codes not in MCC.** Every held-out year has the same nine as 2020–21. 2024
+   and 2025 add 02063 (Chugach, Alaska), and 2025 adds Connecticut's nine
+   planning regions (09110–09190).
+   - The only held-out declared counties among them are the `no_mcc` pairs §5
+     already lists: six for Ian and seven for Helene.
+   - This was checked against the FEMA snapshot. The Virgin Islands' three codes
+     appear in every year.

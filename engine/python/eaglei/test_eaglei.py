@@ -218,3 +218,15 @@ def test_coverage_counts_missing_before_bridging_inside_the_feature_window():
 def test_slow_events_are_kept_and_flagged_never_dropped():
     over = event(curve((0, 12), (150_000, 20), (0, 900)))
     assert over["status"] == "kept" and over["over_mcc"]
+
+
+def test_read_year_accepts_the_2023_sum_column_and_both_time_formats(tmp_path):
+    from .outages import read_year, slot_of
+    (tmp_path / "a.csv").write_text(
+        "fips_code,county,state,sum,run_start_time\n01001,A,Alabama,5,2023-01-01 00:07:00\n01001,A,Alabama,,2023-01-01 00:15:00\n")
+    (tmp_path / "b.csv").write_text(
+        "fips_code,county,state,customers_out,run_start_time,total_customers\n01003,B,Alabama,9,1/1/23 0:30,100\n")
+    a, b = read_year(tmp_path / "a.csv"), read_year(tmp_path / "b.csv")
+    s0 = slot_of(pd.Timestamp("2023-01-01"))
+    assert a.slot.tolist() == [s0, s0 + 1] and a.cust[0] == 5 and np.isnan(a.cust[1])  # 00:07 floors to 00:00
+    assert b.slot.tolist() == [s0 + 2] and b.cust[0] == 9

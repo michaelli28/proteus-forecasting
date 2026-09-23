@@ -193,6 +193,40 @@ describe("Horn-order against its hindsight twin", () => {
   });
 });
 
+describe("Horn's ties go to the lowest head index (pre-registration §9.1)", () => {
+  it("Horn-order: equal planned ratios go to the lower index, even when the other repair is quicker", () => {
+    // 0 ─ 1, 0 ─ 2, 10 customers each. Planned on 6 each they tie, so seg0 goes first.
+    // Breaking the tie the other way would start seg1 at 0 and cost 10·7 + 10·1 = 80.
+    const s = handStorm([-1, 0, 0], [0, 10, 10], [1, 2], [6, 1]);
+    const planned = dispatch(s, 1, "horn-order", 6);
+    expect(planned.start).toEqual([0, 6]);
+    expect(customerTicks(problemOf(s), planned.completion)).toBe(
+      10 * 6 + 10 * 7,
+    );
+  });
+
+  it("hindsight Horn-order: equal true ratios go to the lower index", () => {
+    // 0 ─ 1, 0 ─ 2. seg0: 10 customers, 2 ticks; seg1: 20 customers, 4 ticks. 10·4 = 20·2.
+    // One crew costs 140 either way, so only the starts show which way the tie went.
+    const s = handStorm([-1, 0, 0], [0, 10, 20], [1, 2], [2, 4]);
+    expect(dispatch(s, 1, "horn-order-hindsight", 6).start).toEqual([0, 2]);
+  });
+
+  it("both Horn rows: a merged group tying a lone break goes first when its head is lower", () => {
+    // 0 ─ 1 ─ 2, 0 ─ 3. seg0 (bus 1, no customers), seg1 (bus 2, 20, below seg0),
+    // seg2 (bus 3, 10); 6 ticks each, true and planned. seg1 merges into seg0: 20 per 12
+    // ties seg2's 10 per 6, and head 0 < head 2, so the list is 0, 1, 2 (the other way: 2, 0, 1).
+    // Two crews: seg0 and seg1 at 0, seg2 at 6, costing 20·6 + 10·12 = 240; the other way 300.
+    const s = handStorm([-1, 0, 1, 0], [0, 0, 20, 10], [1, 2, 3], [6, 6, 6]);
+    for (const rule of ["horn-order", "horn-order-hindsight"] as const) {
+      expect(dispatch(s, 1, rule, 6).start).toEqual([0, 6, 12]);
+      const two = dispatch(s, 2, rule, 6);
+      expect(two.start).toEqual([0, 0, 6]);
+      expect(customerTicks(problemOf(s), two.completion)).toBe(240);
+    }
+  });
+});
+
 describe("ties follow the pre-registered keys, then the lowest index", () => {
   // 0 ─ 1, 0 ─ 2 ─ 3. Broken 1, 2, 3 carrying 10, 10, 30. Downstream: 10, 40, 30.
   const fork = handStorm([-1, 0, 0, 2], [0, 10, 10, 30], [1, 2, 3], [1, 1, 1]);

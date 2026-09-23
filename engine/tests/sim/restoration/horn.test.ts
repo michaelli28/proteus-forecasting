@@ -117,6 +117,26 @@ describe("Horn's algorithm", () => {
     }, 60_000);
   }
 
+  it("ties go to the group with the lowest head index by default (pre-registration §9.1)", () => {
+    // Two lone breaks, 10 customers and 6 ticks each: 10·6 = 10·6.
+    const lone: RepairProblem = {
+      parent: [-1, -1],
+      customers: [10, 10],
+      ticks: [6, 6],
+    };
+    expect(hornOrder(lone)).toEqual([0, 1]);
+    expect(hornOrder(lone, "high")).toEqual([1, 0]);
+    // seg1 (20 per 6) merges into seg0 first, making group {0,1}: 20 per 12.
+    // That ties seg2's 10 per 6 (20·6 = 10·12), and head 0 < head 2.
+    const merged: RepairProblem = {
+      parent: [-1, 0, -1],
+      customers: [0, 20, 10],
+      ticks: [6, 6, 6],
+    };
+    expect(hornOrder(merged)).toEqual([0, 1, 2]);
+    expect(hornOrder(merged, "high")).toEqual([2, 0, 1]);
+  });
+
   it("Smith's rule equals brute force when nothing is above anything", () => {
     const rng = new Rng("smith-stars");
     for (let i = 0; i < 1000; i++) {

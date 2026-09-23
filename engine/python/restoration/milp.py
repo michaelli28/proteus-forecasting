@@ -33,24 +33,6 @@ def horizon(ticks: list[int], crews: int) -> int:
     return int(max((total - p) // crews + p for p in ticks))
 
 
-def customer_ticks(problem: dict, starts: list[int]) -> int:
-    """Σ customers × the tick the last broken segment on their path is repaired."""
-    done = [s + p for s, p in zip(starts, problem["ticks"])]
-    return sum(w * max(done[a] for a in chain)
-               for w, chain in zip(problem["customers"], ancestors(problem["parent"])))
-
-
-def list_schedule(ticks: list[int], order: list[int], crews: int) -> list[int]:
-    """Start ticks when each repair, in order, goes to the crew that frees up first
-    (lowest index on a tie) — listSchedule in objective.ts. Crews never idle."""
-    free, starts = [0] * crews, [0] * len(ticks)
-    for j in order:
-        c = min(range(crews), key=lambda i: (free[i], i))
-        starts[j] = free[c]
-        free[c] += ticks[j]
-    return starts
-
-
 def solve(problem: dict, crews: int, *, relax: bool, time_limit: float) -> dict:
     parent, w, p = problem["parent"], problem["customers"], problem["ticks"]
     k, anc, T = len(p), ancestors(parent), horizon(p, crews)
@@ -90,16 +72,11 @@ def solve(problem: dict, crews: int, *, relax: bool, time_limit: float) -> dict:
                bounds=Bounds(np.zeros(nx + k), np.r_[np.ones(nx), np.full(k, float(T))]),
                options={"time_limit": time_limit, "disp": False})
     seconds = time.perf_counter() - started
-    objective = float(res.fun) if res.x is not None else None
+    # HiGHS's raw starts, which may leave a crew idle for free: engine/src/restoration/solver.ts
+    # re-checks them against the objective and hands them out again (pre-registration §9.3).
     starts = None
     if not relax and res.x is not None:
-        raw = [next(s for s in range(T - p[j] + 1) if res.x[col[(j, s)]] > 0.5) for j in range(k)]
-        if abs(customer_ticks(problem, raw) - res.fun) > 1e-6 * max(1.0, abs(res.fun)):
-            raise RuntimeError(f"HiGHS objective {res.fun} disagrees with its own schedule's "
-                               f"{customer_ticks(problem, raw)} customer-ticks")
-        # HiGHS may delay a repair for free. Re-listing in its start order moves no repair
-        # later, so no customer waits longer, and no crew idles (pre-registration §2).
-        starts = list_schedule(p, sorted(range(k), key=lambda j: (raw[j], j)), crews)
-        objective = float(customer_ticks(problem, starts))
+        starts = [next(s for s in range(T - p[j] + 1) if res.x[col[(j, s)]] > 0.5) for j in range(k)]
     return {"status": STATUS.get(int(res.status), "error"),
-            "objective": objective, "starts": starts, "seconds": seconds}
+            "objective": float(res.fun) if res.x is not None else None,
+            "starts": starts, "seconds": seconds}

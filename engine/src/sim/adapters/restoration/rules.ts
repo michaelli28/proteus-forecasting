@@ -58,6 +58,14 @@ export function dispatch(
   rule: RestorationRule,
   plannedTicks: number,
 ): Schedule {
+  if (!Number.isInteger(crews) || crews < 1) {
+    throw new RangeError(`crews must be an integer >= 1; got ${crews}`);
+  }
+  if (!(Number.isFinite(plannedTicks) && plannedTicks > 0)) {
+    throw new RangeError(
+      `plannedTicks must be a finite number > 0; got ${plannedTicks}`,
+    );
+  }
   const problem = problemOf(storm);
   const segments = storm.segments;
   const k = segments.length;
@@ -65,6 +73,7 @@ export function dispatch(
 
   // Fixed lists: each free crew takes the next unstarted segment on the list.
   if (rule === "horn-order") {
+    // Any uniform planned time gives the same list: every ratio scales alike (pre-registration §9.2).
     const planned = problemOf(
       storm,
       segments.map(() => plannedTicks),

@@ -35,6 +35,12 @@ export function restorationTicks(
   problem: RepairProblem,
   completion: readonly number[],
 ): number[] {
+  const k = problem.parent.length;
+  if (completion.length !== k) {
+    throw new RangeError(
+      `expected ${k} segments' completion ticks; got ${completion.length}`,
+    );
+  }
   return ancestors(problem).map((chain) =>
     Math.max(...chain.map((a) => completion[a]!)),
   );
@@ -65,6 +71,19 @@ export function listSchedule(
   crews: number,
 ): Schedule {
   const k = problem.ticks.length;
+  // A segment left off the list would keep completion 0 and look restored at once.
+  const seen = new Array<boolean>(k).fill(false);
+  for (const j of order) {
+    if (!Number.isInteger(j) || j < 0 || j >= k) {
+      throw new RangeError(`order: ${j} is not a segment of 0..${k - 1}`);
+    }
+    if (seen[j]) throw new RangeError(`order: segment ${j} appears twice`);
+    seen[j] = true;
+  }
+  const missing = seen.indexOf(false);
+  if (missing !== -1) {
+    throw new RangeError(`order: segment ${missing} is missing`);
+  }
   const free = new Array<number>(crews).fill(0);
   const start = new Array<number>(k).fill(0);
   const completion = new Array<number>(k).fill(0);

@@ -275,6 +275,42 @@ describe("drawStorm", () => {
       /crews/,
     );
   });
+
+  it("rejects a customer share, spread or rule outside the pre-registered model", () => {
+    for (const zeroCustomerShare of [-0.1, 1, Number.NaN]) {
+      expect(() =>
+        validateConfig({ ...DEFAULT_CONFIG, zeroCustomerShare }),
+      ).toThrow(/zeroCustomerShare must be in \[0, 1\)/);
+    }
+    expect(() =>
+      validateConfig({
+        ...DEFAULT_CONFIG,
+        repair: { ...DEFAULT_CONFIG.repair, sigma: -0.1 },
+      }),
+    ).toThrow(/sigma must be >= 0/);
+    expect(() =>
+      validateConfig({
+        ...DEFAULT_CONFIG,
+        rule: "shortest-first" as RestorationConfig["rule"],
+      }),
+    ).toThrow(/unknown rule shortest-first/);
+  });
+
+  it("rejects a median repair time outside the clip range", () => {
+    // Outside the clip range, the drawn repair times cannot have this median.
+    const withMedian = (medianTicks: number): RestorationConfig => ({
+      ...DEFAULT_CONFIG,
+      repair: { ...DEFAULT_CONFIG.repair, medianTicks },
+    });
+    for (const medianTicks of [0.5, 17, Number.NaN]) {
+      expect(() => validateConfig(withMedian(medianTicks))).toThrow(
+        /medianTicks must be in \[1, 16\]/,
+      );
+    }
+    for (const medianTicks of [1, 6, 16]) {
+      expect(() => validateConfig(withMedian(medianTicks))).not.toThrow();
+    }
+  });
 });
 
 describe("problemOf and downstreamCustomers", () => {
@@ -289,6 +325,13 @@ describe("problemOf and downstreamCustomers", () => {
       storm.segments.map(() => 6),
     );
     expect(planned.ticks.every((t) => t === 6)).toBe(true);
+    const k = storm.segments.length;
+    expect(() => problemOf(storm, new Array<number>(k - 1).fill(6))).toThrow(
+      new RegExp(`${k} segments.*got ${k - 1}`),
+    );
+    expect(() => problemOf(storm, new Array<number>(k + 1).fill(6))).toThrow(
+      new RegExp(`${k} segments.*got ${k + 1}`),
+    );
   });
 
   it("totals each segment's customers plus everything below it", () => {

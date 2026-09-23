@@ -47,6 +47,39 @@ describe("the restoration objective", () => {
     expect(schedule.completion).toEqual([6, 9, 10, 4]);
   });
 
+  // A segment left off the list would keep completion 0: its customers would look
+  // restored at tick 0 and the rule that dropped it would look cheaper.
+  it("refuses an order that is not every segment exactly once", () => {
+    expect(() => listSchedule(chainAndOne, [0, 3, 1], 2)).toThrow(
+      /segment 2 is missing/,
+    );
+    expect(() => listSchedule(chainAndOne, [0, 3, 1, 1], 2)).toThrow(
+      /segment 1 appears twice/,
+    );
+    expect(() => listSchedule(chainAndOne, [0, 3, 1, 2, 4], 2)).toThrow(
+      /4 is not a segment/,
+    );
+    expect(() => listSchedule(chainAndOne, [0, 3, 1, 1.5], 2)).toThrow(
+      /1.5 is not a segment/,
+    );
+    expect(() => listSchedule(chainAndOne, [], 1)).toThrow(
+      /segment 0 is missing/,
+    );
+  });
+
+  it("refuses completion ticks that do not match the segments one for one", () => {
+    // Too short would score NaN; too long would silently score only the first four.
+    expect(() => restorationTicks(chainAndOne, [8, 4, 1])).toThrow(
+      /4 segments.*got 3/,
+    );
+    expect(() => customerTicks(chainAndOne, [8, 4, 1])).toThrow(
+      /4 segments.*got 3/,
+    );
+    expect(() => customerTicks(chainAndOne, [2, 5, 6, 10, 99])).toThrow(
+      /4 segments.*got 5/,
+    );
+  });
+
   it("assigns crews to a valid set of starts and rejects too many at once", () => {
     const ok = scheduleFromStarts(chainAndOne, [0, 2, 5, 0], 2);
     expect(ok.completion).toEqual([2, 5, 6, 4]);

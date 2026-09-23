@@ -64,9 +64,12 @@ export function validateConfig(config: RestorationConfig): void {
   requireInteger(k.max, "damagedSegments.max", k.min);
   requireInteger(repair.minTicks, "repair.minTicks", 1);
   requireInteger(repair.maxTicks, "repair.maxTicks", repair.minTicks);
-  if (!(repair.medianTicks > 0)) {
+  if (!(
+    repair.medianTicks >= repair.minTicks &&
+    repair.medianTicks <= repair.maxTicks
+  )) {
     throw new RangeError(
-      `repair.medianTicks must be > 0; got ${repair.medianTicks}`,
+      `repair.medianTicks must be in [${repair.minTicks}, ${repair.maxTicks}]; got ${repair.medianTicks}`,
     );
   }
   if (!(repair.sigma >= 0)) {

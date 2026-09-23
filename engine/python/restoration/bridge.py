@@ -11,6 +11,7 @@ re-checks every returned schedule rather than trusting it.
 from __future__ import annotations
 
 import json
+import math
 import sys
 
 import scipy
@@ -18,15 +19,21 @@ import scipy
 from .milp import solve
 
 
+def _is_int(x: object) -> bool:
+    # bool is a subclass of int: true would otherwise pass as 1.
+    return isinstance(x, int) and not isinstance(x, bool)
+
+
 def _check(request: dict) -> None:
     if request.get("mode") not in ("milp", "lp"):
         raise ValueError(f"mode must be 'milp' or 'lp'; got {request.get('mode')!r}")
     crews = request.get("crews")
-    if not isinstance(crews, int) or crews < 1:
+    if not _is_int(crews) or crews < 1:
         raise ValueError(f"crews must be an integer >= 1; got {crews!r}")
     limit = request.get("timeLimitSeconds")
-    if not isinstance(limit, (int, float)) or limit <= 0:
-        raise ValueError(f"timeLimitSeconds must be > 0; got {limit!r}")
+    # json.load accepts NaN and Infinity, and NaN <= 0 is False.
+    if not (_is_int(limit) or isinstance(limit, float)) or not (math.isfinite(limit) and limit > 0):
+        raise ValueError(f"timeLimitSeconds must be a finite number > 0; got {limit!r}")
     for i, pr in enumerate(request.get("problems", [])):
         k = len(pr["ticks"])
         if len(pr["parent"]) != k or len(pr["customers"]) != k or k == 0:
@@ -34,8 +41,10 @@ def _check(request: dict) -> None:
         for j, a in enumerate(pr["parent"]):
             if not (-1 <= a < j):
                 raise ValueError(f"problem {i}: parent[{j}] = {a} must be -1 or a lower index")
-        if any((not isinstance(t, int)) or t < 1 for t in pr["ticks"]):
+        if any(not _is_int(t) or t < 1 for t in pr["ticks"]):
             raise ValueError(f"problem {i}: ticks must be integers >= 1")
+        if any(not _is_int(w) or w < 0 for w in pr["customers"]):
+            raise ValueError(f"problem {i}: customers must be integers >= 0")
 
 
 def _solve(request: dict) -> dict:

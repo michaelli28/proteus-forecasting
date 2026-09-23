@@ -10,6 +10,7 @@ from pathlib import Path
 import numpy as np
 import pytest
 
+from .bridge import _check
 from .milp import customer_ticks, horizon, list_schedule, solve
 
 ENGINE = Path(__file__).resolve().parents[2]
@@ -112,3 +113,34 @@ def test_bridge_round_trip_and_errors():
     bad_parent = _bridge({"command": "solve", "mode": "lp", "crews": 1, "timeLimitSeconds": 10,
                           "problems": [{"parent": [1, -1], "customers": [1, 1], "ticks": [1, 1]}]})
     assert bad_parent["ok"] is False and "parent" in bad_parent["error"]
+
+
+def _request(**overrides) -> dict:
+    return {"command": "solve", "mode": "milp", "crews": 2, "timeLimitSeconds": 10,
+            "problems": [{"parent": [-1, 0], "customers": [0, 10], "ticks": [2, 3]}], **overrides}
+
+
+def test_check_accepts_the_well_formed_request():
+    _check(_request())
+    _check(_request(crews=1, timeLimitSeconds=0.5))
+
+
+def test_check_rejects_a_bool_crew_count():
+    # True is an int in Python, so crews=true would quietly solve for one crew.
+    with pytest.raises(ValueError, match="crews"):
+        _check(_request(crews=True))
+
+
+@pytest.mark.parametrize("limit", ["NaN", "Infinity", "0", "-5", "true", '"60"'])
+def test_check_requires_a_finite_positive_time_limit(limit):
+    # json.load accepts NaN and Infinity, and NaN <= 0 is False: a plain "> 0" check lets them in.
+    request = json.loads('{"timeLimitSeconds": ' + limit + "}")
+    with pytest.raises(ValueError, match="timeLimitSeconds"):
+        _check(_request(**request))
+
+
+@pytest.mark.parametrize("customers", [[0, -1], [0, 2.5], [0, True], [0, "10"]])
+def test_check_requires_whole_customer_counts(customers):
+    problem = {"parent": [-1, 0], "customers": customers, "ticks": [2, 3]}
+    with pytest.raises(ValueError, match="customers"):
+        _check(_request(problems=[problem]))

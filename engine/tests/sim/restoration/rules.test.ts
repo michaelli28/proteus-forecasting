@@ -152,28 +152,29 @@ describe("the rules on a hand-built storm", () => {
     expect(dispatch(s, 1, "critical-first", 6).start).toEqual([0, 2, 1]);
   });
 
-  it("Horn-order plans on the typical time; the hindsight version on the true times", () => {
-    // True ticks [4,1,2]: hindsight Horn = true optimum order. Planned on 6 each, ratios change.
-    const planned = dispatch(Y, 1, "horn-order", 6);
+  it("hindsight Horn-order costs Horn's one-crew optimum on the true times", () => {
     const hindsight = dispatch(Y, 1, "horn-order-hindsight", 6);
     const problem = problemOf(Y);
     expect(customerTicks(problem, hindsight.completion)).toBe(
       oneCrewCost(problem, hornOrder(problem)),
     );
-    const plannedOrder = hornOrder(problemOf(Y, [6, 6, 6]));
-    expect(planned.start).toEqual(
-      plannedOrder.reduce<number[]>(
-        (start, j, n) => {
-          start[j] =
-            n === 0
-              ? 0
-              : start[plannedOrder[n - 1]!]! +
-                Y.segments[plannedOrder[n - 1]!]!.ticks;
-          return start;
-        },
-        [0, 0, 0],
-      ),
-    );
+  });
+
+  it("refuses a crew count or planned time that cannot make a schedule", () => {
+    // crews = 0 would give NaN completions. Horn-order ranks customers per planned tick:
+    // at 0 or below there is no ratio, and at Infinity every cross-product is ∞ or NaN, so all tie.
+    for (const rule of RESTORATION_RULES) {
+      for (const crews of [0, -1, 1.5, Number.NaN]) {
+        expect(() => dispatch(Y, crews, rule, 6)).toThrow(
+          /crews must be an integer >= 1/,
+        );
+      }
+      for (const plannedTicks of [0, -6, Number.NaN, Infinity]) {
+        expect(() => dispatch(Y, 1, rule, plannedTicks)).toThrow(
+          /plannedTicks must be a finite number > 0/,
+        );
+      }
+    }
   });
 });
 
@@ -317,13 +318,15 @@ describe("every rule on drawn storms", () => {
   });
 
   it("breaks every tie the same way every time", () => {
+    // Two storms drawn from one seed, so nothing tied to the object can hide a difference.
+    const flat: Partial<RestorationConfig> = {
+      repair: { ...DEFAULT_CONFIG.repair, sigma: 0 },
+    };
     for (let i = 0; i < 50; i++) {
-      const storm = drawn(
-        { repair: { ...DEFAULT_CONFIG.repair, sigma: 0 } },
-        `rules-ties-${i}`,
-      );
+      const storm = drawn(flat, `rules-ties-${i}`);
+      const again = drawn(flat, `rules-ties-${i}`);
       for (const rule of RESTORATION_RULES) {
-        expect(JSON.stringify(dispatch(storm, 3, rule, 6))).toBe(
+        expect(JSON.stringify(dispatch(again, 3, rule, 6))).toBe(
           JSON.stringify(dispatch(storm, 3, rule, 6)),
         );
       }

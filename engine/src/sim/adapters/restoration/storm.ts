@@ -135,6 +135,11 @@ export function problemOf(
   storm: Storm,
   ticks: readonly number[] = storm.segments.map((s) => s.ticks),
 ): RepairProblem {
+  if (ticks.length !== storm.segments.length) {
+    throw new RangeError(
+      `expected ${storm.segments.length} segments' repair ticks; got ${ticks.length}`,
+    );
+  }
   return {
     parent: storm.segments.map((s) => s.parent),
     customers: storm.segments.map((s) => s.customers),

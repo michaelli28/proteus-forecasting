@@ -10,15 +10,9 @@ from pathlib import Path
 import numpy as np
 import pytest
 
-from .milp import ancestors, horizon, solve
+from .milp import customer_ticks, horizon, list_schedule, solve
 
 ENGINE = Path(__file__).resolve().parents[2]
-
-
-def cost(problem: dict, starts: list[int]) -> int:
-    done = [s + p for s, p in zip(starts, problem["ticks"])]
-    return sum(w * max(done[a] for a in chain)
-               for w, chain in zip(problem["customers"], ancestors(problem["parent"])))
 
 
 def one_crew_brute(problem: dict) -> int:
@@ -28,7 +22,7 @@ def one_crew_brute(problem: dict) -> int:
         for j in order:
             starts[j] = t
             t += problem["ticks"][j]
-        c = cost(problem, starts)
+        c = customer_ticks(problem, starts)
         best = c if best is None else min(best, c)
     return best
 
@@ -44,7 +38,7 @@ def test_hand_chain_one_crew():
     problem = {"parent": [-1, 0], "customers": [0, 10], "ticks": [2, 3]}
     r = solve(problem, 1, relax=False, time_limit=10)
     assert r["status"] == "optimal" and r["objective"] == pytest.approx(50)
-    assert cost(problem, r["starts"]) == 50
+    assert customer_ticks(problem, r["starts"]) == 50
 
 
 def test_milp_matches_brute_force_with_one_crew():
@@ -66,10 +60,38 @@ def test_lp_floor_below_milp_and_starts_feasible():
         assert m["status"] == "optimal" and lp["status"] == "optimal" and lp["starts"] is None
         assert lp["objective"] <= m["objective"] * (1 + 1e-6)
         starts = m["starts"]
-        assert cost(problem, starts) == pytest.approx(m["objective"], rel=1e-6)
+        assert customer_ticks(problem, starts) == pytest.approx(m["objective"], rel=1e-6)
         for t in range(horizon(problem["ticks"], crews)):
             busy = sum(s <= t < s + p for s, p in zip(starts, problem["ticks"]))
             assert busy <= crews
+
+
+def test_list_schedule_in_start_order_moves_no_repair_later():
+    # Feasible schedules with idle gaps: each crew works its own queue, waiting 0-5 ticks.
+    rng = np.random.default_rng(4)
+    for _ in range(200):
+        k, crews = int(rng.integers(1, 12)), int(rng.integers(1, 5))
+        ticks = [int(x) for x in rng.integers(1, 17, k)]
+        free, raw = [0] * crews, [0] * k
+        for j in rng.permutation(k):
+            c = int(rng.integers(crews))
+            raw[j] = free[c] + int(rng.integers(0, 6))
+            free[c] = raw[j] + ticks[j]
+        starts = list_schedule(ticks, sorted(range(k), key=lambda j: (raw[j], j)), crews)
+        assert all(s <= r for s, r in zip(starts, raw)), (ticks, crews, raw, starts)
+
+
+def test_milp_schedule_never_idles():
+    # Pre-registration §2: no crew idles while a repair is unassigned. HiGHS alone may
+    # delay a repair for free (no customers of its own, or a slower break above it).
+    rng = np.random.default_rng(3)
+    for _ in range(30):
+        k, crews = int(rng.integers(6, 11)), int(rng.integers(2, 5))
+        problem = random_problem(rng, k)
+        starts = solve(problem, crews, relax=False, time_limit=30)["starts"]
+        for t in range(max(starts)):
+            busy = sum(s <= t < s + p for s, p in zip(starts, problem["ticks"]))
+            assert busy == min(crews, k), (problem, crews, starts, t)
 
 
 def _bridge(request) -> dict:

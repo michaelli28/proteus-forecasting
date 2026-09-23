@@ -75,18 +75,18 @@ describe("drawStorm", () => {
     expect(seenK.has(1) && seenK.has(50)).toBe(true);
   });
 
-  it("assigns every customer below a break to exactly one segment", () => {
+  it("assigns each customer to the nearest break on its way to the substation", () => {
     for (let i = 0; i < 100; i++) {
       const storm = drawStorm(withK(6, 12), new Rng(`storm-customers-${i}`));
-      const broken = new Set(storm.segments.map((s) => s.bus));
-      let expected = 0;
+      const indexOf = new Map(storm.segments.map((s, j) => [s.bus, j]));
+      const expected = storm.segments.map(() => 0);
       for (let v = 1; v < storm.feederParent.length; v++) {
         let u = v;
-        while (u > 0 && !broken.has(u)) u = storm.feederParent[u]!;
-        if (u > 0) expected += storm.customersAtBus[v]!;
+        while (u > 0 && !indexOf.has(u)) u = storm.feederParent[u]!;
+        if (u > 0) expected[indexOf.get(u)!]! += storm.customersAtBus[v]!;
       }
-      const assigned = storm.segments.reduce((sum, s) => sum + s.customers, 0);
-      expect(assigned).toBe(expected);
+      // Per segment, not a total: these counts are the weights every rule and reference uses.
+      expect(storm.segments.map((s) => s.customers)).toEqual(expected);
     }
   });
 

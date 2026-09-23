@@ -30,6 +30,9 @@ describe("the restoration objective", () => {
     const completion = [2, 5, 6, 10];
     // 10*2 + 5*5 + 20*6 + 7*10
     expect(customerTicks(chainAndOne, completion)).toBe(235);
+    // Segments 1 and 2 finish before 0, so their customers wait for tick 8.
+    // 10*8 + 5*8 + 20*8 + 7*12, not 10*8 + 5*4 + 20*1 + 7*12 = 204.
+    expect(customerTicks(chainAndOne, [8, 4, 1, 12])).toBe(364);
   });
 
   it("hands jobs to the earliest-free crew, lowest index on a tie", () => {

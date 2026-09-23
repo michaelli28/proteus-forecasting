@@ -80,11 +80,22 @@ describe("the rules on a hand-built storm", () => {
   });
 
   it("most customers now counts repairs under way as finished", () => {
-    // Two crews: crew 0 takes seg2 (20); crew 1 then sees seg0 → 5 and seg1 → 0; takes seg0.
-    // Crew 0 frees at tick 2 and takes seg1, whose parent is under way: gain 51 counted from started.
-    const s = dispatch(Y, 2, "most-customers-now", 6);
-    expect(s.crew).toEqual([1, 0, 0]);
-    expect(s.start).toEqual([0, 2, 0]);
+    // 0 ─ 1 ─ 2, 0 ─ 3, 0 ─ 4. Broken 1 (seg0: 10 customers, 10 ticks), 2 (seg1: 100,
+    // below seg0), 3 (seg2: 5), 4 (seg3: 3). Crew 0 takes seg0. At tick 0 crew 1 counts
+    // seg0 as finished, so seg1 brings back 100 and beats seg2's 5.
+    const s = dispatch(
+      handStorm(
+        [-1, 0, 1, 0, 0],
+        [0, 10, 100, 5, 3],
+        [1, 2, 3, 4],
+        [10, 1, 1, 1],
+      ),
+      2,
+      "most-customers-now",
+      6,
+    );
+    expect(s.start).toEqual([0, 0, 1, 2]);
+    expect(s.crew).toEqual([0, 1, 1, 1]);
   });
 
   it("upstream first orders by hops from the substation, then customers downstream", () => {
@@ -102,6 +113,19 @@ describe("the rules on a hand-built storm", () => {
     expect(feederDistance(Y.feederParent, 2, 2)).toBe(0);
   });
 
+  it("nearest first: each crew moves from its own last repair", () => {
+    // 0 ─ 1 ─ 2, 0 ─ 3 ─ 4. Crew 0 takes seg0 (bus 1), crew 1 seg2 (bus 3, 5 ticks).
+    // Crew 0 frees at tick 1 on bus 1: seg1 (bus 2) is 1 hop, seg3 (bus 4) is 3.
+    const s = dispatch(
+      handStorm([-1, 0, 1, 0, 3], [0, 1, 1, 1, 1], [1, 2, 3, 4], [1, 1, 5, 1]),
+      2,
+      "nearest-first",
+      6,
+    );
+    expect(s.start).toEqual([0, 1, 0, 2]);
+    expect(s.crew).toEqual([0, 0, 1, 0]);
+  });
+
   it("critical first clears the critical path, then falls back to most customers now", () => {
     const withCritical = handStorm(
       [-1, 0, 1, 2, 0],
@@ -113,6 +137,19 @@ describe("the rules on a hand-built storm", () => {
     // Critical bus 3 sits below segs 0 and 1: seg0 (depth 1) then seg1, then seg2.
     const s = dispatch(withCritical, 1, "critical-first", 6);
     expect(s.start).toEqual([0, 4, 5]);
+  });
+
+  it("critical first falls back to most customers now, not upstream or index order", () => {
+    // 0 ─ 1 ─ 3, 0 ─ 2. Critical bus 1 puts only seg0 (no customers of its own) on a path.
+    // Then seg2 (bus 3, depth 2) brings back 50 now and seg1 (bus 2, depth 1) only 5.
+    const s = handStorm(
+      [-1, 0, 0, 1],
+      [0, 0, 5, 50],
+      [1, 2, 3],
+      [1, 1, 1],
+      [1],
+    );
+    expect(dispatch(s, 1, "critical-first", 6).start).toEqual([0, 2, 1]);
   });
 
   it("Horn-order plans on the typical time; the hindsight version on the true times", () => {
@@ -168,6 +205,18 @@ describe("ties follow the pre-registered keys, then the lowest index", () => {
     // 0 ─ 1 ─ 2, 0 ─ 3. Broken 2 (seg0, depth 2) and 3 (seg1, depth 1), 7 customers each.
     const s = handStorm([-1, 0, 1, 0], [0, 0, 7, 7], [2, 3], [1, 1]);
     expect(dispatch(s, 1, "most-customers-now", 6).start).toEqual([1, 0]);
+  });
+
+  it("most customers now: customers downstream decide before depth", () => {
+    // 0 ─ 1, 0 ─ 2 ─ 3 ─ 4, bus 2 intact. seg0 (bus 1, depth 1) and seg1 (bus 3, depth 2)
+    // both bring back 7 now; seg1 has 27 downstream to seg0's 7, so it goes first.
+    const s = handStorm(
+      [-1, 0, 0, 2, 3],
+      [0, 7, 0, 7, 20],
+      [1, 3, 4],
+      [1, 1, 1],
+    );
+    expect(dispatch(s, 1, "most-customers-now", 6).start).toEqual([2, 0, 1]);
   });
 
   it("upstream first: equal depths go to the most customers downstream", () => {

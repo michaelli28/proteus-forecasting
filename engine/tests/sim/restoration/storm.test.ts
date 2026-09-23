@@ -7,9 +7,57 @@ import {
 import type { RestorationConfig } from "../../../src/sim/adapters/restoration/config.js";
 import {
   drawStorm,
+  feederDepth,
   problemOf,
   downstreamCustomers,
 } from "../../../src/sim/adapters/restoration/storm.js";
+import type { Storm } from "../../../src/sim/adapters/restoration/storm.js";
+
+// Storm 0 of the lab (seed restoration-lab/storm-0, DEFAULT_CONFIG). A renamed fork or a
+// reordered draw silently moves every published number; this turns it into a failure.
+// Change it only with a deliberate generator change, recorded as a deviation.
+const LAB_STORM_0 =
+  '{"style":"recursive",' +
+  '"feederParent":[-1,0,0,1,2,3,4,6,6,4,5,6,0,1,13,7,1,15,6,3,14,19,3,6,6,2,8,14,6,8,10,10],' +
+  '"customersAtBus":[0,0,18,2,9,4,34,0,13,10,10,1,2,12,7,20,14,0,3,5,0,13,7,48,9,0,4,3,15,180,5,36],' +
+  '"criticalBuses":[4,18],"segments":[' +
+  '{"bus":1,"parent":-1,"ticks":12,"customers":20,"depth":1,"onCriticalPath":false},' +
+  '{"bus":5,"parent":0,"ticks":5,"customers":55,"depth":3,"onCriticalPath":false},' +
+  '{"bus":6,"parent":-1,"ticks":8,"customers":252,"depth":3,"onCriticalPath":true},' +
+  '{"bus":9,"parent":-1,"ticks":3,"customers":10,"depth":3,"onCriticalPath":false},' +
+  '{"bus":13,"parent":0,"ticks":16,"customers":22,"depth":2,"onCriticalPath":false},' +
+  '{"bus":16,"parent":0,"ticks":6,"customers":14,"depth":2,"onCriticalPath":false},' +
+  '{"bus":18,"parent":2,"ticks":8,"customers":3,"depth":4,"onCriticalPath":true},' +
+  '{"bus":20,"parent":4,"ticks":5,"customers":0,"depth":4,"onCriticalPath":false},' +
+  '{"bus":22,"parent":0,"ticks":10,"customers":7,"depth":3,"onCriticalPath":false},' +
+  '{"bus":23,"parent":2,"ticks":5,"customers":48,"depth":4,"onCriticalPath":false},' +
+  '{"bus":24,"parent":2,"ticks":3,"customers":9,"depth":4,"onCriticalPath":false},' +
+  '{"bus":28,"parent":2,"ticks":4,"customers":15,"depth":4,"onCriticalPath":false}]}';
+
+const mean = (xs: readonly number[]): number =>
+  xs.reduce((sum, x) => sum + x, 0) / xs.length;
+const spread = (xs: readonly number[]): number => {
+  const m = mean(xs);
+  return Math.sqrt(mean(xs.map((x) => (x - m) ** 2)));
+};
+const median = (xs: readonly number[]): number =>
+  [...xs].sort((a, b) => a - b)[Math.floor(xs.length / 2)]!;
+
+function expectWithin(
+  value: number,
+  low: number,
+  high: number,
+  what: string,
+): void {
+  expect(value, what).toBeGreaterThanOrEqual(low);
+  expect(value, what).toBeLessThanOrEqual(high);
+}
+
+function drawMany(config: RestorationConfig, count = 2000): Storm[] {
+  return Array.from({ length: count }, (_, i) =>
+    drawStorm(config, new Rng(`dist-${i}`)),
+  );
+}
 
 function withK(min: number, max: number, sigma = 0.6): RestorationConfig {
   return {
@@ -140,6 +188,77 @@ describe("drawStorm", () => {
         ).not.toBe(-1);
       }
     }
+  });
+
+  // Pre-registration §2. Bands are several standard errors wide at 2,000 storms.
+  it("draws from the pre-registered distributions", () => {
+    const storms = drawMany(DEFAULT_CONFIG);
+
+    const atBus = storms.flatMap((s) => s.customersAtBus.slice(1));
+    expectWithin(
+      atBus.filter((c) => c === 0).length / atBus.length,
+      0.23,
+      0.27,
+      "share of buses with no customers",
+    );
+    // max(1, round(exp(N(2.5, 1.2)))) above 1 customer: exact mean 2.61, spread 1.09.
+    const logCustomers = atBus.filter((c) => c > 1).map(Math.log);
+    expectWithin(mean(logCustomers), 2.5, 2.72, "mean ln(customers)");
+    expectWithin(spread(logCustomers), 0.99, 1.19, "spread of ln(customers)");
+
+    const lateral = storms.filter((s) => s.style === "lateral");
+    const recursive = storms.filter((s) => s.style === "recursive");
+    expectWithin(lateral.length / storms.length, 0.45, 0.55, "lateral share");
+    const maxDepth = (group: readonly Storm[]): number =>
+      mean(group.map((s) => Math.max(...feederDepth(s.feederParent))));
+    expectWithin(maxDepth(lateral), 10, 12, "lateral feeder depth");
+    expectWithin(maxDepth(recursive), 5.5, 6.5, "recursive feeder depth");
+
+    // Clipping to 1–16 ticks shrinks the spread of ln(ticks): exact 0.581 at σ 0.6, 0.843 at σ 1.
+    const ticks = storms.flatMap((s) => s.segments.map((seg) => seg.ticks));
+    expect(median(ticks)).toBe(6);
+    expectWithin(
+      spread(ticks.map(Math.log)),
+      0.53,
+      0.63,
+      "spread of ln(ticks), σ 0.6",
+    );
+    const wide = drawMany(withK(6, 12, 1.0)).flatMap((s) =>
+      s.segments.map((seg) => Math.log(seg.ticks)),
+    );
+    expectWithin(spread(wide), 0.79, 0.89, "spread of ln(ticks), σ 1");
+
+    // Critical buses are drawn independently of the damage, so each is broken with chance k/(n−1).
+    const criticalBroken = storms.flatMap((s) => {
+      const broken = new Set(s.segments.map((seg) => seg.bus));
+      return s.criticalBuses.map((bus) => (broken.has(bus) ? 1 : 0));
+    });
+    const chance = mean(
+      storms.map((s) => s.segments.length / (s.feederParent.length - 1)),
+    );
+    expectWithin(
+      mean(criticalBroken) - chance,
+      -0.03,
+      0.03,
+      "critical buses broken beyond chance",
+    );
+  }, 30_000);
+
+  it("draws the lab's first storms byte for byte", () => {
+    expect(
+      JSON.stringify(
+        drawStorm(DEFAULT_CONFIG, new Rng("restoration-lab/storm-0")),
+      ),
+    ).toBe(LAB_STORM_0);
+    // Storm 0 is recursive; storm 1 pins the lateral branch of the feeder draw.
+    const lateral = drawStorm(
+      DEFAULT_CONFIG,
+      new Rng("restoration-lab/storm-1"),
+    );
+    expect(lateral.style).toBe("lateral");
+    expect(JSON.stringify(lateral.feederParent)).toBe(
+      "[-1,0,0,0,3,4,5,0,7,8,8,10,11,12,13,12,6,10,7,18,16,20,12,22,20,9,25,26,27,28,0,29]",
+    );
   });
 
   it("rejects configs whose run could end before the last repair", () => {

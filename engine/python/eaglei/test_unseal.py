@@ -31,7 +31,12 @@ def _setup(tmp_path: Path, go: bool = True) -> tuple[Path, dict[str, Path], Path
     loo.write_text(json.dumps({**chain, "gate": {"go": go}}))
     rows = "\n".join(f"| `{n}` | `{hashlib.sha256(p.read_bytes()).hexdigest()}` |" for n, p in files.items())
     _git(tmp_path, "init", "-q", "-b", "main", str(repo))
-    (repo / ADDENDUM).write_text(f"# Addendum\n\n| File | SHA-256 |\n| --- | --- |\n{rows}\n")
+    (repo / "code").mkdir()
+    (repo / "code" / "check.py").write_text("the check")
+    _git(repo, "add", ".")
+    _git(repo, "commit", "-q", "-m", "code")
+    code = _git(repo, "rev-parse", "HEAD")
+    (repo / ADDENDUM).write_text(f"# Addendum\n\n**Code commit:** `{code}`\n\n| File | SHA-256 |\n| --- | --- |\n{rows}\n")
     _git(repo, "add", ".")
     _git(repo, "commit", "-q", "-m", "addendum")
     commit = _git(repo, "rev-parse", "HEAD")
@@ -46,17 +51,30 @@ def test_addendum_hashes_reads_the_table():
     assert addendum_hashes(text) == {"train-events.csv": "a" * 64}
 
 
+def _open(commit, repo, files, loo):
+    return open_gate(commit, repo, files, loo, code_paths=("code",))
+
+
 def test_gate_opens_for_an_ancestor_addendum_with_matching_files(tmp_path):
     repo, files, loo, commit = _setup(tmp_path)
-    gate = open_gate(commit[:10], repo, files, loo)
+    gate = _open(commit[:10], repo, files, loo)
     assert gate["addendum_commit"] == commit and set(gate["hashes"]) == set(files)
+    assert gate["code_commit"] == _git(repo, "rev-parse", f"{commit}~1")
+
+
+def test_gate_refuses_when_the_check_code_changed_after_the_named_commit(tmp_path):
+    repo, files, loo, commit = _setup(tmp_path)
+    (repo / "code" / "check.py").write_text("a different check")
+    _git(repo, "commit", "-q", "-am", "edit the check")
+    with pytest.raises(SystemExit, match="differs from the code commit"):
+        _open(commit, repo, files, loo)
 
 
 def test_gate_refuses_a_changed_file(tmp_path):
     repo, files, loo, commit = _setup(tmp_path)
     files["phase3-amended/spread.json"].write_text("refitted")
     with pytest.raises(SystemExit, match="differ"):
-        open_gate(commit, repo, files, loo)
+        _open(commit, repo, files, loo)
 
 
 def test_gate_refuses_a_file_the_addendum_does_not_record(tmp_path):
@@ -64,7 +82,7 @@ def test_gate_refuses_a_file_the_addendum_does_not_record(tmp_path):
     extra = tmp_path / "data" / "loo-copy.json"
     extra.write_text("{}")
     with pytest.raises(SystemExit, match="records no SHA-256"):
-        open_gate(commit, repo, {**files, "phase3-amended/loo.json": extra}, loo)
+        _open(commit, repo, {**files, "phase3-amended/loo.json": extra}, loo)
 
 
 def test_gate_refuses_a_commit_that_is_not_an_ancestor(tmp_path):
@@ -76,7 +94,7 @@ def test_gate_refuses_a_commit_that_is_not_an_ancestor(tmp_path):
     side = _git(repo, "rev-parse", "HEAD")
     _git(repo, "checkout", "-q", "main")
     with pytest.raises(SystemExit, match="not an ancestor"):
-        open_gate(side, repo, files, loo)
+        _open(side, repo, files, loo)
 
 
 def test_gate_refuses_a_commit_without_the_addendum(tmp_path):
@@ -84,20 +102,20 @@ def test_gate_refuses_a_commit_without_the_addendum(tmp_path):
     _git(repo, "rm", "-q", ADDENDUM)
     _git(repo, "commit", "-q", "-m", "drop")
     with pytest.raises(SystemExit, match="does not contain"):
-        open_gate(_git(repo, "rev-parse", "HEAD"), repo, files, loo)
+        _open(_git(repo, "rev-parse", "HEAD"), repo, files, loo)
 
 
 def test_gate_refuses_a_null_computed_on_other_files(tmp_path):
     repo, files, loo, commit = _setup(tmp_path)
     loo.write_text(json.dumps({**json.loads(loo.read_text()), "spread_sha256": "0" * 64}))
     with pytest.raises(SystemExit, match="computed on other files"):
-        open_gate(commit, repo, files, loo)
+        _open(commit, repo, files, loo)
 
 
 def test_gate_refuses_when_the_null_did_not_pass(tmp_path):
     repo, files, loo, commit = _setup(tmp_path, go=False)
     with pytest.raises(SystemExit, match="not go"):
-        open_gate(commit, repo, files, loo)
+        _open(commit, repo, files, loo)
 
 
 def test_the_unseal_is_logged_once(tmp_path):

@@ -3,7 +3,8 @@
 It refuses unless:
 - the addendum commit is an ancestor of HEAD and contains docs/RESTORATION-ADDENDUM.md;
 - the addendum records a SHA-256 for each of the five Phase 3 files, and each file on disk matches;
-- the leave-one-storm-out null's computed gate says go.
+- the code commit the addendum names is an ancestor of HEAD, and the check's code at HEAD is identical to it;
+- the leave-one-storm-out null's computed gate says go, on those same files.
 The first held-out read then appends (UTC time, addendum commit, HEAD) to engine/.cache/eaglei/unseal.log. A second
 unseal needs a dated deviation.
 """
@@ -33,6 +34,10 @@ NULL_CHAIN = {  # what loo.json records it ran on -> the addendum's name for tha
     "data_sha256": "train-events.csv",
 }
 HASH_ROW = re.compile(r"`([\w./-]+)`\s*\|\s*`([0-9a-f]{64})`")
+CODE_ROW = re.compile(r"\*\*Code commit:\*\*\s*`([0-9a-f]{40})`")
+CODE_PATHS = (  # everything the held-out check executes that could change its answer
+    "docs/RESTORATION-PROTOCOL.md", "engine/python/eaglei", "engine/src/metrics/bootstrap.ts", "engine/src/sim/rng.ts",
+)
 
 
 def addendum_hashes(text: str) -> dict[str, str]:
@@ -45,7 +50,7 @@ def _git(repo: Path, *args: str) -> subprocess.CompletedProcess:
 
 
 def open_gate(commit: str, repo: Path = fit.ENGINE.parent, files: dict[str, Path] = HASHED,
-              loo: Path = fit.OUT / "loo.json") -> dict:
+              loo: Path = fit.OUT / "loo.json", code_paths: tuple[str, ...] = CODE_PATHS) -> dict:
     full = _git(repo, "rev-parse", "--verify", f"{commit}^{{commit}}")
     if full.returncode:
         raise SystemExit(f"{commit} is not a commit")
@@ -55,6 +60,13 @@ def open_gate(commit: str, repo: Path = fit.ENGINE.parent, files: dict[str, Path
     shown = _git(repo, "show", f"{sha}:{ADDENDUM}")
     if shown.returncode:
         raise SystemExit(f"{sha} does not contain {ADDENDUM}")
+    code = CODE_ROW.findall(shown.stdout)
+    if len(code) != 1:
+        raise SystemExit("the addendum must name exactly one code commit")
+    if _git(repo, "merge-base", "--is-ancestor", code[0], "HEAD").returncode:
+        raise SystemExit(f"the code commit {code[0]} is not an ancestor of HEAD")
+    if _git(repo, "diff", "--quiet", code[0], "HEAD", "--", *code_paths).returncode:
+        raise SystemExit(f"the check's code at HEAD differs from the code commit {code[0]} the addendum names")
     recorded = addendum_hashes(shown.stdout)
     missing = sorted(set(files) - set(recorded))
     if missing:
@@ -68,7 +80,7 @@ def open_gate(commit: str, repo: Path = fit.ENGINE.parent, files: dict[str, Path
         raise SystemExit(f"loo.json's go was computed on other files ({stale})")
     if null["gate"]["go"] is not True:
         raise SystemExit("the leave-one-storm-out null's gate is not go")
-    return {"addendum_commit": sha, "hashes": {name: recorded[name] for name in files}}
+    return {"addendum_commit": sha, "code_commit": code[0], "hashes": {name: recorded[name] for name in files}}
 
 
 def log_unseal(gate: dict, head: str, deviation: str | None, log: Path = UNSEAL_LOG) -> dict:

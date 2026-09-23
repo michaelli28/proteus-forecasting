@@ -38,7 +38,6 @@ BRIER_MIN_C = int(read_slots((73,))[0])  # c >= peak + 73 h 45 min: t95 <= 72 h 
 NEAREST_SHARE, NEAREST_MIN = 0.1, 100
 RATE_SEED = "restoration-protocol/county-event-rate"  # §11
 Y_MIN_EVENTS = 5  # §9
-TS_INTERVAL = ("engine/src/metrics/bootstrap.ts", "engine/src/sim/rng.ts")  # the headline interval's code
 PROTOCOL_MD5 = re.compile(r"`(eaglei_outages_\d{4}\.csv|MCC\.csv)`[^|\n]*\|\s*`([0-9a-f]{32})`")
 
 
@@ -226,7 +225,7 @@ def main(args: list[str]) -> None:
     names, opts = fit.parse(args)
     if names or not {"--addendum"} <= set(opts) <= {"--addendum", "--deviation"}:
         raise SystemExit("usage: held_out --addendum <commit> [--deviation <reason>]")
-    state = frozen_state("the held-out split is unsealed (§3)", also=TS_INTERVAL)
+    state = frozen_state("the held-out split is unsealed (§3)", also=unseal.CODE_PATHS)
     fit.PROVENANCE.update(state)
     if (PHASE4 / "held-out.json").exists() and "--deviation" not in opts:
         raise SystemExit("held-out.json exists: the held-out check runs once. A rerun needs --deviation")

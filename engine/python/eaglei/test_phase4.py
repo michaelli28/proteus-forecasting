@@ -12,7 +12,8 @@ from .arms import ARMS, delay_range, design_effect, eta_for, storm_arms, summari
 from .county_sim import (CENSORED, CREWS_PER_10K, DT, READ_HOURS, _worlds, exponential_features,
                          exponential_shares, features, simulated_curves, unit_quantiles, world_features)
 from .events import PEAK_HOLD, held
-from .held_out import BRIER_MIN_C, brier_rows, brier_summary, event_table, storm_flags, ts_rate_interval
+from .held_out import (BRIER_MIN_C, brier_rows, brier_summary, event_table, over_mcc_split, storm_flags,
+                       ts_rate_interval)
 from .looks import during_plan, hindsight_plan, read_cols, vectors, weighted
 from .zero_bound import compare
 
@@ -174,6 +175,18 @@ def test_storm_flags_and_the_typescript_rate_interval():
     assert iv["estimate"] == pytest.approx(3 / 15) and iv["lower"] <= iv["estimate"] <= iv["upper"]
     assert iv["resamples"] == fit.BOOT
     assert ts_rate_interval([[2, 10], [0, 4], [1, 1]], "test-seed") == iv  # seeded, so repeatable
+
+
+def test_over_mcc_split_sorts_county_looks_by_their_flag_and_keeps_pooled_looks_with_the_rest():
+    storms = {"s1": {"look_keys": {"hindsight": ["a", "b", "pooled"]}, "over_mcc": {"a": True, "b": False, "c": True},
+                     "sim": {"hindsight": {"look_p": [0.01, 0.5, 0.02]}}},
+              "s2": {"look_keys": {"hindsight": ["d"]}, "over_mcc": {"d": True},
+                     "sim": {"hindsight": {"look_p": [0.3]}}}}
+    out = over_mcc_split(storms, "sim", "test")
+    assert (out["over_mcc"]["flags"], out["over_mcc"]["looks"]) == (1, 2)
+    assert (out["other"]["flags"], out["other"]["looks"]) == (1, 2)  # b and the pooled look (whose member c is over)
+    # s2 has no "other" look, so a resample of s2 alone has no rate: it is skipped, never a NaN interval
+    assert not np.isnan(out["other"]["ci95"]).any() and out["other"]["resamples"] < fit.BOOT
 
 
 def test_arm_settings():

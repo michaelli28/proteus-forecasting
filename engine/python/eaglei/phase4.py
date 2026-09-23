@@ -24,6 +24,19 @@ def fitted_inputs() -> tuple[dict, dict]:
     return fitted, shrink
 
 
+def flag_rate(flags: np.ndarray, looks: np.ndarray, seed: str) -> dict:
+    """Flags over looks, per storm, with a 95% percentile interval from resampling whole storms (fit.BOOT times).
+    A resample holding no looks has no rate and is skipped, as the engine's stratifiedBootstrap skips it."""
+    n = float(looks.sum())
+    if not n:
+        return {"flags": 0, "looks": 0, "rate": None, "ci95": None, "resamples": 0}
+    idx = fit.rng_for(seed).integers(len(looks), size=(fit.BOOT, len(looks)))
+    num, den = flags[idx].sum(axis=1), looks[idx].sum(axis=1)
+    ok = den > 0
+    return {"flags": int(flags.sum()), "looks": int(n), "rate": float(flags.sum() / n),
+            "ci95": np.percentile(num[ok] / den[ok], [2.5, 97.5]).tolist(), "resamples": int(ok.sum())}
+
+
 def county_worlds(args: tuple) -> dict[str, np.ndarray]:
     """One county's worlds: milestones (N, 3) and shares at the read hours (N, k). A process-pool job, so every
     setting travels in args. error holds §12's planted errors; they draw from their own seed, `extra`."""

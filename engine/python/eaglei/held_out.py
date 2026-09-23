@@ -31,7 +31,7 @@ from .storms import HELD_OUT_YEARS
 from .county_sim import READ_HOURS, read_slots
 from .events import PEAK_HOLD, held
 from .looks import ALPHA, LOOK_HOURS, during_plan, hindsight_plan, rank_check, read_cols, vectors
-from .phase4 import PHASE4, SEED, county_worlds, fitted_inputs
+from .phase4 import PHASE4, SEED, county_worlds, fitted_inputs, flag_rate
 
 BRIER_H = 72.0
 BRIER_MIN_C = int(read_slots((73,))[0])  # c >= peak + 73 h 45 min: t95 <= 72 h needs a 2-hour hold starting by 72 h
@@ -97,7 +97,9 @@ def storm_check(storm: str, g: pd.DataFrame, reads: dict[str, np.ndarray], fitte
     N = fit.ensemble_size(m)
     real_ms = {r.fips: fit.milestones(r) for r in g.itertuples()}
     out: dict = {"events": len(g), "looks": len(plans["hindsight"]), "pooled_members": int((g["p1"] < min_size).sum()),
-                 "looks_at": {k: len(v) for k, v in plans.items()}, "m": m, "N": N}
+                 "looks_at": {k: len(v) for k, v in plans.items()}, "m": m, "N": N,
+                 "look_keys": {k: [look.key for look in v] for k, v in plans.items()},
+                 "over_mcc": {r.fips: bool(r.p1 > r.mcc) for r in g.itertuples()}}
     for model in fit.MODELS:
         theta = fit.world_draws(fitted[model]["spread"], list(g["fips"]), N, f"{label}/theta/{model}/{storm}")
         jobs = [(model, r.size, r.p1, r.c_rel, theta[r.fips], fitted["cell"], f"{label}/worlds/{storm}/{r.fips}",
@@ -132,6 +134,16 @@ def rate(storms: dict, model: str, check: str, seed: str) -> dict | None:
     iv = ts_rate_interval(items, seed)
     return {"flags": sum(f for f, _ in items), "looks": sum(n for _, n in items), "rate": iv["estimate"],
             "ci95": [iv["lower"], iv["upper"]], "resamples": iv["resamples"]}
+
+
+def over_mcc_split(storms: dict, model: str, seed: str) -> dict:
+    """Hindsight look flags in over-MCC county looks and in all other looks (pooled looks included), each with a
+    95% interval from resampling whole storms. The addendum names over-MCC counties as where flags are expected."""
+    groups = {"over_mcc": np.zeros((len(storms), 2)), "other": np.zeros((len(storms), 2))}
+    for j, s in enumerate(storms.values()):
+        for key, p in zip(s["look_keys"]["hindsight"], s[model]["hindsight"]["look_p"]):
+            groups["over_mcc" if key != "pooled" and s["over_mcc"][key] else "other"][j] += (p <= ALPHA, 1)
+    return {g: flag_rate(v[:, 0], v[:, 1], f"{seed}/over-mcc/{g}") for g, v in groups.items()}
 
 
 def storm_flags(storms: dict, model: str, check: str, among: list[str]) -> dict:
@@ -196,6 +208,7 @@ def check_split(records: list[dict], series: dict, label: str) -> dict:
             "binomial_p_vs_5pct": binom,
             "storms_Y": sy,
             "storms_all": storm_flags(storms, model, "hindsight", ids),
+            "over_mcc_split": over_mcc_split(storms, model, label),
             "L12_rate": rate(storms, model, "L12", f"{label}/L12-rate"),
             "L12_storms": storm_flags(storms, model, "L12", ids),
             "multi_storms": storm_flags(storms, model, "multi", ids),

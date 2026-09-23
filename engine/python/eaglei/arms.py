@@ -21,7 +21,7 @@ from scipy.stats import binomtest, chisquare, norm
 
 from . import fit
 from .looks import ALPHA, hindsight_plan, rank_check, weighted
-from .phase4 import PHASE4, SEED, county_worlds, fitted_inputs
+from .phase4 import PHASE4, SEED, county_worlds, fitted_inputs, flag_rate
 
 REPLICATES = 1000
 Z = float(norm.ppf(0.975))
@@ -113,13 +113,6 @@ def design_effect(look_flags: list[list[float]]) -> dict:
     return {"icc_look_flags": float(rho), "weighted_looks": nw, "design_effect": float(1 + (nw - 1) * rho)}
 
 
-def look_rate(flags: np.ndarray, looks: np.ndarray, seed: str) -> dict:
-    """Look flags over looks, with a 95% interval from resampling whole training storms."""
-    n = looks.sum()
-    return {"flags": int(flags.sum()), "looks": int(n), "rate": float(flags.sum() / n) if n else None,
-            "ci95": fit.storm_resampled(flags, looks, fit.rng_for(seed)) if n else None}
-
-
 def summarise(per_storm: dict[str, dict]) -> dict:
     """Arm by arm: storm flags with Wilson intervals, look flags and the delay split with storm-resampled
     intervals, delta*, and the blind spot's paired McNemar test against the null arm (§12's inference for that
@@ -134,7 +127,7 @@ def summarise(per_storm: dict[str, dict]) -> dict:
         k, n = int(flags[arm].sum()), len(p)
         per_lp = [per_storm[s]["arms"][arm]["look_p"] for s in storms]
         arms[arm] = {"storm_flags": k, "replicates": n, "rate": k / n, "wilson95": wilson(k, n),
-                     "looks": look_rate(np.array([sum(q <= ALPHA for lp in g for q in lp) for g in per_lp], float),
+                     "looks": flag_rate(np.array([sum(q <= ALPHA for lp in g for q in lp) for g in per_lp], float),
                                         np.array([sum(len(lp) for lp in g) for g in per_lp], float),
                                         f"{SEED}/arms/look-rate/{arm}"),
                      "per_storm_flags": {s: int(np.sum(np.array(per_storm[s]["arms"][arm]["p"]) <= ALPHA))
@@ -146,7 +139,7 @@ def summarise(per_storm: dict[str, dict]) -> dict:
                 for lp, ins in zip(a["look_p"], a["in_spread"]):
                     for q, i in zip(lp, ins):
                         split["pooled" if i is None else "inside" if i else "outside"][j] += (q <= ALPHA, 1)
-            arms[arm]["looks_by_delay"] = {g: look_rate(v[:, 0], v[:, 1], f"{SEED}/arms/delay-split/{arm}/{g}")
+            arms[arm]["looks_by_delay"] = {g: flag_rate(v[:, 0], v[:, 1], f"{SEED}/arms/delay-split/{arm}/{g}")
                                            for g, v in split.items()}
     null_p = np.concatenate([per_storm[s]["arms"]["null"]["p"] for s in storms])
     hist = np.histogram(null_p, bins=10, range=(0, 1))[0]

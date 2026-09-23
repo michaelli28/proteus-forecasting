@@ -476,3 +476,164 @@ From `engine/`, after Checkpoint 2's training run, at commit `a61b061` (`git che
 .venv/bin/python -m python.eaglei.diag_county_theta hier    # exploratory: two-level draws
 .venv/bin/python -m python.eaglei.plot_insample
 ```
+
+---
+
+# Checkpoint 3, amended (protocol §16): GO
+
+These are local runs on the 2018–2021 training files, done on 2026-09-23. Every stage ran once,
+from commit `7a71a8b`, which holds §16 and its code; `runs.log` records each write, with no
+deviations. No held-out file was opened: the amended code reads only `train-events.csv`, which holds
+training storms only.
+
+**Evidence class (b):** local runs on public data and synthetic feeders.
+
+## In plain English
+
+- **What changed.** Checkpoint 3's model failed its self-check, so it was amended once, under
+  protocol §16, committed before any amended fit ran. The main changes:
+  - counties in one storm now get their own repair pace, around a shared storm effect;
+  - the fit no longer over-weights milestones cut off at 7 days;
+  - small counties are pooled without dropping half of them;
+  - crews, repair-time shape, and the sizing of counties with more customers out than on record,
+    were chosen by a fixed rule.
+- **What it found.**
+  - The self-check now passes. Each training storm was left out of the fit in turn and checked
+    against the rest: 2 of 18 were flagged, and 3.0% of county looks (one county's curve, or one
+    pooled group of small counties, checked against its simulated worlds).
+  - The weak spot remains counties whose outage count exceeds their recorded customer count. They
+    flag at 10%, and both flagged storms come from one such county each.
+  - The simulated curves are still steeper than real ones. The pass is consistent with counties
+    varying enough to cover the real curves, not with the curve shape being right; no run has
+    separated the two.
+- **Why it matters.** The model may now be tested once on the sealed 2022–2025 storms, after the
+  steps at the end of this section. The pass is a gate, not proof: the changes were chosen after seeing the training failures, so only
+  the held-out test is clean.
+
+## The structural choice (§16.5)
+
+All 24 cells ran from one commit (37 minutes, 12 at a time). Each training county-event was scored
+against a forecast fitted without its own storm. Lower is better. The table shows the top four of 24
+and §10's cell; all 24 are in `selection.json`:
+
+| Cell (crews × √6, shape, over-MCC sizing) | Mean energy score | Paired difference with §10's cell | Sign-flip p |
+| ----------------------------------------- | ----------------: | --------------------------------: | ----------: |
+| ¼, 0.6, max(MCC, p₁) (**chosen**)         |             1.205 |                            −0.060 |      7.6e-6 |
+| ¼, 3.0, max(MCC, p₁)                      |             1.207 |                            −0.059 |      7.6e-6 |
+| ¼, 1.5, max(MCC, p₁)                      |             1.207 |                            −0.059 |      7.6e-6 |
+| ½, 0.6, max(MCC, p₁)                      |             1.232 |                            −0.033 |      3.8e-5 |
+| 1, 1.5, max(MCC, p₁) (§10's cell)         |             1.266 |                                 — |           — |
+
+- **The rule's bar** was p ≤ 0.025 ÷ 23 = 0.0011, so the best cell replaced §10's.
+- **What drives the choice is the crew density,** and it sits at the grid's lower edge.
+  - At ¼ × √6, 383 of 640 county-events have one crew at their expected size.
+  - The three shapes at that density are within 0.002 of each other, so shape is not really chosen.
+    Shape 0.6 is also the grid's lowest value.
+  - Per §16.5 this is a fitting choice. Fewer crews scored better, and the forecasts' upper tail is
+    longer (90th-percentile t90/t50 3.33, against 2.60 in §10's cell), but still short of real
+    curves. It says nothing about how many crews utilities sent.
+  - The chosen cell's paired difference has a storm-resampled 95% interval of [−0.083, −0.040].
+- **Over-MCC sizing.** Sizing over-MCC counties as undercounts (p₁ ÷ s) scored worse in every one
+  of the 12 pairs, so they stay sized at their peak.
+- **Still too steep.** Counting only counties with p₁ ≥ 5k, and only where 95% is restored, median
+  t90/t50 in the chosen cell's forecasts is 1.67 (10th–90th percentile 1.05–3.33). Real counties
+  give 2.50 (1.46–5.08), and §10's cell gave 1.61. The filter drops 28% of forecast worlds and 11%
+  of real counties.
+
+## The fit, the minimum size and pooling
+
+- **The simulator's spread** (§16.1): mean log W 0.08 and delay 9.3 h.
+  - Storm to storm: SD 0.74 for log W and 3.1 h for delay.
+  - County to county within a storm: SD 1.70 and 14.4 h.
+  - So most of the variation is between counties, not storms.
+  - B's eigenvalue floor (§16.1) bound in the full fit and in all 18 leave-one-out refits.
+    Unfloored, the storm-to-storm SDs would be 0.71 and 2.6 h.
+  - C includes fit noise by design (§16.1). Without it, the county SDs would be 1.52 and
+    12.4 h.
+- **Minimum county size:** 3,000 customers out at the peak. It fell from Checkpoint 3's 5k, as
+  §16.4 said it would, but not to the previewed 1–2k.
+
+  | Customers out at the peak | 1k   | 2k   | 3k   | 5k   | 7.5k | 10k  | 15k  | 20k  |
+  | ------------------------- | ---- | ---- | ---- | ---- | ---- | ---- | ---- | ---- |
+  | Shrinkage                 | 0.66 | 0.79 | 0.83 | 0.91 | 0.91 | 0.93 | 0.95 | 0.97 |
+
+- **Pooling:** 184 of 640 county-events (28.8%) are pooled, one look per storm in 17 storms. That
+  leaves 473 looks, and every pooled member is now tested.
+
+## The leave-one-storm-out null (§16.6)
+
+| Model                | Storms flagged | Binomial p vs 5% | Storm rate 95% CI | County looks flagged       | Mean look p |
+| -------------------- | -------------: | ---------------: | ----------------- | -------------------------- | ----------: |
+| Simulator            |        2 of 18 |             0.23 | 1.4–34.7%         | 14 / 473 = 3.0% [1.5, 5.1] |        0.46 |
+| Exponential baseline |        0 of 18 |              1.0 | 0–18.5%           | 26 / 473 = 5.5% [1.2, 9.8] |        0.37 |
+
+- **The two flagged storms are Florence and Ida.** Each is flagged by one over-MCC county at
+  a look p of 0.00098. That look's real curve and 1 of Florence's 2,047 simulated worlds score at
+  least as extreme; for Ida it is 3 of 4,095. Laura, with 5 flagged looks, is not flagged as a
+  storm (p = 0.10).
+- **Over-MCC looks flag at 9 / 89 = 10.1%,** against 5 / 384 = 1.3% for all other looks. The
+  over-MCC rate is the same as in the exploratory runs (10.3%), so §16 did not fix it. The rate for
+  other looks halved (from 2.5%), with a different minimum size (3k, not 5k).
+- **No pooled look is flagged.** At Checkpoint 3 the pooled looks flagged Barry and Nicholas.
+- **The simulator's look p-values are roughly even** across deciles (38, 81, 56, 41, 48, 48, 45,
+  36, 32, 48 looks), apart from a bump between 0.1 and 0.2: 81 looks there, against about 47
+  expected. Its cause is not identified. It is not censored looks tied at 168.25 h: only 6 of the
+  73 simulator county looks in that band have t95 unreached.
+- **The exponential baseline's are not:** 154 of its 473 look p-values fall between 0.1 and 0.2.
+  It passes as storms only because no single look is extreme enough.
+
+## Checkpoint 3 go/no-go, amended (§16.6), computed by `fit loo`
+
+| Criterion                                             | Result                                             |
+| ----------------------------------------------------- | -------------------------------------------------- |
+| Storm flags: binomial p ≥ 0.05 (at most 3 of 18)      | Pass: 2 of 18, p = 0.23                            |
+| County-look rate interval not entirely above 5%       | Pass: [1.5%, 5.1%]                                 |
+| Shrinkage ≥ 0.8 at every size at or above the minimum | Pass: 0.83–0.97 from 3k up (near automatic, §16.4) |
+| Fewer than half of county-events pooled               | Pass: 28.8%                                        |
+
+**GO.** The amended simulator may go to Phase 4. Nothing has been unsealed.
+
+## What this does not show
+
+- **That the model is right.** The gate is one-sided: a spread wide enough can pass anything.
+  - The chosen cell's forecasts leave t95 unreached in 28% of worlds, and §10's cell in 24%, against
+    11% of real counties with p₁ ≥ 5k.
+  - The mean look p is 0.46, a little below the 0.5 of a calibrated model, so the forecasts are not
+    too wide on average.
+  - The power arms of §12 come in Phase 4.
+- **That the curve shape is right.** The forecasts are still steeper than real curves. The pass is
+  consistent with county-to-county variation covering the real curves; no run has tested that.
+- **A clean out-of-sample result.** §16 was designed after seeing the training failures, and the
+  chosen cell, the undercount share, the peak share and the minimum size use all 18 storms.
+- **Anything about crews or repair-time shape** (§13, §16.5).
+- **Anything about held-out storms.**
+
+## Before Phase 4 unseals anything
+
+1. The zero-format bound on training data (§16.7), report-only.
+2. `docs/RESTORATION-ADDENDUM.md`, with the SHA-256 of these files. All ran at `7a71a8b`:
+
+   | File                            | SHA-256 (first 16 hex) |
+   | ------------------------------- | ---------------------- |
+   | `train-events.csv`              | `f707742061700315`     |
+   | `phase3-amended/selection.json` | `d7e5a89ef1a91f20`     |
+   | `phase3-amended/spread.json`    | `b9bb502120566769`     |
+   | `phase3-amended/shrinkage.json` | `bc8922419f4bb8ec`     |
+   | `phase3-amended/loo.json`       | `43e03f983f315fa3`     |
+
+3. The unseal gate (§3 and §16.7). It checks the addendum's commit, the spread file's hash (the
+   addendum records all five) and the null's `go`, and it writes `unseal.log`. It is not coded
+   yet.
+4. Michael's go-ahead for Phase 4.
+
+## Reproduce (Checkpoint 3, amended)
+
+From `engine/`, at commit `7a71a8b`, after Checkpoint 2's training run:
+
+```bash
+bash python/eaglei/run_grid.sh                                       # 24 cells, then select; about 40 min
+FIT_WORKERS=1 .venv/bin/python -m python.eaglei.fit abc shrink loo   # about 16 min
+```
+
+`select` and `loo` refuse to run twice without `--deviation "<reason>"`. Outputs are in
+`.cache/restoration-check/phase3-amended/`, with `runs.log`.

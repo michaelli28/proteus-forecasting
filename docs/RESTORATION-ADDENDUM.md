@@ -28,7 +28,13 @@ Protocol §3 and §10 require this file before Phase 4 unseals anything.
   which commit was used;
 - any later edit to this file is a dated deviation.
 
-**Code commit:** `14dd44e77bdb47d9ae85d172deea558cbda0a7f4`
+**Code commit:** `7f842e4ba65d1555c28e8bf077de481c7bf7538b`
+
+_Changed on 2026-09-23, before anything was unsealed and before any Phase 4 run
+wrote a result. The first version of this file named `14dd44e`. `7f842e4` adds
+two things: the per-look record the over-MCC split below needs, and
+interval code that skips resamples with no looks. It does not change how
+any look is scored._
 
 **In plain English.** Before the sealed 2022–25 storms are opened, this file
 freezes three things:
@@ -254,6 +260,17 @@ These values are read from the files in §1, and nothing here changes them.
       `…/brier/outcome`.
   - **A storm-level histogram** of hindsight p-values in 5 bins. It is
     descriptive only.
+- **The over-MCC split** (§7 below). The summary reports hindsight look flags in
+  two groups, over-MCC county looks and all other looks, each with a
+  storm-resampled interval.
+  - Pooled looks count as other looks.
+  - Seeds: `restoration-phase4/held-out/over-mcc/<group>`.
+  - `held-out.json` keeps each storm's look keys and each county's over-MCC
+    flag, so any other split can be recomputed without reading held-out data
+    again.
+- **Resamples with no looks.** The Python storm-resampled rates skip any
+  resample that holds no looks, as `stratifiedBootstrap` does, and they report
+  how many resamples were used.
 - **Keeping it defensive.** The results file holds per-county p-values in the
   git-ignored cache. The results doc publishes counts, rates and storm-level
   results only.
@@ -400,7 +417,7 @@ full training spread.
   - Each of the two flagged training storms was flagged through one over-MCC
     county.
   - Held-out flags from over-MCC counties are therefore expected, and the
-    results report that split.
+    results report that split (§4).
 - **A pass would not show the curve shape is right.** Simulated curves are still
   steeper than real ones.
 - **The gate is one-sided.** A spread too wide cannot fail it, so a pass reads

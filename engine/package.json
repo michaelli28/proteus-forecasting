@@ -17,6 +17,8 @@
     "consequence:test": ".venv/bin/python -m pytest python/consequence/ -q",
     "restoration:test": ".venv/bin/python -m pytest python/restoration/ -q",
     "restoration:lab": "node --import tsx scripts/restoration-lab.ts",
+    "eaglei:test": ".venv/bin/python -m pytest python/eaglei/ -q",
+    "eaglei:checkpoint2": ".venv/bin/python -m python.eaglei.checkpoint2",
     "vulnerability": "tsc && node dist/cli.js vulnerability"
   },
   "bin": {

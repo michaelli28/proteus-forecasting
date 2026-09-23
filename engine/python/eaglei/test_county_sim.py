@@ -3,8 +3,8 @@ from __future__ import annotations
 
 import numpy as np
 
-from .county_sim import (CENSORED, DT, _worlds, exponential_features, features, grid_up, restore_quantiles,
-                         unit_quantiles, weibull_scale)
+from .county_sim import (CENSORED, CREWS_PER_10K, DT, _worlds, exponential_features, features, grid_up,
+                         restore_quantiles, simulated_curves, unit_quantiles, weibull_scale)
 from .events import MILESTONES, milestone
 
 
@@ -58,26 +58,32 @@ def test_unit_quantiles_batches_without_changing_shape():
     assert unit_quantiles(5_000, 2_000, 7, np.random.default_rng(1)).shape == (7, 3)
 
 
-def test_a_pool_of_one_matches_the_affine_single_county_path():
-    from .county_sim import unit_quantiles
-    from .pooling import pooled_features, real_pooled_curve, simulated_pooled_curves
+def test_simulated_curves_match_the_affine_features():
+    # The slot-by-slot curve builder (plots) and the affine fast path (the fit) must agree, at a non-default crew density.
     rng_theta = np.random.default_rng(4)
     theta = np.column_stack([rng_theta.normal(-1.5, 0.8, 40), rng_theta.uniform(0, 20, 40)])
-    m = {"a": 1000, "peak": 30, "c": 30 + 300, "mcc": 12_000, "p1": 4_000, "x": np.full(400, 7.0)}
-    Q = unit_quantiles(12_000, 4_000, 40, np.random.default_rng(9))
-    fast = features(theta[:, 0], theta[:, 1], Q, c_rel=300)
-    curves = simulated_pooled_curves([m], theta, np.random.default_rng(9))
-    slow = np.array([pooled_features(c) for c in curves])
-    assert np.allclose(fast, slow)
-    real, start, end = real_pooled_curve([m])
-    assert (start, end, len(real)) == (1030, 1330, 301)
+    crews = 0.5 * CREWS_PER_10K
+    Q = unit_quantiles(12_000, 4_000, 40, np.random.default_rng(9), 1.5, crews)
+    fast = features(theta[:, 0], theta[:, 1], Q, 300, 1.5, crews)
+    curves = simulated_curves(12_000, 4_000, 301, theta, np.random.default_rng(9), 1.5, crews)
+    for s in range(40):
+        want = []
+        for q in MILESTONES.values():
+            i = milestone(curves[s], 0, 300, (1 - q) * curves[s, 0])
+            want.append(CENSORED if i is None else i * DT)
+        assert np.allclose(fast[s], want), (s, fast[s], want)
 
 
-def test_a_later_member_contributes_its_observed_series_before_its_peak():
-    from .pooling import simulated_pooled_curves
-    early = {"a": 0, "peak": 10, "c": 200, "mcc": 5_000, "p1": 2_000, "x": np.full(300, 1.0)}
-    late = {"a": 0, "peak": 40, "c": 250, "mcc": 5_000, "p1": 2_000, "x": np.full(300, 5.0)}
-    curves = simulated_pooled_curves([early, late], np.array([[0.0, 100.0]]), np.random.default_rng(2))
-    # Delay 100 h: nobody is restored inside the first 30 slots; the late member shows its observed 5.0 there.
-    assert np.allclose(curves[0, :30] - curves[0, 0] + 5.0, 5.0)
-    assert curves.shape == (1, 191)
+def test_crew_density_sets_the_crew_count_and_keeps_the_affine_map():
+    few = _worlds(20_000, 5_000, 4, np.random.default_rng(3), 1.5, 1.0, 0.0, 0.25 * CREWS_PER_10K)
+    assert set(few["crews"]) == {1}  # sqrt(6)/4 per 10k of about 20k customers rounds to 1
+    unit = _worlds(30_000, 9_000, 6, np.random.default_rng(7), 1.5, 1.0, 0.0, 2 * CREWS_PER_10K)
+    moved = _worlds(30_000, 9_000, 6, np.random.default_rng(7), 1.5, 2.5, 6.0, 2 * CREWS_PER_10K)
+    out = unit["R"] > 0
+    assert np.allclose(moved["R"][out], 6.0 + 2.5 * unit["R"][out])
+
+
+def test_fewer_crews_restore_later_in_the_same_world():
+    Q_many = unit_quantiles(40_000, 12_000, 64, np.random.default_rng(5), 1.5, 2 * CREWS_PER_10K)
+    Q_few = unit_quantiles(40_000, 12_000, 64, np.random.default_rng(5), 1.5, 0.25 * CREWS_PER_10K)
+    assert (np.median(Q_few, axis=0) > np.median(Q_many, axis=0)).all()

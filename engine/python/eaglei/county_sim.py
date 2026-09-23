@@ -1,10 +1,11 @@
-"""County-scale restoration simulator (protocol §10; docs/RESTORATION-ADDENDUM.md pins the details).
+"""County-scale restoration simulator (protocol §10 and §16; docs/RESTORATION-ADDENDUM.md pins the details).
 
 Spike S3's toy, unchanged in structure:
 - A county is F random radial feeders, each with 60 sections of about 17 customers.
 - Weather damage breaks sections so that the customers out at t = 0 match the observed peak p1.
 - Identical crews work a static most-customers-first list: a section's downstream customers.
 - A customer is back when every broken section on its path is repaired.
+Crews per 10k and the repair-time shape are settings: §16.5 chooses them on training storms.
 
 The scale trick: with identical crews and a fixed list, multiplying every repair time by s multiplies
 every completion time by s, and a common start delay shifts them all. So a world is simulated once, at
@@ -21,7 +22,7 @@ N_NODES = 60
 MEAN_CUST = 17.0
 CUST_SIGMA = 0.8
 JUMP_P = 0.35  # parent = i - Geometric(0.35): long chains with branches
-CREWS_PER_10K = math.sqrt(6)  # protocol §10: S3's reference point
+CREWS_PER_10K = math.sqrt(6)  # protocol §10: S3's reference point; §16.5 compares multiples of it
 SHAPE = 1.5
 DT = 0.25
 CENSORED = 168.25
@@ -35,13 +36,13 @@ def grid_up(t: np.ndarray) -> np.ndarray:
     return np.ceil(t / DT - 1e-9) * DT
 
 
-def weibull_scale(log_w: np.ndarray, shape: float = SHAPE) -> np.ndarray:
+def weibull_scale(log_w: np.ndarray, shape: float = SHAPE, crews: float = CREWS_PER_10K) -> np.ndarray:
     """Repair-time Weibull scale (h) for log work rate W = mean repair hours / crews per 10k."""
-    return np.exp(log_w) * CREWS_PER_10K / math.gamma(1 + 1 / shape)
+    return np.exp(log_w) * crews / math.gamma(1 + 1 / shape)
 
 
 def _worlds(size: float, p1: float, S: int, rng: np.random.Generator, shape: float,
-            scale: float, delay: float) -> dict[str, np.ndarray]:
+            scale: float, delay: float, crews: float = CREWS_PER_10K) -> dict[str, np.ndarray]:
     """S worlds of one county at one (scale, delay): node restore times R (S, F*n), customers w."""
     n = N_NODES
     F = max(1, int(round(size / (n * MEAN_CUST))))
@@ -80,9 +81,9 @@ def _worlds(size: float, p1: float, S: int, rng: np.random.Generator, shape: flo
     order = np.argsort(-key, axis=1)[:, :kmax]
     p = np.take_along_axis(scale * wb.reshape(S, F * n), order, axis=1)
 
-    crews = np.maximum(1, np.rint(CREWS_PER_10K * total / 1e4)).astype(int)
-    cmax = int(crews.max())
-    avail = np.where(np.arange(cmax)[None, :] < crews[:, None], delay, np.inf)
+    n_crews = np.maximum(1, np.rint(crews * total / 1e4)).astype(int)
+    cmax = int(n_crews.max())
+    avail = np.where(np.arange(cmax)[None, :] < n_crews[:, None], delay, np.inf)
     comp = np.zeros((S, kmax))
     srows = np.arange(S)
     for k in range(kmax):
@@ -98,7 +99,7 @@ def _worlds(size: float, p1: float, S: int, rng: np.random.Generator, shape: flo
     for i in range(1, n):
         R[:, i] = np.maximum(R[rows, parent[:, i]], comp_sec[:, i])
     R = R.reshape(S, F * n)
-    return {"R": R, "w": np.where(R > 0, cw, 0.0), "crews": crews, "n_jobs": n_jobs}
+    return {"R": R, "w": np.where(R > 0, cw, 0.0), "crews": n_crews, "n_jobs": n_jobs}
 
 
 def restore_quantiles(R: np.ndarray, w: np.ndarray, quants: tuple[float, ...] = QUANTS) -> np.ndarray:
@@ -112,7 +113,7 @@ def restore_quantiles(R: np.ndarray, w: np.ndarray, quants: tuple[float, ...] = 
 
 
 def unit_quantiles(size: float, p1: float, n_worlds: int, rng: np.random.Generator,
-                   shape: float = SHAPE) -> np.ndarray:
+                   shape: float = SHAPE, crews: float = CREWS_PER_10K) -> np.ndarray:
     """(n_worlds, 3) restore-time quantiles at unit Weibull scale and zero delay, simulated in batches."""
     F = max(1, int(round(size / (N_NODES * MEAN_CUST))))
     per = max(1, BATCH_ELEMS // (F * N_NODES))
@@ -120,19 +121,19 @@ def unit_quantiles(size: float, p1: float, n_worlds: int, rng: np.random.Generat
     done = 0
     while done < n_worlds:
         S = min(per, n_worlds - done)
-        sim = _worlds(size, p1, S, rng, shape, 1.0, 0.0)
+        sim = _worlds(size, p1, S, rng, shape, 1.0, 0.0, crews)
         out.append(restore_quantiles(sim["R"], sim["w"]))
         done += S
     return np.concatenate(out)
 
 
 def features(log_w: np.ndarray, delay: np.ndarray, Q: np.ndarray, c_rel: int,
-             shape: float = SHAPE) -> np.ndarray:
+             shape: float = SHAPE, crews: float = CREWS_PER_10K) -> np.ndarray:
     """Milestones (h) for work rates and delays broadcast against unit quantiles Q (..., 3).
 
     A milestone counts only if its 2-hour hold fits inside the feature window, as for real curves
     (§7.8): slot i + 7 <= c_rel. Otherwise it is 168.25."""
-    t = grid_up(np.maximum(delay, 0.0)[..., None] + weibull_scale(log_w, shape)[..., None] * Q)
+    t = grid_up(np.maximum(delay, 0.0)[..., None] + weibull_scale(log_w, shape, crews)[..., None] * Q)
     return np.where(t / DT + (MILESTONE_HOLD - 1) <= c_rel, t, CENSORED)
 
 
@@ -141,3 +142,26 @@ def exponential_features(log_tau: np.ndarray, delay: np.ndarray, c_rel: int) -> 
     k = -np.log1p(-np.array(QUANTS))
     t = grid_up(np.maximum(delay, 0.0)[..., None] + np.exp(log_tau)[..., None] * k)
     return np.where(t / DT + (MILESTONE_HOLD - 1) <= c_rel, t, CENSORED)
+
+
+def simulated_curves(size: float, p1: float, L: int, theta: np.ndarray, rng: np.random.Generator,
+                     shape: float = SHAPE, crews: float = CREWS_PER_10K) -> np.ndarray:
+    """(N, L) customers-out curves on the 15-minute grid from the peak slot, for N worlds with parameters
+    theta (N, 2): (log W, delay). Built slot by slot for plots and tests; the fit uses `features`."""
+    lam = weibull_scale(theta[:, 0], shape, crews)
+    delay = np.maximum(theta[:, 1], 0.0)
+    N = len(theta)
+    F = max(1, int(round(size / (N_NODES * MEAN_CUST))))
+    per = max(1, BATCH_ELEMS // (F * N_NODES))
+    out = np.zeros((N, L))
+    for b0 in range(0, N, per):
+        b1 = min(N, b0 + per)
+        sim = _worlds(size, p1, b1 - b0, rng, shape, 1.0, 0.0, crews)
+        R, w = sim["R"], sim["w"]
+        k = np.ceil((delay[b0:b1, None] + lam[b0:b1, None] * R) / DT - 1e-9).astype(np.int64)
+        restored = np.zeros((b1 - b0, L + 1))
+        rows = np.broadcast_to(np.arange(b1 - b0)[:, None], k.shape)
+        inside = (w > 0) & (k <= L - 1)
+        np.add.at(restored, (rows[inside], k[inside]), w[inside])
+        out[b0:b1] = w.sum(axis=1)[:, None] - np.cumsum(restored[:, :L], axis=1)
+    return out

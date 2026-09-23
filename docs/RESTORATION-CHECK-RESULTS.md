@@ -216,9 +216,14 @@ matplotlib 3.11.1.
 # Checkpoint 3: the model fit, on training storms only
 
 These are local runs on the 2018–2021 training files, done on 2026-09-23. The code is under
-`engine/python/eaglei/` (`county_sim`, `fit`, `pooling`, `rank`, plus the `diag_*` scripts). No
-held-out file was opened in this phase: the only outage-file reads are in `fit.pooled_members`,
-which is guarded to 2018–2021, and in `plot_insample`, which sees training storms only.
+`engine/python/eaglei/` at commit `075f8b7` (`county_sim`, `fit`, `pooling`, `rank`, plus the `diag_*`
+scripts); this write-up is `a61b061`. No held-out file was opened in this phase: the only outage-file
+reads are in `fit.pooled_members`, which is guarded to 2018–2021, and in `plot_insample`, which sees
+training storms only.
+
+_Note, 2026-09-23: protocol §16 later replaced `fit.py` and deleted `pooling.py`, `diag_ratios.py` and
+`diag_county_theta.py`. Everything in this Checkpoint 3 section, the Reproduce block included, refers to
+commit `a61b061`._
 
 **Evidence class (b):** local runs on public data and synthetic feeders.
 
@@ -389,8 +394,9 @@ peak share of 0.32):
    - **A storm effect plus county scatter** (two levels, method of moments on the per-county
      fits): 5 of 18 storms, and 20 of 371 looks (5.4% [3.2, 8.0]). The between-storm SDs are 0.83
      for log W and 4.2 h for delay, against 1.68 and 12.2 h within storms.
-     - The estimator subtracts slightly too much. Corrected, the between-storm SDs are 0.74 and
-       3.6 h, and the conclusion doesn't change.
+     - The estimator subtracts too little: it divides by the mean storm size where the mean of
+       1/size is right. Corrected, the between-storm SDs are 0.74 and 3.6 h, and the conclusion
+       doesn't change. _(Wording corrected 2026-09-23; this line first said "too much".)_
    - **Both runs gave all members of a pooled look one shared draw,** not one draw per county.
    - **The overall 4.9–5.4% is an average of two groups:**
 
@@ -459,7 +465,7 @@ predictable, since it would flag most storms, so it teaches nothing new.
 
 ## Reproduce (Checkpoint 3)
 
-From `engine/`, after Checkpoint 2's training run:
+From `engine/`, after Checkpoint 2's training run, at commit `a61b061` (`git checkout a61b061`):
 
 ```bash
 .venv/bin/python -m python.eaglei.fit abc shrink loo        # about 15 min; writes .cache/restoration-check/phase3/

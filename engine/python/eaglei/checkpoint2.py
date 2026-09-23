@@ -38,12 +38,12 @@ def git(*args: str) -> str:
     return subprocess.run(["git", *args], cwd=REPO, capture_output=True, text=True, check=True).stdout.strip()
 
 
-def frozen_state() -> dict:
-    """Commits a held-out read runs under. Refuses while the protocol or the loader has uncommitted
-    edits, so the held-out run is always reproducible from a commit (§3)."""
+def frozen_state(before: str = "a held-out year is read") -> dict:
+    """Commits a held-out read (or a §16 fit stage) runs under. Refuses while the protocol or the loader has
+    uncommitted edits, so the run is always reproducible from a commit (§3, §16.8)."""
     protocol = git("log", "-1", "--format=%H", "--", PROTOCOL)
     if not protocol or git("status", "--porcelain", "--", PROTOCOL, "engine/python/eaglei"):
-        raise SystemExit(f"commit {PROTOCOL} and engine/python/eaglei before a held-out year is read")
+        raise SystemExit(f"commit {PROTOCOL} and engine/python/eaglei before {before}")
     return {"protocol_commit": protocol, "head": git("rev-parse", "HEAD")}
 
 

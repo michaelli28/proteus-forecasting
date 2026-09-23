@@ -512,3 +512,357 @@ of 2022–2025. None of these clarifications changes a choice above.
      already lists: six for Ian and seven for Helene.
    - This was checked against the FEMA snapshot. The Virgin Islands' three codes
      appear in every year.
+
+## 16. Amendment after Checkpoint 3 (dated deviation, 2026-09-23)
+
+Written after Checkpoint 3's NO-GO and before any held-out outage value was
+read. Michael chose to amend on 2026-09-23. The other options were to stop, or
+to test the failed model.
+
+**In plain English.** The model failed its own self-test on the training
+storms. This section changes five things the diagnosis pointed at:
+
+- counties in one storm get their own repair pace;
+- the fitting distance stops over-weighting censored milestones;
+- small counties are pooled without losing half of them;
+- two inputs to the minimum-size study are corrected;
+- three structural settings (crews, repair-time shape, and the size of
+  counties whose outages exceed their customer count) are picked together by
+  a fixed rule.
+
+The self-test then runs once more. If it fails, the real-data test stops
+there.
+
+**Words used here.**
+
+- **θ:** a county's two fitted numbers, (log W, delay). W is the work rate of
+  §10, and delay is the start delay in hours.
+- **B:** how much storms differ from each other in θ.
+- **C:** how much counties in one storm differ from each other in θ.
+- **Energy score:** a score for a forecast of several numbers at once. Lower
+  is better. A forecast that is too vague, or too confident, scores worse on
+  average than the true one, provided it is scored on data it was not fitted
+  to.
+- **ABC** (approximate Bayesian computation): fitting by simulating many
+  candidate settings and keeping the ones whose milestones land closest to the
+  real ones.
+- **Common random numbers:** the same random draws in every compared setting,
+  so differences come from the settings, not from luck.
+
+### What this replaces
+
+- **§10:**
+  - the county size max(MCC, p₁), for over-MCC counties, when 16.5 picks
+    "share" sizing (also §8's note on `over_mcc`);
+  - "crews per 10k: √6" and "shape: 1.5", which 16.5 now chooses. §10's
+    sensitivity rows at shape 0.6 and 3.0 are part of 16.5's grid, and
+    Phase 4 runs the chosen cell only;
+  - "each storm is fitted with ABC, all its county-events jointly", and the
+    spread built from per-storm posteriors. 16.1 replaces both;
+  - "each simulated world draws one (W, delay), shared by all of the storm's
+    counties";
+  - the pooled window, which 16.3 replaces.
+- **§11:** "World j is the same parameter draw in every county" now reads
+  "World j shares the storm effect η in every county" (16.1).
+- **§12:** "the spread", as 16.7 defines it.
+- Everything else stands (16.10).
+
+### Why
+
+- **The §10 model failed its own leave-one-storm-out null.**
+  - It flagged 15 of 18 training storms.
+  - After one ×4 widening of the spread, 6 of 18 were flagged. The plan
+    allowed "widen and re-check"; the factor 4 was chosen after the base run
+    failed and before its result was seen.
+  - The details are in `RESTORATION-CHECK-RESULTS.md`, Checkpoint 3 (commit
+    `a61b061`).
+- **What informed this section: training data only.**
+  - All of Checkpoint 3's diagnosis:
+    - the cliff-shaped restoration: per-county t90/t50 of 1.75 in sample,
+      against 2.5 real;
+    - the scatter of county fits within a storm;
+    - the over-MCC looks;
+    - the pooled-window and distance-floor defects;
+    - the shape-0.6 run, with 14 of 18 storms flagged;
+    - the alternative distance scalings.
+  - Two exploratory reruns of the null with a county-level draw, built on 640
+    per-county fits that used the old distance:
+    - 4.9% and 5.4% of looks were flagged;
+    - 5 of 18 storms each, which would already fail 16.6's first check
+      (binomial p = 0.0015);
+    - the five storms were Florence, Laura and Ida, each through one over-MCC
+      county, and Barry and Nicholas, each through their pooled look. 16.3 and
+      16.5 aim at exactly these.
+  - A comparison of over-MCC and other county-events. Among the 98 over-MCC
+    events, the peak is a median 1.43× MCC; up to 45× among those with
+    p₁ ≥ 5k; and 419× overall, where MCC records as few as 6 customers.
+  - **Two pre-commit reviews of this section's drafts.** Independent reviewers
+    checked them on synthetic data and on the Checkpoint 3 numbers already on
+    disk. Three of their findings changed the rules below:
+    - The first draft chose 16.5's cell by scoring each county against its own
+      fit. On synthetic data where the true cell was known, that rule picked a
+      few-crews or shape-3 corner whatever the truth.
+    - The second draft's multiplicity-adjusted bootstrap interval let a luckily
+      better cell through about 6 to 12 times too often on synthetic data. An
+      exact sign-flip test replaced it.
+    - Under 16.4's prior, the minimum size is likely to fall to 1–2k.
+  - Nothing from the held-out years beyond what §3 and Checkpoint 2 list.
+- **This null is weaker evidence than the first.** The changes were chosen
+  after seeing the training failures, and they aim at the storms that failed.
+  Passing it is a gate, not validation. Only the held-out test is clean.
+
+### 16.1 A county-level draw
+
+- **Each world** draws a storm effect η ~ N(μ, B).
+  - Each county look in that storm draws its own θ = η + ε, with ε ~ N(0, C),
+    independent across looks and worlds.
+  - A delay below 0 is set to 0.
+- **The fit.** Each training county-event is fitted alone, by rejection ABC:
+  - prior: uniform on log W ∈ [ln 0.01, ln 100] and delay ∈ [0, 72] h. For
+    the exponential baseline, log τ ∈ [ln 0.1, ln 1000] instead of log W;
+  - 100,000 prior draws; the 500 nearest are kept;
+  - 512 unit worlds per county-event, drawn with replacement;
+  - 16.2's distance.
+
+  That gives a posterior mean m and a covariance V per county-event.
+
+- **The estimator.** Method of moments (matching sample spreads to what the
+  model implies), with storm as a random effect, over all 640 county-events.
+  Storm s has n_s county-events and storm mean m̄_s.
+  - μ = the mean of the storm means. Each storm counts once.
+  - C₀ = the pooled within-storm covariance of county means:
+    Σ_s Σ_c (m_c − m̄_s)(m_c − m̄_s)ᵀ ÷ Σ_s (n_s − 1).
+  - C = C₀ + the mean of V. As in §10, estimation noise is added, not
+    subtracted, so C errs wide.
+  - B starts from S − C₀ × mean(1/n_s), where S is the covariance of the storm
+    means. That difference is scaled to S's correlations and its eigenvalues
+    are floored at 0.1, so the floor does not depend on units. B is not made
+    to err wide.
+  - μ, B and C are plugged in as if known. With 17 or 18 storms, B in
+    particular is uncertain.
+- **The exponential baseline** is fitted and drawn the same way, on
+  (log τ, delay).
+
+### 16.2 A censoring-aware ABC distance
+
+This replaces the scaling disclosed at Checkpoint 3, whose 0.25 h floor bound
+for 179 of 640 events.
+
+- Each feature's scale is 1.4826 × the MAD (median absolute deviation) of the
+  prior-predictive draws that are not censored at 168.25 h, floored at
+  0.25 h.
+- If fewer than 100 draws are uncensored for a feature, the scale is 0.25 h.
+- The distance is the sum of squared scaled differences.
+
+### 16.3 Pooled looks
+
+This replaces §10's pooled window, which left 154 of 287 members untested.
+
+- A storm's county-events below the minimum size still form one look.
+- **Hindsight features** are the p₁-weighted means of the members' own t50,
+  t90 and t95.
+  - Each is measured in the member's own [peak, c] (§7).
+  - A censored milestone enters as 168.25 h.
+- **Each world** simulates every member at its own size and p₁, with its own
+  county draw (16.1), cut at its own c, and takes the same weighted means.
+- **Phase 4's other looks.** The during-storm look, and the looks at +12, +24
+  and +48 h, use the p₁-weighted mean of each member's shares.
+  - A member is left out of a look under §11's rule, applied to its own c and
+    its own read values.
+  - If no member remains, the pooled look is left out.
+  - The Brier score stays per county-event: pooled members are scored one by
+    one.
+  - §11's m counts one pooled look like any other look.
+- So every member is tested, and nothing is read outside a member's window.
+
+### 16.4 Two settings corrected
+
+- **The shrinkage study's peak share** is computed, not typed. It is the median
+  of p₁ ÷ size over kept training county-events, under the chosen cell's
+  sizing: 0.362 under §10's sizing (0.32 had been used), and 0.2755 under
+  "share" sizing.
+- **The shrinkage study's prior** for one county is the county-level marginal
+  N(μ, B + C): the spread a new county's θ is drawn from.
+  - **Direction:** this prior is wider than Checkpoint 3's storm spread.
+    Shrinkage therefore rises, and the minimum size and the pooling will likely
+    fall.
+  - **Preview:** a synthetic preview, built from Checkpoint 3's exploratory
+    numbers, gave a minimum of 1–2k.
+  - **How strong the check is:** 16.6's shrinkage check is close to automatic
+    by construction. The minimum size is the first grid size that reaches 0.8,
+    so the check can only fail if a larger size dips below 0.8, or if 0.8 is
+    never reached.
+  - **Pooled looks are exempt.** Their members all sit below the minimum by
+    construction.
+
+### 16.5 The one structural choice: crews, shape, and over-MCC sizing
+
+Three settings are compared on a fixed grid. One cell is chosen by a fixed
+rule, before the null runs.
+
+- **The grid has 24 cells:**
+  - crews per 10k: √6 × ¼, ½, 1 or 2;
+  - the repair-time Weibull shape: 0.6, 1.5 or 3.0 (§10's base and its
+    sensitivity values);
+  - over-MCC sizing: max(MCC, p₁), as in §10; or p₁ ÷ s for over-MCC counties.
+    Here s is the median p₁ ÷ MCC over kept training county-events that are
+    not over-MCC (0.2755).
+- **Crews.** Every simulated county keeps at least one crew. Below about 6k
+  customers, the ¼, ½ and 1 cells therefore give the same crew count: one
+  crew for 94 of 640 events, counted from expected customers under §10's
+  sizing. The output reports each cell's one-crew events.
+- **Over-MCC sizing.**
+  - **Why it is on the grid.** A peak many times the recorded customer count
+    says MCC is an undercount for these counties. Sizing them to p₁ makes them
+    100% out, which in the simulator damages nearly every section. Sizing them
+    to p₁ ÷ s treats them as typically damaged counties of unknown size.
+  - **The jump.** The rule switches at p₁ = MCC. A county just under MCC stays
+    sized at MCC and nearly 100% out: 44 kept events sit between 0.8 and
+    1.0 × MCC.
+- **What each cell runs:**
+  1. Every training county-event gets its own ABC fit (16.1–16.2).
+  2. Each county-event is then scored **out of sample**. Its forecast is 511
+     worlds from the county-level marginal N(μ, B + C) of a spread fitted
+     without its storm, each with a fresh unit world. The score is the energy
+     score of its (t50, t90, t95), on log hours floored at 1 h, since real
+     milestones are never under 1 h (§7.4).
+  3. Also reported, as description:
+     - each cell's share of county-events whose rank p (§11's statistic)
+       against those worlds is ≤ 0.05, split into over-MCC and other;
+     - the ratios t90/t50 and t95/t50 of real and forecast milestones, for
+       p₁ ≥ 5k with t95 reached.
+  4. Cells share seeds, so they are compared on common random numbers. The
+     exception is the 98 over-MCC events under the two sizings, whose county
+     sizes differ.
+- **The rule:**
+  1. Take the cell with the lowest mean energy score over the 640
+     county-events.
+  2. Keep §10's cell (√6, shape 1.5, max(MCC, p₁)) unless that best cell beats
+     it clearly.
+     - "Clearly" is an exact one-sided sign-flip test over storms. Each
+       storm's summed paired difference (best minus §10's cell) may flip sign
+       at random. The p value is the share of all 2¹⁸ sign patterns whose total
+       is at most the observed total.
+     - The best cell wins if p ≤ 0.025 ÷ 23, an adjustment for picking one of
+       23 alternatives (Bonferroni). The test is deterministic, so it needs no
+       seed.
+     - Each cell's paired difference is also reported with a storm-resampled
+       95% interval (2,000 resamples, seed `restoration-amendment/select/<cell>`),
+       as description only.
+- **Where the chosen cell applies:** the fit, the shrinkage study, the null and
+  Phase 4.
+- **Checked before any real run,** on synthetic county-events drawn from known
+  cells.
+  - The setup: 6 data sets of about 200 events in 14 storms, scored with this
+    commit's scoring code over 5 of the 24 cells, then judged by this rule. The
+    check script lives in the session scratchpad, not the repo.
+  - The lowest mean score went to the true cell, or to a cell with the true
+    crew density, in 5 of 6.
+  - The rule never clearly picked a wrong cell. With that little data it kept
+    §10's cell every time, so its power to leave §10's cell at 640 events is
+    unknown.
+  - The first draft's in-sample rule, run the same way in the review, picked
+    a corner whatever the truth.
+- **It is a fitting choice, not an estimate.**
+  - Crews and shape are still never reported as findings (§13).
+  - A choice at the grid's edge is reported as sitting at the edge.
+- §10's shape-3.0 row is part of this grid. The identifiability probe (the
+  plan's test of whether whole curves can reveal crews and shape) is still not
+  run.
+
+### 16.6 The null and Checkpoint 3's gate
+
+- **The null.** For each training storm:
+  - fit μ, B and C without it;
+  - draw N worlds under 16.1, with N by §11's rule on its number of looks;
+  - score each look;
+  - the storm's p is `minPCombined` over its looks.
+- **Still fitted on all 18 storms, the left-out one included:** the chosen
+  cell, s, the peak share and the minimum size. This is one more reason the
+  null is a gate, not validation.
+- **The amended simulator goes to Phase 4 only if all four hold:**
+  1. §12: the exact one-sided binomial test of storm flags against 5% gives
+     p ≥ 0.05. That means at most 3 of 18 flagged.
+  2. The county-look flag rate's storm-resampled 95% interval does not lie
+     entirely above 5%. This is §9's rule for the held-out headline, computed
+     here in Python with 2,000 resamples and seed
+     `restoration-amendment/loo-county-rate`.
+  3. The median work-rate shrinkage is at least 0.8 at every grid size at or
+     above the minimum size, and that minimum was reached (see 16.4).
+  4. Fewer than half of the county-events are pooled.
+- **The code computes the gate** (`fit loo`), so it is not read off by eye.
+- **The gate is one-sided.**
+  - A spread that is too wide cannot fail it.
+  - So a pass reads "not detectably miscalibrated at this power".
+  - The storm-flag rate's Clopper–Pearson interval and the mean look p (0.5
+    when calibrated) are reported beside it. The power arms of §12 come in
+    Phase 4.
+- **The exponential baseline** runs through the same null and is reported. It
+  is not a gate.
+
+### 16.7 What Phase 4 inherits
+
+- **Held-out worlds** use:
+  - 16.1's draw;
+  - 16.3's pooled looks;
+  - μ, B, C, the minimum size and the chosen cell, all from training. s is
+    training's value.
+- **§12's arms under 16.1:**
+  - The fixed-setting arms fix the storm effect η at the centre, and at the
+    2.5% and 97.5% corners, of N(μ, B). Counties still draw their own scatter
+    from N(0, C).
+  - The delay-shift arm adds the shift to each county's delay, after the clip
+    at 0. County-look flags are split by whether that county's shifted delay
+    lies inside the 2.5–97.5% delay range of the county-level marginal
+    N(μ, B + C). Storm flags are reported unsplit.
+- **The zero-format bound** from Checkpoint 2 is computed on training data
+  before unsealing and reported. It is a worst case for how much the held-out
+  files' explicit zeros could delay real milestones. It is report-only: it changes no rule, and a
+  large effect goes into the write-up as a caveat.
+- **§3's addendum and gate are unchanged, with two additions:**
+  - the addendum records the SHA-256 of the amended spread, shrinkage,
+    selection and null files, and of the training-events file they all read;
+  - the unseal gate also requires the null's computed `go`.
+
+### 16.8 One run, enforced
+
+- **From the command line, every fit stage:**
+  - refuses to run while this file or `engine/python/eaglei` has uncommitted
+    edits;
+  - records the commits it ran from.
+- **Every result write is logged** in `runs.log`, with its hash and commits.
+- **Selection and null files are written once.** A second write needs
+  `--deviation "<reason>"`. Once the selection exists, a grid cell also reruns
+  only with `--deviation`.
+- **Inputs are chained by hash.**
+  - Every result records the hash of the training-events file.
+  - The fit records the selection file's hash, and the shrinkage study the
+    fit's.
+  - The fit refuses if the data changed since selection. The shrinkage study
+    and the null refuse if the selection file or the data on disk differ from
+    what the fit used. The null also refuses if the shrinkage study used
+    another fit.
+- **Selection refuses** unless all 24 cells record one commit (from the
+  command line, a commit must be recorded) and one training-events file.
+- **A bug fix after the null result** is allowed only if it is shown on unit or
+  synthetic inputs. Both runs are then reported.
+
+### 16.9 Known limits this amendment does not fix
+
+- **Real milestones cannot fall in the first hour; simulated ones can.** The
+  peak is a level held for 1 h (§7.4), while the simulator restores from
+  t = 0. Only 16.5's score floors at 1 h; §11's rank check does not.
+- **The cut c depends on the outcome** (§7.7). A cut-early event had to end,
+  12 h below T, before c. Simulated worlds are cut at the same c with no such
+  condition.
+- **B is estimated from 17 or 18 storms** and plugged in as known (16.1).
+- **The minimum-size check is close to automatic** (16.4).
+
+### 16.10 Not changed
+
+- The data, storms and counties.
+- Reading the files, the events and the drops.
+- The features.
+- §11's score and ensemble rule.
+- §9's headline switch.
+- §3's seal.

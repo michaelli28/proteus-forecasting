@@ -210,3 +210,263 @@ bash python/eaglei/fetch.sh                                   # download + MD5 c
 The FEMA snapshot was fetched once, by `python/eaglei/fetch_fema.sh`, and is not
 re-fetched. Package versions: numpy 2.5.2, pandas 3.0.5, scipy 1.18.0 and
 matplotlib 3.11.1.
+
+---
+
+# Checkpoint 3: the model fit, on training storms only
+
+These are local runs on the 2018–2021 training files, done on 2026-09-23. The code is under
+`engine/python/eaglei/` (`county_sim`, `fit`, `pooling`, `rank`, plus the `diag_*` scripts). No
+held-out file was opened in this phase: the only outage-file reads are in `fit.pooled_members`,
+which is guarded to 2018–2021, and in `plot_insample`, which sees training storms only.
+
+**Evidence class (b):** local runs on public data and synthetic feeders.
+
+## In plain English
+
+- **What this does.** It fits the county simulator, and a simple exponential-decay curve beside it,
+  to the 18 training storms. Then it runs the protocol's self-check before any test storm is
+  opened: hide one training storm, fit on the other 17, and ask the check about the hidden one.
+  If the model is right, the check should flag a storm only about 5% of the time.
+- **What it found.**
+  - **The self-check fails.** The simulator gets flagged on 15 of 18 hidden training storms, and on
+    53% of county-level looks.
+  - **The pre-registered remedy doesn't rescue it.** Widening the fitted spread brought that down to
+    6 of 18, which is still far above 5%.
+  - **So the test is not run on this model.** Phase 4 is held back, and the held-out storms stay
+    sealed.
+- **What's wrong, as far as training data shows.**
+  - **The fitted simulator restores like a cliff.** It gives a long wait, then nearly everyone back
+    at once. Real counties come back gradually, with long tails.
+  - **Counties in one storm come out very differently when fitted one by one.** The protocol has
+    them all share one setting per storm.
+  - **Freeing each county helps a lot,** but it doesn't fix the cliff. Even fitted alone, a county's
+    simulated curve is steeper than its real one.
+  - **The rule for pooling small counties has a defect.** Half the pooled counties never enter the
+    window that gets tested.
+- **Why it matters.** Catching this is what the check is for. Because the protocol was frozen and
+  the test storms were sealed, the model failed on its own training data first, with the test set
+  untouched and still usable for a fixed model.
+
+## What was fitted
+
+These settings were fixed in code before the leave-one-out null ran, except where marked. The code
+itself is committed only with this document, so git records those settings from here on.
+
+- **Simulator** (`county_sim.py`). It is spike S3's structure:
+  - 60-section random feeders, with about 17 customers per section;
+  - damage set so the customers out at t = 0 reach the observed peak (median overshoot 2–5%);
+  - √6 crews per 10k customers;
+  - Weibull(1.5) repair times, worked through a static most-customers-first list.
+  - Restore times are affine in (scale, delay). So a world is simulated once, at unit scale, and
+    every (W, delay) is arithmetic on it. A test checks this against re-simulation.
+- **Exponential baseline.** Customers out = p₁·exp(−(t − delay)/τ) after the delay.
+- **ABC fit per storm.**
+  - Draws: 100,000 from a uniform prior: log W on [ln 0.01, ln 100], or log τ on [ln 0.1, ln 1000],
+    and delay on [0, 72] h.
+  - Selection: keep the 500 draws closest to the storm's milestones, summed over its
+    county-events. Rejection ABC weights every kept draw equally, so the ESS is 500 per storm.
+  - Distance: each feature is scaled by 1.4826 × MAD of the prior predictive.
+  - Worlds: 512 unit worlds per county-event, drawn with replacement.
+- **Known defect in the distance.** A 0.25 h floor was meant only for features the prior predictive
+  never moves. It also applies whenever at least half the prior draws are censored at 168.25 h:
+  179 of 640 county-events, spread across all 18 storms. Such a feature then outweighs the others
+  by about 25,000×. Under two other scalings the audit tried, Barry's fitted delay moves from 6.9 h
+  to 20–24 h, but the cliff survives all three. The verdict does not depend on it. Any amendment
+  should scale on uncensored draws.
+- **Spread** (§10). The mean of the per-storm posterior means, and the covariance of those means
+  plus the mean posterior covariance. The simulator's spread has log W mean −1.90 (sd 1.23) and
+  delay mean 9.5 h (sd 12.6). The spread file's SHA-256 is `ae98ca82…6511be37`.
+- **Rank check in Python** (`rank.py`). It reproduces `rank-check.ts` exactly: the p-values are
+  identical in a test that runs both. It sorts instead of comparing every pair, so it scales to
+  thousands of worlds.
+
+## Minimum county size and pooling
+
+The median work-rate shrinkage of one county-event, against the fitted spread (100 truths each, at a
+peak share of 0.32):
+
+| Customers out at the peak | 1k   | 2k   | 3k     | 5k   | 7.5k | 10k  | 15k  | 20k  |
+| ------------------------- | ---- | ---- | ------ | ---- | ---- | ---- | ---- | ---- |
+| Shrinkage                 | 0.61 | 0.66 | 0.7995 | 0.81 | 0.86 | 0.88 | 0.87 | 0.90 |
+
+- **The minimum size is 5,000.** The 3,000 row misses 0.8 by 0.0005. That knife edge is why the
+  rule was fixed in advance.
+- **Two inputs were not what they were meant to be.**
+  - The peak share of 0.32 was meant to be the median p₁ ÷ county size, but the actual median is
+    0.362. The audit reran the study at 0.362 (3k gives 0.79, 5k gives 0.83), and the minimum is
+    still 5,000.
+  - The study measures shrinkage against the fitted spread, not the wide ABC prior. Against a very
+    wide prior, shrinkage is high for any county.
+- **Pooling.** 287 of the 640 training county-events (44.8%) are pooled, one pooled look per storm.
+  That leaves 371 looks.
+- **Defect: the pooled window (§10) is too short.** §10's pooled window runs from the earliest
+  member's peak to the earliest member's c.
+  - 154 of the 287 pooled members (54%) peak after that window closes. They contribute only their
+    observed series, which is identical in the real curve and in every world, so they are never
+    tested.
+  - 11 of the 18 pooled looks peak below 5,000 customers.
+  - Ida's and Fred's pooled looks never reach a milestone at all, so their p is always 1.
+
+## The leave-one-storm-out null (pre-registered, §12)
+
+| Model                                      | Storms flagged | Binomial p vs 5% | County-level looks flagged     |
+| ------------------------------------------ | -------------- | ---------------- | ------------------------------ |
+| Simulator                                  | 15 / 18        | 2e-17            | 195 / 371 = 52.6% [43.7, 59.7] |
+| Exponential baseline                       | 10 / 18        | 3e-9             | 247 / 371 = 66.6% [50.0, 77.6] |
+| Simulator, spread × 4                      | 6 / 18         | 2e-4             | 47 / 371 = 12.7% [7.5, 18.1]   |
+| Exponential, spread × 4                    | 4 / 18         | 0.011            | 22 / 371 = 5.9% [1.4, 10.8]    |
+| Simulator, shape 0.6 (§10 sensitivity row) | 14 / 18        | 1.5e-15          | 189 / 371 = 50.9% [42.3, 58.3] |
+
+- **Intervals** resample whole storms. They are computed in Python with their own seed; the Phase 4
+  check would use `stratifiedBootstrap`.
+- **Ensembles** are 1,023–4,095 worlds per storm.
+  - §11's rule is applied to the number of hindsight looks. §11 defines m by the three-look check,
+    which is not run here.
+  - The null's validity does not depend on N.
+- **Unflagged storms.** The three storms the simulator does not flag all have 1–3 looks: Cristobal,
+  Eta and Elsa. Nicholas, with 1 look, is flagged.
+- **The remedy** is "widen the spread and re-check" (plan, Checkpoint 3). One step of ×4 on the
+  covariance (×2 on each standard deviation) was chosen after the base run failed and before its
+  own result was seen. There was no second step: an ever-wider spread eventually passes any storm,
+  and then it can catch no error at all.
+- **Robustness of the verdict.** Two of the six storms still flagged after widening, Barry and
+  Nicholas, are flagged through their pooled look. Dropping both still leaves 4 of 17 (binomial
+  p = 0.009).
+- **§10's shape-3.0 sensitivity row was not run.**
+
+## Checkpoint 3 go/no-go
+
+| Criterion (plan, Checkpoint 3)                     | Result                                                                                                                          |
+| -------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| Work-rate shrinkage ≥ 0.8 at the county sizes used | Pass for county looks ≥ 5k. Not met by pooled looks: 11 of 18 peak below 5k, and 154 pooled members never enter a tested window |
+| Not most county-events pooled                      | Pass: 44.8%                                                                                                                     |
+| Leave-one-out rate not clearly above 5%            | **Fail:** 15/18, and 6/18 after widening                                                                                        |
+
+**NO-GO.** Phase 4 does not run on the pre-registered model.
+
+- `docs/RESTORATION-ADDENDUM.md` is deliberately **not** written. It is the file whose hash unseals
+  the held-out storms (§3), and nothing should be unsealed for a model that fails its own null.
+- The held-out split remains sealed.
+
+## What goes wrong (diagnosis, exploratory, training data only)
+
+1. **The fitted simulator restores like a cliff.** CONFIRMED by measurement
+   (`diag_ratios.py`). The table compares real counties with p₁ ≥ 5k and t95 reached (n = 314)
+   against 4,000 worlds from the fitted spread, for a 40k-customer county with 12k out:
+
+   | Ratio                       | Real: 10th / median / 90th | Simulated: 10th / median / 90th |
+   | --------------------------- | -------------------------- | ------------------------------- |
+   | Hours to 90% ÷ hours to 50% | 1.46 / 2.50 / 5.08         | 1.01 / 1.09 / 2.2               |
+   | Hours to 95% ÷ hours to 50% | 1.65 / 3.08 / 6.16         | 1.01 / 1.14 / 2.9               |
+   - Among real counties with p₁ ≥ 5k, 39 of 353 had not reached 95% within the week. That is 36,
+     or 10%, if the three cut early are left out. Almost no simulated world missed it.
+   - The simulated 90th percentiles move by about ±0.1 from one seed to the next.
+
+   The figure shows real curves against each storm's own in-sample band. It is in-sample by
+   construction, so it shows what the model can fit at all:
+
+   ![Real training curves against the simulator's and the exponential's in-sample bands](restoration-checkpoint3-insample.png)
+
+2. **The shape family alone is not the cause.** At zero delay, the simulator's median unit restore
+   times give ratios of 2.4 and 3.0 (`diag_ratios.py`). That is close to the real medians, so the
+   storm-level fit's long delays make the cliff much worse.
+3. **But fitting each county alone still leaves it too steep.** Per-county in-sample t90/t50 has a
+   median of 1.75 (10th–90th percentile 1.27–2.12), against the real 2.50. Storm-shared fits give
+   1.15. So sharing a setting deepens the cliff, and something in the shape is still missing
+   (ASSUMED: for example, the fixed √6 crews per 10k, see item 4).
+4. **Counties' fits scatter widely within a storm.** CONFIRMED as a measurement: fitted alone, the
+   variance of county means within a storm is a median 6.7× each county's own posterior variance
+   for log W, and 2.5× for delay. Restricted to counties the distance floor doesn't touch, it is
+   6.0× and 3.5×.
+   - Part of that scatter tracks county size (r = 0.42) and early cutting (r = −0.26). Size, peak
+     share and cut-early explain 22% of it.
+   - That the counties truly restore at different paces is ASSUMED. Some of the scatter may be a
+     size effect of the model itself.
+5. **Reruns of the null** (exploratory, training only):
+   - **A separate draw for each county,** from a spread fitted across counties: 5 of 18 storms are
+     flagged (binomial p = 0.0015), and 18 of 371 looks (4.9% [3.2, 7.0]).
+   - **A storm effect plus county scatter** (two levels, method of moments on the per-county
+     fits): 5 of 18 storms, and 20 of 371 looks (5.4% [3.2, 8.0]). The between-storm SDs are 0.83
+     for log W and 4.2 h for delay, against 1.68 and 12.2 h within storms.
+     - The estimator subtracts slightly too much. Corrected, the between-storm SDs are 0.74 and
+       3.6 h, and the conclusion doesn't change.
+   - **Both runs gave all members of a pooled look one shared draw,** not one draw per county.
+   - **The overall 4.9–5.4% is an average of two groups:**
+
+     | Looks             | Flagged        |
+     | ----------------- | -------------- |
+     | Over-MCC counties | 8 / 78 = 10.3% |
+     | All other looks   | 7 / 275 = 2.5% |
+
+     All three county looks with p ≤ 1/512 are over-MCC counties: more customers out than their
+     modelled count, about 100% out.
+
+   - **Each leftover flagged storm is flagged by a single outlier look:**
+     - Florence, Laura and Ida by an over-MCC county;
+     - Barry and Nicholas by their pooled look.
+
+     So these runs do not show a shared storm component beyond one storm effect.
+
+## Options for Michael
+
+**(a) Amend the model before unsealing.** It is a dated deviation, refit and re-checked on
+training storms. Write the addendum and run Phase 4 once only if the null passes. The candidates,
+from the diagnosis:
+
+- a county-level draw, with or without a storm effect;
+- a pooled window that covers every member;
+- a treatment for over-MCC counties;
+- a censoring-aware ABC distance;
+- a look at the crew-density assumption behind the remaining steepness.
+
+The held-out storms stay clean for this, because nothing about their outcomes informed the change.
+What has been seen of them so far:
+
+- the schema read (headers and county codes);
+- the Checkpoint 2 counts;
+- the per-file loader stats, including the explicit-zeros finding;
+- the 2024 head, whose four counties are excluded as `seen`.
+
+About 1–2 sessions.
+
+**(b) Stop the real-data test here.** Publish the lab, the synthetic check, and this negative
+Checkpoint 3 as the finding. The frozen protocol caught a wrong modelling assumption on training
+data, before any test outcome.
+
+**(c) Run Phase 4 on the failed model anyway.** This is not recommended. The result is
+predictable, since it would flag most storms, so it teaches nothing new.
+
+## What this does not show
+
+- **The exploratory reruns are not pre-registered.** They point to a design; they don't validate it.
+- **Crews and repair-time shape are never reported.** Neither identifiability probe was run: not the
+  noisy one (drop order, item 4) and not the clean one.
+- **Nothing about held-out storms.** No held-out value was read in Phase 3.
+- **The explicit-zeros risk from Checkpoint 2 is not yet bounded.** Real curves can have missing
+  slots, and simulated curves never do. On training data this changes no milestone. It will matter
+  on the held-out years.
+
+## Notes
+
+- **The macOS sandbox blocks Python's process pool,** so every stage ran in a single process. This
+  changes timing only; the seeds are per task.
+- **The first "spread × 4" run silently reran the unwidened model.** A text patch missed its target.
+  Its output matched the base run to every digit, which is what gave it away. It was fixed and
+  rerun, and the table above shows the real rerun.
+- **An independent audit reproduced the results.** It reran the committed code, and the base null
+  matched bit-for-bit on 10 storms × both models. It is the source of the defects listed above.
+
+## Reproduce (Checkpoint 3)
+
+From `engine/`, after Checkpoint 2's training run:
+
+```bash
+.venv/bin/python -m python.eaglei.fit abc shrink loo        # about 15 min; writes .cache/restoration-check/phase3/
+.venv/bin/python -m python.eaglei.fit loo --widen 4         # the pre-registered remedy
+.venv/bin/python -m python.eaglei.fit abc loo --shape 0.6   # §10's sensitivity row
+.venv/bin/python -m python.eaglei.diag_ratios               # exploratory: the milestone-ratio table
+.venv/bin/python -m python.eaglei.diag_county_theta         # exploratory: per-county fits and draws
+.venv/bin/python -m python.eaglei.diag_county_theta hier    # exploratory: two-level draws
+.venv/bin/python -m python.eaglei.plot_insample
+```

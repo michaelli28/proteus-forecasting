@@ -611,7 +611,8 @@ and §10's cell; all 24 are in `selection.json`:
 ## Before Phase 4 unseals anything
 
 1. The zero-format bound on training data (§16.7), report-only.
-2. `docs/RESTORATION-ADDENDUM.md`, with the SHA-256 of these files. All ran at `7a71a8b`:
+2. `docs/RESTORATION-ADDENDUM.md`, with the SHA-256 of these files. The four `phase3-amended/`
+   files ran at `7a71a8b`; `train-events.csv` is Checkpoint 2's, from `51b3dd4` (corrected at Checkpoint 4):
 
    | File                            | SHA-256 (first 16 hex) |
    | ------------------------------- | ---------------------- |
@@ -637,3 +638,416 @@ FIT_WORKERS=1 .venv/bin/python -m python.eaglei.fit abc shrink loo   # about 16 
 
 `select` and `loo` refuse to run twice without `--deviation "<reason>"`. Outputs are in
 `.cache/restoration-check/phase3-amended/`, with `runs.log`.
+# Checkpoint 4: the check on held-out storms (Phase 4)
+
+These are local runs on public data and synthetic feeders, done on 2026-09-23.
+Evidence class (b).
+
+- **The rules:**
+  - the protocol (`RESTORATION-PROTOCOL.md`, with §16 at `7a71a8b`);
+  - the addendum (`RESTORATION-ADDENDUM.md`, at `b1e3b44`; first version
+    `e62bac1`);
+  - code commit `7f842e4`, which the gate enforces.
+- **The order:**
+  1. the zero-format bound (`062740e`);
+  2. the addendum;
+  3. the synthetic arms and the training rehearsal (`b1e3b44`);
+  4. the held-out check, once, from `b1e3b44`.
+- **Outputs** are in `engine/.cache/restoration-check/phase4/`. `runs.log`
+  records four writes, each with no deviation.
+
+## In plain English
+
+- **What this does.** The restoration model was frozen, with its code and every
+  random seed. Then, for the first and only time, it was tested on the sealed
+  2022–25 storms: do their real restoration curves look like draws from a model
+  that only ever saw 2018–21?
+- **The pre-registered answer: not rejected.**
+  - 3.9% of the county-level looks were flagged, with an interval of [1.7%, 5.2%].
+  - The rule, fixed in advance, rejects only if that whole interval sits above
+    5%. It doesn't.
+- **The storm-level count is worse.**
+  - 3 of the 9 larger storms were flagged: Ian, Beryl and Francine.
+  - Debby and Helene missed a flag by 0.0005 and 0.001.
+  - The simpler exponential-decay baseline flags more looks (7.6%) but only 1
+    of the 9 storms.
+  - That is more whole storms than a 5% false-alarm rate would produce. The
+    protocol judges by this count when there are 10 or more larger storms. On
+    these 9 its test gives p = 0.008, which would reject.
+  - Both readings are reported. The rule chosen in advance decides, and the
+    storm count is the more worrying signal.
+- **The over-MCC prediction, written down before the test, held for rates but
+  not for storms.**
+  - Counties whose outage peak exceeds their recorded customer count flag at
+    8.6%, against 2.8% for the rest.
+  - They give only 7 of the 17 flags.
+  - None of the three flagged storms depends on them.
+- **Forecasting.** 12 hours after the peak, the model forecasts "95% restored
+  within 3 days". It beats an exponential-decay baseline conditioned the same
+  way, and a fixed base rate.
+  - The peak is known in hindsight, so this is not a real-time forecast.
+  - Its Brier score is 0.127, against 0.172 and 0.229.
+  - Both gaps have intervals that exclude zero.
+- **What the synthetic tests say about the check itself.**
+  - **Its storm-level flag catches** large planted errors: long-lasting small
+    outages, and repair crews arriving two days late.
+  - **It barely sees** a heavier-tailed repair time.
+  - **It cannot see** whether crews put critical facilities first.
+
+## Before unsealing
+
+### The zero-format bound (§16.7, report-only)
+
+This ran at `062740e`, on training storms only (`phase4/zero-bound.json`).
+
+- **The rule tested.** Every training county's absent rows count as missing,
+  which is how §6 treats counties that store zeros. It is a worst case.
+- **Milestones barely move.**
+  - 286 of the 640 kept events stay kept.
+  - Among those, t50, t90 and t95 are unchanged for 273 of 276, 250 of 253 and
+    240 of 243 events.
+- **Events drop, and the drops select.** 354 events drop: 323 for `coverage`,
+  17 for `resurge` and 14 for `left_censored`. The dropped events are the fast
+  ones, because an event that falls back to zero has absent rows to lose.
+
+  | Under the worst case | Events | Median t50 / t90 / t95 (h) | t95 not reached |
+  | -------------------- | ------ | -------------------------- | --------------- |
+  | Still kept           | 286    | 27.0 / 72.75 / 83.75       | 15%             |
+  | Dropped              | 354    | 5.62 / 15.0 / 21.62        | 0.3%            |
+
+- **So the risk is selection, not measurement.** The held-out files' extra
+  `coverage` drops (9.6%, against 2.4% in training) could leave a slower
+  held-out sample. The net effect on the flag rate is not known. §13's flag is
+  two-sided, and the model already leaves t95 unreached more often than real
+  counties do.
+
+### The addendum and the gate
+
+- **Michael's go-ahead** for Phase 4 came on 2026-09-23, before anything was
+  unsealed:
+  - "do phase 4";
+  - the clickable choice "Yes, run it" for the held-out check, once the
+    addendum was audited and committed and the gate passed.
+- **The addendum** is `docs/RESTORATION-ADDENDUM.md`, first committed at
+  `e62bac1`.
+  - It was audited by three independent readers before that commit.
+  - Its named code commit was updated at `b1e3b44` (2026-09-23 21:02 UTC).
+    That was before anything was unsealed, and before the arms, the rehearsal
+    or the held-out check wrote anything. Only the report-only zero bound,
+    which the addendum cites, came earlier.
+  - The new code does two things: it records each look's county for the
+    over-MCC split, and its storm-resampled intervals skip resamples with no
+    looks. Scoring did not change.
+  - Every Python interval reported here used all 2,000 resamples, so the
+    interval change moved no number. The addendum dates the change.
+- **The gate** opened only when all of these held:
+  - the addendum commit and code commit `7f842e4` are ancestors of HEAD;
+  - the check's code at HEAD is identical to `7f842e4`;
+  - the five hashed files match: the four Phase 3 files and Checkpoint 2's
+    `train-events.csv`;
+  - the null's `go` belongs to those files;
+  - the input MD5s match protocol §2;
+  - a clean training rehearsal ran from the same HEAD.
+- **A pre-registered prediction.** The addendum named over-MCC counties as the
+  place held-out flags were expected, before the answer was known.
+
+### The training rehearsal (a code test, not a result)
+
+`held_out --rehearse` ran every step of the check on the training storms, from
+`b1e3b44`. The spread was fitted on those same storms, so these numbers are in
+sample.
+
+- **Hindsight:**
+  - 15 of 473 looks flagged, 3.2% [1.8, 5.1];
+  - 2 of 16 storms with at least 5 county-events [1.6, 38.3].
+- **+12 h:** 30 of 471 looks flagged, 6.4% [3.9, 9.5].
+- **The over-MCC pattern shows here too:**
+  - 10 of 89 over-MCC looks flagged, 11.2% [3.3, 24.2];
+  - against 5 of 384 other looks, 1.3% [0.3, 2.3].
+
+## The synthetic arms (§12 under §16.7, training storms only)
+
+These ran at `b1e3b44` (`phase4/arms.json`), and finished before the held-out
+split was unsealed. Each arm has 1,000 storm-level replicates cycled over the 18
+training storms. They are paired: every arm reuses the null arm's draws and
+changes one thing.
+
+| Arm                          | Storms flagged of 1,000 [Wilson 95%] | Looks flagged [storm-resampled 95%] |
+| ---------------------------- | ------------------------------------ | ----------------------------------- |
+| Null (code test) | 4.2% [3.1, 5.6] | 4.1% [3.7, 4.5] |
+| Fixed η: centre | 4.8% [3.6, 6.3] | 3.5% [3.2, 3.8] |
+| Fixed η: fast corner | 2.3% [1.5, 3.4] | 3.2% [2.1, 4.3] |
+| Fixed η: slow corner | 14.3% [12.3, 16.6] | 9.7% [8.9, 10.9] |
+| Prolonged small failures 2% | 6.1% [4.8, 7.8] | 4.5% [4.1, 4.8] |
+| Prolonged small failures 5% | 18.9% [16.6, 21.4] | 6.5% [6.0, 7.4] |
+| Prolonged small failures 10% | 74.5% [71.7, 77.1] | 18.0% [15.3, 22.6] |
+| Heavier tail σ 0.5 | 5.4% [4.2, 7.0] | 4.4% [3.9, 4.8] |
+| Heavier tail σ 1.0 | 10.7% [8.9, 12.8] | 4.7% [4.2, 5.2] |
+| Heavier tail σ 1.5 | 17.0% [14.8, 19.5] | 5.3% [4.7, 5.7] |
+| Delay +12 h | 4.0% [3.0, 5.4] | 3.7% [3.4, 4.2] |
+| Delay +24 h | 12.6% [10.7, 14.8] | 5.6% [4.7, 6.9] |
+| Delay +48 h | 61.6% [58.5, 64.6] | 13.7% [10.4, 19.3] |
+| Blind spot: critical first | 3.9% [2.9, 5.3] | 3.9% [3.5, 4.3] |
+
+- **The null** flags 4.2%, and its storm p-values are flat (10-bin χ²
+  p = 0.20). It passes by construction.
+- **The fixed-setting arms move far less than in spike S3.**
+  - Across the spread's corners, the storm flag rate runs from 2.3% to 14.3%.
+  - S3's toy ran from 0% to 99.8%, but its corners were the prior box's edges,
+    not quantiles of a fitted spread.
+  - A storm as slow as the 97.5% corner is still flagged about three times as
+    often as 5%. So "≤ 5%" holds on average over the spread, not for every
+    storm.
+  - A likely reason (ASSUMED): the fitted spread is mostly county-to-county.
+    The delay variance is 206 within a storm, against 9.4 between storms.
+- **δ\*, the smallest dose the check reliably catches:**
+  - prolonged small failures at 10% of out nodes (74.5%);
+  - a delay of +48 h (61.6%);
+  - a heavier repair-time tail beyond σ = 1.5, since it never passes 50%.
+  - The Wilson intervals ignore that one storm's replicates share an ensemble,
+    so δ\* may be optimistic.
+- **The delay split** (county looks, storm-resampled 95%):
+
+  | Shift | Inside the training spread | Outside           | Pooled looks       |
+  | ----- | -------------------------- | ----------------- | ------------------ |
+  | +12 h | 2.9% [2.5, 3.3]            | 6.8% [5.3, 8.9]   | 13.7% [10.4, 17.2] |
+  | +24 h | 2.1% [1.9, 2.6]            | 7.3% [5.8, 9.6]   | 46.3% [29.7, 61.2] |
+  | +48 h | (none inside)              | 11.3% [8.3, 16.6] | 79.3% [61.8, 94.1] |
+  - A shifted delay is caught mainly once it leaves the training spread.
+  - Pooled looks catch it far more often. A likely reason (ASSUMED): averaging
+    many small counties removes their county-level noise, so a shared shift
+    stands out.
+
+- **The blind spot.** Repairing critical facilities first is invisible to the
+  check:
+  - 3.9% flagged against 4.2%, a paired difference of −0.3 points;
+  - McNemar p = 0.68 (13 replicates flagged only under the null, 10 only under
+    the blind spot).
+- **The design effect** is 1.38. The intraclass correlation of look flags is
+  0.008 over a size-weighted 49.6 looks per storm, so a storm's looks count as
+  fewer independent looks than they seem.
+
+## The held-out check (run once)
+
+`engine/.cache/eaglei/unseal.log`, written by the gate before any held-out value
+was read:
+
+```json
+{
+  "utc": "2026-09-23T21:44:35+00:00",
+  "addendum_commit": "b1e3b449647f1662fb45301e82eeafa9b928d43f",
+  "head": "b1e3b449647f1662fb45301e82eeafa9b928d43f",
+  "deviation": null
+}
+```
+
+- **Checks before any scoring:**
+  - the input MD5s matched protocol §2;
+  - the held-out events matched Checkpoint 2's per-storm kept counts and
+    per-file loader stats.
+- **The run** took 1 h 39 min, from 21:44 to 23:23 UTC. `held-out.json` is written
+  once, and `runs.log` records it with no deviation.
+- **Packages:** numpy 2.5.2, pandas 3.0.5, scipy 1.18.0.
+
+### The pre-registered result (§9 with Y = 9, and §11)
+
+|                                               | Simulator                      | Exponential baseline        |
+| --------------------------------------------- | ------------------------------ | --------------------------- |
+| County-event flag rate (**headline**)         | 17 / 434 = **3.9%** [1.7, 5.2] | 33 / 434 = 7.6% [1.1, 11.8] |
+| Rejected (interval entirely above 5%)?        | **No**                         | No                          |
+| Storms flagged, of Y = 9 [Clopper–Pearson]    | 3 [7.5%, 70.1%]                | 1 [0.3%, 48.2%]             |
+| Storms flagged, of all 13 with a county-event | 3 [5.0%, 53.8%]                | 1 [0.2%, 36.0%]             |
+
+The rate intervals come from the engine's `stratifiedBootstrap`, resampling whole
+storms, 2,000 times.
+
+- **The verdict under the pre-registered rule: not rejected.**
+- **The storm count points the other way.**
+  - 3 of 9 storms flagged gives an exact one-sided binomial p = 0.008 against
+    5%.
+  - §9 uses that test when Y ≥ 10. Here it would reject.
+  - Y was 9, fixed by Checkpoint 2's counts before any curve was read. So the
+    rate rule decides, and the storm count is reported beside it.
+  - **Near misses.** Two more storms missed a flag by 0.0005 and 0.001:
+    Debby (p = 0.0505) and Helene (p = 0.0511).
+  - **The baseline does not share the problem.** The exponential baseline
+    flags 1 of the 9 storms (binomial p = 0.37). It would pass the storm-count
+    rule too, although it flags more looks (7.6%).
+- **How the two can differ.**
+  - **What the storm p asks** (§11's `minPCombined`): what share of the
+    storm's simulated worlds have a most-extreme look at least as extreme as
+    the storm's own? The storm flags when that share is 5% or less.
+  - So one county beyond every world flags a storm, while many moderate look
+    flags need not. Helene gives 9 of the 17 look flags and is not flagged.
+  - **What drove each flag** (CONFIRMED from `held-out.json`):
+    - Ian: one county look ranks beyond all 16,383 of its worlds (look
+      p = 1/(N+1)).
+    - Beryl: one county look ranks beyond all 8,191 of its worlds.
+    - Francine: its pooled look (look p = 0.005).
+  - **Two kinds of flag** (CONFIRMED):
+    - in 2 of 9 storms (Ian, Beryl), one county look lay beyond every
+      simulated world;
+    - Francine's pooled look was matched or beaten by 20 of its 4,095 worlds,
+      and that one look gives its storm p of 0.039.
+  - **Possible causes** (ASSUMED). The run cannot tell which:
+    - a county-to-county spread C too narrow;
+    - a storm-to-storm spread B too narrow for 2022–25. B comes from 18 storms
+      and is floored (§16.1);
+    - the model's structure: curve shape, first-hour milestones, the
+      outcome-dependent cut (§16.9);
+    - drift between the periods;
+    - data quirks such as the over-MCC counties or the zero format.
+
+| Storm     | County-events | Looks | N      | Hindsight p | Looks flagged | +12 h p | Multi-look p | Exponential p |
+| --------- | ------------- | ----- | ------ | ----------- | ------------- | ------- | ------------ | ------------- |
+| Ian       | 74            | 57    | 16,383 | **0.002**   | 2             | 0.0004  | 0.0007       | 0.397         |
+| Nicole    | 20            | 11    | 2,047  | 0.860       | 0             | 0.512   | 0.881        | 0.873         |
+| Hilary    | 1             | 1     | 1,023  | 0.396       | 0             | 0.432   | 0.874        | 0.366         |
+| Idalia    | 44            | 34    | 8,191  | 0.404       | 1             | 0.855   | 0.951        | 0.656         |
+| Lee       | 11            | 11    | 2,047  | 0.997       | 0             | 0.875   | 1.000        | 0.667         |
+| Beryl     | 28            | 28    | 8,191  | **0.003**   | 3             | 0.560   | 0.311        | 0.094         |
+| Debby     | 89            | 53    | 8,191  | 0.051       | 1             | 0.0004  | 0.0006       | 0.0009        |
+| Ernesto   | 2             | 2     | 1,023  | 0.257       | 0             | 0.194   | 0.266        | 0.229         |
+| Francine  | 22            | 17    | 4,095  | **0.039**   | 1             | 0.459   | 0.830        | 0.268         |
+| Helene    | 229           | 188   | 32,767 | 0.051       | 9             | 0.0002  | 0.0002       | 0.402         |
+| PTC Eight | 1             | 1     | 1,023  | 0.239       | 0             | 0.097   | 0.189        | 0.553         |
+| Milton    | 28            | 27    | 4,095  | 0.868       | 0             | 0.0007  | 0.0012       | 0.699         |
+| Chantal   | 4             | 4     | 1,023  | 0.347       | 0             | 0.002   | 0.005        | 0.992         |
+
+- The table is storm-level only.
+- A storm's county-events below 3,000 customers out form one pooled look.
+- Remnants of Typhoon Halong had no county-event.
+- The storm-level histogram of hindsight p-values in 5 bins is descriptive
+  only:
+  - simulator 5 / 4 / 1 / 0 / 3;
+  - baseline 2 / 4 / 2 / 3 / 2.
+
+### The over-MCC split, predicted before unsealing
+
+The addendum (§7) named counties whose outage peak exceeds MCC as where flags
+were expected. Hindsight look flags, with storm-resampled 95% intervals:
+
+|                       | Simulator                  | Exponential baseline        |
+| --------------------- | -------------------------- | --------------------------- |
+| Over-MCC county looks | 7 / 81 = 8.6% [4.8, 17.9]  | 16 / 81 = 19.8% [0.0, 27.7] |
+| All other looks       | 10 / 353 = 2.8% [1.1, 3.9] | 17 / 353 = 4.8% [1.3, 7.2]  |
+
+- **The prediction held on rates.** The training null gave 10.1% against 1.3%.
+- **It does not hold for storms.**
+  - Over-MCC looks give 7 of the 17 flags.
+  - None of the three storm flags depends on an over-MCC look.
+  - The addendum also expected storms to flag through over-MCC counties, as
+    both flagged training storms did. That part did not hold.
+  - Ian's most extreme look is not over-MCC. Its second flagged look is.
+  - Beryl's most extreme look is over-MCC, as is one of its other two flagged
+    looks. Its next look, which is not over-MCC, alone keeps its storm p below
+    1%.
+  - Francine's only flagged look is its pooled look.
+
+### Secondary results (§11)
+
+- **The +12 h during-storm check:**
+  - **The simulator** flags more than in hindsight: 8.8% [3.9, 17.8] of looks,
+    against 3.9%, and 5 of 13 storms [13.9, 68.4], against 3.
+  - **The baseline** flags fewer looks than in hindsight, 5.5% [3.0, 9.5]
+    against 7.6%, but more storms: 5 of 13 [13.9, 68.4], against 1.
+  - **The two models flag the same five storms:** Ian, Debby, Helene, Milton and
+    Chantal.
+  - Why they agree is untested (ASSUMED):
+    - it may lie in those storms or in the data;
+    - both models share the fitted delay spread, and the first-hour limit
+      (§16.9), which could cause it too.
+  - The in-sample training rehearsal already flagged 6.4% (30 of 471) of +12 h
+    looks.
+- **The multi-look check** (min-p across +12, +24 and +48 h) flags the same 5 of
+  13 storms [13.9, 68.4], for both models.
+  - There are 434 looks at +12 h, 433 at +24 h and 417 at +48 h.
+  - Members whose cut c comes before a look are left out of it (§11).
+- **The Brier score for "t95 ≤ 72 h", issued at +12 h.**
+  - It covers 481 of the 553 county-events, from 12 storms. Pooled members are
+    scored one by one.
+  - 72 events are left out, because their cut comes before 73 h 45 min or a
+    first-12-hour read is missing. PTC Eight's only event is one of them.
+
+  | Forecast                                | Brier score | Simulator minus this row [storm-resampled 95%] (negative: simulator better) |
+  | --------------------------------------- | ----------- | --------------------------------------------------- |
+  | Simulator, nearest 10% of worlds        | **0.127**   | —                                                   |
+  | Exponential baseline, same conditioning | 0.172       | −0.045 [−0.068, −0.005]                             |
+  | Training base rate (0.648)              | 0.229       | −0.102 [−0.123, −0.049]                             |
+  - 64.4% [49.2, 89.4] of the scored held-out events reached t95 by 72 h,
+    close to the training base rate.
+  - Both ensembles are conditioned on the same +3 to +12 h reads, so
+    conditioning alone does not explain the simulator's lead over the baseline.
+  - Why it scores better is untested. ASSUMED: its curve shapes after 12 h fit
+    better.
+
+## What this does not show
+
+- **That the model is right.**
+  - The county-level pass is one-sided. At this power it means "not detectably
+    miscalibrated" (§16.6).
+  - The storm-level count says whole storms are atypical more often than 5%.
+- **The power of the rule that decided.**
+  - The arms measure storm-level flags. Look rates barely move under planted
+    errors: 5.6% at +24 h of delay.
+  - No arm ran the county-event rate rule on a sample of 13 storms.
+- **A real-time forecast.** The +12 h check and the Brier score use the peak in
+  hindsight (§11), and no synthetic arm tests them.
+- **That the curve shape is right.**
+  - At Checkpoint 3, on training data, simulated curves were steeper than real
+    ones. The held-out run did not measure curve shape.
+  - The simulator's +12 h check flags more than its hindsight check (8.8%
+    against 3.9%).
+- **§16.9's other limits still stand:** first-hour milestones, the
+  outcome-dependent cut, and B from 18 storms.
+- **Which repair order a utility used.** The blind-spot arm shows the check
+  cannot see it.
+- **Crews or repair-time shape** (§13). Both sit at the grid's edge.
+- **Whether the explicit-zero format moved the result.** The held-out split
+  dropped 9.6% of events for coverage, against 2.4% in training. The
+  zero-format bound shows that those drops can select for slow events. Its
+  net effect on the flag rate is unknown.
+- **A result beyond evidence class (b).** These are local runs on public county
+  data and synthetic feeders. Nothing is live-verified.
+
+## Deviations and corrections
+
+- **None during the held-out run.** `unseal.log` and `runs.log` record no
+  deviation.
+- **A dated deviation from the addendum's own procedure, before unsealing.**
+  - On 2026-09-23 at `b1e3b44`, the addendum's code commit changed from
+    `14dd44e` to `7f842e4`.
+  - The new code records each look's county for the over-MCC split, and its
+    storm-resampled intervals skip resamples with no looks. Scoring did not
+    change.
+  - The addendum says the run passes the commit that first added it (`e62bac1`),
+    and that any later edit is a dated deviation.
+  - So the run passed `--addendum b1e3b44` instead. At this HEAD the gate would
+    have refused `e62bac1`, because the code no longer matched its named
+    commit.
+- **A correction to Checkpoint 3's "Before Phase 4 unseals anything" list.**
+  - At `7ce3118` it said all five files "ran at `7a71a8b`".
+  - It now says that `train-events.csv` was written by Checkpoint 2's training
+    run at `51b3dd4`.
+  - The hashes are unaffected.
+- **Where the rest of §13's reporting lives.**
+  - The storm list and the per-step drop manifest for each split are in
+    Checkpoint 2, "Counts per split".
+  - The leave-one-storm-out null (§12) is in "Checkpoint 3, amended": 2 of 18
+    training storms flagged.
+
+## Reproduce (Checkpoint 4)
+
+From `engine/`, at commit `b1e3b44`:
+
+```bash
+.venv/bin/python -m python.eaglei.zero_bound                            # about 2 min
+FIT_WORKERS=1 .venv/bin/python -m python.eaglei.arms                    # about 30 min, training only
+FIT_WORKERS=1 .venv/bin/python -m python.eaglei.held_out --rehearse     # about 40 min, training only
+FIT_WORKERS=1 .venv/bin/python -m python.eaglei.held_out --addendum b1e3b449647f1662fb45301e82eeafa9b928d43f
+```
+
+- The last command unseals the held-out split. It runs once, and a rerun needs
+  `--deviation`.
+- `arms` writes once, like `held_out`.
+- Outputs are in `.cache/restoration-check/phase4/`, with `runs.log`.

@@ -172,6 +172,8 @@ def test_a_result_is_written_once_and_every_write_is_logged(tmp_path, monkeypatc
     log = [json.loads(line) for line in (tmp_path / "runs.log").read_text().splitlines()]
     assert [e["deviation"] for e in log] == [None, "a disclosed bug fix"]
     assert json.loads((tmp_path / "loo.json").read_text())["x"] == 3
+    first = tmp_path / f"loo.{log[0]['sha256'][:12]}.json"  # both runs are reported, so the first is kept
+    assert json.loads(first.read_text())["x"] == 1
 
 
 def test_select_refuses_cells_without_one_recorded_commit(tmp_path, monkeypatch):

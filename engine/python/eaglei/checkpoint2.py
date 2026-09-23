@@ -11,6 +11,7 @@ import hashlib
 import json
 import subprocess
 import sys
+from dataclasses import replace
 from importlib.metadata import version
 from pathlib import Path
 
@@ -38,12 +39,12 @@ def git(*args: str) -> str:
     return subprocess.run(["git", *args], cwd=REPO, capture_output=True, text=True, check=True).stdout.strip()
 
 
-def frozen_state(before: str = "a held-out year is read") -> dict:
-    """Commits a held-out read (or a §16 fit stage) runs under. Refuses while the protocol or the loader has
-    uncommitted edits, so the run is always reproducible from a commit (§3, §16.8)."""
+def frozen_state(before: str = "a held-out year is read", also: tuple[str, ...] = ()) -> dict:
+    """Commits a held-out read (or a §16 fit stage) runs under. Refuses while the protocol, the loader or the
+    paths in `also` have uncommitted edits, so the run is always reproducible from a commit (§3, §16.8)."""
     protocol = git("log", "-1", "--format=%H", "--", PROTOCOL)
-    if not protocol or git("status", "--porcelain", "--", PROTOCOL, "engine/python/eaglei"):
-        raise SystemExit(f"commit {PROTOCOL} and engine/python/eaglei before {before}")
+    if not protocol or git("status", "--porcelain", "--", PROTOCOL, "engine/python/eaglei", *also):
+        raise SystemExit(f"commit {PROTOCOL}, engine/python/eaglei and {list(also)} before {before}")
     return {"protocol_commit": protocol, "head": git("rev-parse", "HEAD")}
 
 
@@ -66,7 +67,10 @@ def slot_year(s: int) -> int:
     return (pd.Timestamp("2018-01-01") + pd.Timedelta(minutes=15 * s)).year
 
 
-def run_split(split: str) -> tuple[list[dict], dict[tuple[str, str], np.ndarray], dict]:
+def run_split(split: str, *, absent_as_missing: bool = False,
+              keep_series: bool = False) -> tuple[list[dict], dict[tuple[str, str], np.ndarray], dict]:
+    """absent_as_missing: every county's absent rows count as missing, not zero (§16.7's zero-format bound).
+    keep_series: also return the bridged series of every kept event (Phase 4's during-storm reads)."""
     decl = load_declarations(DATA / "fema")
     pairs = pair_windows(storm_counties(decl))
     pairs = pairs[pairs["split"] == split]
@@ -81,6 +85,8 @@ def run_split(split: str) -> tuple[list[dict], dict[tuple[str, str], np.ndarray]
         if (group["b"].map(slot_year) != year).any():
             raise SystemExit(f"a {split} window crosses the end of {year}; §6 allows it, but no loader path exists")
         yd = read_year(DATA / "raw" / f"eaglei_outages_{year}.csv")
+        if absent_as_missing:
+            yd = replace(yd, zero_heavy=yd.counties)
         files[str(year)] = {"rows": len(yd.fips), "duplicates": yd.duplicates, "zero_rows": yd.zero_rows,
                             "zero_heavy_counties": len(yd.zero_heavy), "first_slot": yd.first,
                             "last_slot": yd.last}
@@ -97,7 +103,8 @@ def run_split(split: str) -> tuple[list[dict], dict[tuple[str, str], np.ndarray]
                 raw = window(yd, int(p.fips), p.a, p.b)
                 x = bridge(raw)
                 ev = county_event(x, raw, mcc[p.fips], p.lo - p.a, p.hi - p.a)
-                if split == "train" and ev["status"] in ("kept", "spike", "resurge", "coverage") and "p1" in ev:
+                plotted = split == "train" and ev["status"] in ("kept", "spike", "resurge", "coverage") and "p1" in ev
+                if plotted or (keep_series and ev["status"] == "kept"):
                     series[(p.storm_id, p.fips)] = x
             records.append(rec | ev)
     return records, series, files

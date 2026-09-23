@@ -88,20 +88,24 @@ def data_sha256() -> str:
     return sha256(CHECK / "train-events.csv")
 
 
-def logged_write(path: Path, out: dict, deviation: str | None = None) -> None:
-    """Write a result stamped with the commits it ran from, and append the write and its hash to runs.log."""
+def logged_write(path: Path, out: dict, deviation: str | None = None, root: Path | None = None) -> None:
+    """Write a result stamped with the commits it ran from, and append the write and its hash to runs.log in root
+    (default OUT)."""
+    root = root or OUT
     stamp = {"utc": datetime.now(timezone.utc).isoformat(timespec="seconds"), "deviation": deviation, **PROVENANCE}
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps({**out, "run": stamp}, indent=2))
-    with (OUT / "runs.log").open("a") as log:
-        log.write(json.dumps({"file": str(path.relative_to(OUT)), "sha256": sha256(path), **stamp}) + "\n")
+    with (root / "runs.log").open("a") as log:
+        log.write(json.dumps({"file": str(path.relative_to(root)), "sha256": sha256(path), **stamp}) + "\n")
 
 
-def write_once(path: Path, out: dict, deviation: str | None) -> None:
+def write_once(path: Path, out: dict, deviation: str | None, root: Path | None = None) -> None:
     """§16's one run: refuse to replace a result unless a dated deviation names why."""
     if path.exists() and not deviation:
         raise SystemExit(f"{path.name} exists: §16 allows one run. A rerun needs --deviation \"<reason>\"")
-    logged_write(path, out, deviation)
+    if path.exists():  # both runs are reported (§16.8), so the first is kept under its runs.log hash
+        path.rename(path.with_name(f"{path.stem}.{sha256(path)[:12]}{path.suffix}"))
+    logged_write(path, out, deviation, root)
 
 
 def check_chain(fitted: dict) -> None:
@@ -244,9 +248,14 @@ def marginal(spread: dict) -> dict:
     return {"mean": spread["mean"], "cov": (np.array(spread["between"]) + np.array(spread["within"])).tolist()}
 
 
-def world_draws(spread: dict, keys: list[str], n: int, label: str) -> dict[str, np.ndarray]:
-    """§16.1: one storm effect per world, plus each county look's own scatter; delay below 0 is set to 0."""
-    eta = rng_for(f"{label}/storm").multivariate_normal(spread["mean"], spread["between"], n)
+def world_draws(spread: dict, keys: list[str], n: int, label: str,
+                eta: np.ndarray | None = None) -> dict[str, np.ndarray]:
+    """§16.1: one storm effect per world, plus each county look's own scatter; delay below 0 is set to 0.
+    eta fixes the storm effect in every world (§16.7's fixed-setting arms); the scatter draws are unchanged."""
+    if eta is None:
+        eta = rng_for(f"{label}/storm").multivariate_normal(spread["mean"], spread["between"], n)
+    else:
+        eta = np.tile(eta, (n, 1))
     out = {}
     for key in keys:
         th = eta + rng_for(f"{label}/{key}").multivariate_normal(np.zeros(2), spread["within"], n)

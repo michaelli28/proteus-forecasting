@@ -29,6 +29,12 @@ CENSORED = 168.25
 MILESTONE_HOLD = 8
 QUANTS = (0.5, 0.9, 0.95)
 BATCH_ELEMS = 3_000_000
+READ_HOURS = (3, 6, 9, 12, 18, 24, 36, 48)  # §11: the looks at L = 12, 24, 48 h read at L/4, L/2, 3L/4 and L
+PEAK_HOLD = 4  # a read is the 1-hour level h (§7.4); on a curve that only falls, h at slot i is its value at i + 3
+CRITICAL_PER_FEEDER = 2  # Phase 1's two critical facilities per feeder (docs/RESTORATION-LAB-PREREG.md §2)
+CRITICAL_KEY = 1e12  # critical-path sections sort ahead of every other; a feeder holds far fewer customers
+CRITICAL_DEPTH_STEP = 1e8
+PROLONG_MEAN_H = 72.0  # §12: a prolonged small failure adds Exponential(mean 72 h) to a node's restore time
 
 
 def grid_up(t: np.ndarray) -> np.ndarray:
@@ -42,8 +48,15 @@ def weibull_scale(log_w: np.ndarray, shape: float = SHAPE, crews: float = CREWS_
 
 
 def _worlds(size: float, p1: float, S: int, rng: np.random.Generator, shape: float,
-            scale: float, delay: float, crews: float = CREWS_PER_10K) -> dict[str, np.ndarray]:
-    """S worlds of one county at one (scale, delay): node restore times R (S, F*n), customers w."""
+            scale: float, delay: float, crews: float = CREWS_PER_10K, *, extra: np.random.Generator | None = None,
+            critical_first: bool = False, tail_sigma: float = 0.0) -> dict[str, np.ndarray]:
+    """S worlds of one county at one (scale, delay): node restore times R (S, F*n), customers w.
+
+    Phase 4's planted errors (§12) draw from `extra`, never from `rng`, so a world's feeders, damage and repair
+    draws are the same with or without them. With `extra`, every error's draws are made in one fixed order
+    whichever error is used, so arms seeded alike are paired worlds. critical_first: Phase 1's rule 2 as a static
+    list, two critical nodes per feeder and the sections on their paths first, nearest the substation first.
+    tail_sigma: each repair time times a mean-one lognormal."""
     n = N_NODES
     F = max(1, int(round(size / (n * MEAN_CUST))))
     SF = S * F
@@ -55,6 +68,14 @@ def _worlds(size: float, p1: float, S: int, rng: np.random.Generator, shape: flo
     U = rng.random((SF, n))
     wb = rng.weibull(shape, size=(SF, n))
     tie = rng.random((SF, n))
+    if extra is not None:
+        critical = np.zeros((SF, n), bool)
+        np.put_along_axis(critical, extra.random((SF, n)).argsort(axis=1)[:, :CRITICAL_PER_FEEDER], True, axis=1)
+        z = extra.standard_normal((SF, n))
+        prolong_u = extra.random((SF, n))
+        prolong_h = extra.exponential(PROLONG_MEAN_H, size=(SF, n))
+    elif critical_first or tail_sigma:
+        raise ValueError("planted errors draw from `extra`")
 
     rows = np.arange(SF)
     pathmin = U.copy()
@@ -76,10 +97,22 @@ def _worlds(size: float, p1: float, S: int, rng: np.random.Generator, shape: flo
     damaged = U.reshape(S, F * n) <= q[:, None]
     n_jobs = damaged.sum(axis=1)
 
-    key = np.where(damaged, sub_c.reshape(S, F * n) + tie.reshape(S, F * n) * 0.5, -1.0)
+    priority = sub_c
+    if critical_first:
+        on_path = critical.copy()  # a section is on a critical path if its subtree holds a critical node
+        depth = np.zeros((SF, n))
+        for i in range(n - 1, 0, -1):
+            on_path[rows, parent[:, i]] |= on_path[:, i]
+        for i in range(1, n):
+            depth[:, i] = depth[rows, parent[:, i]] + 1
+        priority = np.where(on_path, CRITICAL_KEY - depth * CRITICAL_DEPTH_STEP + sub_c, sub_c)
+    key = np.where(damaged, priority.reshape(S, F * n) + tie.reshape(S, F * n) * 0.5, -1.0)
     kmax = int(n_jobs.max())
     order = np.argsort(-key, axis=1)[:, :kmax]
-    p = np.take_along_axis(scale * wb.reshape(S, F * n), order, axis=1)
+    repair = scale * wb
+    if tail_sigma:
+        repair = repair * np.exp(tail_sigma * z - 0.5 * tail_sigma**2)
+    p = np.take_along_axis(repair.reshape(S, F * n), order, axis=1)
 
     n_crews = np.maximum(1, np.rint(crews * total / 1e4)).astype(int)
     cmax = int(n_crews.max())
@@ -99,7 +132,11 @@ def _worlds(size: float, p1: float, S: int, rng: np.random.Generator, shape: flo
     for i in range(1, n):
         R[:, i] = np.maximum(R[rows, parent[:, i]], comp_sec[:, i])
     R = R.reshape(S, F * n)
-    return {"R": R, "w": np.where(R > 0, cw, 0.0), "crews": n_crews, "n_jobs": n_jobs}
+    out = {"R": R, "w": np.where(R > 0, cw, 0.0), "crews": n_crews, "n_jobs": n_jobs}
+    if extra is not None:
+        out |= {"prolong_u": prolong_u.reshape(S, F * n), "prolong_h": prolong_h.reshape(S, F * n),
+                "critical": critical.reshape(S, F * n)}
+    return out
 
 
 def restore_quantiles(R: np.ndarray, w: np.ndarray, quants: tuple[float, ...] = QUANTS) -> np.ndarray:
@@ -165,3 +202,52 @@ def simulated_curves(size: float, p1: float, L: int, theta: np.ndarray, rng: np.
         np.add.at(restored, (rows[inside], k[inside]), w[inside])
         out[b0:b1] = w.sum(axis=1)[:, None] - np.cumsum(restored[:, :L], axis=1)
     return out
+
+
+def read_slots(read_hours: tuple[int, ...] = READ_HOURS) -> np.ndarray:
+    """Slots after the peak whose value a curve that only falls reads as h at each read hour."""
+    return np.array(read_hours) * 4 + PEAK_HOLD - 1
+
+
+def world_features(size: float, p1: float, theta: np.ndarray, c_rel: int, rng: np.random.Generator, *,
+                   shape: float = SHAPE, crews: float = CREWS_PER_10K, extra: np.random.Generator | None = None,
+                   critical_first: bool = False, tail_sigma: float = 0.0, prolonged: float = 0.0,
+                   read_hours: tuple[int, ...] = READ_HOURS) -> dict[str, np.ndarray]:
+    """Phase 4: per world with parameters theta (N, 2), the milestones (N, 3), censored as `features` does, and
+    the share of the simulated peak still out at each read hour (N, len(read_hours)).
+
+    With no planted error this equals `features` on `unit_quantiles` drawn from the same rng (it simulates in
+    the same batches). prolonged: each out node, with this probability, gets +Exponential(72 h) on its own
+    restore time (§12); the draws come from `extra`, as do _worlds' other planted errors."""
+    if prolonged and extra is None:
+        raise ValueError("planted errors draw from `extra`")
+    lam = weibull_scale(theta[:, 0], shape, crews)
+    delay = np.maximum(theta[:, 1], 0.0)
+    N = len(theta)
+    F = max(1, int(round(size / (N_NODES * MEAN_CUST))))
+    per = max(1, BATCH_ELEMS // (F * N_NODES))
+    slots = read_slots(read_hours)
+    ms, shares = np.zeros((N, len(QUANTS))), np.zeros((N, len(slots)))
+    for b0 in range(0, N, per):
+        b1 = min(N, b0 + per)
+        sim = _worlds(size, p1, b1 - b0, rng, shape, 1.0, 0.0, crews, extra=extra, critical_first=critical_first,
+                      tail_sigma=tail_sigma)
+        R, w = sim["R"], sim["w"]
+        t = delay[b0:b1, None] + lam[b0:b1, None] * R
+        if prolonged:
+            t = t + np.where((sim["prolong_u"] < prolonged) & (R > 0), sim["prolong_h"], 0.0)
+        tq = grid_up(restore_quantiles(t, w))
+        ms[b0:b1] = np.where(tq / DT + (MILESTONE_HOLD - 1) <= c_rel, tq, CENSORED)
+        if len(slots):
+            k = np.ceil(t / DT - 1e-9)
+            peak = w.sum(axis=1)
+            shares[b0:b1] = np.column_stack([(w * (k > s)).sum(axis=1) for s in slots]) / peak[:, None]
+    return {"milestones": ms, "shares": shares}
+
+
+def exponential_shares(log_tau: np.ndarray, delay: np.ndarray,
+                       read_hours: tuple[int, ...] = READ_HOURS) -> np.ndarray:
+    """The baseline's share of p1 still out at each read hour: exp(-(t - delay)/tau) after the delay."""
+    t = read_slots(read_hours) * DT
+    lag = np.maximum(t[None, :] - np.maximum(delay, 0.0)[..., None], 0.0)
+    return np.exp(-lag / np.exp(log_tau)[..., None])

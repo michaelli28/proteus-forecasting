@@ -83,24 +83,29 @@ def _level_control(
     Without this the pumps run flat out forever, storage never discharges, and
     isolating a tank measures as harmless — which would report the level sensors
     as unimportant when they are the reason the pumps know what to do.
+
+    These are low-priority RULES, not simple controls. EPANET applies a simple
+    control at every hydraulic solve and uses rule priority only between rules,
+    so as a control the fill switch overrode an outage rule between its 6-minute
+    checks and a "stopped" pump kept running in bursts.
     """
     link = wn.get_link(pump)
     node = wn.get_node(tank)
+    controls = wntr.network.controls
 
-    wn.add_control(
-        f"FILL_{pump}",
-        wntr.network.controls.Control(
-            wntr.network.controls.ValueCondition(node, "level", "<", lo),
-            [wntr.network.controls.ControlAction(link, "status", wntr.network.LinkStatus.Open)],
-        ),
-    )
-    wn.add_control(
-        f"REST_{pump}",
-        wntr.network.controls.Control(
-            wntr.network.controls.ValueCondition(node, "level", ">", hi),
-            [wntr.network.controls.ControlAction(link, "status", wntr.network.LinkStatus.Closed)],
-        ),
-    )
+    for name, op, level, status in (
+        (f"FILL_{pump}", "<", lo, wntr.network.LinkStatus.Open),
+        (f"REST_{pump}", ">", hi, wntr.network.LinkStatus.Closed),
+    ):
+        wn.add_control(
+            name,
+            controls.Rule(
+                controls.ValueCondition(node, "level", op, level),
+                [controls.ControlAction(link, "status", status)],
+                priority=controls.ControlPriority.low,
+                name=name,
+            ),
+        )
 
 
 def _base_options(wn: wntr.network.WaterNetworkModel, hours: int) -> None:

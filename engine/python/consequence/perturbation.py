@@ -13,11 +13,9 @@ TypeScript adversary model, not here, so that the solver stays a pure
 deterministic function of its arguments.
 
 Attacks are installed as `very_high` priority rules over a time window. The
-archetypes carry ordinary level-based fill controls, and a plain time control
-would lose to them the moment a tank crossed a setpoint — the utility's
-automation would quietly undo the attack and the run would measure nothing. An
-attacker who owns the PLC owns the output, so the attack outranks the automation
-and the automation resumes when the window closes.
+archetypes' level-based fill switches are `low` priority rules, so the attack
+outranks the automation for the whole window; an attacker who owns the PLC owns
+the output. When the window closes the automation resumes (see `_hold_closed`).
 """
 
 from __future__ import annotations
@@ -100,7 +98,7 @@ def _riser_for_tank(wn: wntr.network.WaterNetworkModel, tank_name: str) -> str:
 def _hold_closed(
     wn: wntr.network.WaterNetworkModel, link_name: str, start: int, end: int, tag: str
 ) -> None:
-    """Force a link closed for [start, end), then hand control back."""
+    """Force a link closed for [start, end), then hand it back as it was."""
     link = wn.get_link(link_name)
 
     wn.add_control(
@@ -115,16 +113,25 @@ def _hold_closed(
             name=f"ATK_{tag}_{link_name}",
         ),
     )
-    # Recovery is a ONE-SHOT at exactly t=end, not a standing ">= end" rule.
-    # A standing rule keeps outranking the level controls for the rest of the
-    # run, so the attacked network ends up pumping continuously while the
-    # baseline still cycles — which scores the attack as an improvement. The
-    # one-shot reopens the link and hands automation straight back.
+    # A pump gets no recovery action: it stays off until its fill rule next
+    # calls for it. Forcing it on at t=end restarted pumps that sit idle in the
+    # baseline and scored the attack as an improvement.
+    if isinstance(link, wntr.network.Pump):
+        return
+
+    # Everything else gets a ONE-SHOT at exactly t=end, not a standing ">= end"
+    # rule, back to its own starting state. An ACTIVE valve is restored through
+    # its setting: forcing it OPEN drops its throttle for the rest of the run,
+    # and EPANET rejects "status = ACTIVE" in a control (error 200).
+    if isinstance(link, wntr.network.Valve) and link.initial_status == wntr.network.LinkStatus.Active:
+        action = ControlAction(link, "setting", link.initial_setting)
+    else:
+        action = ControlAction(link, "status", link.initial_status)
     wn.add_control(
         f"REC_{tag}_{link_name}",
         Control(
             SimTimeCondition(wn, "=", end),
-            ControlAction(link, "status", wntr.network.LinkStatus.Open),
+            action,
             priority=ControlPriority.medium_high,
             name=f"REC_{tag}_{link_name}",
         ),

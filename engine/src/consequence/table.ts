@@ -75,6 +75,9 @@ const TableResponseSchema = z.object({
 
 export type ArchetypeDescriptor = z.infer<typeof ArchetypeSchema>;
 
+/** The solver's validated reply. It is what the cache file stores. */
+export type TableReply = z.infer<typeof TableResponseSchema>;
+
 export interface ConsequenceBundle {
   readonly solver: string;
   readonly sweepM: readonly number[];
@@ -162,9 +165,7 @@ function runBridge(
 }
 
 /** Split the solver's flat entry map into one table per archetype. */
-function bundleFrom(
-  parsed: z.infer<typeof TableResponseSchema>,
-): ConsequenceBundle {
+function bundleFrom(parsed: TableReply): ConsequenceBundle {
   const tables: Record<string, ConsequenceTable> = {};
 
   for (const archetype of parsed.archetypes) {
@@ -205,20 +206,20 @@ function bundleFrom(
   };
 }
 
-function parseBundle(raw: unknown): ConsequenceBundle {
+function parseReply(raw: unknown): TableReply {
   const asRecord = raw as { ok?: unknown; error?: unknown };
   if (asRecord?.ok !== true) {
     throw new Error(
       `consequence solver reported failure: ${String(asRecord?.error ?? "unknown error")}`,
     );
   }
-  return bundleFrom(TableResponseSchema.parse(raw));
+  return TableResponseSchema.parse(raw);
 }
 
-/** Solve the whole grid. Minutes, not seconds — cache the result. */
-export async function buildConsequenceTables(
+/** Solve the whole grid and return the solver's reply, to cache with `writeConsequenceTables`. */
+export async function solveConsequenceTables(
   spec: BuildSpec,
-): Promise<ConsequenceBundle> {
+): Promise<TableReply> {
   const distinct = new Set(spec.sweepM);
   if (distinct.size < 2) {
     throw new Error(
@@ -239,15 +240,15 @@ export async function buildConsequenceTables(
     spec.onProgress,
   );
 
-  return parseBundle(raw);
+  return parseReply(raw);
 }
 
 export async function writeConsequenceTables(
-  bundle: unknown,
+  reply: TableReply,
   path: string = DEFAULT_TABLE_PATH,
 ): Promise<void> {
   await mkdir(dirname(path), { recursive: true });
-  await writeFile(path, JSON.stringify(bundle, null, 2), "utf-8");
+  await writeFile(path, JSON.stringify(reply, null, 2), "utf-8");
 }
 
 /**
@@ -268,7 +269,7 @@ export async function loadConsequenceTables(
       `no consequence table at ${path} — build one first with 'npm run consequence:build'`,
     );
   }
-  return parseBundle(JSON.parse(contents));
+  return bundleFrom(parseReply(JSON.parse(contents)));
 }
 
 /** The register for one archetype, as the adapter's config wants it. */

@@ -18,7 +18,8 @@ import { INFLUENCE_OPS_MEASURES } from "./pipeline/influence-ops-binding.js";
 import { RECRUITMENT_MEASURES } from "./pipeline/recruitment-binding.js";
 import {
   DEFAULT_TABLE_PATH,
-  buildConsequenceTables,
+  loadConsequenceTables,
+  solveConsequenceTables,
   writeConsequenceTables,
 } from "./consequence/table.js";
 import { formatSweep, runVulnerabilitySweep } from "./vulnerability.js";
@@ -216,7 +217,7 @@ function resolveRunId(available: readonly string[], prefix?: string): string {
 
 const consequence = new Command("consequence")
   .description(
-    "Solve the water-system consequence table with WNTR/EPANET (minutes, not seconds)",
+    "Solve the water-system consequence table with WNTR/EPANET and cache it",
   )
   .option(
     "--sweep <m,...>",
@@ -234,14 +235,16 @@ const consequence = new Command("consequence")
   .action(async (opts) => {
     try {
       const sweepM = String(opts.sweep).split(",").map(Number);
-      const bundle = await buildConsequenceTables({
+      const reply = await solveConsequenceTables({
         sweepM,
         durationsHours: String(opts.durations).split(",").map(Number),
         startHour: Number(opts.startHour),
         bandEdgesPersonHours: String(opts.bands).split(",").map(Number),
         onProgress: (line) => process.stderr.write(`${line}\n`),
       });
-      await writeConsequenceTables(bundle, opts.out);
+      await writeConsequenceTables(reply, opts.out);
+      // Read it back, so a cache nothing can load fails here and not later.
+      const bundle = await loadConsequenceTables(opts.out);
       console.log(
         `Solved ${Object.keys(bundle.tables).length} archetypes with ${bundle.solver} → ${opts.out}`,
       );

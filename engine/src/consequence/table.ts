@@ -38,15 +38,19 @@ export const DEFAULT_TABLE_PATH = resolve(
 );
 const DEFAULT_PYTHON = resolve(ENGINE_ROOT, ".venv", "bin", "python");
 
-const CellSchema = z.object({
-  deltaPersonHoursLow: z.number(),
-  deltaPersonHoursHigh: z.number(),
-  peakPeopleBelow: z.number(),
-  band: z.string(),
-  bandAgreed: z.boolean(),
-  converged: z.boolean(),
-  servedPopulation: z.number(),
-});
+// Loose: the cache keeps what the solver adds beyond these fields (per-setting
+// points, the demand-driven baseline, the band edges) so a cell can be audited.
+const CellSchema = z
+  .object({
+    deltaPersonHoursLow: z.number(),
+    deltaPersonHoursHigh: z.number(),
+    peakPeopleBelow: z.number(),
+    band: z.string(),
+    bandAgreed: z.boolean(),
+    converged: z.boolean(),
+    servedPopulation: z.number(),
+  })
+  .loose();
 
 const ComponentSchema = z.object({
   id: z.string().min(1),
@@ -63,15 +67,17 @@ const ArchetypeSchema = z.object({
   components: z.array(ComponentSchema).min(1),
 });
 
-const TableResponseSchema = z.object({
-  ok: z.literal(true),
-  sweepM: z.array(z.number()).min(2),
-  durationsHours: z.array(z.number()).min(1),
-  startHour: z.number(),
-  solver: z.string(),
-  archetypes: z.array(ArchetypeSchema).min(1),
-  entries: z.record(z.string(), CellSchema),
-});
+const TableResponseSchema = z
+  .object({
+    ok: z.literal(true),
+    sweepM: z.array(z.number()).min(2),
+    durationsHours: z.array(z.number()).min(1),
+    startHour: z.number(),
+    solver: z.string(),
+    archetypes: z.array(ArchetypeSchema).min(1),
+    entries: z.record(z.string(), CellSchema),
+  })
+  .loose();
 
 export type ArchetypeDescriptor = z.infer<typeof ArchetypeSchema>;
 
@@ -206,7 +212,8 @@ function bundleFrom(parsed: TableReply): ConsequenceBundle {
   };
 }
 
-function parseReply(raw: unknown): TableReply {
+/** Check the solver's reply; everything it adds beyond the schema is kept. */
+export function parseReply(raw: unknown): TableReply {
   const asRecord = raw as { ok?: unknown; error?: unknown };
   if (asRecord?.ok !== true) {
     throw new Error(
@@ -240,7 +247,9 @@ export async function solveConsequenceTables(
     spec.onProgress,
   );
 
-  return parseReply(raw);
+  const reply = parseReply(raw);
+  bundleFrom(reply); // a reply the loader would reject never overwrites a good cache
+  return reply;
 }
 
 export async function writeConsequenceTables(

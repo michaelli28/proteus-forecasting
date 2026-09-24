@@ -113,6 +113,10 @@ def _base_options(wn: wntr.network.WaterNetworkModel, hours: int) -> None:
     wn.options.time.hydraulic_timestep = 900
     wn.options.time.report_timestep = 900
     wn.options.time.pattern_timestep = 3600
+    # How often rules are checked, so how fast a refill switch reacts (a PLC
+    # scan-time assumption). WNTR's 360 s default let tanks overshoot their
+    # bands and moved results; 60 s is close to exact level switching.
+    wn.options.time.rule_timestep = 60
     wn.options.hydraulic.demand_model = "PDD"
     # required_pressure is deliberately NOT set here. solve.py sets it per sweep
     # point, and a default left in place is exactly the artefact the sweep exists

@@ -1,4 +1,4 @@
-import { mkdtemp } from "node:fs/promises";
+import { mkdtemp, readFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -6,6 +6,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   loadConsequenceTables,
+  parseReply,
   writeConsequenceTables,
   type TableReply,
 } from "../../../src/consequence/table.js";
@@ -61,5 +62,22 @@ describe("the consequence table cache", () => {
 
     expect(bundle.solver).toBe("fixture");
     expect(bundle.tables["tiny"]?.cells[KEY]?.deltaPersonHoursLow).toBe(12);
+  });
+
+  // Validation must not strip what the solver adds beyond the schema: the
+  // per-setting points are how a cell's low and high ends get audited.
+  it("keeps the solver's per-setting points in the file", async () => {
+    const withPoints = parseReply({
+      ...REPLY,
+      entries: { [KEY]: { ...REPLY.entries[KEY], points: [{ q: 14 }] } },
+    });
+    const path = join(
+      await mkdtemp(join(tmpdir(), "consequence-")),
+      "table.json",
+    );
+    await writeConsequenceTables(withPoints, path);
+
+    const onDisk = JSON.parse(await readFile(path, "utf-8"));
+    expect(onDisk.entries[KEY].points).toEqual([{ q: 14 }]);
   });
 });

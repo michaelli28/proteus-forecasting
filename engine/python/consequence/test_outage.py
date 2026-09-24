@@ -100,7 +100,7 @@ def test_holding_an_idle_pump_changes_nothing(kind, component, duration):
 
 BOOSTER_6H_TAIL = pytest.mark.xfail(
     strict=True,
-    reason="6 h at 28 m stays at -4,775 person-hours, all in the recovery tail; cause not found",
+    reason="6 h at 28 m still scores as an improvement in service; cause not found",
 )
 
 

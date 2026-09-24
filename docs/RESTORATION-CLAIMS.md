@@ -1,10 +1,10 @@
 # Storm-restoration build: claims ledger
 
-- **Date:** 2026-09-23. Branch `build/restoration-lab` at `e08c047`, pushed to origin. This ledger is not yet committed.
+- **Date:** 2026-09-23, updated 2026-09-24. Branch `build/restoration-lab`, pushed to origin, not merged to `master`.
 - **What this is:** every claim the build makes, with its status and its evidence. The status words are fixed: Holds; Holds, with limits; Not shown; Failed; Withdrawn; Waiting.
 - **Evidence class (b) throughout:** local runs on public data (DOE EAGLE-I county outage records, OpenFEMA disaster declarations) and on synthetic feeders. Nothing is live-verified. A line that rests on unit tests alone says class (a).
 - **[a, b]** after a figure is its 95% interval.
-- **Sources:** LAB-PREREG, LAB-RESULTS, PROTOCOL, ADDENDUM and CHECK are `docs/RESTORATION-LAB-PREREG.md`, `-LAB-RESULTS.md`, `-PROTOCOL.md`, `-ADDENDUM.md` and `-CHECK-RESULTS.md` in this repo. PLAN is `research/plans/proteus-restoration-plan.md` in the cohort-prep repo.
+- **Sources:** LAB-PREREG, LAB-RESULTS, PROTOCOL, ADDENDUM and CHECK are `docs/RESTORATION-LAB-PREREG.md`, `-LAB-RESULTS.md`, `-PROTOCOL.md`, `-ADDENDUM.md` and `-CHECK-RESULTS.md` in this repo. PLAN is `research/plans/proteus-restoration-plan.md` in the cohort-prep repo, an untracked local file with no history or remote.
 - **Words used here:**
   - **County-event:** one county's outage curve in one storm. **Look:** one county-event, or a storm's small ones (under 3,000 customers out) pooled, scored against its simulated worlds.
   - **Milestones t50, t90, t95:** hours from the peak until 50%, 90% and 95% of the customers out at the peak are back, and stay back for 2 h.
@@ -19,7 +19,7 @@
 - **The storm count is worse:** 3 of the 9 larger storms were flagged [7.5%, 70.1%], more than a 5% false-alarm rate would give. "Not rejected" does not mean the model is right.
 - **What was built:** a simulator of crews repairing storm-damaged power lines on made-up neighbourhood networks (feeders), and a county-scale version checked against real outage records.
 - **Inside the simulator,** "fix whatever brings the most customers back right now" costs 5–9% more customer-hours than a perfect order worked out in hindsight in small storms, and, with one crew, far more in big ones (25% at 20 damaged segments, 45% at 50). That is never checked against real utilities.
-- **Fixed:** five figures from Proteus's earlier water-network model, shown on its dashboard, measured a simulation fault, not an outage. The fault is fixed and the figures re-run; four rows are back, and one stays withdrawn.
+- **Fixed:** five figures from Proteus's earlier water-network model, shown on its dashboard, measured a simulation fault, not an outage. The fault is fixed on this branch and the figures re-run; four rows are back, and one stays withdrawn.
 
 ## The claim, filled in
 
@@ -263,36 +263,42 @@ Each arm plants one known error in 1,000 simulated storms built on the 18 traini
 
 ## The water model's rows: fixed and re-run
 
-Spike S4 found that the water simulation staged outages wrongly. A "stopped" pump kept running, because its tank-refill switch was checked at every calculation step while the outage rule was checked every 6 minutes; a stopped main pump still delivered 91% of its normal water. Each outage also ended by forcing the link open, which gave idle pumps a fake restart surge and left throttle valves unthrottled. Both faults were CONFIRMED by S4's reruns; the explanation inside EPANET's code (the water-physics solver) is ASSUMED. Five dashboard rows were withdrawn on 2026-09-22 (`ce25870`) because they "measured the leak, not the outage". Harm is in person-hours of lost water service.
+Spike S4 found that the water simulation staged outages wrongly. A "stopped" pump kept running, because its tank-refill switch was checked at every calculation step while the outage rule was checked every 6 minutes; a stopped main pump still delivered 91% of its normal water. Each outage also ended by forcing the link open, which gave idle pumps a fake restart surge. S4's reruns CONFIRMED both faults for pumps; the explanation inside EPANET's code (the water-physics solver) is ASSUMED. The same forced opening also left throttle valves unthrottled, which `test_a_valve_outage_ends_with_the_valve_back_at_its_setting` pins. Five dashboard rows were withdrawn on 2026-09-22 (`0f75c4c`, a cherry-pick of `ce25870`) because they "measured the leak, not the outage". Harm is in person-hours of lost water service.
 
-- **The fix** (`0e0e81b`, 2026-09-23): the refill switches are low-priority rules, pumps get no forced restart, valves get their setting back, and pipes still reopen. 34 regression tests, whose pump checks step through every hydraulic solve: a stopped pump now runs 0 h in each of the 12 pump cases tested. A second fix (`de16f53`) makes the table build readable again: the committed build wrote a file the loader rejected.
-- **The re-run** (`6af341b`): the old table reproduces the old dashboard data byte for byte, so every change comes from the fix. Figures are robust–pessimistic person-hours from the sweep's low and high ends.
+- **The fix** (`0e0e81b`, then `beea1ce` after review, 2026-09-23):
+  - the refill switches are low-priority rules, checked every 60 s;
+  - pumps get no forced restart, valves get their setting back, and pipes still reopen;
+  - 35 outage tests: 34 pass and 1 is a strict expected failure (the booster, below). The 12 pump-flow checks step through every hydraulic solve, and a held pump runs 0 h in all 12. The 6 direct pump stops among them fail on the pre-fix code; the idle-pump and level-spoof rows guard the new code.
+- **The table build** (`de16f53`, `beea1ce`): the committed build wrote a file the loader rejected. It now writes the solver's full reply, validated, and reads it back.
+- **The rule step matters.** With the switches as rules, how often rules are checked sets how fast a pump reacts. At WNTR's default of 6 minutes, tanks overshot their bands and short-outage figures moved by up to about 70% (the main pump at 6 h, a reviewer's run reproduced by a second reader). The 60 s step keeps every tank within 0.05 m of its band. Tank A sits above its band only because its pump never needs to run.
+- **The re-run** (`02739fe`): the old table reproduces the old dashboard data byte for byte, so every change comes from the fix. Figures are robust–pessimistic person-hours, from the sweep's low and high ends, at the 60 s step.
 
 | Row (system)                            | Before the fix   | After                      | Attacker targets it | Status             |
 | --------------------------------------- | ---------------- | -------------------------- | ------------------- | ------------------ |
-| Main pump controller (mid-size city)    | 290–94,135       | 155,655–364,715            | 200 of 216 runs     | Holds, with limits |
-| South pump controller (large district)  | up to 68,927.5   | 248,627.75–354,634.5       | 158 of 216          | Holds, with limits |
-| North pump controller (large district)  | up to 887.5      | 0 (the pump sits idle)     | 0 of 216            | Holds, with limits |
+| Main pump controller (mid-size city)    | 290–94,135       | 158,410–365,552.5          | 201 of 216 runs     | Holds, with limits |
+| South pump controller (large district)  | up to 68,927.5   | 251,276.75–359,243         | 157 of 216          | Holds, with limits |
+| North pump controller (large district)  | up to 887.5      | 0                          | 0 of 216            | Holds, with limits |
 | Storage tank sensor A (large district)  | up to 887.5      | 0                          | 0 of 216            | Holds, with limits |
-| Booster pump controller (mid-size city) | up to 30,245     | not shown (35,975–109,080) | 24 of 216           | Withdrawn          |
+| Booster pump controller (mid-size city) | up to 30,245     | not shown (39,145–110,445) | 24 of 216           | Withdrawn          |
 
-- **The booster stays withdrawn.** Stopping it for 6 h still scores as an improvement at the 28 m setting, −4,775 person-hours, all after the outage. The cause is not found; the test for it is a strict expected failure.
+- **The north pump and tank-A zeros** hold only for this layout. The north pump never runs in the baseline, and the tank-A spoof only silences that pump. Whether the layout should make it serve the north is open (see "Still open").
+- **The booster stays withdrawn**, in both tables that could show it. Before the fix, 9 of its 12 values (4 durations × 3 settings) were negative, down to −10,837.5 at 48 h. After it, one is: 6 h at the 28 m setting, −1,195. At that setting it had been −347.5, so the fix made that one value more negative while clearing the rest. The cause is not found.
 - **The three home-page figures, re-run.** Holds, with limits.
-  - Running the plant by hand cuts lost service by 76% (232,357 of 306,750 person-hours), up from 65%, and it is still the cheapest defense. The caption now says "about three-quarters".
-  - The tank-C level sensor is hit in 76% of runs (165 of 216), up from 75%. The south pump controller is now hit in 73% (158 of 216), so the card no longer says attacks "converge on one sensor"; it names the runner-up.
+  - Running the plant by hand cuts lost service by 71% on the mid-size system (226,301 of 319,345 person-hours; it was 65%) and by 68% on the large district. It is still the cheapest defense. The caption no longer names a fraction; it points at the figure.
+  - The tank-C level sensor is hit in 76% of runs (164 of 216). The south pump controller is now hit in 73% (157 of 216). One attack can hit both, and the card now names both.
   - The transfer-valve blind spot still strands up to 5,213 people and is never targeted (0 of 216).
-  - No intervals are printed.
-- **Limits.** All of it is synthetic networks, evidence class (b). Seven table cells are still negative and are floored at 0 before use: the booster case above, three transfer-valve cells (−1,863.5 to −4,107.25) and three tank-B cells (−1,034.5 to −1,654.5). Closing the north–central valve relieves pressure in the south zone; zeroing the north's demand makes those deltas 0 (a mapping agent's control run, 2026-09-23). So a real pressure-relief effect in this layout is supported but not isolated (ASSUMED). Tank B's cause is ASSUMED to be the same.
-- **Where it lives:** `build/restoration-lab`. The dashboard's browser suite passes (46 tests) against a local production build. Whether the dashboard is publicly deployed is unverified. The older withdrawal-only branch `fix/water-artefact-rows` is superseded.
+  - No intervals are printed, and the seed-to-seed spread of these shares is not measured.
+- **Limits.** All of it is synthetic networks, evidence class (b). Six table cells are still negative and are floored at 0 before use: the booster case above, four transfer-valve cells (−587.5 to −2,797) and one tank-B cell (−931.75). Closing the north–central valve relieves pressure in the south zone. A mapping agent's control run at the old 6-minute step made those deltas 0 once the north's demand was zeroed. So a real pressure-relief effect in this layout is supported but not isolated (ASSUMED). Tank B's cause is ASSUMED to be the same.
+- **Where it lives:** on `build/restoration-lab` only, not merged. `master` and the other `origin/*` branches still show "nearly half" and the five old rows. The dashboard's browser suite passes (46 tests) against a local production build. Whether the dashboard is publicly deployed is unverified. The older branch `fix/water-artefact-rows` is superseded.
 
 ## Still open
 
 - **Michael's hand check of the storm-0 schedule** (L11). Checkpoint 1 waits on it.
 - **The identifiability probe:** can whole 15-minute curves, clean and with EAGLE-I-like noise, tell crew counts and repair-time shapes apart? It has never run; only spike S3's noise-free toy has tried it (claim item 5). Until it does, crews and shape stay fixed and are never reported.
 - **The water model, after the fix:**
-  - the booster's −4,775 at 6 h and 28 m;
+  - the booster's −1,195 at 6 h and 28 m;
   - whether to accept the transfer-valve and tank-B negatives as real, or to recalibrate the large district so its north pump serves the north;
-  - scoring harm at a fixed service line instead of at each sweep setting. It is a separate decision, because it changes published figures: the blind spot would go from 5,213 to 1,951 people (a reader's in-memory run, not reproduced here).
+  - scoring harm at a fixed service line instead of at each sweep setting. It is a separate decision, because it changes published figures: the blind spot would go from 5,213 to 1,951 people (a reader's in-memory run at the old 6-minute step, not reproduced here).
 - **Phase 6, the optional cell-site extension:** drive cell-site backup checks with the observed EAGLE-I Helene series and compare them with FCC DIRS county reports. One storm is a single data point, so it needs DIRS reports from more storms; whether they exist is unverified. It inherits the missing-MCC rule.
 - **Unexplained:**
   - Both models flag the same five storms at +12 h (H7). The cause is untested. ASSUMED candidates: something in those storms or the data, or what the two models share (the fitted delay spread, the first-hour limit).

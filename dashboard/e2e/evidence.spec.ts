@@ -305,31 +305,43 @@ test.describe("where the forecast fails", () => {
 });
 
 test.describe("rows withdrawn over the pump-outage defect", () => {
-  // A pump held out of service keeps running between rule checks, and every
-  // outage ends by forcing its link open. Numbers for the pump rows are
-  // artefacts of that, so they must not be printed as findings until the
-  // simulation is fixed. See research/plans/proteus-restoration-plan.md §D in
-  // the cohort0-prep repo.
+  // The outage-staging defect was fixed and the sweep re-run on 2026-09-23 (see
+  // research/plans/proteus-restoration-plan.md §D in the cohort0-prep repo).
+  // Only the booster stays withdrawn: one of its cases still scores an outage
+  // as an improvement, and the cause is not known.
   test("prints no harm figures for a withdrawn component", async ({ page }) => {
+    await page.goto("/exposure", { waitUntil: "networkidle" });
+    await page.getByRole("tab", { name: /mid-size city/i }).click();
+    const row = page
+      .locator("tr", { hasText: "Booster pump controller" })
+      .first();
+
+    await expect(row.getByText(/withdrawn/i)).toBeVisible();
+    // 35,975 and 109,080 person-hours are its re-run figures.
+    expect(await row.innerText()).not.toMatch(/35,9|36k|109|up to/);
+  });
+
+  test("prints the re-run figures for a returned pump row", async ({
+    page,
+  }) => {
     await page.goto("/exposure", { waitUntil: "networkidle" });
     const row = page
       .locator("tr", { hasText: "South pump controller" })
       .first();
 
-    await expect(row.getByText(/withdrawn/i)).toBeVisible();
-    // 68,927.5 person-hours is the artefact this row used to print.
-    expect(await row.innerText()).not.toMatch(/68,9|68,928|up to/);
+    await expect(row).toBeVisible();
+    await expect(row.getByText(/withdrawn/i)).toHaveCount(0);
   });
 
-  test("says on the page why those rows are blank", async ({ page }) => {
+  test("says on the page why a row is blank", async ({ page }) => {
     await page.goto("/exposure", { waitUntil: "networkidle" });
     await expect(
-      page.getByText(/pump outage.*(hold|held)/i).first(),
+      page.getByText(/still scores as an improvement/i).first(),
       "the table gives no reason for its blank rows",
     ).toBeVisible();
   });
 
-  test("the home page caption matches the figure beside it", async ({
+  test("the home page captions match the figures beside them", async ({
     page,
   }) => {
     await page.goto("/", { waitUntil: "networkidle" });
@@ -337,9 +349,11 @@ test.describe("rows withdrawn over the pump-outage defect", () => {
       .locator("section", { hasText: "Three results from the water example" })
       .first();
     const body = await section.innerText();
-    // The figure rendered is 102,731 / 157,527 = 65%, not "nearly half".
-    expect(body).toMatch(/about two-thirds/i);
-    expect(body).not.toMatch(/nearly half/i);
-    expect(body).toMatch(/re-run/i);
+    // Re-run: 232,357 / 306,750 = 76% for manual operation.
+    expect(body).toMatch(/about three-quarters/i);
+    expect(body).not.toMatch(/nearly half|two-thirds/i);
+    // A run can hit several components; the runner-up is named, not hidden.
+    expect(body).toMatch(/\d+% after the south pump controller/i);
+    expect(body).not.toMatch(/converge on one/i);
   });
 });

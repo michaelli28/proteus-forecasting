@@ -33,8 +33,10 @@ export default function HeadlineFindings() {
     .filter((r) => r.robustPersonHours > 0 && r.activationRate < 0.02)
     .sort((a, b) => b.worstCasePeakPeople - a.worstCasePeakPeople)[0];
 
-  // 3. The dominant chokepoint on the large system.
+  // 3. The dominant chokepoint on the large system, and the runner-up: a run
+  //    can activate several components, so the top rate is not "all attacks".
   const dominant = district.report.chokepoints.rows[0]!;
+  const runnerUp = district.report.chokepoints.rows[1];
 
   return (
     <section className="mt-20 scroll-mt-20">
@@ -64,7 +66,7 @@ export default function HeadlineFindings() {
           </div>
           <p className="mt-2 text-[13.5px] leading-relaxed text-slate">
             Simply having operators run the plant by hand cut lost water service
-            by about two-thirds — and cost less than every high-tech defense
+            by about three-quarters — and cost less than every high-tech defense
             tested.
           </p>
         </Reveal>
@@ -103,23 +105,21 @@ export default function HeadlineFindings() {
             />
           </div>
           <div className="mt-3 text-[15px] font-semibold text-navy">
-            of attacks converge on one sensor
+            of attacks hit one sensor
           </div>
           <p className="mt-2 text-[13.5px] leading-relaxed text-slate">
-            On the large system, most modeled attacks aim at a single{" "}
-            {componentName(dominant.componentId).toLowerCase()} — the clearest
-            &ldquo;fix this first&rdquo; the analysis produces.
+            On the large system, most modeled attacks go after a single{" "}
+            {componentName(dominant.componentId).toLowerCase()}
+            {runnerUp && runnerUp.activationRate > 0 && (
+              <>
+                , and {Math.round(runnerUp.activationRate * 100)}% after the{" "}
+                {componentName(runnerUp.componentId).toLowerCase()}
+              </>
+            )}{" "}
+            — the clearest &ldquo;fix this first&rdquo; the analysis produces.
           </p>
         </Reveal>
       </div>
-
-      <Reveal delay={0.1}>
-        <p className="mt-6 max-w-[74ch] text-[13px] leading-relaxed text-muted">
-          All three await a re-run. The simulator does not hold a pump outage
-          for its full length, which shifts every baseline behind these figures
-          a little.
-        </p>
-      </Reveal>
 
       <Reveal delay={0.1}>
         <Link

@@ -269,9 +269,8 @@ function Chokepoints({ result }: { result: ArchetypeResult }) {
         pessimistic one. &ldquo;Overlooked risk&rdquo; marks a real danger the
         attacker rarely picks because an even bigger target is available.{" "}
         <strong className="font-semibold text-ink">Withdrawn</strong> rows are
-        blank because the simulator does not hold a pump outage for its whole
-        duration, so their figures measured the leak rather than the outage.
-        They return once that is fixed and the sweep is re-run.
+        blank because one of their outage cases still scores as an improvement
+        in service, and the cause has not been found.
       </Caption>
     </Block>
   );

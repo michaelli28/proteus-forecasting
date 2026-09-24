@@ -1,5 +1,7 @@
 import { expect, test } from "@playwright/test";
 import type { Page } from "@playwright/test";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 
 /**
  * What the pages claim about themselves.
@@ -308,52 +310,108 @@ test.describe("rows withdrawn over the pump-outage defect", () => {
   // The outage-staging defect was fixed and the sweep re-run on 2026-09-23 (see
   // research/plans/proteus-restoration-plan.md §D in the cohort0-prep repo).
   // Only the booster stays withdrawn: one of its cases still scores an outage
-  // as an improvement, and the cause is not known.
-  test("prints no harm figures for a withdrawn component", async ({ page }) => {
+  // as an improvement, and the cause is not known. Expected figures are read
+  // from the snapshot, so a regenerated snapshot cannot hide behind fixed text.
+  const snapshot = JSON.parse(
+    readFileSync(join(__dirname, "..", "data", "vulnerability.json"), "utf-8"),
+  ) as Snapshot;
+  const system = (id: string) =>
+    snapshot.archetypes.find((a) => a.archetypeId === id)!.report;
+  const row = (id: string, componentId: string) =>
+    system(id).chokepoints.rows.find((r) => r.componentId === componentId)!;
+  const count = (n: number) => Math.round(n).toLocaleString("en-US");
+  const thousands = (n: number) => `${(Math.round(n) / 1000).toFixed(0)}k`;
+
+  test("prints no harm figures for a withdrawn component, in any table", async ({
+    page,
+  }) => {
     await page.goto("/exposure", { waitUntil: "networkidle" });
     await page.getByRole("tab", { name: /mid-size city/i }).click();
-    const row = page
-      .locator("tr", { hasText: "Booster pump controller" })
-      .first();
+    const booster = row("municipal_pumped", "PLC-PUMP-BOOST");
+    const rows = page.locator("tr", { hasText: "Booster pump controller" });
 
-    await expect(row.getByText(/withdrawn/i)).toBeVisible();
-    // 35,975 and 109,080 person-hours are its re-run figures.
-    expect(await row.innerText()).not.toMatch(/35,9|36k|109|up to/);
+    await expect(rows.first().getByText(/withdrawn/i)).toBeVisible();
+    const n = await rows.count();
+    for (let i = 0; i < n; i++) {
+      const text = await rows.nth(i).innerText();
+      expect(text).not.toContain(count(booster.worstCasePeakPeople));
+      expect(text).not.toContain(thousands(booster.robustPersonHours));
+      expect(text).not.toMatch(/up to|\d+%/);
+    }
   });
 
   test("prints the re-run figures for a returned pump row", async ({
     page,
   }) => {
     await page.goto("/exposure", { waitUntil: "networkidle" });
-    const row = page
-      .locator("tr", { hasText: "South pump controller" })
-      .first();
+    const south = row("district_multizone", "PLC-PUMP-S");
+    const tr = page.locator("tr", { hasText: "South pump controller" }).first();
 
-    await expect(row).toBeVisible();
-    await expect(row.getByText(/withdrawn/i)).toHaveCount(0);
+    await expect(tr.getByText(/withdrawn/i)).toHaveCount(0);
+    await expect(tr).toContainText(count(south.worstCasePeakPeople));
+    await expect(tr).toContainText(thousands(south.robustPersonHours));
   });
 
-  test("says on the page why a row is blank", async ({ page }) => {
+  test("explains blank rows only where a row is withdrawn", async ({ page }) => {
     await page.goto("/exposure", { waitUntil: "networkidle" });
+    const note = page.getByText(/still scores as an improvement/i);
+    await expect(note).toHaveCount(0);
+
+    await page.getByRole("tab", { name: /mid-size city/i }).click();
     await expect(
-      page.getByText(/still scores as an improvement/i).first(),
+      note.first(),
       "the table gives no reason for its blank rows",
     ).toBeVisible();
   });
 
-  test("the home page captions match the figures beside them", async ({
-    page,
-  }) => {
+  test("the home page figures match the snapshot", async ({ page }) => {
     await page.goto("/", { waitUntil: "networkidle" });
     const section = page
       .locator("section", { hasText: "Three results from the water example" })
       .first();
+    const figures = section.locator(".tnum");
+
+    const roi = system("municipal_pumped").defenseRoi;
+    const best = [...roi.rows]
+      .filter((r) => !r.backfired)
+      .sort((a, b) => b.personHoursPerCost - a.personHoursPerCost)[0]!;
+    const share = Math.round((100 * best.meanPersonHoursAverted) / roi.baselineMeanPersonHours);
+    await expect(figures.nth(0)).toHaveText(`${share}%`);
+
+    const [top, next] = [...system("district_multizone").chokepoints.rows].sort(
+      (a, b) => b.activationRate - a.activationRate,
+    );
+    await expect(figures.nth(2)).toHaveText(`${Math.round(top!.activationRate * 100)}%`);
+    await expect(section).toContainText(
+      `${Math.round(next!.activationRate * 100)}% of attacks`,
+    );
+
+    // Words that once disagreed with the figure beside them.
     const body = await section.innerText();
-    // Re-run: 232,357 / 306,750 = 76% for manual operation.
-    expect(body).toMatch(/about three-quarters/i);
-    expect(body).not.toMatch(/nearly half|two-thirds/i);
-    // A run can hit several components; the runner-up is named, not hidden.
-    expect(body).toMatch(/\d+% after the south pump controller/i);
-    expect(body).not.toMatch(/converge on one/i);
+    expect(body).not.toMatch(/nearly half|two-thirds|three-quarters|converge on one|a single/i);
   });
 });
+
+type ChokeRow = {
+  componentId: string;
+  activationRate: number;
+  robustPersonHours: number;
+  worstCasePeakPeople: number;
+};
+type Snapshot = {
+  archetypes: {
+    archetypeId: string;
+    report: {
+      chokepoints: { rows: ChokeRow[] };
+      defenseRoi: {
+        baselineMeanPersonHours: number;
+        rows: {
+          backfired: boolean;
+          personHoursPerCost: number;
+          meanPersonHoursAverted: number;
+        }[];
+      };
+    };
+  }[];
+};
+

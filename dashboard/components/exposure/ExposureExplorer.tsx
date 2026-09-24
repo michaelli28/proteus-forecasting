@@ -179,6 +179,7 @@ function chokepointStatus(row: ChokepointRow): {
 
 function Chokepoints({ result }: { result: ArchetypeResult }) {
   const rows = result.report.chokepoints.rows;
+  const anyWithdrawn = rows.some((r) => isWithdrawn(r.componentId));
   const maxPeople = Math.max(1, ...rows.map((r) => r.worstCasePeakPeople));
 
   return (
@@ -267,10 +268,16 @@ function Chokepoints({ result }: { result: ArchetypeResult }) {
         add up every hour each person is left without safe water pressure — 100
         people for 5 hours is 500. The range spans a cautious estimate to a
         pessimistic one. &ldquo;Overlooked risk&rdquo; marks a real danger the
-        attacker rarely picks because an even bigger target is available.{" "}
-        <strong className="font-semibold text-ink">Withdrawn</strong> rows are
-        blank because one of their outage cases still scores as an improvement
-        in service, and the cause has not been found.
+        attacker rarely picks because an even bigger target is available.
+        {anyWithdrawn && (
+          <>
+            {" "}
+            <strong className="font-semibold text-ink">Withdrawn</strong> rows
+            are blank, here and in the next table, because one of their outage
+            cases still scores as an improvement in service, and the cause has
+            not been found.
+          </>
+        )}
       </Caption>
     </Block>
   );
@@ -279,7 +286,9 @@ function Chokepoints({ result }: { result: ArchetypeResult }) {
 // ─── 2. how the attacker moves ───
 
 function AttackPaths({ result }: { result: ArchetypeResult }) {
-  const rows = result.report.attackPaths.rows.slice(0, 8);
+  const rows = result.report.attackPaths.rows
+    .filter((r) => !isWithdrawn(r.componentId))
+    .slice(0, 8);
   if (rows.length === 0) {
     return (
       <Block

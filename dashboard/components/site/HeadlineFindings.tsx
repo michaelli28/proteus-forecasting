@@ -8,6 +8,7 @@ import {
   personHours,
   people,
 } from "../../lib/vulnerability";
+import type { ChokepointRow } from "../../lib/vulnerability";
 
 /**
  * Three real results, pulled from the live sweep — not hand-typed.
@@ -33,10 +34,11 @@ export default function HeadlineFindings() {
     .filter((r) => r.robustPersonHours > 0 && r.activationRate < 0.02)
     .sort((a, b) => b.worstCasePeakPeople - a.worstCasePeakPeople)[0];
 
-  // 3. The dominant chokepoint on the large system, and the runner-up: a run
-  //    can activate several components, so the top rate is not "all attacks".
-  const dominant = district.report.chokepoints.rows[0]!;
-  const runnerUp = district.report.chokepoints.rows[1];
+  // 3. The two components the attacker hits most on the large system. A run
+  //    can hit several, so the top rate is not "all attacks".
+  const [dominant, runnerUp] = [...district.report.chokepoints.rows].sort(
+    (a, b) => b.activationRate - a.activationRate,
+  ) as [ChokepointRow, ChokepointRow | undefined];
 
   return (
     <section className="mt-20 scroll-mt-20">
@@ -65,9 +67,9 @@ export default function HeadlineFindings() {
             less disruption, cheapest of all
           </div>
           <p className="mt-2 text-[13.5px] leading-relaxed text-slate">
-            Simply having operators run the plant by hand cut lost water service
-            by about three-quarters — and cost less than every high-tech defense
-            tested.
+            On the mid-size system, simply having operators run the plant by hand
+            cut lost water service by that much — and cost less than every
+            high-tech defense tested.
           </p>
         </Reveal>
 
@@ -105,18 +107,20 @@ export default function HeadlineFindings() {
             />
           </div>
           <div className="mt-3 text-[15px] font-semibold text-navy">
-            of attacks hit one sensor
+            of attacks hit the top target
           </div>
           <p className="mt-2 text-[13.5px] leading-relaxed text-slate">
-            On the large system, most modeled attacks go after a single{" "}
-            {componentName(dominant.componentId).toLowerCase()}
+            On the large system, the modeled attacker goes after the{" "}
+            {componentName(dominant.componentId).toLowerCase()} most often
             {runnerUp && runnerUp.activationRate > 0 && (
               <>
-                , and {Math.round(runnerUp.activationRate * 100)}% after the{" "}
-                {componentName(runnerUp.componentId).toLowerCase()}
+                , and after the{" "}
+                {componentName(runnerUp.componentId).toLowerCase()} in{" "}
+                {Math.round(runnerUp.activationRate * 100)}% of attacks; one
+                attack can hit both
               </>
-            )}{" "}
-            — the clearest &ldquo;fix this first&rdquo; the analysis produces.
+            )}
+            .
           </p>
         </Reveal>
       </div>

@@ -226,7 +226,7 @@ base rate.
 - Not "the check has a 5% false-alarm rate". Say "inside the model, 4.2% [3.1%, 5.6%] averaged over
   the training spread, and 14.3% [12.3%, 16.6%] at its slow corner (the storm-to-storm spread's 97.5%
   point on both pace and delay), if held-out storms behave like training storms" (A1).
-- Not "manual operation cut lost water service by nearly half" (the 65% beside it waits on a
-  re-run), or any of the five water-model rows on the dashboard. Say "those five figures measured a
-  simulation fault, not an outage; the withdrawal is not merged or pushed yet" (it is only on local
-  branch `fix/water-artefact-rows`; ledger, "Withdrawn").
+- Not "manual operation cut lost water service by nearly half", or the old pump figures. Say "a
+  simulation fault made five water figures measure the leak, not the outage; after the fix and a
+  re-run, running the plant by hand cuts lost service by 76% in the synthetic model, and one pump
+  row stays withdrawn" (ledger, "The water model's rows").

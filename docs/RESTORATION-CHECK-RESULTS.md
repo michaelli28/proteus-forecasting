@@ -1051,3 +1051,17 @@ FIT_WORKERS=1 .venv/bin/python -m python.eaglei.held_out --addendum b1e3b449647f
   `--deviation`.
 - `arms` writes once, like `held_out`.
 - Outputs are in `.cache/restoration-check/phase4/`, with `runs.log`.
+
+# Record corrections (2026-09-23, Phase 5)
+
+Found while writing the claims ledger (`docs/RESTORATION-CLAIMS.md`). The earlier text stands as it
+was written; these notes correct it. No number in any checkpoint changes.
+
+- **Checkpoint 3, amended, "Before Phase 4 unseals anything", item 3** says the unseal gate "is not
+  coded yet". That was true when it was written. The gate was coded at `062740e`, and it was extended
+  at `14dd44e` to also pin the code commit (Checkpoint 4, "The addendum and the gate").
+- **PROTOCOL §10, "Fixed parameters"** says spike S3's noise-free full curves separated few fast
+  crews from many slow ones at "86–91%". S3's record (PLAN, section A) gives 85.6% with crew counts
+  4× apart and 66.9% with them 2× apart. No 91% traces to a source. The protocol is frozen, so the
+  correction is recorded here. The figure only explained why crews were fixed; no computation used
+  it.

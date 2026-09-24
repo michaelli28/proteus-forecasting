@@ -117,7 +117,7 @@ The plan's claim to earn (PLAN, "The claim to earn at the end"), with every plac
 - **L7. Knowing the true repair times adds little at 3–4 crews in small storms.** Holds, with limits.
   - Horn-order with hindsight against Horn-order, primary cell. With one crew, the hindsight list is the optimum itself. 2 crews: 3.4% → 2.1% (cheaper on 103 storms, dearer on 45). 3 crews: 2.7% against 2.4% (68 against 70). 4 crews: 1.9% against 2.0% (46 against 69). At 4 crews it was cheaper on 128 (20 segments) and 191 (50 segments) of 200.
   - Evidence: LAB-RESULTS, "What the tables show", item 4.
-  - Limit: the doc omits the dearer counts at 20 and 50 segments. The git-ignored results file gives 69 and 9, so 128 against 69 is a weaker win than the prose suggests. Why the value fades is ASSUMED: Horn's list is best for one crew only.
+  - Limit: the doc first omitted the dearer counts at 20 and 50 segments. They are 69 and 9 (`results-200.json`, now noted there), so 128 against 69 is a weaker win than the prose suggests. Why the value fades is ASSUMED: Horn's list is best for one crew only.
 - **L8. Nearest first and upstream first are the worst rules in every table.** Holds, with limits.
   - From 14.2% (σ 1.0, 4 crews, upstream first) to 96.9% [90.5%, 103.3%] (50 segments, 2 crews, nearest first, an upper limit). Evidence: LAB-RESULTS, item 5.
   - Limit: travel is not modelled, so this says nothing about real crews driving between jobs.
@@ -161,7 +161,6 @@ The plan's claim to earn (PLAN, "The claim to earn at the end"), with every plac
   - Evidence: CHECK, Checkpoint 2 and Checkpoint 4, "The zero-format bound".
 - **D7. A fallback to ice storms and derechos.** Withdrawn.
   - Chosen on 2026-09-22 (PLAN, "Decisions", item 3). Withdrawn by Michael on 2026-09-23, before the freeze (PROTOCOL §14, item 11): no FEMA title ever says "derecho", and FEMA's "Winter Storm" type first appears in November 2022. Only tropical systems are checked.
-  - PLAN's "Decisions" list still shows the fallback.
 
 ### The fit
 
@@ -290,4 +289,7 @@ Spike S4 found that the water simulation stages outages wrongly. A "stopped" pum
   - The amended simulator's look p-values bunch between 0.1 and 0.2: 81 looks against about 47 expected. The cause is not identified. Ruled out: censored looks tied at the 7-day cap (only 6 of the 73 county looks in that band). The baseline bunches more (154 of 473).
   - Which candidate cause drives the storm count (H3).
   - Whether a crew density below the grid would score better (F4).
-- **Record fixes:** PLAN's "Decisions" list still shows the withdrawn fallback (D7). CHECK's Checkpoint 3 list says the unseal gate "is not coded yet"; it is, at `062740e` and `14dd44e`. LAB-RESULTS omits the dearer counts at 20 and 50 segments (L7). PLAN's Checkpoint 4 says each storm flag "comes from one look beyond every world"; Francine's comes from its pooled look, matched or beaten by 20 of its 4,095 worlds (H3). PROTOCOL §10 gives S3's full-curve crew separation as 86–91%; PLAN's S3 record gives 85.6% (crews 4× apart) and 66.9% (2× apart), and no 91%.
+- **Record fixes, applied 2026-09-23:**
+  - PLAN: the withdrawn fallback (D7) and the Checkpoint 4 line on Francine (H3), edited directly.
+  - LAB-RESULTS: a dated correction adds the dearer counts (L7).
+  - CHECK: a dated "Record corrections" section at the end covers the "not coded yet" gate line and PROTOCOL §10's unsourced 86–91% (S3 gives 85.6% and 66.9%). The frozen protocol is untouched.

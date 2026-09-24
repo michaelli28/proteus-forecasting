@@ -117,6 +117,8 @@ Every statement here is inside the model, on this generator's feeders.
      - 4 crews: 1.9% vs 2.0%, cheaper on 46 and dearer on 69.
    - At 20 and 50 broken lines it still helps with 3–4 crews. At 4 crews it was
      cheaper on 128 and 191 of 200 storms.
+     - _Correction, 2026-09-23 (Phase 5 ledger, L7):_ it was dearer on 69 and 9, with 3 and 0 ties
+       (`results-200.json`). So 128 against 69 is a weaker win than the line above suggests.
    - Why it fades in the small storms is not tested here. One possible reason
      (ASSUMED): Horn's list is the best order for one crew only.
 5. **Nearest first and upstream first are the two worst rules in every table.**
